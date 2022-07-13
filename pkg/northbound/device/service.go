@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+// SPDX-FileCopyrightText: 2020-present Intel Corporation
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -22,7 +22,7 @@ var log = logging.GetLogger("northbound", "device")
 // Service implements gNMI and P4Runtime services for a specified device
 type Service struct {
 	northbound.Service
-	deviceID simapi.DeviceID
+	DeviceID simapi.DeviceID
 }
 
 // NewService allocates a Service struct with the given parameters
@@ -34,5 +34,5 @@ func NewService() Service {
 func (s Service) Register(r *grpc.Server) {
 	p4rtapi.RegisterP4RuntimeServer(r, &p4rtsim.Server{})
 	gnmiapi.RegisterGNMIServer(r, &gnmisim.Server{})
-	log.Debugf("Device %s: P4Runtime and gNMI registered", s.deviceID)
+	log.Debugf("Device %s: P4Runtime and gNMI registered", s.DeviceID)
 }
