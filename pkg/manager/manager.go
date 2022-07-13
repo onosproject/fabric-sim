@@ -5,6 +5,7 @@
 package manager
 
 import (
+	simapi "github.com/onosproject/fabric-sim/pkg/northbound/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/onos-lib-go/pkg/northbound"
 )
@@ -63,6 +64,7 @@ func (m *Manager) startNorthboundServer() error {
 		true,
 		northbound.SecurityConfig{}))
 	s.AddService(logging.Service{})
+	s.AddService(simapi.Service{})
 
 	doneCh := make(chan error)
 	go func() {
