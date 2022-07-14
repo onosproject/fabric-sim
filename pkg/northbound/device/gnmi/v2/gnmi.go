@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
 //
 // SPDX-License-Identifier: Apache-2.0
 
-// Package gnmi implements the northbound gNMI service for the configuration subsystem.
+// Package gnmi implements the simulated gNMI service
 package gnmi
 
 import (

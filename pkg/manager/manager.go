@@ -6,6 +6,7 @@ package manager
 
 import (
 	simapi "github.com/onosproject/fabric-sim/pkg/northbound/fabricsim"
+	"github.com/onosproject/fabric-sim/pkg/simulator"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/onos-lib-go/pkg/northbound"
 )
@@ -23,7 +24,8 @@ type Config struct {
 
 // Manager single point of entry for the fabric-sim
 type Manager struct {
-	Config Config
+	Config     Config
+	Simulation *simulator.Simulation
 }
 
 // NewManager initializes the application manager
@@ -44,8 +46,11 @@ func (m *Manager) Run() {
 	}
 }
 
-// Start initializes and starts controllers, stores, southbound modules.
+// Start initializes and starts the core simulator and the NB gRPC API.
 func (m *Manager) Start() error {
+	// Initialize the simulation core
+	m.Simulation = simulator.NewSimulation()
+
 	// Starts NB server
 	err := m.startNorthboundServer()
 	if err != nil {
@@ -64,7 +69,9 @@ func (m *Manager) startNorthboundServer() error {
 		true,
 		northbound.SecurityConfig{}))
 	s.AddService(logging.Service{})
-	s.AddService(simapi.Service{})
+	s.AddService(simapi.Service{
+		Simulation: m.Simulation,
+	})
 
 	doneCh := make(chan error)
 	go func() {

@@ -6,6 +6,7 @@
 package fabricsim
 
 import (
+	"github.com/onosproject/fabric-sim/pkg/simulator"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/onos-lib-go/pkg/northbound"
@@ -17,6 +18,7 @@ var log = logging.GetLogger("northbound", "fabricsim")
 // Service implements the fabric simulator NB gRPC
 type Service struct {
 	northbound.Service
+	Simulation *simulator.Simulation
 }
 
 // NewService allocates a Service struct with the given parameters
@@ -26,7 +28,9 @@ func NewService() Service {
 
 // Register registers the server with grpc
 func (s Service) Register(r *grpc.Server) {
-	server := &Server{}
+	server := &Server{
+		Simulation: s.Simulation,
+	}
 	simapi.RegisterDeviceServiceServer(r, server)
 	simapi.RegisterLinkServiceServer(r, server)
 	simapi.RegisterHostServiceServer(r, server)
@@ -35,4 +39,5 @@ func (s Service) Register(r *grpc.Server) {
 
 // Server implements the grpc fabric simulator service
 type Server struct {
+	Simulation *simulator.Simulation
 }
