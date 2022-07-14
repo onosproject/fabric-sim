@@ -11,7 +11,7 @@ import (
 
 func (s *Server) GetDevices(ctx context.Context, request *simapi.GetDevicesRequest) (*simapi.GetDevicesResponse, error) {
 	sims := s.Simulation.GetDeviceSimulators()
-	devices := make([]*simapi.Device, len(sims))
+	devices := make([]*simapi.Device, 0, len(sims))
 	for _, sim := range sims {
 		devices = append(devices, sim.Device)
 	}
