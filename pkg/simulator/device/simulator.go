@@ -14,23 +14,23 @@ import (
 
 var log = logging.GetLogger("simulator", "device")
 
-// DeviceSimulator simulates a single device
-type DeviceSimulator struct {
+// Simulator simulates a single device
+type Simulator struct {
 	Device *simapi.Device
 	Agent  *northbound.Server
 }
 
 // NewDeviceSimulator initializes a new device simulator
-func NewDeviceSimulator(device *simapi.Device) *DeviceSimulator {
+func NewDeviceSimulator(device *simapi.Device) *Simulator {
 	log.Infof("Device %s: Creating simulator", device.ID)
-	sim := DeviceSimulator{
+	sim := Simulator{
 		Device: device,
 	}
 	return &sim
 }
 
 // Start spawns the device simulator background tasks and its agent API server, also in the background
-func (ds *DeviceSimulator) Start() error {
+func (ds *Simulator) Start() error {
 	log.Infof("Device %s: Starting simulator", ds.Device.ID)
 
 	// Start any background simulation tasks
@@ -45,7 +45,7 @@ func (ds *DeviceSimulator) Start() error {
 }
 
 // startSimulationAgent starts the simulated device gRPC server
-func (ds *DeviceSimulator) startSimulationAgent() error {
+func (ds *Simulator) startSimulationAgent() error {
 	ds.Agent = northbound.NewServer(northbound.NewServerCfg(
 		"",
 		"",
@@ -74,7 +74,7 @@ func (ds *DeviceSimulator) startSimulationAgent() error {
 }
 
 // Stop stops the device simulation agent and stops any background simulation tasks
-func (ds *DeviceSimulator) Stop(mode simapi.StopMode) {
+func (ds *Simulator) Stop(mode simapi.StopMode) {
 	log.Infof("Device %s: Stopping simulator using %s", ds.Device.ID, mode)
 	if mode == simapi.StopMode_ORDERLY_STOP {
 		ds.Agent.GracefulStop()

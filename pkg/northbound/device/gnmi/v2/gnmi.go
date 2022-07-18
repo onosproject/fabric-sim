@@ -19,21 +19,25 @@ type Server struct {
 	deviceID simapi.DeviceID
 }
 
+// Capabilities :
 func (s *Server) Capabilities(ctx context.Context, request *gnmi.CapabilityRequest) (*gnmi.CapabilityResponse, error) {
 	log.Infof("Device %s: gNMI capabilities have been requested", s.deviceID)
 	panic("implement me")
 }
 
+// Get :
 func (s *Server) Get(ctx context.Context, request *gnmi.GetRequest) (*gnmi.GetResponse, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
+// Set :
 func (s *Server) Set(ctx context.Context, request *gnmi.SetRequest) (*gnmi.SetResponse, error) {
 	log.Infof("Device %s: gNMI configuration has been set", s.deviceID)
 	panic("implement me")
 }
 
+// Subscribe :
 func (s *Server) Subscribe(server gnmi.GNMI_SubscribeServer) error {
 	//TODO implement me
 	panic("implement me")
