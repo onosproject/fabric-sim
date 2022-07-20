@@ -11,24 +11,35 @@ import (
 
 // GetLinks returns list of all simulated links
 func (s *Server) GetLinks(ctx context.Context, request *simapi.GetLinksRequest) (*simapi.GetLinksResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	sims := s.Simulation.GetLinkSimulators()
+	links := make([]*simapi.Link, 0, len(sims))
+	for _, sim := range sims {
+		links = append(links, sim.Link)
+	}
+	return &simapi.GetLinksResponse{Links: links}, nil
 }
 
 // GetLink returns the specified simulated link
 func (s *Server) GetLink(ctx context.Context, request *simapi.GetLinkRequest) (*simapi.GetLinkResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	sim, err := s.Simulation.GetLinkSimulator(request.ID)
+	if err != nil {
+		return nil, err
+	}
+	return &simapi.GetLinkResponse{Link: sim.Link}, nil
 }
 
 // AddLink creates and registers the specified simulated link
-func (s *Server) AddLink(ctx context.Context, request *simapi.AddLinkRequest) (*simapi.AddLinkRequest, error) {
-	//TODO implement me
-	panic("implement me")
+func (s *Server) AddLink(ctx context.Context, request *simapi.AddLinkRequest) (*simapi.AddLinkResponse, error) {
+	if _, err := s.Simulation.AddLinkSimulator(request.Link); err != nil {
+		return nil, err
+	}
+	return &simapi.AddLinkResponse{}, nil
 }
 
 // RemoveLink removes the specified simulated link
-func (s *Server) RemoveLink(ctx context.Context, request *simapi.RemoveLinkRequest) (*simapi.RemoveLinkRequest, error) {
-	//TODO implement me
-	panic("implement me")
+func (s *Server) RemoveLink(ctx context.Context, request *simapi.RemoveLinkRequest) (*simapi.RemoveLinkResponse, error) {
+	if err := s.Simulation.RemoveLinkSimulator(request.ID); err != nil {
+		return nil, err
+	}
+	return &simapi.RemoveLinkResponse{}, nil
 }

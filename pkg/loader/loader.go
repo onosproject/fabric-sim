@@ -41,13 +41,13 @@ func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
 func createDevices(conn *grpc.ClientConn, devices []Device) error {
 	deviceClient := simapi.NewDeviceServiceClient(conn)
 	ctx := context.Background()
-	for _, d := range devices {
-		device := constructDevice(d)
+	for _, dd := range devices {
+		device := constructDevice(dd)
 		if _, err := deviceClient.AddDevice(ctx, &simapi.AddDeviceRequest{Device: device}); err != nil {
 			log.Errorf("Unable to create simulated device: %+v", err)
 		}
 
-		if !d.Stopped {
+		if !dd.Stopped {
 			if _, err := deviceClient.StartDevice(ctx, &simapi.StartDeviceRequest{ID: device.ID}); err != nil {
 				log.Errorf("Unable to start agent for simulated device: %+v", err)
 			}
@@ -58,13 +58,13 @@ func createDevices(conn *grpc.ClientConn, devices []Device) error {
 
 func constructDevice(d Device) *simapi.Device {
 	ports := make([]*simapi.Port, 0, len(d.Ports))
-	for _, p := range d.Ports {
+	for _, pd := range d.Ports {
 		port := &simapi.Port{
-			ID:             simapi.PortID(fmt.Sprintf("%s/%d", d.ID, p.Number)),
-			Name:           fmt.Sprintf("%d", p.Number),
-			Number:         p.Number,
-			InternalNumber: p.SDNNumber,
-			Speed:          p.Speed,
+			ID:             simapi.PortID(fmt.Sprintf("%s/%d", d.ID, pd.Number)),
+			Name:           fmt.Sprintf("%d", pd.Number),
+			Number:         pd.Number,
+			InternalNumber: pd.SDNNumber,
+			Speed:          pd.Speed,
 		}
 		ports = append(ports, port)
 	}
@@ -80,9 +80,44 @@ func constructDevice(d Device) *simapi.Device {
 	}
 }
 
-func createLinks(conn *grpc.ClientConn, devices []Link) error {
-	//linkClient := simapi.NewLinkServiceClient(conn)
+func createLinks(conn *grpc.ClientConn, links []Link) error {
+	linkClient := simapi.NewLinkServiceClient(conn)
+	ctx := context.Background()
+	for _, ld := range links {
+		link := constructLink(ld)
+		if _, err := linkClient.AddLink(ctx, &simapi.AddLinkRequest{Link: link}); err != nil {
+			log.Errorf("Unable to create simulated link: %+v", err)
+		}
+		if !ld.Unidirectional {
+			link = constructReverseLink(ld)
+			if _, err := linkClient.AddLink(ctx, &simapi.AddLinkRequest{Link: link}); err != nil {
+				log.Errorf("Unable to create simulated link: %+v", err)
+			}
+		}
+	}
 	return nil
+}
+
+func constructLink(ld Link) *simapi.Link {
+	srcID := simapi.PortID(ld.SrcPortID)
+	tgtID := simapi.PortID(ld.TgtPortID)
+	return &simapi.Link{
+		ID:     simapi.NewLinkID(srcID, tgtID),
+		SrcID:  srcID,
+		TgtID:  tgtID,
+		Status: simapi.LinkStatus_LINK_UP,
+	}
+}
+
+func constructReverseLink(ld Link) *simapi.Link {
+	srcID := simapi.PortID(ld.SrcPortID)
+	tgtID := simapi.PortID(ld.TgtPortID)
+	return &simapi.Link{
+		ID:     simapi.NewLinkID(tgtID, srcID),
+		SrcID:  tgtID,
+		TgtID:  srcID,
+		Status: simapi.LinkStatus_LINK_UP,
+	}
 }
 
 func createHosts(conn *grpc.ClientConn, devices []Host) error {
