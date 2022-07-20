@@ -1,0 +1,245 @@
+# SPDX-FileCopyrightText: 2022-present Intel Corporation
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# The following is just a high-level sketch of the topology file structure.
+# New fields will be added and value formats may be adjusted as needed.
+
+# Specifies simulated devices
+devices:
+  - id: spine1
+    type: switch
+    agent_port: 20010
+    ports:
+      - number: 1
+        sdn_number: 1024
+        speed: 100Gbps
+      - number: 2
+        sdn_number: 1025
+        speed: 100Gbps
+      - number: 3
+        sdn_number: 1026
+        speed: 100Gbps
+      - number: 4
+        sdn_number: 1027
+        speed: 100Gbps
+  - id: spine2
+    type: switch
+    agent_port: 20020
+    ports:
+      - number: 1
+        sdn_number: 1024
+        speed: 100Gbps
+      - number: 2
+        sdn_number: 1025
+        speed: 100Gbps
+      - number: 3
+        sdn_number: 1026
+        speed: 100Gbps
+      - number: 4
+        sdn_number: 1027
+        speed: 100Gbps
+
+  - id: leaf11
+    type: switch
+    agent_port: 20011
+    ports:
+      - number: 1
+        sdn_number: 1024
+        speed: 100Gbps
+      - number: 2
+        sdn_number: 1025
+        speed: 100Gbps
+      - number: 3
+        sdn_number: 1026
+        speed: 10Gbps
+      - number: 4
+        sdn_number: 1027
+        speed: 10Gbps
+      - number: 5
+        sdn_number: 1028
+        speed: 10Gbps
+      - number: 6
+        sdn_number: 1029
+        speed: 10Gbps
+      - number: 7
+        sdn_number: 1030
+        speed: 10Gbps
+      - number: 8
+        sdn_number: 1031
+        speed: 10Gbps
+  - id: leaf12
+    type: switch
+    agent_port: 20012
+    ports:
+      - number: 1
+        sdn_number: 1024
+        speed: 100Gbps
+      - number: 2
+        sdn_number: 1025
+        speed: 100Gbps
+      - number: 3
+        sdn_number: 1026
+        speed: 10Gbps
+      - number: 4
+        sdn_number: 1027
+        speed: 10Gbps
+      - number: 5
+        sdn_number: 1028
+        speed: 10Gbps
+      - number: 6
+        sdn_number: 1029
+        speed: 10Gbps
+      - number: 7
+        sdn_number: 1030
+        speed: 10Gbps
+      - number: 8
+        sdn_number: 1031
+        speed: 10Gbps
+
+  - id: leaf21
+    type: switch
+    agent_port: 20021
+    ports:
+      - number: 1
+        sdn_number: 1024
+        speed: 100Gbps
+      - number: 2
+        sdn_number: 1025
+        speed: 100Gbps
+      - number: 3
+        sdn_number: 1026
+        speed: 10Gbps
+      - number: 4
+        sdn_number: 1027
+        speed: 10Gbps
+      - number: 5
+        sdn_number: 1028
+        speed: 10Gbps
+      - number: 6
+        sdn_number: 1029
+        speed: 10Gbps
+      - number: 7
+        sdn_number: 1030
+        speed: 10Gbps
+      - number: 8
+        sdn_number: 1031
+        speed: 10Gbps
+  - id: leaf22
+    type: switch
+    agent_port: 20022
+    ports:
+      - number: 1
+        sdn_number: 1024
+        speed: 100Gbps
+      - number: 2
+        sdn_number: 1025
+        speed: 100Gbps
+      - number: 3
+        sdn_number: 1026
+        speed: 10Gbps
+      - number: 4
+        sdn_number: 1027
+        speed: 10Gbps
+      - number: 5
+        sdn_number: 1028
+        speed: 10Gbps
+      - number: 6
+        sdn_number: 1029
+        speed: 10Gbps
+      - number: 7
+        sdn_number: 1030
+        speed: 10Gbps
+      - number: 8
+        sdn_number: 1031
+        speed: 10Gbps
+
+# Specifies simulated links
+links:
+  - src: spine1/1
+    tgt: leaf11/1
+  - src: spine1/2
+    tgt: leaf12/1
+  - src: spine1/3
+    tgt: leaf21/1
+  - src: spine1/4
+    tgt: leaf22/1
+
+  - src: spine2/1
+    tgt: leaf11/2
+  - src: spine2/2
+    tgt: leaf12/2
+  - src: spine2/3
+    tgt: leaf21/2
+  - src: spine2/4
+    tgt: leaf22/2
+
+# Specifies simulated hosts
+hosts:
+  - id: h111
+    nics:
+      - mac: 00:00:00:00:11:01
+        port: leaf11/3
+  - id: h112
+    nics:
+      - mac: 00:00:00:00:11:02
+        port: leaf11/4
+  - id: h113
+    nics:
+      - mac: 00:00:00:00:11:03
+        port: leaf11/5
+  - id: h114
+    nics:
+      - mac: 00:00:00:00:11:04
+        port: leaf11/6
+
+  - id: h121
+    nics:
+      - mac: 00:00:00:00:12:01
+        port: leaf12/3
+  - id: h122
+    nics:
+      - mac: 00:00:00:00:12:02
+        port: leaf12/4
+  - id: h123
+    nics:
+      - mac: 00:00:00:00:12:03
+        port: leaf12/5
+  - id: h124
+    nics:
+      - mac: 00:00:00:00:12:04
+        port: leaf12/6
+
+  - id: h211
+    nics:
+      - mac: 00:00:00:00:21:01
+        port: leaf21/3
+  - id: h212
+    nics:
+      - mac: 00:00:00:00:21:02
+        port: leaf21/4
+  - id: h213
+    nics:
+      - mac: 00:00:00:00:21:03
+        port: leaf21/5
+  - id: h214
+    nics:
+      - mac: 00:00:00:00:21:04
+        port: leaf21/6
+
+  - id: h221
+    nics:
+      - mac: 00:00:00:00:22:01
+        port: leaf22/3
+  - id: h222
+    nics:
+      - mac: 00:00:00:00:22:02
+        port: leaf22/4
+  - id: h223
+    nics:
+      - mac: 00:00:00:00:22:03
+        port: leaf22/5
+  - id: h224
+    nics:
+      - mac: 00:00:00:00:22:04
+        port: leaf22/6
