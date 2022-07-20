@@ -9,21 +9,25 @@ import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 )
 
+// GetLinks :
 func (s *Server) GetLinks(ctx context.Context, request *simapi.GetLinksRequest) (*simapi.GetLinksResponse, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
+// GetLink :
 func (s *Server) GetLink(ctx context.Context, request *simapi.GetLinkRequest) (*simapi.GetLinkResponse, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
+// AddLink :
 func (s *Server) AddLink(ctx context.Context, request *simapi.AddLinkRequest) (*simapi.AddLinkRequest, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
+// RemoveLink :
 func (s *Server) RemoveLink(ctx context.Context, request *simapi.RemoveLinkRequest) (*simapi.RemoveLinkRequest, error) {
 	//TODO implement me
 	panic("implement me")

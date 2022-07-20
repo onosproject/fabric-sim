@@ -15,7 +15,7 @@ import (
 // Simulation tracks all entities and activities related to device, host and link simulation
 type Simulation struct {
 	lock             sync.RWMutex
-	deviceSimulators map[simapi.DeviceID]*device.DeviceSimulator
+	deviceSimulators map[simapi.DeviceID]*device.Simulator
 
 	// HostSimulators
 	// LinkSimulators
@@ -24,14 +24,14 @@ type Simulation struct {
 // NewSimulation creates a new core simulation entity
 func NewSimulation() *Simulation {
 	return &Simulation{
-		deviceSimulators: make(map[simapi.DeviceID]*device.DeviceSimulator),
+		deviceSimulators: make(map[simapi.DeviceID]*device.Simulator),
 	}
 }
 
 // TODO: Rework this using generics at some point to allow same core to track different simulators
 
 // AddDeviceSimulator creates a new devices simulator for the specified device
-func (i *Simulation) AddDeviceSimulator(dev *simapi.Device) (*device.DeviceSimulator, error) {
+func (i *Simulation) AddDeviceSimulator(dev *simapi.Device) (*device.Simulator, error) {
 	i.lock.Lock()
 	defer i.lock.Unlock()
 	sim := device.NewDeviceSimulator(dev)
@@ -43,10 +43,10 @@ func (i *Simulation) AddDeviceSimulator(dev *simapi.Device) (*device.DeviceSimul
 }
 
 // GetDeviceSimulators returns a list of all device simulators
-func (i *Simulation) GetDeviceSimulators() []*device.DeviceSimulator {
+func (i *Simulation) GetDeviceSimulators() []*device.Simulator {
 	i.lock.RLock()
 	defer i.lock.RUnlock()
-	sims := make([]*device.DeviceSimulator, 0, len(i.deviceSimulators))
+	sims := make([]*device.Simulator, 0, len(i.deviceSimulators))
 	for _, sim := range i.deviceSimulators {
 		sims = append(sims, sim)
 	}
@@ -54,7 +54,7 @@ func (i *Simulation) GetDeviceSimulators() []*device.DeviceSimulator {
 }
 
 // GetDeviceSimulator returns the simulator for the specified device ID
-func (i *Simulation) GetDeviceSimulator(id simapi.DeviceID) (*device.DeviceSimulator, error) {
+func (i *Simulation) GetDeviceSimulator(id simapi.DeviceID) (*device.Simulator, error) {
 	i.lock.RLock()
 	defer i.lock.RUnlock()
 	if sim, ok := i.deviceSimulators[id]; ok {

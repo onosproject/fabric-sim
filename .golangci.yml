@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
+# SPDX-FileCopyrightText: 2020-present Intel Corporation
+#
+# SPDX-License-Identifier: Apache-2.0
+
+run:
+
+linters:
+  enable:
+    - gofmt
+    - revive
+    - misspell
+    - typecheck
+    - errcheck
+    - dogsled
+    - unconvert
+    - nakedret
+    - exportloopref
+
+issues:
+  exclude-use-default: false
+  exclude:
+    - Error return value of `.*Close` is not checked
+    - Error return value of `.*Flush` is not checked
+    - Error return value of `.*Write` is not checked
+    - Error return value of `.*Stop` is not checked
