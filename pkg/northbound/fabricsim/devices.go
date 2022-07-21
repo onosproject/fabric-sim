@@ -6,6 +6,7 @@ package fabricsim
 
 import (
 	"context"
+	"github.com/onosproject/fabric-sim/pkg/simulator"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 )
 
@@ -44,16 +45,6 @@ func (s *Server) RemoveDevice(ctx context.Context, request *simapi.RemoveDeviceR
 	return &simapi.RemoveDeviceResponse{}, nil
 }
 
-// StopDevice stops the specified simulated device
-func (s *Server) StopDevice(ctx context.Context, request *simapi.StopDeviceRequest) (*simapi.StopDeviceResponse, error) {
-	sim, err := s.Simulation.GetDeviceSimulator(request.ID)
-	if err != nil {
-		return nil, err
-	}
-	sim.Stop(request.Mode)
-	return &simapi.StopDeviceResponse{}, nil
-}
-
 // StartDevice starts the specified simulated device
 func (s *Server) StartDevice(ctx context.Context, request *simapi.StartDeviceRequest) (*simapi.StartDeviceResponse, error) {
 	sim, err := s.Simulation.GetDeviceSimulator(request.ID)
@@ -66,14 +57,44 @@ func (s *Server) StartDevice(ctx context.Context, request *simapi.StartDeviceReq
 	return &simapi.StartDeviceResponse{}, nil
 }
 
-// DisablePort disables the specified simulated device port
-func (s *Server) DisablePort(ctx context.Context, request *simapi.DisablePortRequest) (*simapi.DisablePortResponse, error) {
-	//TODO implement me
-	panic("implement me")
+// StopDevice stops the specified simulated device
+func (s *Server) StopDevice(ctx context.Context, request *simapi.StopDeviceRequest) (*simapi.StopDeviceResponse, error) {
+	sim, err := s.Simulation.GetDeviceSimulator(request.ID)
+	if err != nil {
+		return nil, err
+	}
+	sim.Stop(request.Mode)
+	return &simapi.StopDeviceResponse{}, nil
 }
 
 // EnablePort enables the specified simulated device port
 func (s *Server) EnablePort(ctx context.Context, request *simapi.EnablePortRequest) (*simapi.EnablePortResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	deviceID, err := simulator.ExtractDeviceID(request.ID)
+	if err != nil {
+		return nil, err
+	}
+	sim, err := s.Simulation.GetDeviceSimulator(deviceID)
+	if err != nil {
+		return nil, err
+	}
+	if err = sim.EnablePort(request.ID); err != nil {
+		return nil, err
+	}
+	return &simapi.EnablePortResponse{}, nil
+}
+
+// DisablePort disables the specified simulated device port
+func (s *Server) DisablePort(ctx context.Context, request *simapi.DisablePortRequest) (*simapi.DisablePortResponse, error) {
+	deviceID, err := simulator.ExtractDeviceID(request.ID)
+	if err != nil {
+		return nil, err
+	}
+	sim, err := s.Simulation.GetDeviceSimulator(deviceID)
+	if err != nil {
+		return nil, err
+	}
+	if err = sim.DisablePort(request.ID, request.Mode); err != nil {
+		return nil, err
+	}
+	return &simapi.DisablePortResponse{}, nil
 }

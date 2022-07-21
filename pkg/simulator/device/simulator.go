@@ -96,4 +96,20 @@ func (ds *Simulator) Stop(mode simapi.StopMode) {
 	// Stop any background simulation tasks
 }
 
+// EnablePort enables the specified simulated device port
+func (ds *Simulator) EnablePort(id simapi.PortID) error {
+	log.Infof("Device %s: Enabling port %s", ds.Device.ID, id)
+	// TODO: Implement this
+	// Look for any links or interfaces using this port and enable them
+	return nil
+}
+
+// DisablePort disables the specified simulated device port
+func (ds *Simulator) DisablePort(id simapi.PortID, mode simapi.StopMode) error {
+	log.Infof("Device %s: Disabling port %s using %s", ds.Device.ID, id, mode)
+	// TODO: Implement this
+	// Look for any links or interfaces using this port and disable them
+	return nil
+}
+
 // TODO: Additional simulation logic goes here
