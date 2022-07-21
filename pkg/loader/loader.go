@@ -38,6 +38,7 @@ func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
 	return nil
 }
 
+// Create all simulated devices
 func createDevices(conn *grpc.ClientConn, devices []Device) error {
 	deviceClient := simapi.NewDeviceServiceClient(conn)
 	ctx := context.Background()
@@ -56,11 +57,11 @@ func createDevices(conn *grpc.ClientConn, devices []Device) error {
 	return nil
 }
 
-func constructDevice(d Device) *simapi.Device {
-	ports := make([]*simapi.Port, 0, len(d.Ports))
-	for _, pd := range d.Ports {
+func constructDevice(dd Device) *simapi.Device {
+	ports := make([]*simapi.Port, 0, len(dd.Ports))
+	for _, pd := range dd.Ports {
 		port := &simapi.Port{
-			ID:             simapi.PortID(fmt.Sprintf("%s/%d", d.ID, pd.Number)),
+			ID:             simapi.PortID(fmt.Sprintf("%s/%d", dd.ID, pd.Number)),
 			Name:           fmt.Sprintf("%d", pd.Number),
 			Number:         pd.Number,
 			InternalNumber: pd.SDNNumber,
@@ -69,17 +70,18 @@ func constructDevice(d Device) *simapi.Device {
 		ports = append(ports, port)
 	}
 	deviceType := simapi.DeviceType_SWITCH
-	if d.Type == "ipu" {
+	if dd.Type == "ipu" {
 		deviceType = simapi.DeviceType_IPU
 	}
 	return &simapi.Device{
-		ID:          simapi.DeviceID(d.ID),
+		ID:          simapi.DeviceID(dd.ID),
 		Type:        deviceType,
 		Ports:       ports,
-		ControlPort: d.AgentPort,
+		ControlPort: dd.AgentPort,
 	}
 }
 
+// Create all simulated links
 func createLinks(conn *grpc.ClientConn, links []Link) error {
 	linkClient := simapi.NewLinkServiceClient(conn)
 	ctx := context.Background()
@@ -120,7 +122,33 @@ func constructReverseLink(ld Link) *simapi.Link {
 	}
 }
 
-func createHosts(conn *grpc.ClientConn, devices []Host) error {
-	//hostClient := simapi.NewHostServiceClient(conn)
+// Create all simulated hosts
+func createHosts(conn *grpc.ClientConn, hosts []Host) error {
+	hostClient := simapi.NewHostServiceClient(conn)
+	ctx := context.Background()
+	for _, hd := range hosts {
+		host := constructHost(hd)
+		if _, err := hostClient.AddHost(ctx, &simapi.AddHostRequest{Host: host}); err != nil {
+			log.Errorf("Unable to create simulated host: %+v", err)
+		}
+	}
 	return nil
+}
+
+func constructHost(hd Host) *simapi.Host {
+	nics := make([]*simapi.NetworkInterface, 0, len(hd.NICs))
+	for _, nd := range hd.NICs {
+		nic := &simapi.NetworkInterface{
+			ID:          simapi.PortID(nd.Port),
+			MacAddress:  nd.Mac,
+			IpAddress:   nd.IPv4,
+			Ipv6Address: nd.IPV6,
+			Behavior:    nil,
+		}
+		nics = append(nics, nic)
+	}
+	return &simapi.Host{
+		ID:         simapi.HostID(hd.ID),
+		Interfaces: nics,
+	}
 }
