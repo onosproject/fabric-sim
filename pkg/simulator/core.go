@@ -133,20 +133,29 @@ func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*linksim.Simulator, er
 }
 
 func (s *Simulation) validatePort(id simapi.PortID) error {
-	f := strings.SplitN(string(id), "/", 2)
-	if len(f) < 2 {
-		return errors.NewInvalid("Invalid port ID format: %s", id)
+	deviceID, err := ExtractDeviceID(id)
+	if err != nil {
+		return err
 	}
-	deviceID := simapi.DeviceID(f[0])
 	d, ok := s.deviceSimulators[deviceID]
 	if !ok {
 		return errors.NewNotFound("Device %s not found", deviceID)
 	}
 
-	if _, ok := d.Ports[id]; !ok {
+	if _, ok = d.Ports[id]; !ok {
 		return errors.NewNotFound("Port %s not found", id)
 	}
 	return nil
+}
+
+// ExtractDeviceID extracts the device ID from the port ID
+func ExtractDeviceID(id simapi.PortID) (simapi.DeviceID, error) {
+	f := strings.SplitN(string(id), "/", 2)
+	if len(f) < 2 {
+		return "", errors.NewInvalid("Invalid port ID format: %s", id)
+	}
+	deviceID := simapi.DeviceID(f[0])
+	return deviceID, nil
 }
 
 // GetLinkSimulators returns a list of all link simulators
