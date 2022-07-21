@@ -11,7 +11,7 @@ import (
 
 // GetHosts returns list of all simulated hosts
 func (s *Server) GetHosts(ctx context.Context, request *simapi.GetHostsRequest) (*simapi.GetHostsResponse, error) {
-	sims := s.Simulation.GetHostSimulators()
+	sims := s.simulation.GetHostSimulators()
 	hosts := make([]*simapi.Host, 0, len(sims))
 	for _, sim := range sims {
 		hosts = append(hosts, sim.Host)
@@ -21,7 +21,7 @@ func (s *Server) GetHosts(ctx context.Context, request *simapi.GetHostsRequest) 
 
 // GetHost returns the specified simulated host
 func (s *Server) GetHost(ctx context.Context, request *simapi.GetHostRequest) (*simapi.GetHostResponse, error) {
-	sim, err := s.Simulation.GetHostSimulator(request.ID)
+	sim, err := s.simulation.GetHostSimulator(request.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func (s *Server) GetHost(ctx context.Context, request *simapi.GetHostRequest) (*
 
 // AddHost creates and registers the specified simulated host
 func (s *Server) AddHost(ctx context.Context, request *simapi.AddHostRequest) (*simapi.AddHostResponse, error) {
-	if _, err := s.Simulation.AddHostSimulator(request.Host); err != nil {
+	if _, err := s.simulation.AddHostSimulator(request.Host); err != nil {
 		return nil, err
 	}
 	return &simapi.AddHostResponse{}, nil
@@ -38,7 +38,7 @@ func (s *Server) AddHost(ctx context.Context, request *simapi.AddHostRequest) (*
 
 // RemoveHost removes the specified simulated host
 func (s *Server) RemoveHost(ctx context.Context, request *simapi.RemoveHostRequest) (*simapi.RemoveHostResponse, error) {
-	if err := s.Simulation.RemoveHostSimulator(request.ID); err != nil {
+	if err := s.simulation.RemoveHostSimulator(request.ID); err != nil {
 		return nil, err
 	}
 	return &simapi.RemoveHostResponse{}, nil

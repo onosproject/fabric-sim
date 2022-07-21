@@ -69,9 +69,7 @@ func (m *Manager) startNorthboundServer() error {
 		true,
 		northbound.SecurityConfig{}))
 	s.AddService(logging.Service{})
-	s.AddService(simapi.Service{
-		Simulation: m.Simulation,
-	})
+	s.AddService(simapi.NewService(m.Simulation))
 
 	doneCh := make(chan error)
 	go func() {

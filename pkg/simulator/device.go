@@ -2,27 +2,27 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-// Package device implements the device simulator control logic
-package device
+package simulator
 
 import (
-	simnb "github.com/onosproject/fabric-sim/pkg/northbound/device"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	"github.com/onosproject/onos-lib-go/pkg/northbound"
+	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 )
 
 var log = logging.GetLogger("simulator", "device")
 
-// Simulator simulates a single device
-type Simulator struct {
+// DeviceSimulator simulates a single device
+type DeviceSimulator struct {
 	Device *simapi.Device
-	Agent  *northbound.Server
 	Ports  map[simapi.PortID]*simapi.Port
+	Agent  DeviceAgent
+
+	ForwardingPipelineConfig *p4api.ForwardingPipelineConfig
 }
 
 // NewDeviceSimulator initializes a new device simulator
-func NewDeviceSimulator(device *simapi.Device) *Simulator {
+func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent) *DeviceSimulator {
 	log.Infof("Device %s: Creating simulator", device.ID)
 
 	// Build a port map
@@ -32,21 +32,21 @@ func NewDeviceSimulator(device *simapi.Device) *Simulator {
 	}
 
 	// Construct and return simulator from the device and the port map
-	sim := Simulator{
+	return &DeviceSimulator{
 		Device: device,
 		Ports:  ports,
+		Agent:  agent,
 	}
-	return &sim
 }
 
 // Start spawns the device simulator background tasks and its agent API server, also in the background
-func (ds *Simulator) Start() error {
+func (ds *DeviceSimulator) Start(simulation *Simulation) error {
 	log.Infof("Device %s: Starting simulator", ds.Device.ID)
 
 	// Start any background simulation tasks
 
 	// Starts the simulated device agent
-	err := ds.startSimulationAgent()
+	err := ds.Agent.Start(simulation, ds)
 	if err != nil {
 		log.Errorf("Device %s: Unable to run simulator: %+v", ds.Device.ID, err)
 		return err
@@ -54,50 +54,18 @@ func (ds *Simulator) Start() error {
 	return nil
 }
 
-// startSimulationAgent starts the simulated device gRPC server
-func (ds *Simulator) startSimulationAgent() error {
-	ds.Agent = northbound.NewServer(northbound.NewServerCfg(
-		"",
-		"",
-		"",
-		int16(ds.Device.ControlPort),
-		true,
-		northbound.SecurityConfig{
-			AuthenticationEnabled: false,
-			AuthorizationEnabled:  false,
-		}))
-	ds.Agent.AddService(simnb.Service{
-		DeviceID: ds.Device.ID,
-	})
-
-	doneCh := make(chan error)
-	go func() {
-		err := ds.Agent.Serve(func(started string) {
-			log.Infof("Device %s: Started simulated device NBI on ", ds.Device.ID, started)
-			close(doneCh)
-		})
-		if err != nil {
-			doneCh <- err
-		}
-	}()
-	return <-doneCh
-}
-
 // Stop stops the device simulation agent and stops any background simulation tasks
-func (ds *Simulator) Stop(mode simapi.StopMode) {
+func (ds *DeviceSimulator) Stop(mode simapi.StopMode) {
 	log.Infof("Device %s: Stopping simulator using %s", ds.Device.ID, mode)
-	if mode == simapi.StopMode_ORDERLY_STOP {
-		ds.Agent.GracefulStop()
-	} else {
-		// FIXME: This is not sufficiently chaotic
-		ds.Agent.Stop()
+	if err := ds.Agent.Stop(mode); err != nil {
+		log.Errorf("Device %s: Unable to stop simulator: %+v", ds.Device.ID, err)
 	}
 
 	// Stop any background simulation tasks
 }
 
 // EnablePort enables the specified simulated device port
-func (ds *Simulator) EnablePort(id simapi.PortID) error {
+func (ds *DeviceSimulator) EnablePort(id simapi.PortID) error {
 	log.Infof("Device %s: Enabling port %s", ds.Device.ID, id)
 	// TODO: Implement this
 	// Look for any links or interfaces using this port and enable them
@@ -105,7 +73,7 @@ func (ds *Simulator) EnablePort(id simapi.PortID) error {
 }
 
 // DisablePort disables the specified simulated device port
-func (ds *Simulator) DisablePort(id simapi.PortID, mode simapi.StopMode) error {
+func (ds *DeviceSimulator) DisablePort(id simapi.PortID, mode simapi.StopMode) error {
 	log.Infof("Device %s: Disabling port %s using %s", ds.Device.ID, id, mode)
 	// TODO: Implement this
 	// Look for any links or interfaces using this port and disable them
