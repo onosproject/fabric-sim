@@ -22,8 +22,6 @@ func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
 		return err
 	}
 
-	log.Infof("%+v", topology)
-
 	if err := createDevices(conn, topology.Devices); err != nil {
 		return err
 	}
