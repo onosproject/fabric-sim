@@ -32,7 +32,6 @@ func getRootCommand() *cobra.Command {
 	cmd.Flags().String("caPath", "", "path to CA certificate")
 	cmd.Flags().String("keyPath", "", "path to client private key")
 	cmd.Flags().String("certPath", "", "path to client certificate")
-	cmd.Flags().String("topoDescription", "", "topology description YAML file")
 	return cmd
 }
 

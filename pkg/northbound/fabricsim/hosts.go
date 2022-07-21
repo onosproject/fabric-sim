@@ -9,26 +9,37 @@ import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 )
 
-// GetHosts :
+// GetHosts returns list of all simulated hosts
 func (s *Server) GetHosts(ctx context.Context, request *simapi.GetHostsRequest) (*simapi.GetHostsResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	sims := s.Simulation.GetHostSimulators()
+	hosts := make([]*simapi.Host, 0, len(sims))
+	for _, sim := range sims {
+		hosts = append(hosts, sim.Host)
+	}
+	return &simapi.GetHostsResponse{Hosts: hosts}, nil
 }
 
-// GetHost :
+// GetHost returns the specified simulated host
 func (s *Server) GetHost(ctx context.Context, request *simapi.GetHostRequest) (*simapi.GetHostResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	sim, err := s.Simulation.GetHostSimulator(request.ID)
+	if err != nil {
+		return nil, err
+	}
+	return &simapi.GetHostResponse{Host: sim.Host}, nil
 }
 
-// AddHost :
+// AddHost creates and registers the specified simulated host
 func (s *Server) AddHost(ctx context.Context, request *simapi.AddHostRequest) (*simapi.AddHostResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	if _, err := s.Simulation.AddHostSimulator(request.Host); err != nil {
+		return nil, err
+	}
+	return &simapi.AddHostResponse{}, nil
 }
 
-// RemoveHost :
+// RemoveHost removes the specified simulated host
 func (s *Server) RemoveHost(ctx context.Context, request *simapi.RemoveHostRequest) (*simapi.RemoveHostResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	if err := s.Simulation.RemoveHostSimulator(request.ID); err != nil {
+		return nil, err
+	}
+	return &simapi.RemoveHostResponse{}, nil
 }

@@ -85,3 +85,5 @@ func (ds *Simulator) Stop(mode simapi.StopMode) {
 
 	// Stop any background simulation tasks
 }
+
+// TODO: Additional simulation logic goes here
