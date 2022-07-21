@@ -22,7 +22,7 @@ type Device struct {
 	Type      string `mapstructure:"type" yaml:"type"`
 	AgentPort int32  `mapstructure:"agent_port" yaml:"agent_port"`
 	Stopped   bool   `mapstructure:"stopped" yaml:"stopped"`
-	Ports     []Port `mapstructure:"port" yaml:"port"`
+	Ports     []Port `mapstructure:"ports" yaml:"ports"`
 	// TODO: add others
 }
 
