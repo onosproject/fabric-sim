@@ -18,13 +18,23 @@ var log = logging.GetLogger("simulator", "device")
 type Simulator struct {
 	Device *simapi.Device
 	Agent  *northbound.Server
+	Ports  map[simapi.PortID]*simapi.Port
 }
 
 // NewDeviceSimulator initializes a new device simulator
 func NewDeviceSimulator(device *simapi.Device) *Simulator {
 	log.Infof("Device %s: Creating simulator", device.ID)
+
+	// Build a port map
+	ports := make(map[simapi.PortID]*simapi.Port)
+	for _, port := range device.Ports {
+		ports[port.ID] = port
+	}
+
+	// Construct and return simulator from the device and the port map
 	sim := Simulator{
 		Device: device,
+		Ports:  ports,
 	}
 	return &sim
 }
