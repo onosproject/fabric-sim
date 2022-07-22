@@ -18,7 +18,7 @@ var log = logging.GetLogger()
 // using the fabric simulator API client.
 func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
 	topology := &Topology{}
-	if err := LoadTopologyFile(topologyPath, topology); err != nil {
+	if err := loadTopologyFile(topologyPath, topology); err != nil {
 		return err
 	}
 

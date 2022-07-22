@@ -15,11 +15,10 @@ var log = logging.GetLogger()
 
 // Config is a manager configuration
 type Config struct {
-	CAPath          string
-	KeyPath         string
-	CertPath        string
-	TopoDescription string
-	GRPCPort        int
+	CAPath   string
+	KeyPath  string
+	CertPath string
+	GRPCPort int
 }
 
 // Manager single point of entry for the fabric-sim
