@@ -11,7 +11,7 @@ import (
 
 // GetLinks returns list of all simulated links
 func (s *Server) GetLinks(ctx context.Context, request *simapi.GetLinksRequest) (*simapi.GetLinksResponse, error) {
-	sims := s.Simulation.GetLinkSimulators()
+	sims := s.simulation.GetLinkSimulators()
 	links := make([]*simapi.Link, 0, len(sims))
 	for _, sim := range sims {
 		links = append(links, sim.Link)
@@ -21,7 +21,7 @@ func (s *Server) GetLinks(ctx context.Context, request *simapi.GetLinksRequest) 
 
 // GetLink returns the specified simulated link
 func (s *Server) GetLink(ctx context.Context, request *simapi.GetLinkRequest) (*simapi.GetLinkResponse, error) {
-	sim, err := s.Simulation.GetLinkSimulator(request.ID)
+	sim, err := s.simulation.GetLinkSimulator(request.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func (s *Server) GetLink(ctx context.Context, request *simapi.GetLinkRequest) (*
 
 // AddLink creates and registers the specified simulated link
 func (s *Server) AddLink(ctx context.Context, request *simapi.AddLinkRequest) (*simapi.AddLinkResponse, error) {
-	if _, err := s.Simulation.AddLinkSimulator(request.Link); err != nil {
+	if _, err := s.simulation.AddLinkSimulator(request.Link); err != nil {
 		return nil, err
 	}
 	return &simapi.AddLinkResponse{}, nil
@@ -38,7 +38,7 @@ func (s *Server) AddLink(ctx context.Context, request *simapi.AddLinkRequest) (*
 
 // RemoveLink removes the specified simulated link
 func (s *Server) RemoveLink(ctx context.Context, request *simapi.RemoveLinkRequest) (*simapi.RemoveLinkResponse, error) {
-	if err := s.Simulation.RemoveLinkSimulator(request.ID); err != nil {
+	if err := s.simulation.RemoveLinkSimulator(request.ID); err != nil {
 		return nil, err
 	}
 	return &simapi.RemoveLinkResponse{}, nil

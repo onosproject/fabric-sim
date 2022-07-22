@@ -6,13 +6,14 @@ package fabricsim
 
 import (
 	"context"
+	"github.com/onosproject/fabric-sim/pkg/northbound/device"
 	"github.com/onosproject/fabric-sim/pkg/simulator"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 )
 
 // GetDevices returns a list of simulated devices; switches and IPUs
 func (s *Server) GetDevices(ctx context.Context, request *simapi.GetDevicesRequest) (*simapi.GetDevicesResponse, error) {
-	sims := s.Simulation.GetDeviceSimulators()
+	sims := s.simulation.GetDeviceSimulators()
 	devices := make([]*simapi.Device, 0, len(sims))
 	for _, sim := range sims {
 		devices = append(devices, sim.Device)
@@ -22,7 +23,7 @@ func (s *Server) GetDevices(ctx context.Context, request *simapi.GetDevicesReque
 
 // GetDevice returns the specified simulated device
 func (s *Server) GetDevice(ctx context.Context, request *simapi.GetDeviceRequest) (*simapi.GetDeviceResponse, error) {
-	sim, err := s.Simulation.GetDeviceSimulator(request.ID)
+	sim, err := s.simulation.GetDeviceSimulator(request.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +32,7 @@ func (s *Server) GetDevice(ctx context.Context, request *simapi.GetDeviceRequest
 
 // AddDevice creates and registers a new simulated device
 func (s *Server) AddDevice(ctx context.Context, request *simapi.AddDeviceRequest) (*simapi.AddDeviceResponse, error) {
-	if _, err := s.Simulation.AddDeviceSimulator(request.Device); err != nil {
+	if _, err := s.simulation.AddDeviceSimulator(request.Device, device.NewAgent()); err != nil {
 		return nil, err
 	}
 	return &simapi.AddDeviceResponse{}, nil
@@ -39,7 +40,7 @@ func (s *Server) AddDevice(ctx context.Context, request *simapi.AddDeviceRequest
 
 // RemoveDevice stops and removes the specified simulated device
 func (s *Server) RemoveDevice(ctx context.Context, request *simapi.RemoveDeviceRequest) (*simapi.RemoveDeviceResponse, error) {
-	if err := s.Simulation.RemoveDeviceSimulator(request.ID); err != nil {
+	if err := s.simulation.RemoveDeviceSimulator(request.ID); err != nil {
 		return nil, err
 	}
 	return &simapi.RemoveDeviceResponse{}, nil
@@ -47,11 +48,11 @@ func (s *Server) RemoveDevice(ctx context.Context, request *simapi.RemoveDeviceR
 
 // StartDevice starts the specified simulated device
 func (s *Server) StartDevice(ctx context.Context, request *simapi.StartDeviceRequest) (*simapi.StartDeviceResponse, error) {
-	sim, err := s.Simulation.GetDeviceSimulator(request.ID)
+	sim, err := s.simulation.GetDeviceSimulator(request.ID)
 	if err != nil {
 		return nil, err
 	}
-	if err = sim.Start(); err != nil {
+	if err = sim.Start(s.simulation); err != nil {
 		return nil, err
 	}
 	return &simapi.StartDeviceResponse{}, nil
@@ -59,7 +60,7 @@ func (s *Server) StartDevice(ctx context.Context, request *simapi.StartDeviceReq
 
 // StopDevice stops the specified simulated device
 func (s *Server) StopDevice(ctx context.Context, request *simapi.StopDeviceRequest) (*simapi.StopDeviceResponse, error) {
-	sim, err := s.Simulation.GetDeviceSimulator(request.ID)
+	sim, err := s.simulation.GetDeviceSimulator(request.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +74,7 @@ func (s *Server) EnablePort(ctx context.Context, request *simapi.EnablePortReque
 	if err != nil {
 		return nil, err
 	}
-	sim, err := s.Simulation.GetDeviceSimulator(deviceID)
+	sim, err := s.simulation.GetDeviceSimulator(deviceID)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +90,7 @@ func (s *Server) DisablePort(ctx context.Context, request *simapi.DisablePortReq
 	if err != nil {
 		return nil, err
 	}
-	sim, err := s.Simulation.GetDeviceSimulator(deviceID)
+	sim, err := s.simulation.GetDeviceSimulator(deviceID)
 	if err != nil {
 		return nil, err
 	}

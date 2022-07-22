@@ -6,9 +6,6 @@
 package simulator
 
 import (
-	devsim "github.com/onosproject/fabric-sim/pkg/simulator/device"
-	hostsim "github.com/onosproject/fabric-sim/pkg/simulator/host"
-	linksim "github.com/onosproject/fabric-sim/pkg/simulator/link"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"strings"
@@ -18,9 +15,9 @@ import (
 // Simulation tracks all entities and activities related to device, host and link simulation
 type Simulation struct {
 	lock             sync.RWMutex
-	deviceSimulators map[simapi.DeviceID]*devsim.Simulator
-	linkSimulators   map[simapi.LinkID]*linksim.Simulator
-	hostSimulators   map[simapi.HostID]*hostsim.Simulator
+	deviceSimulators map[simapi.DeviceID]*DeviceSimulator
+	linkSimulators   map[simapi.LinkID]*LinkSimulator
+	hostSimulators   map[simapi.HostID]*HostSimulator
 
 	// Auxiliary structures
 	usedEgressPorts  map[simapi.PortID]*linkOrNIC
@@ -30,12 +27,21 @@ type Simulation struct {
 // NewSimulation creates a new core simulation entity
 func NewSimulation() *Simulation {
 	return &Simulation{
-		deviceSimulators: make(map[simapi.DeviceID]*devsim.Simulator),
-		linkSimulators:   make(map[simapi.LinkID]*linksim.Simulator),
-		hostSimulators:   make(map[simapi.HostID]*hostsim.Simulator),
+		deviceSimulators: make(map[simapi.DeviceID]*DeviceSimulator),
+		linkSimulators:   make(map[simapi.LinkID]*LinkSimulator),
+		hostSimulators:   make(map[simapi.HostID]*HostSimulator),
 		usedEgressPorts:  make(map[simapi.PortID]*linkOrNIC),
 		usedIngressPorts: make(map[simapi.PortID]*linkOrNIC),
 	}
+}
+
+// DeviceAgent is an abstraction of P4Runtime and gNMI NB server
+type DeviceAgent interface {
+	// Start starts the simulated device agent
+	Start(simulation *Simulation, deviceSim *DeviceSimulator) error
+
+	// Stop stops the simulated device agent
+	Stop(mode simapi.StopMode) error
 }
 
 type linkOrNIC struct {
@@ -55,10 +61,10 @@ func (l *linkOrNIC) String() string {
 // Device inventory
 
 // AddDeviceSimulator creates a new devices simulator for the specified device
-func (s *Simulation) AddDeviceSimulator(dev *simapi.Device) (*devsim.Simulator, error) {
+func (s *Simulation) AddDeviceSimulator(dev *simapi.Device, agent DeviceAgent) (*DeviceSimulator, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	sim := devsim.NewDeviceSimulator(dev)
+	sim := NewDeviceSimulator(dev, agent)
 	if _, ok := s.deviceSimulators[dev.ID]; !ok {
 		s.deviceSimulators[dev.ID] = sim
 		return sim, nil
@@ -67,10 +73,10 @@ func (s *Simulation) AddDeviceSimulator(dev *simapi.Device) (*devsim.Simulator, 
 }
 
 // GetDeviceSimulators returns a list of all device simulators
-func (s *Simulation) GetDeviceSimulators() []*devsim.Simulator {
+func (s *Simulation) GetDeviceSimulators() []*DeviceSimulator {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
-	sims := make([]*devsim.Simulator, 0, len(s.deviceSimulators))
+	sims := make([]*DeviceSimulator, 0, len(s.deviceSimulators))
 	for _, sim := range s.deviceSimulators {
 		sims = append(sims, sim)
 	}
@@ -78,7 +84,7 @@ func (s *Simulation) GetDeviceSimulators() []*devsim.Simulator {
 }
 
 // GetDeviceSimulator returns the simulator for the specified device ID
-func (s *Simulation) GetDeviceSimulator(id simapi.DeviceID) (*devsim.Simulator, error) {
+func (s *Simulation) GetDeviceSimulator(id simapi.DeviceID) (*DeviceSimulator, error) {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 	if sim, ok := s.deviceSimulators[id]; ok {
@@ -102,7 +108,7 @@ func (s *Simulation) RemoveDeviceSimulator(id simapi.DeviceID) error {
 // Link inventory
 
 // AddLinkSimulator creates a new link simulator for the specified link
-func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*linksim.Simulator, error) {
+func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*LinkSimulator, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -122,7 +128,7 @@ func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*linksim.Simulator, er
 		return nil, errors.NewInvalid("Port %s is already used for %s", link.TgtID, lon)
 	}
 
-	sim := linksim.NewLinkSimulator(link)
+	sim := NewLinkSimulator(link)
 	if _, ok := s.linkSimulators[link.ID]; !ok {
 		s.linkSimulators[link.ID] = sim
 		s.usedEgressPorts[link.SrcID] = &linkOrNIC{link: link}
@@ -159,10 +165,10 @@ func ExtractDeviceID(id simapi.PortID) (simapi.DeviceID, error) {
 }
 
 // GetLinkSimulators returns a list of all link simulators
-func (s *Simulation) GetLinkSimulators() []*linksim.Simulator {
+func (s *Simulation) GetLinkSimulators() []*LinkSimulator {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
-	sims := make([]*linksim.Simulator, 0, len(s.linkSimulators))
+	sims := make([]*LinkSimulator, 0, len(s.linkSimulators))
 	for _, sim := range s.linkSimulators {
 		sims = append(sims, sim)
 	}
@@ -170,7 +176,7 @@ func (s *Simulation) GetLinkSimulators() []*linksim.Simulator {
 }
 
 // GetLinkSimulator returns the simulator for the specified link ID
-func (s *Simulation) GetLinkSimulator(id simapi.LinkID) (*linksim.Simulator, error) {
+func (s *Simulation) GetLinkSimulator(id simapi.LinkID) (*LinkSimulator, error) {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 	if sim, ok := s.linkSimulators[id]; ok {
@@ -194,10 +200,10 @@ func (s *Simulation) RemoveLinkSimulator(id simapi.LinkID) error {
 // Host inventory
 
 // AddHostSimulator creates a new host simulator for the specified host
-func (s *Simulation) AddHostSimulator(host *simapi.Host) (*hostsim.Simulator, error) {
+func (s *Simulation) AddHostSimulator(host *simapi.Host) (*HostSimulator, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	sim := hostsim.NewHostSimulator(host)
+	sim := NewHostSimulator(host)
 
 	// Validate that the port for all NICs exists
 	for _, nic := range host.Interfaces {
@@ -226,10 +232,10 @@ func (s *Simulation) AddHostSimulator(host *simapi.Host) (*hostsim.Simulator, er
 }
 
 // GetHostSimulators returns a list of all host simulators
-func (s *Simulation) GetHostSimulators() []*hostsim.Simulator {
+func (s *Simulation) GetHostSimulators() []*HostSimulator {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
-	sims := make([]*hostsim.Simulator, 0, len(s.hostSimulators))
+	sims := make([]*HostSimulator, 0, len(s.hostSimulators))
 	for _, sim := range s.hostSimulators {
 		sims = append(sims, sim)
 	}
@@ -237,7 +243,7 @@ func (s *Simulation) GetHostSimulators() []*hostsim.Simulator {
 }
 
 // GetHostSimulator returns the simulator for the specified host ID
-func (s *Simulation) GetHostSimulator(id simapi.HostID) (*hostsim.Simulator, error) {
+func (s *Simulation) GetHostSimulator(id simapi.HostID) (*HostSimulator, error) {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 	if sim, ok := s.hostSimulators[id]; ok {

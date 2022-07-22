@@ -7,6 +7,7 @@ package gnmi
 
 import (
 	"context"
+	"github.com/onosproject/fabric-sim/pkg/simulator"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/openconfig/gnmi/proto/gnmi"
@@ -16,7 +17,16 @@ var log = logging.GetLogger("northbound", "device", "gnmi")
 
 // Server implements the P4Runtime API
 type Server struct {
-	deviceID simapi.DeviceID
+	deviceID   simapi.DeviceID
+	simulation *simulator.Simulation
+}
+
+// NewServer creates a new gNMI API server
+func NewServer(deviceID simapi.DeviceID, simulation *simulator.Simulation) *Server {
+	return &Server{
+		deviceID:   deviceID,
+		simulation: simulation,
+	}
 }
 
 // Capabilities :
