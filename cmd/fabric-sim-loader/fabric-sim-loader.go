@@ -111,14 +111,9 @@ func getConnection(cmd *cobra.Command) (*grpc.ClientConn, error) {
 func runRootCommand(cmd *cobra.Command, args []string) error {
 	conn, err := getConnection(cmd)
 	defer func() { _ = conn.Close() }()
-
 	if err != nil {
 		return err
 	}
-
 	topologyPath, _ := cmd.Flags().GetString(topologyFlag)
-	if topologyPath == "-" {
-
-	}
 	return loader.LoadTopology(conn, topologyPath)
 }
