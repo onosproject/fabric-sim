@@ -39,7 +39,7 @@ func getRootCommand() *cobra.Command {
 	cmd.Flags().String(addressFlag, "fabric-sim:5150", "service address")
 	cmd.Flags().String(tlsKeyPathFlag, "", "path to client private key")
 	cmd.Flags().String(tlsCertPathFlag, "", "path to client certificate")
-	cmd.Flags().String(topologyFlag, "topology.yaml", "topology YAML file")
+	cmd.Flags().String(topologyFlag, "-", "topology YAML file")
 	return cmd
 }
 
@@ -111,11 +111,9 @@ func getConnection(cmd *cobra.Command) (*grpc.ClientConn, error) {
 func runRootCommand(cmd *cobra.Command, args []string) error {
 	conn, err := getConnection(cmd)
 	defer func() { _ = conn.Close() }()
-
 	if err != nil {
 		return err
 	}
-
 	topologyPath, _ := cmd.Flags().GetString(topologyFlag)
 	return loader.LoadTopology(conn, topologyPath)
 }

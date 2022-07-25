@@ -6,6 +6,7 @@ package loader
 
 import (
 	"github.com/spf13/viper"
+	"os"
 	"path/filepath"
 )
 
@@ -58,14 +59,19 @@ type NIC struct {
 	// TODO: add others
 }
 
-// LoadTopologyFile loads the specified topology YAML file
-func LoadTopologyFile(path string, topology *Topology) error {
+// Loads the specified topology YAML file
+func loadTopologyFile(path string, topology *Topology) error {
 	viper.SetConfigType("yaml")
-	viper.SetConfigName(filepath.Base(path))
-	viper.AddConfigPath(filepath.Dir(path))
-
-	if err := viper.ReadInConfig(); err != nil {
-		return err
+	if path == "-" {
+		if err := viper.ReadConfig(os.Stdin); err != nil {
+			return err
+		}
+	} else {
+		viper.SetConfigName(filepath.Base(path))
+		viper.AddConfigPath(filepath.Dir(path))
+		if err := viper.ReadInConfig(); err != nil {
+			return err
+		}
 	}
 	return viper.Unmarshal(topology)
 }

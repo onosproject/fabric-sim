@@ -39,21 +39,18 @@ func runRootCommand(cmd *cobra.Command, args []string) error {
 	caPath, _ := cmd.Flags().GetString("caPath")
 	keyPath, _ := cmd.Flags().GetString("keyPath")
 	certPath, _ := cmd.Flags().GetString("certPath")
-	topoDescription, _ := cmd.Flags().GetString("topoDescription")
 
 	log.Infow("Starting fabric-sim",
 		"CAPath", caPath,
 		"KeyPath", keyPath,
 		"CertPath", certPath,
-		"topoDescription", topoDescription,
 	)
 
 	cfg := manager.Config{
-		CAPath:          caPath,
-		KeyPath:         keyPath,
-		CertPath:        certPath,
-		TopoDescription: topoDescription,
-		GRPCPort:        5150,
+		CAPath:   caPath,
+		KeyPath:  keyPath,
+		CertPath: certPath,
+		GRPCPort: 5150,
 	}
 
 	mgr := manager.NewManager(cfg)

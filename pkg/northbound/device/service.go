@@ -64,7 +64,7 @@ func (a *agent) Start(simulation *simulator.Simulation, deviceSim *simulator.Dev
 	doneCh := make(chan error)
 	go func() {
 		err := a.server.Serve(func(started string) {
-			log.Infof("Device %s: Started simulated device NBI on ", deviceSim.Device.ID, started)
+			log.Infof("Device %s: Started simulated device NBI on %s", deviceSim.Device.ID, started)
 			close(doneCh)
 		})
 		if err != nil {
