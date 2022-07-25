@@ -7,6 +7,8 @@ package utils
 
 import (
 	"crypto/tls"
+	"fmt"
+	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/certs"
 	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
 	"google.golang.org/grpc"
@@ -38,6 +40,25 @@ func CreateConnection() (*grpc.ClientConn, error) {
 	}
 
 	conn, err := grpc.Dial("fabric-sim:5150", opts...)
+	if err != nil {
+		return nil, err
+	}
+
+	return conn, nil
+}
+
+// CreateDeviceConnection creates connection to the device agent.
+func CreateDeviceConnection(device *simapi.Device) (*grpc.ClientConn, error) {
+	tlsConfig, err := GetClientCredentials()
+	if err != nil {
+		return nil, err
+	}
+
+	opts := []grpc.DialOption{
+		grpc.WithTransportCredentials(credentials.NewTLS(tlsConfig)),
+	}
+
+	conn, err := grpc.Dial(fmt.Sprintf("fabric-sim:%d", device.ControlPort), opts...)
 	if err != nil {
 		return nil, err
 	}
