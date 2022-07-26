@@ -3,6 +3,7 @@ module github.com/onosproject/fabric-sim
 go 1.16
 
 require (
+	github.com/google/gopacket v1.1.19
 	github.com/onosproject/helmit v0.6.19
 	github.com/onosproject/onos-api/go v0.9.25
 	github.com/onosproject/onos-lib-go v0.8.16

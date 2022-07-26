@@ -74,7 +74,7 @@ func (l *linkOrNIC) String() string {
 func (s *Simulation) AddDeviceSimulator(dev *simapi.Device, agent DeviceAgent) (*DeviceSimulator, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	sim := NewDeviceSimulator(dev, agent)
+	sim := NewDeviceSimulator(dev, agent, s)
 	if _, ok := s.deviceSimulators[dev.ID]; !ok {
 		s.deviceSimulators[dev.ID] = sim
 		return sim, nil
@@ -272,4 +272,12 @@ func (s *Simulation) RemoveHostSimulator(id simapi.HostID) error {
 		return nil
 	}
 	return errors.NewNotFound("Host %s not found", id)
+}
+
+// GetLinkFromPort returns the link that originates from the specified device port; nil if none
+func (s *Simulation) GetLinkFromPort(portID simapi.PortID) *simapi.Link {
+	if ln, ok := s.usedEgressPorts[portID]; ok {
+		return ln.link // if the port is used for a NIC, this will be nil, which is what we want
+	}
+	return nil
 }

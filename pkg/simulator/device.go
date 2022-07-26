@@ -5,12 +5,15 @@
 package simulator
 
 import (
+	"github.com/google/gopacket"
+	"github.com/google/gopacket/layers"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
 	"google.golang.org/genproto/googleapis/rpc/status"
+	"strconv"
 	"sync"
 )
 
@@ -26,10 +29,12 @@ type DeviceSimulator struct {
 	lock          sync.RWMutex
 	roleElections map[uint64]*p4api.Uint128
 	responders    []StreamResponder
+	simulation    *Simulation
+	sdnPorts      map[uint32]*simapi.Port
 }
 
 // NewDeviceSimulator initializes a new device simulator
-func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent) *DeviceSimulator {
+func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Simulation) *DeviceSimulator {
 	log.Infof("Device %s: Creating simulator", device.ID)
 
 	// Build a port map
@@ -44,6 +49,7 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent) *DeviceSimulat
 		Ports:         ports,
 		Agent:         agent,
 		roleElections: make(map[uint64]*p4api.Uint128),
+		simulation:    simulation,
 	}
 }
 
@@ -157,9 +163,24 @@ func (ds *DeviceSimulator) RemoveStreamResponder(responder StreamResponder) {
 	ds.responders = ds.responders[:i]
 }
 
+// SendToAllResponders sends the specified message to all responders
+func (ds *DeviceSimulator) SendToAllResponders(response *p4api.StreamMessageResponse) {
+	ds.lock.RLock()
+	defer ds.lock.RUnlock()
+	for _, r := range ds.responders {
+		r.Send(response)
+	}
+}
+
 // ProcessPacketOut handles the specified packet out message
-func (ds *DeviceSimulator) ProcessPacketOut(packet *p4api.PacketOut, responder StreamResponder) {
-	// Process LLDP packet
+func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responder StreamResponder) {
+	// Start by decoding the packet
+	packet := gopacket.NewPacket(packetOut.Payload, layers.LayerTypeEthernet, gopacket.Default)
+
+	// See if this is an LLDP packet and process it if so
+	if lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery); lldpLayer != nil {
+		ds.processLLDPPacket(lldpLayer.(*layers.LinkLayerDiscovery), packetOut)
+	}
 
 	// Process ARP packet
 	// Process DHCP packet
@@ -169,6 +190,52 @@ func (ds *DeviceSimulator) ProcessPacketOut(packet *p4api.PacketOut, responder S
 // ProcessDigestAck handles the specified digest list ack message
 func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder StreamResponder) {
 	// TODO: Implement this
+}
+
+// Processes the LLDP packet-out by emitting it encapsulated as a packet-in on the simulated device which is
+// adjacent to this device on the link (if any) connected to the port given in the LLDP packet
+func (ds *DeviceSimulator) processLLDPPacket(lldp *layers.LinkLayerDiscovery, packetOut *p4api.PacketOut) {
+	// TODO: Add filtering based on device table contents
+	portID := portNumberFromLLDP(lldp.PortID)
+
+	// Find the port corresponding to the specified port ID, which is the internal (SDN) port number
+	if port, ok := ds.sdnPorts[portID]; ok {
+		// Check if the given port has a link originating from it
+		if link := ds.simulation.GetLinkFromPort(port.ID); link != nil {
+			// Now that we found the link, let's emit a packet out on all the responders associated with
+			// the destination device
+			tgtDeviceID, err := ExtractDeviceID(link.TgtID)
+			if err != nil {
+				log.Warnf("Device %s: %s", ds.Device.ID, err)
+			}
+
+			tgtDevice, ok := ds.simulation.deviceSimulators[tgtDeviceID]
+			if !ok {
+				log.Warnf("Device %s: Unable to locate link target device %s", ds.Device.ID, tgtDeviceID)
+			}
+
+			packetIn := &p4api.StreamMessageResponse{
+				Update: &p4api.StreamMessageResponse_Packet{
+					Packet: &p4api.PacketIn{
+						Payload: packetOut.Payload,
+					},
+				},
+			}
+			tgtDevice.SendToAllResponders(packetIn)
+
+			// TODO: Implement this
+		}
+
+	}
+
+}
+
+// Decodes the specified LLDP port ID into an internal SDN port number
+func portNumberFromLLDP(id layers.LLDPPortID) uint32 {
+	if i, err := strconv.ParseUint(string(id.ID), 10, 32); err == nil {
+		return uint32(i)
+	}
+	return 0
 }
 
 // TODO: Additional simulation logic goes here
