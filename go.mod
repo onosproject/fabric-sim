@@ -11,6 +11,7 @@ require (
 	github.com/p4lang/p4runtime v1.3.0
 	github.com/spf13/cobra v1.5.0
 	github.com/spf13/viper v1.9.0
+	google.golang.org/genproto v0.0.0-20210828152312-66f60bf46e71
 	google.golang.org/grpc v1.41.0
 	gotest.tools v2.2.0+incompatible
 )

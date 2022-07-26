@@ -11,6 +11,7 @@ import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/certs"
 	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
+	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
@@ -64,4 +65,16 @@ func CreateDeviceConnection(device *simapi.Device) (*grpc.ClientConn, error) {
 	}
 
 	return conn, nil
+}
+
+// CreateMastershipArbitration returns stream message request with the specified election ID components
+func CreateMastershipArbitration(high uint64, low uint64) *p4api.StreamMessageRequest {
+	return &p4api.StreamMessageRequest{
+		Update: &p4api.StreamMessageRequest_Arbitration{
+			Arbitration: &p4api.MasterArbitrationUpdate{
+				ElectionId: &p4api.Uint128{
+					High: high,
+					Low:  low,
+				},
+			}}}
 }

@@ -77,5 +77,15 @@ func (s *TestSuite) TestTopologyLoad(t *testing.T) {
 		cr, err := p4Service.Capabilities(ctx, &p4api.CapabilitiesRequest{})
 		assert.NilError(t, err)
 		assert.Equal(t, cr.P4RuntimeApiVersion, "1.1.0")
+
+		// Open message stream and negotiate mastership for default (no) role
+		t.Logf("Negotiating mastership for device %s", device.ID)
+		stream, err := p4Service.StreamChannel(ctx)
+		err = stream.Send(utils.CreateMastershipArbitration(0, 1))
+		assert.NilError(t, err)
+		msg, err := stream.Recv()
+		assert.NilError(t, err)
+		assert.Equal(t, int32(0), msg.GetArbitration().Status.Code)
 	}
+
 }
