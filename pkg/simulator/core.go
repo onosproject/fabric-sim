@@ -8,6 +8,7 @@ package simulator
 import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
+	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"strings"
 	"sync"
 )
@@ -42,6 +43,15 @@ type DeviceAgent interface {
 
 	// Stop stops the simulated device agent
 	Stop(mode simapi.StopMode) error
+}
+
+// StreamResponder is an abstraction for sending StreamResponse messages to controllers
+type StreamResponder interface {
+	// RecordMastershipArbitration records the given mastership arbitration and returns is
+	RecordMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate) *p4api.MasterArbitrationUpdate
+
+	// Send queues up the specified response to asynchronously sends on the backing stream
+	Send(response *p4api.StreamMessageResponse)
 }
 
 type linkOrNIC struct {
