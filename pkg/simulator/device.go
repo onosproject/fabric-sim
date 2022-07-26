@@ -6,19 +6,23 @@ package simulator
 
 import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
+	"sync"
 )
 
 var log = logging.GetLogger("simulator", "device")
 
 // DeviceSimulator simulates a single device
 type DeviceSimulator struct {
-	Device *simapi.Device
-	Ports  map[simapi.PortID]*simapi.Port
-	Agent  DeviceAgent
-
+	Device                   *simapi.Device
+	Ports                    map[simapi.PortID]*simapi.Port
+	Agent                    DeviceAgent
 	ForwardingPipelineConfig *p4api.ForwardingPipelineConfig
+
+	lock          sync.RWMutex
+	roleElections map[uint64]*p4api.Uint128
 }
 
 // NewDeviceSimulator initializes a new device simulator
@@ -33,9 +37,10 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent) *DeviceSimulat
 
 	// Construct and return simulator from the device and the port map
 	return &DeviceSimulator{
-		Device: device,
-		Ports:  ports,
-		Agent:  agent,
+		Device:        device,
+		Ports:         ports,
+		Agent:         agent,
+		roleElections: make(map[uint64]*p4api.Uint128),
 	}
 }
 
@@ -78,6 +83,31 @@ func (ds *DeviceSimulator) DisablePort(id simapi.PortID, mode simapi.StopMode) e
 	// TODO: Implement this
 	// Look for any links or interfaces using this port and disable them
 	return nil
+}
+
+// RecordRoleElection checks the given election ID for the specified role and records it
+// if the given election ID is larger than a previously recorded election ID for the same
+// role. It returns error (if election for role not secured) and the latest election ID for the role.
+func (ds *DeviceSimulator) RecordRoleElection(role *p4api.Role, electionID *p4api.Uint128) (*p4api.Uint128, error) {
+	ds.lock.Lock()
+	defer ds.lock.Unlock()
+
+	roleID := uint64(0)
+	if role != nil {
+		roleID = role.Id
+	}
+
+	maxID, ok := ds.roleElections[roleID]
+	if !ok || isNewMaster(maxID, electionID) {
+		ds.roleElections[roleID] = electionID
+		return electionID, nil
+	}
+	return maxID, errors.NewInvalid("Mastership for role %d has not been secured with election ID %d",
+		roleID, electionID)
+}
+
+func isNewMaster(current *p4api.Uint128, new *p4api.Uint128) bool {
+	return current.High < new.High || (current.High == new.High && current.Low < new.Low)
 }
 
 // TODO: Additional simulation logic goes here
