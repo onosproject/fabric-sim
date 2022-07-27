@@ -13,7 +13,9 @@ import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
+	"strconv"
 	"testing"
+	"time"
 )
 
 // TestLLDPPacket tests the LLDP packet-out handling
@@ -52,7 +54,7 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	lldp := layers.LinkLayerDiscovery{
 		ChassisID: layers.LLDPChassisID{
 			Subtype: layers.LLDPChassisIDSubTypeLocal,
-			ID:      []byte("0"),
+			ID:      []byte("switch1"),
 		},
 		PortID: layers.LLDPPortID{
 			Subtype: layers.LLDPPortIDSubtypeLocal,
@@ -77,20 +79,49 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	t.Log("Waiting for packet in on stream switch2a")
 	msg2a, err := stream2a.Recv()
 	assert.NoError(t, err)
-	assert.NotNil(t, msg2a.GetPacket())
-	packet := gopacket.NewPacket(msg2a.GetPacket().Payload, layers.LayerTypeLinkLayerDiscovery, gopacket.Default)
-	assert.NotNil(t, packet)
-	assert.NotNil(t, packet.Layer(layers.LayerTypeLinkLayerDiscovery))
+	ValidateLLDPPacket(t, msg2a, "switch1", 1024)
 	t.Log("Got LLDP packet on stream switch2a")
 
 	t.Log("Waiting for packet in on stream switch2b")
 	msg2b, err := stream2b.Recv()
 	assert.NoError(t, err)
-	assert.NotNil(t, msg2b.GetPacket())
-	packet = gopacket.NewPacket(msg2b.GetPacket().Payload, layers.LayerTypeLinkLayerDiscovery, gopacket.Default)
-	assert.NotNil(t, packet)
-	assert.NotNil(t, packet.Layer(layers.LayerTypeLinkLayerDiscovery))
+	ValidateLLDPPacket(t, msg2b, "switch1", 1024)
 	t.Log("Got LLDP packet on stream switch2b")
+
+	// Prepare to clean up...
+	go func() {
+		time.Sleep(1 * time.Second)
+		CleanUp()
+	}()
+
+	// ... and make sure we did not receive any other (unexpected) messages
+	ValidateNoPendingMessage(t, stream1)
+	ValidateNoPendingMessage(t, stream2a)
+	ValidateNoPendingMessage(t, stream2b)
+}
+
+// ValidateLLDPPacket makes sure that the specified message is a packet in with an LLDP packet with an expected port
+func ValidateLLDPPacket(t *testing.T, msg *p4api.StreamMessageResponse, chassisID string, sdnPortNumber uint32) {
+	packetIn := msg.GetPacket()
+	assert.NotNil(t, packetIn)
+	packet := gopacket.NewPacket(packetIn.Payload, layers.LayerTypeLinkLayerDiscovery, gopacket.Default)
+	assert.NotNil(t, packet)
+
+	lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery)
+	assert.NotNil(t, lldpLayer)
+
+	lldp := lldpLayer.(*layers.LinkLayerDiscovery)
+	assert.Equal(t, chassisID, string(lldp.ChassisID.ID))
+
+	lldpPortNumber, err := strconv.ParseInt(string(lldp.PortID.ID), 10, 32)
+	assert.NoError(t, err)
+	assert.Equal(t, sdnPortNumber, uint32(lldpPortNumber))
+}
+
+// ValidateNoPendingMessage makes sure that the specified stream has no pending messages; blocks until message or error
+func ValidateNoPendingMessage(t *testing.T, stream p4api.P4Runtime_StreamChannelClient) {
+	_, err := stream.Recv()
+	assert.NotNil(t, err)
 }
 
 // StartStream opens a new stream using the specified client and negotiates mastership using the supplied election ID

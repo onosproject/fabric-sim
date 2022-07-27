@@ -20,6 +20,7 @@ type Topology struct {
 // Device is a description of a simulated device
 type Device struct {
 	ID        string `mapstructure:"id" yaml:"id"`
+	ChassisID uint64 `mapstructure:"chassis_id" yaml:"chassis_id"`
 	Type      string `mapstructure:"type" yaml:"type"`
 	AgentPort int32  `mapstructure:"agent_port" yaml:"agent_port"`
 	Stopped   bool   `mapstructure:"stopped" yaml:"stopped"`

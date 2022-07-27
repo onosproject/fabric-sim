@@ -138,25 +138,22 @@ func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error
 }
 
 func (s *Server) processRequest(responder simulator.StreamResponder, msg *p4api.StreamMessageRequest) {
-	log.Infof("Device %s: Received message: %+v", s.deviceID, msg)
+	log.Debugf("Device %s: Received message: %+v", s.deviceID, msg)
 
 	// If the message is a packet out, process it
 	if packet := msg.GetPacket(); packet != nil {
-		log.Infof("Device %s: packet out: %+v", s.deviceID, packet)
 		s.deviceSim.ProcessPacketOut(packet, responder)
 		return
 	}
 
 	// If the message is a mastership arbitration, record it and process it
 	if arbitration := responder.RecordMastershipArbitration(msg.GetArbitration()); arbitration != nil {
-		log.Infof("Device %s: mastership arbitration: %+v", s.deviceID, arbitration)
 		s.deviceSim.ProcessMastershipArbitration(arbitration, responder)
 		return
 	}
 
 	// Process digest list ack
 	if digestAck := msg.GetDigestAck(); digestAck != nil {
-		log.Infof("Device %s: digest ack: %+v", s.deviceID, digestAck)
 		s.deviceSim.ProcessDigestAck(digestAck, responder)
 		return
 	}

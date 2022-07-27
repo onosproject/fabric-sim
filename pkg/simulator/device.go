@@ -124,6 +124,8 @@ func isNewMaster(current *p4api.Uint128, new *p4api.Uint128) bool {
 
 // ProcessMastershipArbitration processes the specified arbitration update
 func (ds *DeviceSimulator) ProcessMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate, responder StreamResponder) {
+	log.Debugf("Device %s: received mastership arbitration: %+v", ds.Device.ID, arbitration)
+
 	electionStatus := &status.Status{Code: int32(code.Code_OK)}
 	maxElectionID, err := ds.RecordRoleElection(arbitration.Role, arbitration.ElectionId)
 	if err != nil {
@@ -194,13 +196,14 @@ func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responde
 
 // ProcessDigestAck handles the specified digest list ack message
 func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder StreamResponder) {
+	log.Infof("Device %s: received digest ack: %+v", ds.Device.ID, ack)
 	// TODO: Implement this
 }
 
 // Processes the LLDP packet-out by emitting it encapsulated as a packet-in on the simulated device which is
 // adjacent to this device on the link (if any) connected to the port given in the LLDP packet
 func (ds *DeviceSimulator) processLLDPPacket(lldp *layers.LinkLayerDiscovery, packetOut *p4api.PacketOut) {
-	log.Infof("Device %s: processing LLDP packet: %+v", ds.Device.ID, lldp)
+	log.Debugf("Device %s: processing LLDP packet: %+v", ds.Device.ID, lldp)
 
 	// TODO: Add filtering based on device table contents
 	portID := portNumberFromLLDP(lldp.PortID)
@@ -212,12 +215,8 @@ func (ds *DeviceSimulator) processLLDPPacket(lldp *layers.LinkLayerDiscovery, pa
 		return
 	}
 
-	log.Infof("Got port: %+v", port)
-
 	// Check if the given port has a link originating from it
 	if link := ds.simulation.GetLinkFromPort(port.ID); link != nil {
-		log.Infof("Got link: %+v", link)
-
 		// Now that we found the link, let's emit a packet out on all the responders associated with
 		// the destination device
 		tgtDeviceID, err := ExtractDeviceID(link.TgtID)
@@ -239,8 +238,6 @@ func (ds *DeviceSimulator) processLLDPPacket(lldp *layers.LinkLayerDiscovery, pa
 			},
 		}
 		tgtDevice.SendToAllResponders(packetIn)
-
-		// TODO: Implement this
 	}
 }
 
