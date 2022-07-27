@@ -10,46 +10,44 @@ import (
 	utils "github.com/onosproject/fabric-sim/test/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
+	"github.com/stretchr/testify/assert"
+	"google.golang.org/grpc"
 	"strings"
 	"testing"
-
-	"gotest.tools/assert"
 )
 
 // TestTopologyLoad loads simulator with custom.yaml topology and validates proper startup
 func (s *TestSuite) TestTopologyLoad(t *testing.T) {
 	t.Logf("Creating fabric-sim connection")
 	conn, err := utils.CreateConnection()
-	assert.NilError(t, err)
+	assert.NoError(t, err)
+	defer conn.Close()
 
-	t.Logf("Loading topology")
 	err = loader.LoadTopology(conn, "topologies/custom.yaml")
-	assert.NilError(t, err)
+	assert.NoError(t, err)
+	defer CleanUp()
 
 	// Validate that everything got loaded correctly
-	conn, err = utils.CreateConnection()
-	assert.NilError(t, err)
-
-	deviceService := simapi.NewDeviceServiceClient(conn)
-	linksService := simapi.NewLinkServiceClient(conn)
-	hostService := simapi.NewHostServiceClient(conn)
+	deviceClient := simapi.NewDeviceServiceClient(conn)
+	linksClient := simapi.NewLinkServiceClient(conn)
+	hostClient := simapi.NewHostServiceClient(conn)
 
 	t.Logf("Validating topology")
 
 	// Do we have all the devices?
 	ctx := context.Background()
-	dr, err := deviceService.GetDevices(ctx, &simapi.GetDevicesRequest{})
-	assert.NilError(t, err)
+	dr, err := deviceClient.GetDevices(ctx, &simapi.GetDevicesRequest{})
+	assert.NoError(t, err)
 	assert.Equal(t, len(dr.Devices), 6)
 
 	// Do we have all the links?
-	lr, err := linksService.GetLinks(ctx, &simapi.GetLinksRequest{})
-	assert.NilError(t, err)
+	lr, err := linksClient.GetLinks(ctx, &simapi.GetLinksRequest{})
+	assert.NoError(t, err)
 	assert.Equal(t, len(lr.Links), 16)
 
 	// Do we have all the hosts?
-	hr, err := hostService.GetHosts(ctx, &simapi.GetHostsRequest{})
-	assert.NilError(t, err)
+	hr, err := hostClient.GetHosts(ctx, &simapi.GetHostsRequest{})
+	assert.NoError(t, err)
 	assert.Equal(t, len(hr.Hosts), 16)
 
 	// What about all the host NICs?
@@ -69,26 +67,38 @@ func (s *TestSuite) TestTopologyLoad(t *testing.T) {
 	// Test each device P4Runtime agent port by requesting capabilities
 	for _, device := range dr.Devices {
 		t.Logf("Connecting to agent for device %s", device.ID)
-		p4rconn, err := utils.CreateDeviceConnection(device)
-		assert.NilError(t, err)
+		p4Client, p4conn := GetP4Client(t, device)
+		defer p4conn.Close()
 
 		t.Logf("Getting P4 capabilities device %s", device.ID)
-		p4Service := p4api.NewP4RuntimeClient(p4rconn)
-		cr, err := p4Service.Capabilities(ctx, &p4api.CapabilitiesRequest{})
-		assert.NilError(t, err)
+		cr, err := p4Client.Capabilities(ctx, &p4api.CapabilitiesRequest{})
+		assert.NoError(t, err)
 		assert.Equal(t, cr.P4RuntimeApiVersion, "1.1.0")
 
 		// Open message stream and negotiate mastership for default (no) role
 		t.Logf("Negotiating mastership for device %s", device.ID)
-		stream, err := p4Service.StreamChannel(ctx)
-		assert.NilError(t, err)
+		stream, err := p4Client.StreamChannel(ctx)
+		assert.NoError(t, err)
 
-		err = stream.Send(utils.CreateMastershipArbitration(0, 1))
-		assert.NilError(t, err)
+		err = stream.Send(utils.CreateMastershipArbitration(&p4api.Uint128{High: 0, Low: 1}))
+		assert.NoError(t, err)
 
 		msg, err := stream.Recv()
-		assert.NilError(t, err)
+		assert.NoError(t, err)
 		assert.Equal(t, int32(0), msg.GetArbitration().Status.Code)
 	}
+}
 
+// GetP4Client returns a new P4Runtime service client and its underlying connection for the given device
+func GetP4Client(t *testing.T, device *simapi.Device) (p4api.P4RuntimeClient, *grpc.ClientConn) {
+	conn, err := utils.CreateDeviceConnection(device)
+	assert.NoError(t, err)
+	return p4api.NewP4RuntimeClient(conn), conn
+}
+
+// CleanUp cleans up the simulation to allow other simulation tests run
+func CleanUp() {
+	if conn, err := utils.CreateConnection(); err == nil {
+		_ = loader.ClearTopology(conn)
+	}
 }

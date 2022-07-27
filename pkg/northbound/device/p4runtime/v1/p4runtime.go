@@ -10,9 +10,7 @@ import (
 	"github.com/onosproject/fabric-sim/pkg/simulator"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
-	p4rtapi "github.com/p4lang/p4runtime/go/p4/v1"
-	"google.golang.org/genproto/googleapis/rpc/code"
-	"google.golang.org/genproto/googleapis/rpc/status"
+	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"io"
 )
 
@@ -39,28 +37,29 @@ func NewServer(deviceID simapi.DeviceID, simulation *simulator.Simulation) *Serv
 }
 
 // Capabilities responds with the device P4Runtime capabilities
-func (s *Server) Capabilities(ctx context.Context, request *p4rtapi.CapabilitiesRequest) (*p4rtapi.CapabilitiesResponse, error) {
+func (s *Server) Capabilities(ctx context.Context, request *p4api.CapabilitiesRequest) (*p4api.CapabilitiesResponse, error) {
 	log.Infof("Device %s: P4Runtime capabilities have been requested", s.deviceID)
-	return &p4rtapi.CapabilitiesResponse{P4RuntimeApiVersion: "1.1.0"}, nil
+	return &p4api.CapabilitiesResponse{P4RuntimeApiVersion: "1.1.0"}, nil
 }
 
 // Write :
-func (s *Server) Write(ctx context.Context, request *p4rtapi.WriteRequest) (*p4rtapi.WriteResponse, error) {
+func (s *Server) Write(ctx context.Context, request *p4api.WriteRequest) (*p4api.WriteResponse, error) {
 	log.Infof("Device %s: Write received", s.deviceID)
-	return &p4rtapi.WriteResponse{}, nil
+	// TODO: implement this
+	return &p4api.WriteResponse{}, nil
 }
 
 // Read :
-func (s *Server) Read(request *p4rtapi.ReadRequest, server p4rtapi.P4Runtime_ReadServer) error {
+func (s *Server) Read(request *p4api.ReadRequest, server p4api.P4Runtime_ReadServer) error {
 	log.Infof("Device %s: Read received", s.deviceID)
-	entities := make([]*p4rtapi.Entity, 0, len(request.Entities))
+	entities := make([]*p4api.Entity, 0, len(request.Entities))
 
+	// TODO: implement this for real
 	// Accumulate entities to respond with
-	// TODO: implement this, obviously
 	entities = append(entities, request.Entities...)
 
 	// Send a response in one go
-	err := server.Send(&p4rtapi.ReadResponse{Entities: entities})
+	err := server.Send(&p4api.ReadResponse{Entities: entities})
 	if err != nil && err != io.EOF {
 		return err
 	}
@@ -68,34 +67,51 @@ func (s *Server) Read(request *p4rtapi.ReadRequest, server p4rtapi.P4Runtime_Rea
 }
 
 // SetForwardingPipelineConfig :
-func (s *Server) SetForwardingPipelineConfig(ctx context.Context, request *p4rtapi.SetForwardingPipelineConfigRequest) (*p4rtapi.SetForwardingPipelineConfigResponse, error) {
+func (s *Server) SetForwardingPipelineConfig(ctx context.Context, request *p4api.SetForwardingPipelineConfigRequest) (*p4api.SetForwardingPipelineConfigResponse, error) {
 	log.Infof("Device %s: Forwarding pipeline configuration has been set", s.deviceID)
 	s.deviceSim.ForwardingPipelineConfig = request.Config
-	return &p4rtapi.SetForwardingPipelineConfigResponse{}, nil
+	return &p4api.SetForwardingPipelineConfigResponse{}, nil
 }
 
 // GetForwardingPipelineConfig :
-func (s *Server) GetForwardingPipelineConfig(ctx context.Context, request *p4rtapi.GetForwardingPipelineConfigRequest) (*p4rtapi.GetForwardingPipelineConfigResponse, error) {
+func (s *Server) GetForwardingPipelineConfig(ctx context.Context, request *p4api.GetForwardingPipelineConfigRequest) (*p4api.GetForwardingPipelineConfigResponse, error) {
 	log.Infof("Device %s: Getting pipeline configuration", s.deviceID)
-	return &p4rtapi.GetForwardingPipelineConfigResponse{
+	return &p4api.GetForwardingPipelineConfigResponse{
 		Config: s.deviceSim.ForwardingPipelineConfig,
 	}, nil
 }
 
-type channelState struct {
-	arbitration     *p4rtapi.MasterArbitrationUpdate
-	streamResponses chan *p4rtapi.StreamMessageResponse
+// State related to a single message stream
+type streamState struct {
+	arbitration     *p4api.MasterArbitrationUpdate
+	streamResponses chan *p4api.StreamMessageResponse
+}
+
+// Send queues up the specified response to asynchronously send to the backing stream
+func (state *streamState) Send(response *p4api.StreamMessageResponse) {
+	state.streamResponses <- response
+}
+
+// RecordMastershipArbitration records the mastership arbitration
+func (state *streamState) RecordMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate) *p4api.MasterArbitrationUpdate {
+	if arbitration != nil {
+		state.arbitration = arbitration
+	}
+	return arbitration
 }
 
 // StreamChannel reads and handles incoming requests and emits any queued up outgoing responses
-func (s *Server) StreamChannel(server p4rtapi.P4Runtime_StreamChannelServer) error {
-	state := &channelState{
-		streamResponses: make(chan *p4rtapi.StreamMessageResponse, 128),
+func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error {
+	// Create and register a new record to track the state of this stream
+	responder := &streamState{
+		streamResponses: make(chan *p4api.StreamMessageResponse, 128),
 	}
+	s.deviceSim.AddStreamResponder(responder)
+	defer s.deviceSim.RemoveStreamResponder(responder)
 
 	// Emit any queued-up messages in the background until we get an error or the context is closed
 	go func() {
-		for msg := range state.streamResponses {
+		for msg := range responder.streamResponses {
 			if err := server.Send(msg); err != nil {
 				return
 			}
@@ -107,6 +123,7 @@ func (s *Server) StreamChannel(server p4rtapi.P4Runtime_StreamChannelServer) err
 		}
 	}()
 
+	// Read messages from the stream in the foreground (until we get an error or EOF) and process them
 	for {
 		msg, err := server.Recv()
 		if err == io.EOF {
@@ -115,49 +132,29 @@ func (s *Server) StreamChannel(server p4rtapi.P4Runtime_StreamChannelServer) err
 		if err != nil {
 			return err
 		}
-		s.processRequest(state, msg)
+		s.processRequest(responder, msg)
 	}
 	return nil
 }
 
-func (s *Server) processRequest(state *channelState, msg *p4rtapi.StreamMessageRequest) {
-	log.Infof("Device %s: Received message: %+v", s.deviceID, msg)
+func (s *Server) processRequest(responder simulator.StreamResponder, msg *p4api.StreamMessageRequest) {
+	log.Debugf("Device %s: Received message: %+v", s.deviceID, msg)
 
-	// Process mastership arbitration update
-	if state.arbitration == nil {
-		if arbitration := msg.GetArbitration(); arbitration != nil {
-			// Record the arbitration in our channel state and respond to it
-			state.arbitration = arbitration
-
-			electionStatus := &status.Status{Code: int32(code.Code_OK)}
-			maxElectionID, err := s.deviceSim.RecordRoleElection(arbitration.Role, arbitration.ElectionId)
-			if err != nil {
-				electionStatus.Code = int32(code.Code_PERMISSION_DENIED)
-				electionStatus.Message = err.Error()
-			}
-			state.streamResponses <- &p4rtapi.StreamMessageResponse{
-				Update: &p4rtapi.StreamMessageResponse_Arbitration{
-					Arbitration: &p4rtapi.MasterArbitrationUpdate{
-						DeviceId:   arbitration.DeviceId,
-						Role:       arbitration.Role,
-						ElectionId: maxElectionID,
-						Status:     electionStatus,
-					},
-				},
-			}
-		}
+	// If the message is a packet out, process it
+	if packet := msg.GetPacket(); packet != nil {
+		s.deviceSim.ProcessPacketOut(packet, responder)
 		return
 	}
 
-	// Process packet out
-	if packet := msg.GetPacket(); packet != nil {
-		// TODO: Handle the packet outs
-		log.Infof("Device %s: packet out: %+v", s.deviceID, msg.GetPacket())
+	// If the message is a mastership arbitration, record it and process it
+	if arbitration := responder.RecordMastershipArbitration(msg.GetArbitration()); arbitration != nil {
+		s.deviceSim.ProcessMastershipArbitration(arbitration, responder)
+		return
 	}
 
 	// Process digest list ack
 	if digestAck := msg.GetDigestAck(); digestAck != nil {
-		// TODO: Handle the digest list acks
-		log.Infof("Device %s: digest ack: %+v", s.deviceID, msg.GetDigestAck())
+		s.deviceSim.ProcessDigestAck(digestAck, responder)
+		return
 	}
 }

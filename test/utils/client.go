@@ -68,13 +68,10 @@ func CreateDeviceConnection(device *simapi.Device) (*grpc.ClientConn, error) {
 }
 
 // CreateMastershipArbitration returns stream message request with the specified election ID components
-func CreateMastershipArbitration(high uint64, low uint64) *p4api.StreamMessageRequest {
+func CreateMastershipArbitration(electionID *p4api.Uint128) *p4api.StreamMessageRequest {
 	return &p4api.StreamMessageRequest{
 		Update: &p4api.StreamMessageRequest_Arbitration{
 			Arbitration: &p4api.MasterArbitrationUpdate{
-				ElectionId: &p4api.Uint128{
-					High: high,
-					Low:  low,
-				},
+				ElectionId: electionID,
 			}}}
 }

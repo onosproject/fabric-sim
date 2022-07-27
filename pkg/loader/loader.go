@@ -17,6 +17,7 @@ var log = logging.GetLogger()
 // LoadTopology loads the specified YAML file and creates the prescribed simulated topology entities
 // using the fabric simulator API client.
 func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
+	log.Infof("Loading topology from %s", topologyPath)
 	topology := &Topology{}
 	if err := loadTopologyFile(topologyPath, topology); err != nil {
 		return err
@@ -58,11 +59,15 @@ func createDevices(conn *grpc.ClientConn, devices []Device) error {
 func constructDevice(dd Device) *simapi.Device {
 	ports := make([]*simapi.Port, 0, len(dd.Ports))
 	for _, pd := range dd.Ports {
+		internalNumber := pd.Number // default internal (SDN) port number to the external number
+		if pd.SDNNumber != 0 {
+			internalNumber = pd.SDNNumber
+		}
 		port := &simapi.Port{
 			ID:             simapi.PortID(fmt.Sprintf("%s/%d", dd.ID, pd.Number)),
 			Name:           fmt.Sprintf("%d", pd.Number),
 			Number:         pd.Number,
-			InternalNumber: pd.SDNNumber,
+			InternalNumber: internalNumber,
 			Speed:          pd.Speed,
 		}
 		ports = append(ports, port)
@@ -149,4 +154,75 @@ func constructHost(hd Host) *simapi.Host {
 		ID:         simapi.HostID(hd.ID),
 		Interfaces: nics,
 	}
+}
+
+// ClearTopology removes all devices, links and hosts from the simulator
+func ClearTopology(conn *grpc.ClientConn) error {
+	log.Info("Clearing entire topology")
+	if err := removeAllHosts(conn); err != nil {
+		return err
+	}
+	if err := removeAllLinks(conn); err != nil {
+		return err
+	}
+	if err := removeAllDevices(conn); err != nil {
+		return err
+	}
+	return nil
+}
+
+func removeAllHosts(conn *grpc.ClientConn) error {
+	hostClient := simapi.NewHostServiceClient(conn)
+	ctx := context.Background()
+	resp, err := hostClient.GetHosts(ctx, &simapi.GetHostsRequest{})
+	if err != nil {
+		return err
+	}
+
+	for _, host := range resp.Hosts {
+		_, err = hostClient.RemoveHost(ctx, &simapi.RemoveHostRequest{ID: host.ID})
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func removeAllLinks(conn *grpc.ClientConn) error {
+	linkClient := simapi.NewLinkServiceClient(conn)
+	ctx := context.Background()
+	resp, err := linkClient.GetLinks(ctx, &simapi.GetLinksRequest{})
+	if err != nil {
+		return err
+	}
+
+	for _, link := range resp.Links {
+		_, err = linkClient.RemoveLink(ctx, &simapi.RemoveLinkRequest{ID: link.ID})
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+
+}
+
+func removeAllDevices(conn *grpc.ClientConn) error {
+	deviceClient := simapi.NewDeviceServiceClient(conn)
+	ctx := context.Background()
+	resp, err := deviceClient.GetDevices(ctx, &simapi.GetDevicesRequest{})
+	if err != nil {
+		return err
+	}
+
+	for _, device := range resp.Devices {
+		//_, err = deviceClient.StopDevice(ctx, &simapi.StopDeviceRequest{Mode: simapi.StopMode_CHAOTIC_STOP})
+		//if err != nil {
+		//	return err
+		//}
+		_, err = deviceClient.RemoveDevice(ctx, &simapi.RemoveDeviceRequest{ID: device.ID})
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

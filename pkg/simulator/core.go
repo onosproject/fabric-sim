@@ -8,6 +8,7 @@ package simulator
 import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
+	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"strings"
 	"sync"
 )
@@ -44,6 +45,15 @@ type DeviceAgent interface {
 	Stop(mode simapi.StopMode) error
 }
 
+// StreamResponder is an abstraction for sending StreamResponse messages to controllers
+type StreamResponder interface {
+	// RecordMastershipArbitration records the given mastership arbitration and returns is
+	RecordMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate) *p4api.MasterArbitrationUpdate
+
+	// Send queues up the specified response to asynchronously sends on the backing stream
+	Send(response *p4api.StreamMessageResponse)
+}
+
 type linkOrNIC struct {
 	link *simapi.Link
 	nic  *simapi.NetworkInterface
@@ -64,7 +74,7 @@ func (l *linkOrNIC) String() string {
 func (s *Simulation) AddDeviceSimulator(dev *simapi.Device, agent DeviceAgent) (*DeviceSimulator, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	sim := NewDeviceSimulator(dev, agent)
+	sim := NewDeviceSimulator(dev, agent, s)
 	if _, ok := s.deviceSimulators[dev.ID]; !ok {
 		s.deviceSimulators[dev.ID] = sim
 		return sim, nil
@@ -98,8 +108,8 @@ func (s *Simulation) RemoveDeviceSimulator(id simapi.DeviceID) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	if sim, ok := s.deviceSimulators[id]; ok {
+		sim.Stop(simapi.StopMode_CHAOTIC_STOP)
 		delete(s.deviceSimulators, id)
-		sim.Stop(simapi.StopMode_ORDERLY_STOP)
 		return nil
 	}
 	return errors.NewNotFound("Device %s not found", id)
@@ -262,4 +272,12 @@ func (s *Simulation) RemoveHostSimulator(id simapi.HostID) error {
 		return nil
 	}
 	return errors.NewNotFound("Host %s not found", id)
+}
+
+// GetLinkFromPort returns the link that originates from the specified device port; nil if none
+func (s *Simulation) GetLinkFromPort(portID simapi.PortID) *simapi.Link {
+	if ln, ok := s.usedEgressPorts[portID]; ok {
+		return ln.link // if the port is used for a NIC, this will be nil, which is what we want
+	}
+	return nil
 }
