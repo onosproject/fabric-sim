@@ -37,10 +37,12 @@ type DeviceSimulator struct {
 func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Simulation) *DeviceSimulator {
 	log.Infof("Device %s: Creating simulator", device.ID)
 
-	// Build a port map
+	// Build ports and SDN ports maps
 	ports := make(map[simapi.PortID]*simapi.Port)
+	sdnPorts := make(map[uint32]*simapi.Port)
 	for _, port := range device.Ports {
 		ports[port.ID] = port
+		sdnPorts[port.InternalNumber] = port
 	}
 
 	// Construct and return simulator from the device and the port map
@@ -49,6 +51,7 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 		Ports:         ports,
 		Agent:         agent,
 		roleElections: make(map[uint64]*p4api.Uint128),
+		sdnPorts:      sdnPorts,
 		simulation:    simulation,
 	}
 }
@@ -174,8 +177,10 @@ func (ds *DeviceSimulator) SendToAllResponders(response *p4api.StreamMessageResp
 
 // ProcessPacketOut handles the specified packet out message
 func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responder StreamResponder) {
+	log.Infof("Device %s: received packet out: %+v", ds.Device.ID, packetOut)
+
 	// Start by decoding the packet
-	packet := gopacket.NewPacket(packetOut.Payload, layers.LayerTypeEthernet, gopacket.Default)
+	packet := gopacket.NewPacket(packetOut.Payload, layers.LayerTypeLinkLayerDiscovery, gopacket.Default)
 
 	// See if this is an LLDP packet and process it if so
 	if lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery); lldpLayer != nil {
@@ -195,39 +200,48 @@ func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder 
 // Processes the LLDP packet-out by emitting it encapsulated as a packet-in on the simulated device which is
 // adjacent to this device on the link (if any) connected to the port given in the LLDP packet
 func (ds *DeviceSimulator) processLLDPPacket(lldp *layers.LinkLayerDiscovery, packetOut *p4api.PacketOut) {
+	log.Infof("Device %s: processing LLDP packet: %+v", ds.Device.ID, lldp)
+
 	// TODO: Add filtering based on device table contents
 	portID := portNumberFromLLDP(lldp.PortID)
 
 	// Find the port corresponding to the specified port ID, which is the internal (SDN) port number
-	if port, ok := ds.sdnPorts[portID]; ok {
-		// Check if the given port has a link originating from it
-		if link := ds.simulation.GetLinkFromPort(port.ID); link != nil {
-			// Now that we found the link, let's emit a packet out on all the responders associated with
-			// the destination device
-			tgtDeviceID, err := ExtractDeviceID(link.TgtID)
-			if err != nil {
-				log.Warnf("Device %s: %s", ds.Device.ID, err)
-			}
-
-			tgtDevice, ok := ds.simulation.deviceSimulators[tgtDeviceID]
-			if !ok {
-				log.Warnf("Device %s: Unable to locate link target device %s", ds.Device.ID, tgtDeviceID)
-			}
-
-			packetIn := &p4api.StreamMessageResponse{
-				Update: &p4api.StreamMessageResponse_Packet{
-					Packet: &p4api.PacketIn{
-						Payload: packetOut.Payload,
-					},
-				},
-			}
-			tgtDevice.SendToAllResponders(packetIn)
-
-			// TODO: Implement this
-		}
-
+	port, ok := ds.sdnPorts[portID]
+	if !ok {
+		log.Warnf("Device %s: Port %d not found", ds.Device.ID, portID)
+		return
 	}
 
+	log.Infof("Got port: %+v", port)
+
+	// Check if the given port has a link originating from it
+	if link := ds.simulation.GetLinkFromPort(port.ID); link != nil {
+		log.Infof("Got link: %+v", link)
+
+		// Now that we found the link, let's emit a packet out on all the responders associated with
+		// the destination device
+		tgtDeviceID, err := ExtractDeviceID(link.TgtID)
+		if err != nil {
+			log.Warnf("Device %s: %s", ds.Device.ID, err)
+			return
+		}
+
+		tgtDevice, ok := ds.simulation.deviceSimulators[tgtDeviceID]
+		if !ok {
+			log.Warnf("Device %s: Unable to locate link target device %s", ds.Device.ID, tgtDeviceID)
+		}
+
+		packetIn := &p4api.StreamMessageResponse{
+			Update: &p4api.StreamMessageResponse_Packet{
+				Packet: &p4api.PacketIn{
+					Payload: packetOut.Payload,
+				},
+			},
+		}
+		tgtDevice.SendToAllResponders(packetIn)
+
+		// TODO: Implement this
+	}
 }
 
 // Decodes the specified LLDP port ID into an internal SDN port number

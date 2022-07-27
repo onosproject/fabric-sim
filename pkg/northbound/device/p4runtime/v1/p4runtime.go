@@ -92,7 +92,7 @@ func (state *streamState) Send(response *p4api.StreamMessageResponse) {
 	state.streamResponses <- response
 }
 
-// SetMastershipArbitration records the mastership arbitration
+// RecordMastershipArbitration records the mastership arbitration
 func (state *streamState) RecordMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate) *p4api.MasterArbitrationUpdate {
 	if arbitration != nil {
 		state.arbitration = arbitration

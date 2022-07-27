@@ -108,8 +108,8 @@ func (s *Simulation) RemoveDeviceSimulator(id simapi.DeviceID) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	if sim, ok := s.deviceSimulators[id]; ok {
+		sim.Stop(simapi.StopMode_CHAOTIC_STOP)
 		delete(s.deviceSimulators, id)
-		sim.Stop(simapi.StopMode_ORDERLY_STOP)
 		return nil
 	}
 	return errors.NewNotFound("Device %s not found", id)

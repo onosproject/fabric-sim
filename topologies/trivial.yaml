@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2022-present Intel Corporation
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# The following is just a high-level sketch of the topology file structure.
+# New fields will be added and value formats may be adjusted as needed.
+
+# Specifies simulated devices
+devices:
+  - id: switch1
+    type: switch
+    agent_port: 20011
+    ports:
+      - number: 1
+        sdn_number: 1024
+        speed: 100Gbps
+      - number: 2
+        sdn_number: 1025
+        speed: 10Gbps
+  - id: switch2
+    type: switch
+    agent_port: 20012
+    ports:
+      - number: 1
+        sdn_number: 1024
+        speed: 100Gbps
+      - number: 2
+        sdn_number: 1025
+        speed: 10Gbps
+
+# Specifies simulated links
+links:
+  - src: switch1/1
+    tgt: switch2/1
+
+# Specifies simulated hosts
+hosts:
+  - id: h1
+    nics:
+      - mac: 00:00:00:00:11:01
+        port: switch1/2
+  - id: h2
+    nics:
+      - mac: 00:00:00:00:11:02
+        port: switch2/2
