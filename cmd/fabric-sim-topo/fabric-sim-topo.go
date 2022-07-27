@@ -6,7 +6,7 @@ package main
 
 import (
 	"crypto/tls"
-	"github.com/onosproject/fabric-sim/pkg/loader"
+	"github.com/onosproject/fabric-sim/pkg/topo"
 	"github.com/onosproject/onos-lib-go/pkg/certs"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
@@ -20,6 +20,7 @@ const (
 	tlsKeyPathFlag  = "tls-key-path"
 	noTLSFlag       = "no-tls"
 	topologyFlag    = "topology"
+	recipeFlag      = "recipe"
 )
 
 // The main entry point
@@ -32,15 +33,86 @@ func main() {
 
 func getRootCommand() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "fabric-sim-loader",
-		Short: "loader",
-		RunE:  runRootCommand,
+		Use:   "fabric-sim-topo {load, clear, generate}",
+		Short: "Load, clear or generate simulated topology",
 	}
+	cmd.AddCommand(getLoadCommand())
+	cmd.AddCommand(getClearCommand())
+	cmd.AddCommand(getGenerateCommand())
+	return cmd
+}
+
+func getLoadCommand() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "load",
+		Aliases: []string{"start"},
+		Short:   "Load fabric topology from a YAML file and start the simulation",
+		Args:    cobra.NoArgs,
+		RunE:    runLoadCommand,
+	}
+	addEndpointFlags(cmd)
+	cmd.Flags().String(topologyFlag, "-", "topology YAML file; use - for stdin (default)")
+	return cmd
+}
+
+func runLoadCommand(cmd *cobra.Command, args []string) error {
+	conn, err := getConnection(cmd)
+	if err != nil {
+		return err
+	}
+	defer closeConnection(conn)
+	topologyPath, _ := cmd.Flags().GetString(topologyFlag)
+	return topo.LoadTopology(conn, topologyPath)
+}
+
+func getClearCommand() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "clear",
+		Aliases: []string{"stop"},
+		Short:   "Stop the simulation and clear the entire simulated fabric topology",
+		Args:    cobra.NoArgs,
+		RunE:    runClearCommand,
+	}
+	addEndpointFlags(cmd)
+	return cmd
+}
+
+func runClearCommand(cmd *cobra.Command, args []string) error {
+	conn, err := getConnection(cmd)
+	if err != nil {
+		return err
+	}
+	defer closeConnection(conn)
+	return topo.ClearTopology(conn)
+}
+
+func closeConnection(conn *grpc.ClientConn) {
+	_ = conn.Close()
+}
+
+func addEndpointFlags(cmd *cobra.Command) {
 	cmd.Flags().String(addressFlag, "fabric-sim:5150", "service address")
 	cmd.Flags().String(tlsKeyPathFlag, "", "path to client private key")
 	cmd.Flags().String(tlsCertPathFlag, "", "path to client certificate")
-	cmd.Flags().String(topologyFlag, "-", "topology YAML file")
+}
+
+func getGenerateCommand() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "generate",
+		Aliases: []string{"gen"},
+		Short:   "Generate a simulated fabric topology from a topology recipe YAML file",
+		Args:    cobra.NoArgs,
+		RunE:    runGenerateCommand,
+	}
+	cmd.Flags().String(recipeFlag, "-", "topology recipe YAML file; use - for stdin (default)")
+	cmd.Flags().String(topologyFlag, "-", "output topology YAML file; use - for stdout (default)")
 	return cmd
+}
+
+func runGenerateCommand(cmd *cobra.Command, args []string) error {
+	recipePath, _ := cmd.Flags().GetString(recipeFlag)
+	topologyPath, _ := cmd.Flags().GetString(topologyFlag)
+	return topo.GenerateTopology(recipePath, topologyPath)
 }
 
 func getAddress(cmd *cobra.Command) string {
@@ -106,14 +178,4 @@ func getConnection(cmd *cobra.Command) (*grpc.ClientConn, error) {
 		return nil, err
 	}
 	return conn, nil
-}
-
-func runRootCommand(cmd *cobra.Command, args []string) error {
-	conn, err := getConnection(cmd)
-	defer func() { _ = conn.Close() }()
-	if err != nil {
-		return err
-	}
-	topologyPath, _ := cmd.Flags().GetString(topologyFlag)
-	return loader.LoadTopology(conn, topologyPath)
 }

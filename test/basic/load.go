@@ -6,7 +6,7 @@ package basic
 
 import (
 	"context"
-	"github.com/onosproject/fabric-sim/pkg/loader"
+	"github.com/onosproject/fabric-sim/pkg/topo"
 	utils "github.com/onosproject/fabric-sim/test/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
@@ -23,7 +23,7 @@ func (s *TestSuite) TestTopologyLoad(t *testing.T) {
 	assert.NoError(t, err)
 	defer conn.Close()
 
-	err = loader.LoadTopology(conn, "topologies/custom.yaml")
+	err = topo.LoadTopology(conn, "topologies/custom.yaml")
 	assert.NoError(t, err)
 	defer CleanUp()
 
@@ -99,6 +99,6 @@ func GetP4Client(t *testing.T, device *simapi.Device) (p4api.P4RuntimeClient, *g
 // CleanUp cleans up the simulation to allow other simulation tests run
 func CleanUp() {
 	if conn, err := utils.CreateConnection(); err == nil {
-		_ = loader.ClearTopology(conn)
+		_ = topo.ClearTopology(conn)
 	}
 }

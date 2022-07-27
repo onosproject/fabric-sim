@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package loader
+package topo
 
 import (
 	"context"
 	"fmt"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
+	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 )
 
@@ -35,6 +36,14 @@ func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
 		return err
 	}
 	return nil
+}
+
+// Loads the specified topology YAML file
+func loadTopologyFile(path string, topology *Topology) error {
+	if err := readConfig(path); err != nil {
+		return err
+	}
+	return viper.Unmarshal(topology)
 }
 
 // Create all simulated devices

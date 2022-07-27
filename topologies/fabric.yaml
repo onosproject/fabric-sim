@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2022-present Intel Corporation
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Recipe for creating an dev-cloud fabric topology
+
+# Default values made explicit
+dev_cloud_fabric:
+  super_spines: 2
+  rack_pairs: 2
+  spines_per_rack: 2
+  leaves_per_spine: 2
+  nodes_per_rack: 10

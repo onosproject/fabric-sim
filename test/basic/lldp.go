@@ -8,7 +8,7 @@ import (
 	"context"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
-	"github.com/onosproject/fabric-sim/pkg/loader"
+	"github.com/onosproject/fabric-sim/pkg/topo"
 	utils "github.com/onosproject/fabric-sim/test/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
@@ -25,7 +25,7 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	assert.NoError(t, err)
 	defer conn.Close()
 
-	err = loader.LoadTopology(conn, "topologies/trivial.yaml")
+	err = topo.LoadTopology(conn, "topologies/trivial.yaml")
 	assert.NoError(t, err)
 	defer CleanUp()
 
