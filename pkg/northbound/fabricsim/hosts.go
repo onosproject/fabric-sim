@@ -7,6 +7,7 @@ package fabricsim
 import (
 	"context"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 )
 
 // GetHosts returns list of all simulated hosts
@@ -23,7 +24,7 @@ func (s *Server) GetHosts(ctx context.Context, request *simapi.GetHostsRequest) 
 func (s *Server) GetHost(ctx context.Context, request *simapi.GetHostRequest) (*simapi.GetHostResponse, error) {
 	sim, err := s.simulation.GetHostSimulator(request.ID)
 	if err != nil {
-		return nil, err
+		return nil, errors.Status(err).Err()
 	}
 	return &simapi.GetHostResponse{Host: sim.Host}, nil
 }
@@ -31,7 +32,7 @@ func (s *Server) GetHost(ctx context.Context, request *simapi.GetHostRequest) (*
 // AddHost creates and registers the specified simulated host
 func (s *Server) AddHost(ctx context.Context, request *simapi.AddHostRequest) (*simapi.AddHostResponse, error) {
 	if _, err := s.simulation.AddHostSimulator(request.Host); err != nil {
-		return nil, err
+		return nil, errors.Status(err).Err()
 	}
 	return &simapi.AddHostResponse{}, nil
 }
@@ -39,7 +40,7 @@ func (s *Server) AddHost(ctx context.Context, request *simapi.AddHostRequest) (*
 // RemoveHost removes the specified simulated host
 func (s *Server) RemoveHost(ctx context.Context, request *simapi.RemoveHostRequest) (*simapi.RemoveHostResponse, error) {
 	if err := s.simulation.RemoveHostSimulator(request.ID); err != nil {
-		return nil, err
+		return nil, errors.Status(err).Err()
 	}
 	return &simapi.RemoveHostResponse{}, nil
 }

@@ -132,9 +132,11 @@ func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*LinkSimulator, error)
 
 	// Validate that the port is in fact available
 	if lon, ok := s.usedEgressPorts[link.SrcID]; ok {
+		log.Errorf("Port %s is already used for %s", link.SrcID, lon)
 		return nil, errors.NewInvalid("Port %s is already used for %s", link.SrcID, lon)
 	}
 	if lon, ok := s.usedIngressPorts[link.TgtID]; ok {
+		log.Errorf("Port %s is already used for %s", link.TgtID, lon)
 		return nil, errors.NewInvalid("Port %s is already used for %s", link.TgtID, lon)
 	}
 
@@ -155,10 +157,12 @@ func (s *Simulation) validatePort(id simapi.PortID) error {
 	}
 	d, ok := s.deviceSimulators[deviceID]
 	if !ok {
+		log.Errorf("Device %s not found for port %s", deviceID, id)
 		return errors.NewNotFound("Device %s not found", deviceID)
 	}
 
 	if _, ok = d.Ports[id]; !ok {
+		log.Errorf("Port %s not found for device %s", id, deviceID)
 		return errors.NewNotFound("Port %s not found", id)
 	}
 	return nil
@@ -199,8 +203,10 @@ func (s *Simulation) GetLinkSimulator(id simapi.LinkID) (*LinkSimulator, error) 
 func (s *Simulation) RemoveLinkSimulator(id simapi.LinkID) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	if _, ok := s.linkSimulators[id]; ok {
+	if sim, ok := s.linkSimulators[id]; ok {
 		delete(s.linkSimulators, id)
+		delete(s.usedEgressPorts, sim.Link.SrcID)
+		delete(s.usedIngressPorts, sim.Link.TgtID)
 		// TODO: Add stop as needed
 		return nil
 	}

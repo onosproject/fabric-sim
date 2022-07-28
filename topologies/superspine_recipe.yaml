@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2022-present Intel Corporation
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Recipe for creating super-spine fabric topology
+
+# Presently, there are no parameters for this recipe
+superspine_fabric:
+  none: false

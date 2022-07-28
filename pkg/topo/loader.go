@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package loader
+package topo
 
 import (
 	"context"
@@ -19,9 +19,13 @@ var log = logging.GetLogger()
 func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
 	log.Infof("Loading topology from %s", topologyPath)
 	topology := &Topology{}
+
 	if err := loadTopologyFile(topologyPath, topology); err != nil {
 		return err
 	}
+
+	log.Debugf("devices: %d; links: %d; hosts: %d",
+		len(topology.Devices), len(topology.Links), len(topology.Hosts))
 
 	if err := createDevices(conn, topology.Devices); err != nil {
 		return err
@@ -37,6 +41,15 @@ func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
 	return nil
 }
 
+// Loads the specified topology YAML file
+func loadTopologyFile(path string, topology *Topology) error {
+	cfg, err := readConfig(path)
+	if err != nil {
+		return err
+	}
+	return cfg.Unmarshal(topology)
+}
+
 // Create all simulated devices
 func createDevices(conn *grpc.ClientConn, devices []Device) error {
 	deviceClient := simapi.NewDeviceServiceClient(conn)
@@ -45,11 +58,13 @@ func createDevices(conn *grpc.ClientConn, devices []Device) error {
 		device := constructDevice(dd)
 		if _, err := deviceClient.AddDevice(ctx, &simapi.AddDeviceRequest{Device: device}); err != nil {
 			log.Errorf("Unable to create simulated device: %+v", err)
+			return err
 		}
 
 		if !dd.Stopped {
 			if _, err := deviceClient.StartDevice(ctx, &simapi.StartDeviceRequest{ID: device.ID}); err != nil {
 				log.Errorf("Unable to start agent for simulated device: %+v", err)
+				return err
 			}
 		}
 	}
@@ -92,11 +107,13 @@ func createLinks(conn *grpc.ClientConn, links []Link) error {
 		link := constructLink(ld)
 		if _, err := linkClient.AddLink(ctx, &simapi.AddLinkRequest{Link: link}); err != nil {
 			log.Errorf("Unable to create simulated link: %+v", err)
+			return err
 		}
 		if !ld.Unidirectional {
-			link = constructReverseLink(ld)
-			if _, err := linkClient.AddLink(ctx, &simapi.AddLinkRequest{Link: link}); err != nil {
+			reverselink := constructReverseLink(ld)
+			if _, err := linkClient.AddLink(ctx, &simapi.AddLinkRequest{Link: reverselink}); err != nil {
 				log.Errorf("Unable to create simulated link: %+v", err)
+				return err
 			}
 		}
 	}
@@ -133,6 +150,7 @@ func createHosts(conn *grpc.ClientConn, hosts []Host) error {
 		host := constructHost(hd)
 		if _, err := hostClient.AddHost(ctx, &simapi.AddHostRequest{Host: host}); err != nil {
 			log.Errorf("Unable to create simulated host: %+v", err)
+			return err
 		}
 	}
 	return nil
@@ -180,8 +198,7 @@ func removeAllHosts(conn *grpc.ClientConn) error {
 	}
 
 	for _, host := range resp.Hosts {
-		_, err = hostClient.RemoveHost(ctx, &simapi.RemoveHostRequest{ID: host.ID})
-		if err != nil {
+		if _, err = hostClient.RemoveHost(ctx, &simapi.RemoveHostRequest{ID: host.ID}); err != nil {
 			return err
 		}
 	}
@@ -197,13 +214,11 @@ func removeAllLinks(conn *grpc.ClientConn) error {
 	}
 
 	for _, link := range resp.Links {
-		_, err = linkClient.RemoveLink(ctx, &simapi.RemoveLinkRequest{ID: link.ID})
-		if err != nil {
+		if _, err = linkClient.RemoveLink(ctx, &simapi.RemoveLinkRequest{ID: link.ID}); err != nil {
 			return err
 		}
 	}
 	return nil
-
 }
 
 func removeAllDevices(conn *grpc.ClientConn) error {
@@ -215,12 +230,7 @@ func removeAllDevices(conn *grpc.ClientConn) error {
 	}
 
 	for _, device := range resp.Devices {
-		//_, err = deviceClient.StopDevice(ctx, &simapi.StopDeviceRequest{Mode: simapi.StopMode_CHAOTIC_STOP})
-		//if err != nil {
-		//	return err
-		//}
-		_, err = deviceClient.RemoveDevice(ctx, &simapi.RemoveDeviceRequest{ID: device.ID})
-		if err != nil {
+		if _, err = deviceClient.RemoveDevice(ctx, &simapi.RemoveDeviceRequest{ID: device.ID}); err != nil {
 			return err
 		}
 	}

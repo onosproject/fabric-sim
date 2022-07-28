@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package loader
+package topo
 
 import (
 	"github.com/spf13/viper"
@@ -60,19 +60,20 @@ type NIC struct {
 	// TODO: add others
 }
 
-// Loads the specified topology YAML file
-func loadTopologyFile(path string, topology *Topology) error {
-	viper.SetConfigType("yaml")
+// Reads configuration from the specified path (- for stdin) via viper; ready to Unmarshal
+func readConfig(path string) (*viper.Viper, error) {
+	cfg := viper.New()
+	cfg.SetConfigType("yaml")
 	if path == "-" {
-		if err := viper.ReadConfig(os.Stdin); err != nil {
-			return err
+		if err := cfg.ReadConfig(os.Stdin); err != nil {
+			return cfg, err
 		}
 	} else {
-		viper.SetConfigName(filepath.Base(path))
-		viper.AddConfigPath(filepath.Dir(path))
-		if err := viper.ReadInConfig(); err != nil {
-			return err
+		cfg.SetConfigName(filepath.Base(path))
+		cfg.AddConfigPath(filepath.Dir(path))
+		if err := cfg.ReadInConfig(); err != nil {
+			return cfg, err
 		}
 	}
-	return viper.Unmarshal(topology)
+	return cfg, nil
 }

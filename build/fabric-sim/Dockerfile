@@ -16,7 +16,7 @@ COPY ./go.sum /build
 
 # build the executable(s)
 RUN go build -mod=vendor -o build/_output/fabric-sim ./cmd/fabric-sim && \
-    go build -mod=vendor -o build/_output/fabric-sim-loader ./cmd/fabric-sim-loader
+    go build -mod=vendor -o build/_output/fabric-sim-topo ./cmd/fabric-sim-topo
 
 FROM alpine:3.13
 RUN apk add libc6-compat
@@ -24,6 +24,6 @@ RUN apk add libc6-compat
 USER nobody
 
 COPY --from=build /build/build/_output/fabric-sim /usr/local/bin/fabric-sim
-COPY --from=build /build/build/_output/fabric-sim-loader /usr/local/bin/fabric-sim-loader
+COPY --from=build /build/build/_output/fabric-sim-topo /usr/local/bin/fabric-sim-topo
 
 ENTRYPOINT ["fabric-sim"]
