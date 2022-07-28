@@ -66,14 +66,16 @@ func loadRecipeFile(path string, recipe *Recipe) error {
 // Saves the given topology as YAML in the specified file path; stdout if -
 func saveTopologyFile(topology *Topology, path string) error {
 	cfg := viper.New()
-	cfg.Set("topology", topology)
+	cfg.Set("devices", topology.Devices)
+	cfg.Set("links", topology.Links)
+	cfg.Set("hosts", topology.Hosts)
 
 	// Create a temporary file and schedule it for removal on exit
 	file, err := os.CreateTemp("", "topology*.yaml")
 	if err != nil {
 		return err
 	}
-	defer os.Remove(file.Name())
+	defer func() { _ = os.Remove(file.Name()) }()
 
 	// Write the configuration to the temporary file
 	if err = cfg.WriteConfigAs(file.Name()); err != nil {

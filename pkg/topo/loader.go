@@ -19,9 +19,13 @@ var log = logging.GetLogger()
 func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
 	log.Infof("Loading topology from %s", topologyPath)
 	topology := &Topology{}
+
 	if err := loadTopologyFile(topologyPath, topology); err != nil {
 		return err
 	}
+
+	log.Debugf("devices: %d; links: %d; hosts: %d",
+		len(topology.Devices), len(topology.Links), len(topology.Hosts))
 
 	if err := createDevices(conn, topology.Devices); err != nil {
 		return err

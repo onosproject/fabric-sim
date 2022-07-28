@@ -18,54 +18,25 @@ import (
 
 // TestTopologyLoad loads simulator with custom.yaml topology and validates proper startup
 func (s *TestSuite) TestTopologyLoad(t *testing.T) {
-	t.Logf("Creating fabric-sim connection")
-	conn, err := utils.CreateConnection()
-	assert.NoError(t, err)
-	defer conn.Close()
-
-	err = topo.LoadTopology(conn, "topologies/custom.yaml")
-	assert.NoError(t, err)
-	defer CleanUp()
-
-	// Validate that everything got loaded correctly
-	deviceClient := simapi.NewDeviceServiceClient(conn)
-	linksClient := simapi.NewLinkServiceClient(conn)
-	hostClient := simapi.NewHostServiceClient(conn)
-
-	t.Logf("Validating topology")
-
-	// Do we have all the devices?
-	ctx := context.Background()
-	dr, err := deviceClient.GetDevices(ctx, &simapi.GetDevicesRequest{})
-	assert.NoError(t, err)
-	assert.Equal(t, len(dr.Devices), 6)
-
-	// Do we have all the links?
-	lr, err := linksClient.GetLinks(ctx, &simapi.GetLinksRequest{})
-	assert.NoError(t, err)
-	assert.Equal(t, len(lr.Links), 16)
-
-	// Do we have all the hosts?
-	hr, err := hostClient.GetHosts(ctx, &simapi.GetHostsRequest{})
-	assert.NoError(t, err)
-	assert.Equal(t, len(hr.Hosts), 16)
-
-	// What about all the host NICs?
-	for _, host := range hr.Hosts {
-		assert.Equal(t, len(host.Interfaces), 1)
-	}
+	devices := LoadAndValidate(t, "topologies/custom.yaml", 6, 16, 16, 1)
+	defer CleanUp(t)
 
 	// What about all the spine and leaf ports?
-	for _, device := range dr.Devices {
+	for _, device := range devices {
 		if strings.Contains(string(device.ID), "spine") {
-			assert.Equal(t, len(device.Ports), 4)
+			assert.Equal(t, 4, len(device.Ports))
 		} else {
-			assert.Equal(t, len(device.Ports), 8)
+			assert.Equal(t, 8, len(device.Ports))
 		}
 	}
 
-	// Test each device P4Runtime agent port by requesting capabilities
-	for _, device := range dr.Devices {
+	ProbeAllDevices(t, devices)
+}
+
+// ProbeAllDevices tests each device P4Runtime agent port by requesting capabilities
+func ProbeAllDevices(t *testing.T, devices []*simapi.Device) {
+	ctx := context.Background()
+	for _, device := range devices {
 		t.Logf("Connecting to agent for device %s", device.ID)
 		p4Client, p4conn := GetP4Client(t, device)
 		defer p4conn.Close()
@@ -73,7 +44,7 @@ func (s *TestSuite) TestTopologyLoad(t *testing.T) {
 		t.Logf("Getting P4 capabilities device %s", device.ID)
 		cr, err := p4Client.Capabilities(ctx, &p4api.CapabilitiesRequest{})
 		assert.NoError(t, err)
-		assert.Equal(t, cr.P4RuntimeApiVersion, "1.1.0")
+		assert.Equal(t, "1.1.0", cr.P4RuntimeApiVersion)
 
 		// Open message stream and negotiate mastership for default (no) role
 		t.Logf("Negotiating mastership for device %s", device.ID)
@@ -89,6 +60,45 @@ func (s *TestSuite) TestTopologyLoad(t *testing.T) {
 	}
 }
 
+// LoadAndValidate loads the specified topology and validates the correct counts of devices, links and hosts
+func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts int, nicsPerHost int) []*simapi.Device {
+	conn, err := utils.CreateConnection()
+	assert.NoError(t, err)
+	defer conn.Close()
+
+	err = topo.LoadTopology(conn, path)
+	assert.NoError(t, err)
+
+	// Validate that everything got loaded correctly
+	deviceClient := simapi.NewDeviceServiceClient(conn)
+	linksClient := simapi.NewLinkServiceClient(conn)
+	hostClient := simapi.NewHostServiceClient(conn)
+
+	t.Logf("Validating topology")
+
+	// Do we have all the devices?
+	ctx := context.Background()
+	dr, err := deviceClient.GetDevices(ctx, &simapi.GetDevicesRequest{})
+	assert.NoError(t, err)
+	assert.Equal(t, devices, len(dr.Devices))
+
+	// Do we have all the links?
+	lr, err := linksClient.GetLinks(ctx, &simapi.GetLinksRequest{})
+	assert.NoError(t, err)
+	assert.Equal(t, links, len(lr.Links))
+
+	// Do we have all the hosts?
+	hr, err := hostClient.GetHosts(ctx, &simapi.GetHostsRequest{})
+	assert.NoError(t, err)
+	assert.Equal(t, hosts, len(hr.Hosts))
+
+	// What about all the host NICs?
+	for _, host := range hr.Hosts {
+		assert.Equal(t, nicsPerHost, len(host.Interfaces))
+	}
+	return dr.Devices
+}
+
 // GetP4Client returns a new P4Runtime service client and its underlying connection for the given device
 func GetP4Client(t *testing.T, device *simapi.Device) (p4api.P4RuntimeClient, *grpc.ClientConn) {
 	conn, err := utils.CreateDeviceConnection(device)
@@ -97,7 +107,8 @@ func GetP4Client(t *testing.T, device *simapi.Device) (p4api.P4RuntimeClient, *g
 }
 
 // CleanUp cleans up the simulation to allow other simulation tests run
-func CleanUp() {
+func CleanUp(t *testing.T) {
+	t.Log("Cleaning up topology")
 	if conn, err := utils.CreateConnection(); err == nil {
 		_ = topo.ClearTopology(conn)
 	}

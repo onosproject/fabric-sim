@@ -8,7 +8,6 @@ import (
 	"context"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
-	"github.com/onosproject/fabric-sim/pkg/topo"
 	utils "github.com/onosproject/fabric-sim/test/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
@@ -20,14 +19,12 @@ import (
 
 // TestLLDPPacket tests the LLDP packet-out handling
 func (s *TestSuite) TestLLDPPacket(t *testing.T) {
-	t.Logf("Creating fabric-sim connection")
+	_ = LoadAndValidate(t, "topologies/trivial.yaml", 2, 2, 2, 1)
+	defer CleanUp(t)
+
 	conn, err := utils.CreateConnection()
 	assert.NoError(t, err)
 	defer conn.Close()
-
-	err = topo.LoadTopology(conn, "topologies/trivial.yaml")
-	assert.NoError(t, err)
-	defer CleanUp()
 
 	deviceService := simapi.NewDeviceServiceClient(conn)
 
@@ -91,7 +88,7 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	// Prepare to clean up...
 	go func() {
 		time.Sleep(1 * time.Second)
-		CleanUp()
+		CleanUp(t)
 	}()
 
 	// ... and make sure we did not receive any other (unexpected) messages
