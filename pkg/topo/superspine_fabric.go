@@ -8,18 +8,18 @@ import "fmt"
 
 const agentPortOffset = 20000
 
-// State to assist generating dev cloud fabric topology
-type devCloudBuilder struct {
+// State to assist generating super-spine fabric topology
+type superspineBuilder struct {
 	agentPort int32
 	nextPort  map[string]int
 }
 
-// GenerateDevCloudFabric generates topology YAML from the specified access fabric recipe
-func GenerateDevCloudFabric(fabric *DevCloudFabric) *Topology {
-	log.Infof("Generating DevCloud Fabric")
+// GenerateSuperSpineFabric generates topology YAML from the specified super-spine fabric recipe
+func GenerateSuperSpineFabric(fabric *SuperSpineFabric) *Topology {
+	log.Infof("Generating Super-Spine Fabric")
 
 	topology := &Topology{}
-	builder := &devCloudBuilder{
+	builder := &superspineBuilder{
 		nextPort: make(map[string]int),
 	}
 
@@ -33,7 +33,7 @@ func GenerateDevCloudFabric(fabric *DevCloudFabric) *Topology {
 	return topology
 }
 
-func createSwitch(deviceID string, portCount int, builder *devCloudBuilder, topology *Topology) {
+func createSwitch(deviceID string, portCount int, builder *superspineBuilder, topology *Topology) {
 	device := Device{
 		ID:        deviceID,
 		Type:      "switch",
@@ -58,7 +58,7 @@ func createPorts(portCount int, deviceID string) []Port {
 	return ports
 }
 
-func createRackPairFabric(rackID int, fabric *DevCloudFabric, builder *devCloudBuilder, topology *Topology) {
+func createRackPairFabric(rackID int, fabric *SuperSpineFabric, builder *superspineBuilder, topology *Topology) {
 	// First, create 2 spines
 	spine1 := fmt.Sprintf("spine%d", rackID)
 	spine2 := fmt.Sprintf("spine%d", rackID+1)
@@ -100,7 +100,7 @@ func createRackPairFabric(rackID int, fabric *DevCloudFabric, builder *devCloudB
 	createRackHosts(rackID+1, leaf21, leaf22, 10, builder, topology)
 }
 
-func createLinkTrunk(src string, tgt string, count int, builder *devCloudBuilder, topology *Topology) {
+func createLinkTrunk(src string, tgt string, count int, builder *superspineBuilder, topology *Topology) {
 	for i := 0; i < count; i++ {
 		link := Link{
 			SrcPortID:      nextDevicePortID(src, builder),
@@ -111,13 +111,13 @@ func createLinkTrunk(src string, tgt string, count int, builder *devCloudBuilder
 	}
 }
 
-func createRackHosts(rackID int, leaf1 string, leaf2 string, count int, builder *devCloudBuilder, topology *Topology) {
+func createRackHosts(rackID int, leaf1 string, leaf2 string, count int, builder *superspineBuilder, topology *Topology) {
 	for i := 1; i <= count; i++ {
 		createRackHost(rackID, i, leaf1, leaf2, builder, topology)
 	}
 }
 
-func createRackHost(rackID int, hostID int, leaf1 string, leaf2 string, builder *devCloudBuilder, topology *Topology) {
+func createRackHost(rackID int, hostID int, leaf1 string, leaf2 string, builder *superspineBuilder, topology *Topology) {
 	nic1 := NIC{
 		Mac:  mac(rackID, hostID, 1),
 		IPv4: ipv4(rackID, hostID, 1),
@@ -149,7 +149,7 @@ func ipv6(rackID int, hostID int, leafID int) string {
 	return fmt.Sprintf("2001:dead:beef:baad:cafe:%d:%d:%d", rackID, leafID, hostID)
 }
 
-func nextDevicePortID(deviceID string, builder *devCloudBuilder) string {
+func nextDevicePortID(deviceID string, builder *superspineBuilder) string {
 	portNumber, ok := builder.nextPort[deviceID]
 	if !ok {
 		portNumber = 1

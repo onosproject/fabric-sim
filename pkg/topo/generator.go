@@ -11,13 +11,13 @@ import (
 
 // Recipe is a container for holding one of the supported simulated topology recipes
 type Recipe struct {
-	DevCloudFabric *DevCloudFabric `mapstructure:"dev_cloud_fabric" yaml:"dev_cloud_fabric"`
-	AccessFabric   *AccessFabric   `mapstructure:"access_fabric" yaml:"access_fabric"`
+	SuperSpineFabric *SuperSpineFabric `mapstructure:"superspine_fabric" yaml:"superspine_fabric"`
+	AccessFabric     *AccessFabric     `mapstructure:"access_fabric" yaml:"access_fabric"`
 	// Add more recipes here
 }
 
-// DevCloudFabric is a recipe for creating simulated dev-cloud fabric with superspines
-type DevCloudFabric struct {
+// SuperSpineFabric is a recipe for creating simulated 4 rack fabric with superspines
+type SuperSpineFabric struct {
 	// Add any parametrization here, if needed
 }
 
@@ -39,8 +39,8 @@ func GenerateTopology(recipePath string, topologyPath string) error {
 
 	var topology *Topology
 	switch {
-	case recipe.DevCloudFabric != nil:
-		topology = GenerateDevCloudFabric(recipe.DevCloudFabric)
+	case recipe.SuperSpineFabric != nil:
+		topology = GenerateSuperSpineFabric(recipe.SuperSpineFabric)
 	case recipe.AccessFabric != nil:
 		topology = GenerateAccessFabric(recipe.AccessFabric)
 	default:
@@ -64,12 +64,4 @@ func saveTopologyFile(topology *Topology, path string) error {
 	cfg.Set("topology", topology)
 	// TODO: Implement writing to stdout
 	return cfg.WriteConfigAs(path)
-}
-
-// Returns count or the default count if the count is 0
-func defaultCount(count int, defaultCount int) int {
-	if count > 0 {
-		return count
-	}
-	return defaultCount
 }

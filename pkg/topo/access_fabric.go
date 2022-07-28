@@ -5,7 +5,7 @@
 package topo
 
 // State to assist generating access fabric topology
-//type devCloudBuilder struct {
+//type superspineBuilder struct {
 //	agentPort int32
 //}
 
