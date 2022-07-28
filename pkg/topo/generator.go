@@ -18,11 +18,7 @@ type Recipe struct {
 
 // DevCloudFabric is a recipe for creating simulated dev-cloud fabric with superspines
 type DevCloudFabric struct {
-	SuperSpines    int `mapstructure:"super_spines" yaml:"super_spines"`
-	RackPairs      int `mapstructure:"rack_pairs" yaml:"rack_pairs"`
-	SpinesPerRack  int `mapstructure:"spines_per_rack" yaml:"spines_per_rack"`
-	LeavesPerSpine int `mapstructure:"leaves_per_spine" yaml:"leaves_per_spine"`
-	NodesPerRack   int `mapstructure:"nodes_per_rack" yaml:"nodes_per_rack"`
+	// Add any parametrization here, if needed
 }
 
 // AccessFabric is a recipe for creating simulated access fabric
