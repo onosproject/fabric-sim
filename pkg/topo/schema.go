@@ -61,18 +61,19 @@ type NIC struct {
 }
 
 // Reads configuration from the specified path (- for stdin) via viper; ready to Unmarshal
-func readConfig(path string) error {
-	viper.SetConfigType("yaml")
+func readConfig(path string) (*viper.Viper, error) {
+	cfg := viper.New()
+	cfg.SetConfigType("yaml")
 	if path == "-" {
-		if err := viper.ReadConfig(os.Stdin); err != nil {
-			return err
+		if err := cfg.ReadConfig(os.Stdin); err != nil {
+			return cfg, err
 		}
 	} else {
-		viper.SetConfigName(filepath.Base(path))
-		viper.AddConfigPath(filepath.Dir(path))
-		if err := viper.ReadInConfig(); err != nil {
-			return err
+		cfg.SetConfigName(filepath.Base(path))
+		cfg.AddConfigPath(filepath.Dir(path))
+		if err := cfg.ReadInConfig(); err != nil {
+			return cfg, err
 		}
 	}
-	return nil
+	return cfg, nil
 }

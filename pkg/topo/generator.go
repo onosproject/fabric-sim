@@ -5,6 +5,7 @@
 package topo
 
 import (
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/spf13/viper"
 )
 
@@ -36,25 +37,43 @@ type AccessFabric struct {
 func GenerateTopology(recipePath string, topologyPath string) error {
 	log.Infof("Loading topology recipe from %s", recipePath)
 	recipe := &Recipe{}
-	if err := loadRecipeFile(topologyPath, recipe); err != nil {
+	if err := loadRecipeFile(recipePath, recipe); err != nil {
 		return err
 	}
 
+	var topology *Topology
 	switch {
 	case recipe.DevCloudFabric != nil:
-		GenerateDevCloudFabric(recipe.DevCloudFabric, topologyPath)
+		topology = GenerateDevCloudFabric(recipe.DevCloudFabric)
 	case recipe.AccessFabric != nil:
-		GenerateAccessFabric(recipe.AccessFabric, topologyPath)
+		topology = GenerateAccessFabric(recipe.AccessFabric)
 	default:
-		log.Info("No supported topology recipe found")
+		return errors.NewInvalid("No supported topology recipe found")
 	}
-	return nil
+	return saveTopologyFile(topology, topologyPath)
 }
 
 // Loads the specified topology recipe YAML file
 func loadRecipeFile(path string, recipe *Recipe) error {
-	if err := readConfig(path); err != nil {
+	cfg, err := readConfig(path)
+	if err != nil {
 		return err
 	}
-	return viper.Unmarshal(recipe)
+	return cfg.Unmarshal(recipe)
+}
+
+// Saves the given topology as YAML in the specified file path; stdout if -
+func saveTopologyFile(topology *Topology, path string) error {
+	cfg := viper.New()
+	cfg.Set("topology", topology)
+	// TODO: Implement writing to stdout
+	return cfg.WriteConfigAs(path)
+}
+
+// Returns count or the default count if the count is 0
+func defaultCount(count int, defaultCount int) int {
+	if count > 0 {
+		return count
+	}
+	return defaultCount
 }

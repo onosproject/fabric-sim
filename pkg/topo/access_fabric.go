@@ -4,7 +4,14 @@
 
 package topo
 
+// State to assist generating access fabric topology
+//type devCloudBuilder struct {
+//	agentPort int32
+//}
+
 // GenerateAccessFabric generates topology YAML from the specified access fabric recipe
-func GenerateAccessFabric(fabric *AccessFabric, topologyPath string) {
-	panic("Not implemented yet")
+func GenerateAccessFabric(fabric *AccessFabric) *Topology {
+	// TODO: Implement this
+	topology := &Topology{}
+	return topology
 }
