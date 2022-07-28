@@ -1,7 +1,8 @@
-# Generated via fabric-sim-topo generator
 # SPDX-FileCopyrightText: 2022-present Intel Corporation
 #
 # SPDX-License-Identifier: Apache-2.0
+
+# Generated via fabric-sim-topo superspine_fabric recipe
 
 topology:
   devices:
@@ -2039,399 +2040,399 @@ topology:
     nics:
     - mac: 00:ca:fe:01:01:01
       ip: 10.10.11.1
-      ipv6: 2001:dead:beef:baad:cafe:1:1:1
+      ipv6: ::ffff:10.10.11.1
       port: leaf11/19
     - mac: 00:ca:fe:01:02:01
       ip: 10.10.12.1
-      ipv6: 2001:dead:beef:baad:cafe:1:2:1
+      ipv6: ::ffff:10.10.12.1
       port: leaf12/19
   - id: host12
     nics:
     - mac: 00:ca:fe:01:01:02
       ip: 10.10.11.2
-      ipv6: 2001:dead:beef:baad:cafe:1:1:2
+      ipv6: ::ffff:10.10.11.2
       port: leaf11/20
     - mac: 00:ca:fe:01:02:02
       ip: 10.10.12.2
-      ipv6: 2001:dead:beef:baad:cafe:1:2:2
+      ipv6: ::ffff:10.10.12.2
       port: leaf12/20
   - id: host13
     nics:
     - mac: 00:ca:fe:01:01:03
       ip: 10.10.11.3
-      ipv6: 2001:dead:beef:baad:cafe:1:1:3
+      ipv6: ::ffff:10.10.11.3
       port: leaf11/21
     - mac: 00:ca:fe:01:02:03
       ip: 10.10.12.3
-      ipv6: 2001:dead:beef:baad:cafe:1:2:3
+      ipv6: ::ffff:10.10.12.3
       port: leaf12/21
   - id: host14
     nics:
     - mac: 00:ca:fe:01:01:04
       ip: 10.10.11.4
-      ipv6: 2001:dead:beef:baad:cafe:1:1:4
+      ipv6: ::ffff:10.10.11.4
       port: leaf11/22
     - mac: 00:ca:fe:01:02:04
       ip: 10.10.12.4
-      ipv6: 2001:dead:beef:baad:cafe:1:2:4
+      ipv6: ::ffff:10.10.12.4
       port: leaf12/22
   - id: host15
     nics:
     - mac: 00:ca:fe:01:01:05
       ip: 10.10.11.5
-      ipv6: 2001:dead:beef:baad:cafe:1:1:5
+      ipv6: ::ffff:10.10.11.5
       port: leaf11/23
     - mac: 00:ca:fe:01:02:05
       ip: 10.10.12.5
-      ipv6: 2001:dead:beef:baad:cafe:1:2:5
+      ipv6: ::ffff:10.10.12.5
       port: leaf12/23
   - id: host16
     nics:
     - mac: 00:ca:fe:01:01:06
       ip: 10.10.11.6
-      ipv6: 2001:dead:beef:baad:cafe:1:1:6
+      ipv6: ::ffff:10.10.11.6
       port: leaf11/24
     - mac: 00:ca:fe:01:02:06
       ip: 10.10.12.6
-      ipv6: 2001:dead:beef:baad:cafe:1:2:6
+      ipv6: ::ffff:10.10.12.6
       port: leaf12/24
   - id: host17
     nics:
     - mac: 00:ca:fe:01:01:07
       ip: 10.10.11.7
-      ipv6: 2001:dead:beef:baad:cafe:1:1:7
+      ipv6: ::ffff:10.10.11.7
       port: leaf11/25
     - mac: 00:ca:fe:01:02:07
       ip: 10.10.12.7
-      ipv6: 2001:dead:beef:baad:cafe:1:2:7
+      ipv6: ::ffff:10.10.12.7
       port: leaf12/25
   - id: host18
     nics:
     - mac: 00:ca:fe:01:01:08
       ip: 10.10.11.8
-      ipv6: 2001:dead:beef:baad:cafe:1:1:8
+      ipv6: ::ffff:10.10.11.8
       port: leaf11/26
     - mac: 00:ca:fe:01:02:08
       ip: 10.10.12.8
-      ipv6: 2001:dead:beef:baad:cafe:1:2:8
+      ipv6: ::ffff:10.10.12.8
       port: leaf12/26
   - id: host19
     nics:
     - mac: 00:ca:fe:01:01:09
       ip: 10.10.11.9
-      ipv6: 2001:dead:beef:baad:cafe:1:1:9
+      ipv6: ::ffff:10.10.11.9
       port: leaf11/27
     - mac: 00:ca:fe:01:02:09
       ip: 10.10.12.9
-      ipv6: 2001:dead:beef:baad:cafe:1:2:9
+      ipv6: ::ffff:10.10.12.9
       port: leaf12/27
   - id: host110
     nics:
     - mac: 00:ca:fe:01:01:10
       ip: 10.10.11.10
-      ipv6: 2001:dead:beef:baad:cafe:1:1:10
+      ipv6: ::ffff:10.10.11.10
       port: leaf11/28
     - mac: 00:ca:fe:01:02:10
       ip: 10.10.12.10
-      ipv6: 2001:dead:beef:baad:cafe:1:2:10
+      ipv6: ::ffff:10.10.12.10
       port: leaf12/28
   - id: host21
     nics:
     - mac: 00:ca:fe:02:01:01
       ip: 10.10.21.1
-      ipv6: 2001:dead:beef:baad:cafe:2:1:1
+      ipv6: ::ffff:10.10.21.1
       port: leaf21/19
     - mac: 00:ca:fe:02:02:01
       ip: 10.10.22.1
-      ipv6: 2001:dead:beef:baad:cafe:2:2:1
+      ipv6: ::ffff:10.10.22.1
       port: leaf22/19
   - id: host22
     nics:
     - mac: 00:ca:fe:02:01:02
       ip: 10.10.21.2
-      ipv6: 2001:dead:beef:baad:cafe:2:1:2
+      ipv6: ::ffff:10.10.21.2
       port: leaf21/20
     - mac: 00:ca:fe:02:02:02
       ip: 10.10.22.2
-      ipv6: 2001:dead:beef:baad:cafe:2:2:2
+      ipv6: ::ffff:10.10.22.2
       port: leaf22/20
   - id: host23
     nics:
     - mac: 00:ca:fe:02:01:03
       ip: 10.10.21.3
-      ipv6: 2001:dead:beef:baad:cafe:2:1:3
+      ipv6: ::ffff:10.10.21.3
       port: leaf21/21
     - mac: 00:ca:fe:02:02:03
       ip: 10.10.22.3
-      ipv6: 2001:dead:beef:baad:cafe:2:2:3
+      ipv6: ::ffff:10.10.22.3
       port: leaf22/21
   - id: host24
     nics:
     - mac: 00:ca:fe:02:01:04
       ip: 10.10.21.4
-      ipv6: 2001:dead:beef:baad:cafe:2:1:4
+      ipv6: ::ffff:10.10.21.4
       port: leaf21/22
     - mac: 00:ca:fe:02:02:04
       ip: 10.10.22.4
-      ipv6: 2001:dead:beef:baad:cafe:2:2:4
+      ipv6: ::ffff:10.10.22.4
       port: leaf22/22
   - id: host25
     nics:
     - mac: 00:ca:fe:02:01:05
       ip: 10.10.21.5
-      ipv6: 2001:dead:beef:baad:cafe:2:1:5
+      ipv6: ::ffff:10.10.21.5
       port: leaf21/23
     - mac: 00:ca:fe:02:02:05
       ip: 10.10.22.5
-      ipv6: 2001:dead:beef:baad:cafe:2:2:5
+      ipv6: ::ffff:10.10.22.5
       port: leaf22/23
   - id: host26
     nics:
     - mac: 00:ca:fe:02:01:06
       ip: 10.10.21.6
-      ipv6: 2001:dead:beef:baad:cafe:2:1:6
+      ipv6: ::ffff:10.10.21.6
       port: leaf21/24
     - mac: 00:ca:fe:02:02:06
       ip: 10.10.22.6
-      ipv6: 2001:dead:beef:baad:cafe:2:2:6
+      ipv6: ::ffff:10.10.22.6
       port: leaf22/24
   - id: host27
     nics:
     - mac: 00:ca:fe:02:01:07
       ip: 10.10.21.7
-      ipv6: 2001:dead:beef:baad:cafe:2:1:7
+      ipv6: ::ffff:10.10.21.7
       port: leaf21/25
     - mac: 00:ca:fe:02:02:07
       ip: 10.10.22.7
-      ipv6: 2001:dead:beef:baad:cafe:2:2:7
+      ipv6: ::ffff:10.10.22.7
       port: leaf22/25
   - id: host28
     nics:
     - mac: 00:ca:fe:02:01:08
       ip: 10.10.21.8
-      ipv6: 2001:dead:beef:baad:cafe:2:1:8
+      ipv6: ::ffff:10.10.21.8
       port: leaf21/26
     - mac: 00:ca:fe:02:02:08
       ip: 10.10.22.8
-      ipv6: 2001:dead:beef:baad:cafe:2:2:8
+      ipv6: ::ffff:10.10.22.8
       port: leaf22/26
   - id: host29
     nics:
     - mac: 00:ca:fe:02:01:09
       ip: 10.10.21.9
-      ipv6: 2001:dead:beef:baad:cafe:2:1:9
+      ipv6: ::ffff:10.10.21.9
       port: leaf21/27
     - mac: 00:ca:fe:02:02:09
       ip: 10.10.22.9
-      ipv6: 2001:dead:beef:baad:cafe:2:2:9
+      ipv6: ::ffff:10.10.22.9
       port: leaf22/27
   - id: host210
     nics:
     - mac: 00:ca:fe:02:01:10
       ip: 10.10.21.10
-      ipv6: 2001:dead:beef:baad:cafe:2:1:10
+      ipv6: ::ffff:10.10.21.10
       port: leaf21/28
     - mac: 00:ca:fe:02:02:10
       ip: 10.10.22.10
-      ipv6: 2001:dead:beef:baad:cafe:2:2:10
+      ipv6: ::ffff:10.10.22.10
       port: leaf22/28
   - id: host31
     nics:
     - mac: 00:ca:fe:03:01:01
       ip: 10.10.31.1
-      ipv6: 2001:dead:beef:baad:cafe:3:1:1
+      ipv6: ::ffff:10.10.31.1
       port: leaf31/19
     - mac: 00:ca:fe:03:02:01
       ip: 10.10.32.1
-      ipv6: 2001:dead:beef:baad:cafe:3:2:1
+      ipv6: ::ffff:10.10.32.1
       port: leaf32/19
   - id: host32
     nics:
     - mac: 00:ca:fe:03:01:02
       ip: 10.10.31.2
-      ipv6: 2001:dead:beef:baad:cafe:3:1:2
+      ipv6: ::ffff:10.10.31.2
       port: leaf31/20
     - mac: 00:ca:fe:03:02:02
       ip: 10.10.32.2
-      ipv6: 2001:dead:beef:baad:cafe:3:2:2
+      ipv6: ::ffff:10.10.32.2
       port: leaf32/20
   - id: host33
     nics:
     - mac: 00:ca:fe:03:01:03
       ip: 10.10.31.3
-      ipv6: 2001:dead:beef:baad:cafe:3:1:3
+      ipv6: ::ffff:10.10.31.3
       port: leaf31/21
     - mac: 00:ca:fe:03:02:03
       ip: 10.10.32.3
-      ipv6: 2001:dead:beef:baad:cafe:3:2:3
+      ipv6: ::ffff:10.10.32.3
       port: leaf32/21
   - id: host34
     nics:
     - mac: 00:ca:fe:03:01:04
       ip: 10.10.31.4
-      ipv6: 2001:dead:beef:baad:cafe:3:1:4
+      ipv6: ::ffff:10.10.31.4
       port: leaf31/22
     - mac: 00:ca:fe:03:02:04
       ip: 10.10.32.4
-      ipv6: 2001:dead:beef:baad:cafe:3:2:4
+      ipv6: ::ffff:10.10.32.4
       port: leaf32/22
   - id: host35
     nics:
     - mac: 00:ca:fe:03:01:05
       ip: 10.10.31.5
-      ipv6: 2001:dead:beef:baad:cafe:3:1:5
+      ipv6: ::ffff:10.10.31.5
       port: leaf31/23
     - mac: 00:ca:fe:03:02:05
       ip: 10.10.32.5
-      ipv6: 2001:dead:beef:baad:cafe:3:2:5
+      ipv6: ::ffff:10.10.32.5
       port: leaf32/23
   - id: host36
     nics:
     - mac: 00:ca:fe:03:01:06
       ip: 10.10.31.6
-      ipv6: 2001:dead:beef:baad:cafe:3:1:6
+      ipv6: ::ffff:10.10.31.6
       port: leaf31/24
     - mac: 00:ca:fe:03:02:06
       ip: 10.10.32.6
-      ipv6: 2001:dead:beef:baad:cafe:3:2:6
+      ipv6: ::ffff:10.10.32.6
       port: leaf32/24
   - id: host37
     nics:
     - mac: 00:ca:fe:03:01:07
       ip: 10.10.31.7
-      ipv6: 2001:dead:beef:baad:cafe:3:1:7
+      ipv6: ::ffff:10.10.31.7
       port: leaf31/25
     - mac: 00:ca:fe:03:02:07
       ip: 10.10.32.7
-      ipv6: 2001:dead:beef:baad:cafe:3:2:7
+      ipv6: ::ffff:10.10.32.7
       port: leaf32/25
   - id: host38
     nics:
     - mac: 00:ca:fe:03:01:08
       ip: 10.10.31.8
-      ipv6: 2001:dead:beef:baad:cafe:3:1:8
+      ipv6: ::ffff:10.10.31.8
       port: leaf31/26
     - mac: 00:ca:fe:03:02:08
       ip: 10.10.32.8
-      ipv6: 2001:dead:beef:baad:cafe:3:2:8
+      ipv6: ::ffff:10.10.32.8
       port: leaf32/26
   - id: host39
     nics:
     - mac: 00:ca:fe:03:01:09
       ip: 10.10.31.9
-      ipv6: 2001:dead:beef:baad:cafe:3:1:9
+      ipv6: ::ffff:10.10.31.9
       port: leaf31/27
     - mac: 00:ca:fe:03:02:09
       ip: 10.10.32.9
-      ipv6: 2001:dead:beef:baad:cafe:3:2:9
+      ipv6: ::ffff:10.10.32.9
       port: leaf32/27
   - id: host310
     nics:
     - mac: 00:ca:fe:03:01:10
       ip: 10.10.31.10
-      ipv6: 2001:dead:beef:baad:cafe:3:1:10
+      ipv6: ::ffff:10.10.31.10
       port: leaf31/28
     - mac: 00:ca:fe:03:02:10
       ip: 10.10.32.10
-      ipv6: 2001:dead:beef:baad:cafe:3:2:10
+      ipv6: ::ffff:10.10.32.10
       port: leaf32/28
   - id: host41
     nics:
     - mac: 00:ca:fe:04:01:01
       ip: 10.10.41.1
-      ipv6: 2001:dead:beef:baad:cafe:4:1:1
+      ipv6: ::ffff:10.10.41.1
       port: leaf41/19
     - mac: 00:ca:fe:04:02:01
       ip: 10.10.42.1
-      ipv6: 2001:dead:beef:baad:cafe:4:2:1
+      ipv6: ::ffff:10.10.42.1
       port: leaf42/19
   - id: host42
     nics:
     - mac: 00:ca:fe:04:01:02
       ip: 10.10.41.2
-      ipv6: 2001:dead:beef:baad:cafe:4:1:2
+      ipv6: ::ffff:10.10.41.2
       port: leaf41/20
     - mac: 00:ca:fe:04:02:02
       ip: 10.10.42.2
-      ipv6: 2001:dead:beef:baad:cafe:4:2:2
+      ipv6: ::ffff:10.10.42.2
       port: leaf42/20
   - id: host43
     nics:
     - mac: 00:ca:fe:04:01:03
       ip: 10.10.41.3
-      ipv6: 2001:dead:beef:baad:cafe:4:1:3
+      ipv6: ::ffff:10.10.41.3
       port: leaf41/21
     - mac: 00:ca:fe:04:02:03
       ip: 10.10.42.3
-      ipv6: 2001:dead:beef:baad:cafe:4:2:3
+      ipv6: ::ffff:10.10.42.3
       port: leaf42/21
   - id: host44
     nics:
     - mac: 00:ca:fe:04:01:04
       ip: 10.10.41.4
-      ipv6: 2001:dead:beef:baad:cafe:4:1:4
+      ipv6: ::ffff:10.10.41.4
       port: leaf41/22
     - mac: 00:ca:fe:04:02:04
       ip: 10.10.42.4
-      ipv6: 2001:dead:beef:baad:cafe:4:2:4
+      ipv6: ::ffff:10.10.42.4
       port: leaf42/22
   - id: host45
     nics:
     - mac: 00:ca:fe:04:01:05
       ip: 10.10.41.5
-      ipv6: 2001:dead:beef:baad:cafe:4:1:5
+      ipv6: ::ffff:10.10.41.5
       port: leaf41/23
     - mac: 00:ca:fe:04:02:05
       ip: 10.10.42.5
-      ipv6: 2001:dead:beef:baad:cafe:4:2:5
+      ipv6: ::ffff:10.10.42.5
       port: leaf42/23
   - id: host46
     nics:
     - mac: 00:ca:fe:04:01:06
       ip: 10.10.41.6
-      ipv6: 2001:dead:beef:baad:cafe:4:1:6
+      ipv6: ::ffff:10.10.41.6
       port: leaf41/24
     - mac: 00:ca:fe:04:02:06
       ip: 10.10.42.6
-      ipv6: 2001:dead:beef:baad:cafe:4:2:6
+      ipv6: ::ffff:10.10.42.6
       port: leaf42/24
   - id: host47
     nics:
     - mac: 00:ca:fe:04:01:07
       ip: 10.10.41.7
-      ipv6: 2001:dead:beef:baad:cafe:4:1:7
+      ipv6: ::ffff:10.10.41.7
       port: leaf41/25
     - mac: 00:ca:fe:04:02:07
       ip: 10.10.42.7
-      ipv6: 2001:dead:beef:baad:cafe:4:2:7
+      ipv6: ::ffff:10.10.42.7
       port: leaf42/25
   - id: host48
     nics:
     - mac: 00:ca:fe:04:01:08
       ip: 10.10.41.8
-      ipv6: 2001:dead:beef:baad:cafe:4:1:8
+      ipv6: ::ffff:10.10.41.8
       port: leaf41/26
     - mac: 00:ca:fe:04:02:08
       ip: 10.10.42.8
-      ipv6: 2001:dead:beef:baad:cafe:4:2:8
+      ipv6: ::ffff:10.10.42.8
       port: leaf42/26
   - id: host49
     nics:
     - mac: 00:ca:fe:04:01:09
       ip: 10.10.41.9
-      ipv6: 2001:dead:beef:baad:cafe:4:1:9
+      ipv6: ::ffff:10.10.41.9
       port: leaf41/27
     - mac: 00:ca:fe:04:02:09
       ip: 10.10.42.9
-      ipv6: 2001:dead:beef:baad:cafe:4:2:9
+      ipv6: ::ffff:10.10.42.9
       port: leaf42/27
   - id: host410
     nics:
     - mac: 00:ca:fe:04:01:10
       ip: 10.10.41.10
-      ipv6: 2001:dead:beef:baad:cafe:4:1:10
+      ipv6: ::ffff:10.10.41.10
       port: leaf41/28
     - mac: 00:ca:fe:04:02:10
       ip: 10.10.42.10
-      ipv6: 2001:dead:beef:baad:cafe:4:2:10
+      ipv6: ::ffff:10.10.42.10
       port: leaf42/28

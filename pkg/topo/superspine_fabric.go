@@ -146,7 +146,7 @@ func ipv4(rackID int, hostID int, leafID int) string {
 }
 
 func ipv6(rackID int, hostID int, leafID int) string {
-	return fmt.Sprintf("2001:dead:beef:baad:cafe:%d:%d:%d", rackID, leafID, hostID)
+	return fmt.Sprintf("::ffff:10.10.%d%d.%d", rackID, leafID, hostID)
 }
 
 func nextDevicePortID(deviceID string, builder *superspineBuilder) string {
