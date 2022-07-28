@@ -5,10 +5,13 @@
 package topo
 
 import (
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/spf13/viper"
 	"os"
 	"path/filepath"
 )
+
+var log = logging.GetLogger("topo")
 
 // Topology is a description of a simulated network topology
 type Topology struct {

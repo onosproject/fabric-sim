@@ -31,11 +31,9 @@ func (s *Server) GetLink(ctx context.Context, request *simapi.GetLinkRequest) (*
 
 // AddLink creates and registers the specified simulated link
 func (s *Server) AddLink(ctx context.Context, request *simapi.AddLinkRequest) (*simapi.AddLinkResponse, error) {
-	log.Infof("Received add link request: %+v", request)
 	if _, err := s.simulation.AddLinkSimulator(request.Link); err != nil {
 		return nil, errors.Status(err).Err()
 	}
-	log.Infof("Sending add link response")
 	return &simapi.AddLinkResponse{}, nil
 }
 

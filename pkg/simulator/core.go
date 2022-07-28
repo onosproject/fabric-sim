@@ -8,11 +8,14 @@ package simulator
 import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
 	"strings"
 	"sync"
 )
+
+var log = logging.GetLogger("simulator")
 
 // Simulation tracks all entities and activities related to device, host and link simulation
 type Simulation struct {
