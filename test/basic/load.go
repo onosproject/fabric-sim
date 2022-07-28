@@ -18,53 +18,34 @@ import (
 
 // TestTopologyLoad loads simulator with custom.yaml topology and validates proper startup
 func (s *TestSuite) TestTopologyLoad(t *testing.T) {
-	devices := LoadAndValidate(t, "topologies/custom.yaml", 6, 16, 16, 1)
+	devices := LoadAndValidate(t, "topologies/custom.yaml", 6, 2*8, 16,
+		spineAndLeafPorts, func(host *simapi.Host) int { return 1 })
 	defer CleanUp(t)
-
-	// What about all the spine and leaf ports?
-	for _, device := range devices {
-		if strings.Contains(string(device.ID), "spine") {
-			assert.Equal(t, 4, len(device.Ports))
-		} else {
-			assert.Equal(t, 8, len(device.Ports))
-		}
-	}
 
 	ProbeAllDevices(t, devices)
 }
 
-// ProbeAllDevices tests each device P4Runtime agent port by requesting capabilities
-func ProbeAllDevices(t *testing.T, devices []*simapi.Device) {
-	ctx := context.Background()
-	for _, device := range devices {
-		t.Logf("Connecting to agent for device %s", device.ID)
-		p4Client, p4conn := GetP4Client(t, device)
-		defer p4conn.Close()
-
-		t.Logf("Getting P4 capabilities device %s", device.ID)
-		cr, err := p4Client.Capabilities(ctx, &p4api.CapabilitiesRequest{})
-		assert.NoError(t, err)
-		assert.Equal(t, "1.1.0", cr.P4RuntimeApiVersion)
-
-		// Open message stream and negotiate mastership for default (no) role
-		t.Logf("Negotiating mastership for device %s", device.ID)
-		stream, err := p4Client.StreamChannel(ctx)
-		assert.NoError(t, err)
-
-		err = stream.Send(utils.CreateMastershipArbitration(&p4api.Uint128{High: 0, Low: 1}))
-		assert.NoError(t, err)
-
-		msg, err := stream.Recv()
-		assert.NoError(t, err)
-		assert.Equal(t, int32(0), msg.GetArbitration().Status.Code)
+func spineAndLeafPorts(device *simapi.Device) int {
+	if strings.Contains(string(device.ID), "spine") {
+		return 4
 	}
+	return 8
 }
 
+// DevicePortCount returns the expected number of ports for a devuce
+type DevicePortCount func(device *simapi.Device) int
+
+// HostNICCount returns the expected number of NICs for a host
+type HostNICCount func(host *simapi.Host) int
+
 // LoadAndValidate loads the specified topology and validates the correct counts of devices, links and hosts
-func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts int, nicsPerHost int) []*simapi.Device {
+func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts int, portsPerDevice DevicePortCount, nicsPerHost HostNICCount) []*simapi.Device {
 	conn, err := utils.CreateConnection()
 	assert.NoError(t, err)
 	defer conn.Close()
+
+	err = topo.ClearTopology(conn)
+	assert.NoError(t, err)
 
 	err = topo.LoadTopology(conn, path)
 	assert.NoError(t, err)
@@ -92,11 +73,43 @@ func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts in
 	assert.NoError(t, err)
 	assert.Equal(t, hosts, len(hr.Hosts))
 
+	// What about all the device ports?
+	for _, device := range dr.Devices {
+		assert.Equal(t, portsPerDevice(device), len(device.Ports))
+	}
+
 	// What about all the host NICs?
 	for _, host := range hr.Hosts {
-		assert.Equal(t, nicsPerHost, len(host.Interfaces))
+		assert.Equal(t, nicsPerHost(host), len(host.Interfaces))
 	}
 	return dr.Devices
+}
+
+// ProbeAllDevices tests each device P4Runtime agent port by requesting capabilities
+func ProbeAllDevices(t *testing.T, devices []*simapi.Device) {
+	ctx := context.Background()
+	for _, device := range devices {
+		t.Logf("Connecting to agent for device %s", device.ID)
+		p4Client, p4conn := GetP4Client(t, device)
+		defer p4conn.Close()
+
+		t.Logf("Getting P4 capabilities device %s", device.ID)
+		cr, err := p4Client.Capabilities(ctx, &p4api.CapabilitiesRequest{})
+		assert.NoError(t, err)
+		assert.Equal(t, "1.1.0", cr.P4RuntimeApiVersion)
+
+		// Open message stream and negotiate mastership for default (no) role
+		t.Logf("Negotiating mastership for device %s", device.ID)
+		stream, err := p4Client.StreamChannel(ctx)
+		assert.NoError(t, err)
+
+		err = stream.Send(utils.CreateMastershipArbitration(&p4api.Uint128{High: 0, Low: 1}))
+		assert.NoError(t, err)
+
+		msg, err := stream.Recv()
+		assert.NoError(t, err)
+		assert.Equal(t, int32(0), msg.GetArbitration().Status.Code)
+	}
 }
 
 // GetP4Client returns a new P4Runtime service client and its underlying connection for the given device

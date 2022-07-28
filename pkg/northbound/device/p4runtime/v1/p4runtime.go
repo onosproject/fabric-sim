@@ -9,6 +9,7 @@ import (
 	"context"
 	"github.com/onosproject/fabric-sim/pkg/simulator"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"io"
@@ -61,7 +62,7 @@ func (s *Server) Read(request *p4api.ReadRequest, server p4api.P4Runtime_ReadSer
 	// Send a response in one go
 	err := server.Send(&p4api.ReadResponse{Entities: entities})
 	if err != nil && err != io.EOF {
-		return err
+		return errors.Status(err).Err()
 	}
 	return nil
 }
@@ -130,7 +131,7 @@ func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error
 			break
 		}
 		if err != nil {
-			return err
+			return errors.Status(err).Err()
 		}
 		s.processRequest(responder, msg)
 	}

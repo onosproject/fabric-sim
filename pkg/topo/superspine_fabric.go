@@ -82,14 +82,14 @@ func createRackPairFabric(rackID int, fabric *SuperSpineFabric, builder *supersp
 	createSwitch(leaf22, 32, builder, topology)
 
 	// Connect the leaves to the spines
-	createLinkTrunk(leaf11, spine1, 8, builder, topology)
-	createLinkTrunk(leaf11, spine2, 8, builder, topology)
-	createLinkTrunk(leaf12, spine1, 8, builder, topology)
-	createLinkTrunk(leaf12, spine2, 8, builder, topology)
-	createLinkTrunk(leaf21, spine1, 8, builder, topology)
-	createLinkTrunk(leaf21, spine2, 8, builder, topology)
-	createLinkTrunk(leaf22, spine1, 8, builder, topology)
-	createLinkTrunk(leaf22, spine2, 8, builder, topology)
+	createLinkTrunk(leaf11, spine1, 4, builder, topology)
+	createLinkTrunk(leaf11, spine2, 4, builder, topology)
+	createLinkTrunk(leaf12, spine1, 4, builder, topology)
+	createLinkTrunk(leaf12, spine2, 4, builder, topology)
+	createLinkTrunk(leaf21, spine1, 4, builder, topology)
+	createLinkTrunk(leaf21, spine2, 4, builder, topology)
+	createLinkTrunk(leaf22, spine1, 4, builder, topology)
+	createLinkTrunk(leaf22, spine2, 4, builder, topology)
 
 	// Now actually pair the leaves
 	createLinkTrunk(leaf11, leaf12, 2, builder, topology)

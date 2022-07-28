@@ -19,7 +19,8 @@ import (
 
 // TestLLDPPacket tests the LLDP packet-out handling
 func (s *TestSuite) TestLLDPPacket(t *testing.T) {
-	_ = LoadAndValidate(t, "topologies/trivial.yaml", 2, 2, 2, 1)
+	_ = LoadAndValidate(t, "topologies/trivial.yaml", 2, 2, 2,
+		func(*simapi.Device) int { return 2 }, func(*simapi.Host) int { return 1 })
 	defer CleanUp(t)
 
 	conn, err := utils.CreateConnection()
