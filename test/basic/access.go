@@ -9,9 +9,9 @@ import (
 	"testing"
 )
 
-// TestSuperSpineFabricLoad loads simulator with the superspine_fabric.yaml topology and validates proper startup
-func (s *TestSuite) TestSuperSpineFabricLoad(t *testing.T) {
-	devices := LoadAndValidate(t, "topologies/superspine_fabric.yaml", 14, 2*136, 40,
+// TestAccessFabricLoad loads simulator with the access_fabric.yaml topology and validates proper startup
+func (s *TestSuite) TestAccessFabricLoad(t *testing.T) {
+	devices := LoadAndValidate(t, "topologies/access_fabric.yaml", 3+6, (3*3*6+3*2)*2, 3*20,
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 })
 	defer CleanUp(t)
 
