@@ -8,16 +8,11 @@ import (
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
-	"github.com/onosproject/onos-lib-go/pkg/errors"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
-	"google.golang.org/genproto/googleapis/rpc/status"
 	"strconv"
 	"sync"
 )
-
-var log = logging.GetLogger("simulator", "device")
 
 // DeviceSimulator simulates a single device
 type DeviceSimulator struct {
@@ -99,8 +94,8 @@ func (ds *DeviceSimulator) DisablePort(id simapi.PortID, mode simapi.StopMode) e
 
 // RecordRoleElection checks the given election ID for the specified role and records it
 // if the given election ID is larger than a previously recorded election ID for the same
-// role. It returns error (if election for role not secured) and the latest election ID for the role.
-func (ds *DeviceSimulator) RecordRoleElection(role *p4api.Role, electionID *p4api.Uint128) (*p4api.Uint128, error) {
+// role; returns the winning election ID for the role
+func (ds *DeviceSimulator) RecordRoleElection(role *p4api.Role, electionID *p4api.Uint128) *p4api.Uint128 {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
 
@@ -112,39 +107,39 @@ func (ds *DeviceSimulator) RecordRoleElection(role *p4api.Role, electionID *p4ap
 	maxID, ok := ds.roleElections[roleID]
 	if !ok || isNewMaster(maxID, electionID) {
 		ds.roleElections[roleID] = electionID
-		return electionID, nil
+		return electionID
 	}
-	return maxID, errors.NewInvalid("Mastership for role %d has not been secured with election ID %d",
-		roleID, electionID)
+	return maxID
 }
 
 func isNewMaster(current *p4api.Uint128, new *p4api.Uint128) bool {
 	return current.High < new.High || (current.High == new.High && current.Low < new.Low)
 }
 
-// ProcessMastershipArbitration processes the specified arbitration update
-func (ds *DeviceSimulator) ProcessMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate, responder StreamResponder) {
-	log.Debugf("Device %s: received mastership arbitration: %+v", ds.Device.ID, arbitration)
+// RunMastershipArbitration processes the specified arbitration update
+func (ds *DeviceSimulator) RunMastershipArbitration(role *p4api.Role, electionID *p4api.Uint128) {
+	log.Debugf("Device %s: running mastership arbitration for role %s and electionID %+v", ds.Device.ID, role, electionID)
 
-	electionStatus := &status.Status{Code: int32(code.Code_OK)}
-	maxElectionID, err := ds.RecordRoleElection(arbitration.Role, arbitration.ElectionId)
-	if err != nil {
-		electionStatus.Code = int32(code.Code_PERMISSION_DENIED)
-		electionStatus.Message = err.Error()
+	// Record the role and election ID, return the winning (highest) election ID for the role
+	maxElectionID := ds.RecordRoleElection(role, electionID)
+
+	ds.lock.RLock()
+	defer ds.lock.RUnlock()
+
+	// If we cannot locate the responder with the max election ID, then this means the previous
+	// master has left and we need to return NOT_FOUND code to all existing responders for this role
+	failCode := code.Code_NOT_FOUND
+	for _, r := range ds.responders {
+		if r.IsMaster(role, maxElectionID) {
+			failCode = code.Code_ALREADY_EXISTS
+			break
+		}
 	}
-	// Respond directly to the responder corresponding to the stream from where we received the message
-	responder.Send(&p4api.StreamMessageResponse{
-		Update: &p4api.StreamMessageResponse_Arbitration{
-			Arbitration: &p4api.MasterArbitrationUpdate{
-				DeviceId:   arbitration.DeviceId,
-				Role:       arbitration.Role,
-				ElectionId: maxElectionID,
-				Status:     electionStatus,
-			},
-		},
-	})
 
-	// FIXME: Respond to other stream responders as well
+	// Notify all responders for the role
+	for _, r := range ds.responders {
+		r.SendMastershipArbitration(role, maxElectionID, failCode)
+	}
 }
 
 // AddStreamResponder adds the given stream responder to the specified device

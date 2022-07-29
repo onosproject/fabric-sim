@@ -12,6 +12,7 @@ import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
+	"google.golang.org/genproto/googleapis/rpc/code"
 	"strconv"
 	"testing"
 	"time"
@@ -44,9 +45,9 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	p4sw2b, conn2b := GetP4Client(t, r2.Device)
 	assert.NotNil(t, conn2b)
 
-	stream1 := StartStream(ctx, t, p4sw1, &p4api.Uint128{High: 0, Low: 1}, 0)
-	stream2a := StartStream(ctx, t, p4sw2a, &p4api.Uint128{High: 0, Low: 1}, 0)
-	stream2b := StartStream(ctx, t, p4sw2b, &p4api.Uint128{High: 0, Low: 1}, 7)
+	stream1 := StartStream(ctx, t, p4sw1, &p4api.Uint128{High: 0, Low: 2}, int32(code.Code_OK))
+	stream2a := StartStream(ctx, t, p4sw2a, &p4api.Uint128{High: 0, Low: 2}, int32(code.Code_OK))
+	stream2b := StartStream(ctx, t, p4sw2b, &p4api.Uint128{High: 0, Low: 1}, int32(code.Code_ALREADY_EXISTS))
 
 	// Create an LLDP packet
 	lldp := layers.LinkLayerDiscovery{
@@ -102,18 +103,21 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 func ValidateLLDPPacket(t *testing.T, msg *p4api.StreamMessageResponse, chassisID string, sdnPortNumber uint32) {
 	packetIn := msg.GetPacket()
 	assert.NotNil(t, packetIn)
-	packet := gopacket.NewPacket(packetIn.Payload, layers.LayerTypeLinkLayerDiscovery, gopacket.Default)
-	assert.NotNil(t, packet)
 
-	lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery)
-	assert.NotNil(t, lldpLayer)
+	if packetIn != nil {
+		packet := gopacket.NewPacket(packetIn.Payload, layers.LayerTypeLinkLayerDiscovery, gopacket.Default)
+		assert.NotNil(t, packet)
 
-	lldp := lldpLayer.(*layers.LinkLayerDiscovery)
-	assert.Equal(t, chassisID, string(lldp.ChassisID.ID))
+		lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery)
+		assert.NotNil(t, lldpLayer)
 
-	lldpPortNumber, err := strconv.ParseInt(string(lldp.PortID.ID), 10, 32)
-	assert.NoError(t, err)
-	assert.Equal(t, sdnPortNumber, uint32(lldpPortNumber))
+		lldp := lldpLayer.(*layers.LinkLayerDiscovery)
+		assert.Equal(t, chassisID, string(lldp.ChassisID.ID))
+
+		lldpPortNumber, err := strconv.ParseInt(string(lldp.PortID.ID), 10, 32)
+		assert.NoError(t, err)
+		assert.Equal(t, sdnPortNumber, uint32(lldpPortNumber))
+	}
 }
 
 // ValidateNoPendingMessage makes sure that the specified stream has no pending messages; blocks until message or error

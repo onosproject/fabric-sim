@@ -12,6 +12,8 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
+	"google.golang.org/genproto/googleapis/rpc/code"
+	"google.golang.org/genproto/googleapis/rpc/status"
 	"io"
 )
 
@@ -84,7 +86,10 @@ func (s *Server) GetForwardingPipelineConfig(ctx context.Context, request *p4api
 
 // State related to a single message stream
 type streamState struct {
-	arbitration     *p4api.MasterArbitrationUpdate
+	deviceID        uint64
+	role            *p4api.Role
+	electionID      *p4api.Uint128
+	sentCode        *int32
 	streamResponses chan *p4api.StreamMessageResponse
 }
 
@@ -93,12 +98,42 @@ func (state *streamState) Send(response *p4api.StreamMessageResponse) {
 	state.streamResponses <- response
 }
 
-// RecordMastershipArbitration records the mastership arbitration
-func (state *streamState) RecordMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate) *p4api.MasterArbitrationUpdate {
+func (state *streamState) SendMastershipArbitration(role *p4api.Role, masterElectionID *p4api.Uint128, failCode code.Code) {
+	// Send failed election status code unless we are the master
+	electionStatus := &status.Status{Code: int32(failCode)}
+	if state.electionID == masterElectionID && state.role == role {
+		electionStatus.Code = int32(code.Code_OK)
+	}
+
+	// Send only if we haven't sent this code previously
+	if state.sentCode == nil || *state.sentCode != electionStatus.Code {
+		state.Send(&p4api.StreamMessageResponse{
+			Update: &p4api.StreamMessageResponse_Arbitration{
+				Arbitration: &p4api.MasterArbitrationUpdate{
+					DeviceId:   state.deviceID,
+					Role:       state.role,
+					ElectionId: masterElectionID,
+					Status:     electionStatus,
+				},
+			},
+		})
+		state.sentCode = &electionStatus.Code
+	}
+}
+
+// LatchMastershipArbitration record the mastership arbitration role and election ID if the arbitration update is not nil
+func (state *streamState) LatchMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate) *p4api.MasterArbitrationUpdate {
 	if arbitration != nil {
-		state.arbitration = arbitration
+		state.deviceID = arbitration.DeviceId
+		state.role = arbitration.Role
+		state.electionID = arbitration.ElectionId
 	}
 	return arbitration
+}
+
+// IsMaster returns true if the responder is the current master, i.e. has the master election ID, for the given role.
+func (state *streamState) IsMaster(role *p4api.Role, masterElectionID *p4api.Uint128) bool {
+	return state.role == role && state.electionID.High == masterElectionID.High && state.electionID.Low == masterElectionID.Low
 }
 
 // StreamChannel reads and handles incoming requests and emits any queued up outgoing responses
@@ -108,7 +143,12 @@ func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error
 		streamResponses: make(chan *p4api.StreamMessageResponse, 128),
 	}
 	s.deviceSim.AddStreamResponder(responder)
-	defer s.deviceSim.RemoveStreamResponder(responder)
+
+	// On stream closure, remove the responder and run mastership arbitration
+	defer func() {
+		s.deviceSim.RemoveStreamResponder(responder)
+		s.deviceSim.RunMastershipArbitration(responder.role, responder.electionID)
+	}()
 
 	// Emit any queued-up messages in the background until we get an error or the context is closed
 	go func() {
@@ -135,6 +175,7 @@ func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error
 		}
 		s.processRequest(responder, msg)
 	}
+
 	return nil
 }
 
@@ -148,8 +189,8 @@ func (s *Server) processRequest(responder simulator.StreamResponder, msg *p4api.
 	}
 
 	// If the message is a mastership arbitration, record it and process it
-	if arbitration := responder.RecordMastershipArbitration(msg.GetArbitration()); arbitration != nil {
-		s.deviceSim.ProcessMastershipArbitration(arbitration, responder)
+	if arbitration := responder.LatchMastershipArbitration(msg.GetArbitration()); arbitration != nil {
+		s.deviceSim.RunMastershipArbitration(arbitration.Role, arbitration.ElectionId)
 		return
 	}
 

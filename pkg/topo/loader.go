@@ -8,11 +8,8 @@ import (
 	"context"
 	"fmt"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
-	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"google.golang.org/grpc"
 )
-
-var log = logging.GetLogger()
 
 // LoadTopology loads the specified YAML file and creates the prescribed simulated topology entities
 // using the fabric simulator API client.

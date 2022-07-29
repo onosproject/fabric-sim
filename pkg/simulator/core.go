@@ -8,10 +8,14 @@ package simulator
 import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
+	"google.golang.org/genproto/googleapis/rpc/code"
 	"strings"
 	"sync"
 )
+
+var log = logging.GetLogger("simulator")
 
 // Simulation tracks all entities and activities related to device, host and link simulation
 type Simulation struct {
@@ -47,11 +51,18 @@ type DeviceAgent interface {
 
 // StreamResponder is an abstraction for sending StreamResponse messages to controllers
 type StreamResponder interface {
-	// RecordMastershipArbitration records the given mastership arbitration and returns is
-	RecordMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate) *p4api.MasterArbitrationUpdate
+	// LatchMastershipArbitration record the mastership arbitration role and election ID if the arbitration update is not nil
+	LatchMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate) *p4api.MasterArbitrationUpdate
+
+	// SendMastershipArbitration sends a mastership arbitration message to the controller with OK code if
+	// the controller has the master election ID or with the given fail code otherwise
+	SendMastershipArbitration(role *p4api.Role, masterElectionID *p4api.Uint128, failCode code.Code)
 
 	// Send queues up the specified response to asynchronously sends on the backing stream
 	Send(response *p4api.StreamMessageResponse)
+
+	// IsMaster returns true if the responder is the current master, i.e. has the master election ID, for the given role.
+	IsMaster(role *p4api.Role, masterElectionID *p4api.Uint128) bool
 }
 
 type linkOrNIC struct {
