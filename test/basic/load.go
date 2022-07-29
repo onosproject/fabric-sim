@@ -52,7 +52,7 @@ func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts in
 
 	// Validate that everything got loaded correctly
 	deviceClient := simapi.NewDeviceServiceClient(conn)
-	linksClient := simapi.NewLinkServiceClient(conn)
+	linkClient := simapi.NewLinkServiceClient(conn)
 	hostClient := simapi.NewHostServiceClient(conn)
 
 	t.Logf("Validating topology")
@@ -64,7 +64,7 @@ func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts in
 	assert.Equal(t, devices, len(dr.Devices))
 
 	// Do we have all the links?
-	lr, err := linksClient.GetLinks(ctx, &simapi.GetLinksRequest{})
+	lr, err := linkClient.GetLinks(ctx, &simapi.GetLinksRequest{})
 	assert.NoError(t, err)
 	assert.Equal(t, links, len(lr.Links))
 
@@ -83,6 +83,20 @@ func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts in
 		assert.Equal(t, nicsPerHost(host), len(host.Interfaces))
 	}
 	return dr.Devices
+}
+
+// CleanUp cleans up the simulation
+func CleanUp(t *testing.T) {
+	t.Log("Cleaning up topology")
+	if conn, err := utils.CreateConnection(); err == nil {
+		if err := topo.ClearTopology(conn); err != nil {
+			t.Log("Unable to clear topology")
+			assert.NoError(t, err)
+		}
+	} else {
+		t.Log("Unable to clear topology; no connection")
+		t.Fail()
+	}
 }
 
 // ProbeAllDevices tests each device P4Runtime agent port by requesting capabilities
@@ -117,12 +131,4 @@ func GetP4Client(t *testing.T, device *simapi.Device) (p4api.P4RuntimeClient, *g
 	conn, err := utils.CreateDeviceConnection(device)
 	assert.NoError(t, err)
 	return p4api.NewP4RuntimeClient(conn), conn
-}
-
-// CleanUp cleans up the simulation to allow other simulation tests run
-func CleanUp(t *testing.T) {
-	t.Log("Cleaning up topology")
-	if conn, err := utils.CreateConnection(); err == nil {
-		_ = topo.ClearTopology(conn)
-	}
 }
