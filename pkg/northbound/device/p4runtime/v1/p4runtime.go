@@ -48,8 +48,29 @@ func (s *Server) Capabilities(ctx context.Context, request *p4api.CapabilitiesRe
 // Write :
 func (s *Server) Write(ctx context.Context, request *p4api.WriteRequest) (*p4api.WriteResponse, error) {
 	log.Infof("Device %s: Write received", s.deviceID)
-	// TODO: implement this
+	if err := s.checkMastership(request.DeviceId, request.RoleId, request.ElectionId); err != nil {
+		return nil, errors.Status(err).Err()
+	}
+	if err := s.checkForwardingPipeline(); err != nil {
+		return nil, errors.Status(err).Err()
+	}
+	if err := s.deviceSim.ProcessWrite(request.Atomicity, request.Updates); err != nil {
+		return nil, errors.Status(err).Err()
+	}
 	return &p4api.WriteResponse{}, nil
+}
+
+// Makes sure that the specified role and election ID have mastership over the given device; returns error if not
+func (s *Server) checkMastership(deviceID uint64, roleID uint64, electionID *p4api.Uint128) error {
+	return s.deviceSim.IsMaster(deviceID, roleID, electionID)
+}
+
+// Makes sure that the forwarding pipeline has been set fo the device
+func (s *Server) checkForwardingPipeline() error {
+	if s.deviceSim.GetPipelineConfig() == nil {
+		return errors.NewConflict("Forwarding pipeline not set for %s", s.deviceID)
+	}
+	return nil
 }
 
 // Read :
@@ -57,7 +78,7 @@ func (s *Server) Read(request *p4api.ReadRequest, server p4api.P4Runtime_ReadSer
 	log.Infof("Device %s: Read received", s.deviceID)
 	entities := make([]*p4api.Entity, 0, len(request.Entities))
 
-	// TODO: implement this for real
+	// TODO: implement this for realgen
 	// Accumulate entities to respond with
 	entities = append(entities, request.Entities...)
 
@@ -72,7 +93,12 @@ func (s *Server) Read(request *p4api.ReadRequest, server p4api.P4Runtime_ReadSer
 // SetForwardingPipelineConfig :
 func (s *Server) SetForwardingPipelineConfig(ctx context.Context, request *p4api.SetForwardingPipelineConfigRequest) (*p4api.SetForwardingPipelineConfigResponse, error) {
 	log.Infof("Device %s: Forwarding pipeline configuration has been set", s.deviceID)
-	s.deviceSim.ForwardingPipelineConfig = request.Config
+	if err := s.checkMastership(request.DeviceId, request.RoleId, request.ElectionId); err != nil {
+		return nil, errors.Status(err).Err()
+	}
+	if err := s.deviceSim.SetPipelineConfig(request.Config); err != nil {
+		return nil, errors.Status(err).Err()
+	}
 	return &p4api.SetForwardingPipelineConfigResponse{}, nil
 }
 
@@ -80,7 +106,7 @@ func (s *Server) SetForwardingPipelineConfig(ctx context.Context, request *p4api
 func (s *Server) GetForwardingPipelineConfig(ctx context.Context, request *p4api.GetForwardingPipelineConfigRequest) (*p4api.GetForwardingPipelineConfigResponse, error) {
 	log.Infof("Device %s: Getting pipeline configuration", s.deviceID)
 	return &p4api.GetForwardingPipelineConfigResponse{
-		Config: s.deviceSim.ForwardingPipelineConfig,
+		Config: s.deviceSim.GetPipelineConfig(),
 	}, nil
 }
 
@@ -147,7 +173,7 @@ func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error
 	// On stream closure, remove the responder and run mastership arbitration
 	defer func() {
 		s.deviceSim.RemoveStreamResponder(responder)
-		s.deviceSim.RunMastershipArbitration(responder.role, responder.electionID)
+		_ = s.deviceSim.RunMastershipArbitration(responder.role, responder.electionID)
 	}()
 
 	// Emit any queued-up messages in the background until we get an error or the context is closed
@@ -173,30 +199,31 @@ func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error
 		if err != nil {
 			return errors.Status(err).Err()
 		}
-		s.processRequest(responder, msg)
+		if err = s.processRequest(responder, msg); err != nil {
+			return errors.Status(err).Err()
+		}
 	}
 
 	return nil
 }
 
-func (s *Server) processRequest(responder simulator.StreamResponder, msg *p4api.StreamMessageRequest) {
+func (s *Server) processRequest(responder simulator.StreamResponder, msg *p4api.StreamMessageRequest) error {
 	log.Debugf("Device %s: Received message: %+v", s.deviceID, msg)
 
 	// If the message is a packet out, process it
 	if packet := msg.GetPacket(); packet != nil {
-		s.deviceSim.ProcessPacketOut(packet, responder)
-		return
+		return s.deviceSim.ProcessPacketOut(packet, responder)
 	}
 
 	// If the message is a mastership arbitration, record it and process it
 	if arbitration := responder.LatchMastershipArbitration(msg.GetArbitration()); arbitration != nil {
-		s.deviceSim.RunMastershipArbitration(arbitration.Role, arbitration.ElectionId)
-		return
+		return s.deviceSim.RunMastershipArbitration(arbitration.Role, arbitration.ElectionId)
 	}
 
 	// Process digest list ack
 	if digestAck := msg.GetDigestAck(); digestAck != nil {
-		s.deviceSim.ProcessDigestAck(digestAck, responder)
-		return
+		return s.deviceSim.ProcessDigestAck(digestAck, responder)
 	}
+
+	return nil
 }

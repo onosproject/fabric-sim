@@ -7,7 +7,9 @@ package simulator
 import (
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
+	"github.com/onosproject/fabric-sim/pkg/simulator/entries"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-lib-go/pkg/errors"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
 	"strconv"
@@ -16,16 +18,20 @@ import (
 
 // DeviceSimulator simulates a single device
 type DeviceSimulator struct {
-	Device                   *simapi.Device
-	Ports                    map[simapi.PortID]*simapi.Port
-	Agent                    DeviceAgent
-	ForwardingPipelineConfig *p4api.ForwardingPipelineConfig
+	Device *simapi.Device
+	Ports  map[simapi.PortID]*simapi.Port
+	Agent  DeviceAgent
 
-	lock          sync.RWMutex
-	roleElections map[uint64]*p4api.Uint128
-	responders    []StreamResponder
-	simulation    *Simulation
-	sdnPorts      map[uint32]*simapi.Port
+	lock                     sync.RWMutex
+	forwardingPipelineConfig *p4api.ForwardingPipelineConfig
+	responders               []StreamResponder
+	roleElections            map[uint64]*p4api.Uint128
+	simulation               *Simulation
+	sdnPorts                 map[uint32]*simapi.Port
+
+	tables   *entries.Tables
+	counters *entries.Counters
+	meters   *entries.Meters
 }
 
 // NewDeviceSimulator initializes a new device simulator
@@ -92,9 +98,22 @@ func (ds *DeviceSimulator) DisablePort(id simapi.PortID, mode simapi.StopMode) e
 	return nil
 }
 
+// IsMaster returns an error if the given election ID is not the master for the specified device (chassis) and role.
+func (ds *DeviceSimulator) IsMaster(chassisID uint64, roleID uint64, electionID *p4api.Uint128) error {
+	if chassisID != ds.Device.ChassisID {
+		return errors.NewConflict("Incorrect device ID: %d", chassisID)
+	}
+	winningElectionID, ok := ds.roleElections[roleID]
+	if !ok || winningElectionID.High != electionID.High || winningElectionID.Low != electionID.Low {
+		return errors.NewUnauthorized("Not master for role %d on device ID: %d", roleID, chassisID)
+	}
+	return nil
+}
+
 // RecordRoleElection checks the given election ID for the specified role and records it
 // if the given election ID is larger than a previously recorded election ID for the same
-// role; returns the winning election ID for the role
+// role; returns the winning election ID for the role or nil if a master for this role and
+// election ID is already claimed
 func (ds *DeviceSimulator) RecordRoleElection(role *p4api.Role, electionID *p4api.Uint128) *p4api.Uint128 {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
@@ -105,19 +124,17 @@ func (ds *DeviceSimulator) RecordRoleElection(role *p4api.Role, electionID *p4ap
 	}
 
 	maxID, ok := ds.roleElections[roleID]
-	if !ok || isNewMaster(maxID, electionID) {
+	if !ok || maxID.High < electionID.High || (maxID.High == electionID.High && maxID.Low < electionID.Low) {
 		ds.roleElections[roleID] = electionID
 		return electionID
+	} else if maxID.High == electionID.High && maxID.Low == electionID.Low {
+		return nil // this role and election ID has already been claimed
 	}
 	return maxID
 }
 
-func isNewMaster(current *p4api.Uint128, new *p4api.Uint128) bool {
-	return current.High < new.High || (current.High == new.High && current.Low < new.Low)
-}
-
 // RunMastershipArbitration processes the specified arbitration update
-func (ds *DeviceSimulator) RunMastershipArbitration(role *p4api.Role, electionID *p4api.Uint128) {
+func (ds *DeviceSimulator) RunMastershipArbitration(role *p4api.Role, electionID *p4api.Uint128) error {
 	log.Debugf("Device %s: running mastership arbitration for role %s and electionID %+v", ds.Device.ID, role, electionID)
 
 	// Record the role and election ID, return the winning (highest) election ID for the role
@@ -126,13 +143,21 @@ func (ds *DeviceSimulator) RunMastershipArbitration(role *p4api.Role, electionID
 	ds.lock.RLock()
 	defer ds.lock.RUnlock()
 
+	// TODO: generate failed precondition (conflict) error or not found error if device ID does not match
+	// TODO: handle voluntary mastership downgrade
+	// TODO: handle role.config promotion
+
 	// If we cannot locate the responder with the max election ID, then this means the previous
 	// master has left and we need to return NOT_FOUND code to all existing responders for this role
 	failCode := code.Code_NOT_FOUND
-	for _, r := range ds.responders {
-		if r.IsMaster(role, maxElectionID) {
-			failCode = code.Code_ALREADY_EXISTS
-			break
+	if maxElectionID == nil {
+		failCode = code.Code_INVALID_ARGUMENT
+	} else {
+		for _, r := range ds.responders {
+			if r.IsMaster(role, maxElectionID) {
+				failCode = code.Code_ALREADY_EXISTS
+				break
+			}
 		}
 	}
 
@@ -140,6 +165,8 @@ func (ds *DeviceSimulator) RunMastershipArbitration(role *p4api.Role, electionID
 	for _, r := range ds.responders {
 		r.SendMastershipArbitration(role, maxElectionID, failCode)
 	}
+
+	return nil
 }
 
 // AddStreamResponder adds the given stream responder to the specified device
@@ -172,8 +199,27 @@ func (ds *DeviceSimulator) SendToAllResponders(response *p4api.StreamMessageResp
 	}
 }
 
+// SetPipelineConfig sets the forwarding pipeline configuration for the device
+func (ds *DeviceSimulator) SetPipelineConfig(fpc *p4api.ForwardingPipelineConfig) error {
+	ds.lock.Lock()
+	defer ds.lock.Unlock()
+	ds.forwardingPipelineConfig = fpc
+
+	// Create the required entities, e.g. tables, counters, meters, etc.
+	info := fpc.P4Info
+	ds.tables = entries.NewTables(info.Tables)
+	ds.counters = entries.NewCounters(info.Counters)
+	ds.meters = entries.NewMeters(info.Meters)
+	return nil
+}
+
+// GetPipelineConfig sets the forwarding pipeline configuration for the device
+func (ds *DeviceSimulator) GetPipelineConfig() *p4api.ForwardingPipelineConfig {
+	return ds.forwardingPipelineConfig
+}
+
 // ProcessPacketOut handles the specified packet out message
-func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responder StreamResponder) {
+func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responder StreamResponder) error {
 	log.Infof("Device %s: received packet out: %+v", ds.Device.ID, packetOut)
 
 	// Start by decoding the packet
@@ -187,12 +233,14 @@ func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responde
 	// Process ARP packet
 	// Process DHCP packet
 	// ...
+	return nil
 }
 
 // ProcessDigestAck handles the specified digest list ack message
-func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder StreamResponder) {
+func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder StreamResponder) error {
 	log.Infof("Device %s: received digest ack: %+v", ds.Device.ID, ack)
 	// TODO: Implement this
+	return nil
 }
 
 // Processes the LLDP packet-out by emitting it encapsulated as a packet-in on the simulated device which is
@@ -242,6 +290,84 @@ func portNumberFromLLDP(id layers.LLDPPortID) uint32 {
 		return uint32(i)
 	}
 	return 0
+}
+
+// ProcessWrite processes the specified batch of updates
+func (ds *DeviceSimulator) ProcessWrite(atomicity p4api.WriteRequest_Atomicity, updates []*p4api.Update) error {
+	ds.lock.Lock()
+	defer ds.lock.Unlock()
+
+	for _, update := range updates {
+		switch {
+		case update.Type == p4api.Update_INSERT:
+			if err := ds.processModify(update, true); err != nil {
+				return err
+			}
+		case update.Type == p4api.Update_MODIFY:
+			if err := ds.processModify(update, false); err != nil {
+				return err
+			}
+		case update.Type == p4api.Update_DELETE:
+			if err := ds.processDelete(update); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func (ds *DeviceSimulator) processModify(update *p4api.Update, isInsert bool) error {
+	entity := update.Entity
+	var err error
+	switch {
+	case entity.GetTableEntry() != nil:
+		err = ds.tables.ModifyTableEntry(entity.GetTableEntry(), isInsert)
+	case entity.GetCounterEntry() != nil:
+		err = ds.counters.ModifyCounterEntry(entity.GetCounterEntry(), isInsert)
+	case entity.GetDirectCounterEntry() != nil:
+		err = ds.tables.ModifyDirectCounterEntry(entity.GetDirectCounterEntry(), isInsert)
+	case entity.GetMeterEntry() != nil:
+		err = ds.meters.ModifyMeterEntry(entity.GetMeterEntry(), isInsert)
+	case entity.GetDirectMeterEntry() != nil:
+		err = ds.tables.ModifyDirectMeterEntry(entity.GetDirectMeterEntry(), isInsert)
+
+	case entity.GetRegisterEntry() != nil:
+	case entity.GetValueSetEntry() != nil:
+	case entity.GetActionProfileGroup() != nil:
+	case entity.GetActionProfileMember() != nil:
+	case entity.GetDigestEntry() != nil:
+	case entity.GetPacketReplicationEngineEntry() != nil:
+	case entity.GetExternEntry() != nil:
+	default:
+	}
+	return err
+}
+
+func (ds *DeviceSimulator) processDelete(update *p4api.Update) error {
+	entity := update.Entity
+	var err error
+	switch {
+	case entity.GetTableEntry() != nil:
+		err = ds.tables.RemoveTableEntry(entity.GetTableEntry())
+	case entity.GetCounterEntry() != nil:
+		err = ds.counters.RemoveCounterEntry(entity.GetCounterEntry())
+	case entity.GetDirectCounterEntry() != nil:
+		err = errors.NewInvalid("Direct counter entry cannot be deleted")
+	case entity.GetMeterEntry() != nil:
+		err = ds.meters.RemoveMeterEntry(entity.GetMeterEntry())
+	case entity.GetDirectMeterEntry() != nil:
+		err = errors.NewInvalid("Direct meter entry cannot be deleted")
+
+	case entity.GetRegisterEntry() != nil:
+	case entity.GetValueSetEntry() != nil:
+	case entity.GetActionProfileGroup() != nil:
+	case entity.GetActionProfileMember() != nil:
+	case entity.GetDigestEntry() != nil:
+	case entity.GetPacketReplicationEngineEntry() != nil:
+	case entity.GetExternEntry() != nil:
+	default:
+	}
+	return err
 }
 
 // TODO: Additional simulation logic goes here
