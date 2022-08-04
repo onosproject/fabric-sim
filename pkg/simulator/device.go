@@ -370,4 +370,40 @@ func (ds *DeviceSimulator) processDelete(update *p4api.Update) error {
 	return err
 }
 
+// ProcessRead executes the read of the specified set of requests, returning accumulated results via the supplied sender
+func (ds *DeviceSimulator) ProcessRead(requests []*p4api.Entity, sender entries.BatchSender) []error {
+	ds.lock.RLock()
+	defer ds.lock.RUnlock()
+
+	// Allocate the same number of errors as there are requests - expressed as entities
+	errors := make([]error, len(requests))
+
+	for i, request := range requests {
+		errors[i] = ds.processRead(request, sender)
+	}
+	return errors
+}
+
+// Executes the read of the specified request, returning accumulated results via the supplied sender
+func (ds *DeviceSimulator) processRead(request *p4api.Entity, sender entries.BatchSender) error {
+	switch {
+	case request.GetTableEntry() != nil:
+		return ds.tables.ReadTableEntries(request.GetTableEntry(), sender)
+	case request.GetCounterEntry() != nil:
+	case request.GetDirectCounterEntry() != nil:
+	case request.GetMeterEntry() != nil:
+	case request.GetDirectMeterEntry() != nil:
+
+	case request.GetRegisterEntry() != nil:
+	case request.GetValueSetEntry() != nil:
+	case request.GetActionProfileGroup() != nil:
+	case request.GetActionProfileMember() != nil:
+	case request.GetDigestEntry() != nil:
+	case request.GetPacketReplicationEngineEntry() != nil:
+	case request.GetExternEntry() != nil:
+	default:
+	}
+	return nil
+}
+
 // TODO: Additional simulation logic goes here

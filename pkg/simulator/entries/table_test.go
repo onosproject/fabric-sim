@@ -5,13 +5,17 @@
 package entries
 
 import (
+	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestTableBasics(t *testing.T) {
-	table := NewTable(nil)
+	tables := NewTables([]*p4info.Table{{Preamble: &p4info.Preamble{Id: 1}}})
+	assert.Len(t, tables.tables, 1)
+
+	table := tables.tables[1]
 	assert.Len(t, table.entries, 0)
 
 	exact1 := &p4api.FieldMatch{
@@ -77,27 +81,69 @@ func TestTableBasics(t *testing.T) {
 	}
 
 	// Insert new entry
-	err := table.ModifyTableEntry(e1, true)
+	err := tables.ModifyTableEntry(e1, true)
 	assert.NoError(t, err)
 	assert.Len(t, table.entries, 1)
 
 	// Modify an existing entry
 	e1.Action = &p4api.TableAction{}
-	err = table.ModifyTableEntry(e2, false)
+	err = tables.ModifyTableEntry(e2, false)
 	assert.NoError(t, err)
 	assert.Len(t, table.entries, 1)
 
 	// Insert of the same entry should fail
-	err = table.ModifyTableEntry(e2, true)
+	err = tables.ModifyTableEntry(e2, true)
 	assert.Error(t, err)
 	assert.Len(t, table.entries, 1)
 
-	err = table.RemoveTableEntry(e1)
+	count := 0
+	var entry *p4api.TableEntry
+
+	// Read all tables
+	err = tables.ReadTableEntries(&p4api.TableEntry{}, func(entities []*p4api.Entity) error {
+		count = count + len(entities)
+		entry = entities[0].GetTableEntry()
+		return nil
+	})
+	assert.NoError(t, err)
+	assert.Equal(t, 1, count)
+	assert.Len(t, entry.Match, 5)
+	assert.Equal(t, int32(123), entry.Priority)
+
+	// Read a table
+	count = 0
+	entry = nil
+	err = tables.ReadTableEntries(&p4api.TableEntry{TableId: 1}, func(entities []*p4api.Entity) error {
+		count = count + len(entities)
+		entry = entities[0].GetTableEntry()
+		return nil
+	})
+	assert.NoError(t, err)
+	assert.Equal(t, 1, count)
+	assert.Len(t, entry.Match, 5)
+	assert.Equal(t, int32(123), entry.Priority)
+
+	err = tables.RemoveTableEntry(e1)
 	assert.NoError(t, err)
 	assert.Len(t, table.entries, 0)
 
 	// Modify of non-existent entry should fail
-	err = table.ModifyTableEntry(e2, false)
+	err = tables.ModifyTableEntry(e2, false)
 	assert.Error(t, err)
 	assert.Len(t, table.entries, 0)
+}
+
+func TestTableErrors(t *testing.T) {
+	tables := NewTables([]*p4info.Table{{Preamble: &p4info.Preamble{Id: 1}}})
+	assert.Len(t, tables.tables, 1)
+
+	err := tables.ModifyTableEntry(&p4api.TableEntry{TableId: 2}, true)
+	assert.Error(t, err)
+
+	err = tables.ReadTableEntries(&p4api.TableEntry{TableId: 2}, func([]*p4api.Entity) error { return nil })
+	assert.Error(t, err)
+
+	err = tables.RemoveTableEntry(&p4api.TableEntry{TableId: 2})
+	assert.Error(t, err)
+
 }

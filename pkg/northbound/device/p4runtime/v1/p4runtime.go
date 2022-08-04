@@ -45,7 +45,7 @@ func (s *Server) Capabilities(ctx context.Context, request *p4api.CapabilitiesRe
 	return &p4api.CapabilitiesResponse{P4RuntimeApiVersion: "1.1.0"}, nil
 }
 
-// Write :
+// Write applies a set of updates to the device
 func (s *Server) Write(ctx context.Context, request *p4api.WriteRequest) (*p4api.WriteResponse, error) {
 	log.Infof("Device %s: Write received", s.deviceID)
 	if err := s.checkMastership(request.DeviceId, request.RoleId, request.ElectionId); err != nil {
@@ -73,24 +73,20 @@ func (s *Server) checkForwardingPipeline() error {
 	return nil
 }
 
-// Read :
+// Read receives a query and stream back all requested entities
 func (s *Server) Read(request *p4api.ReadRequest, server p4api.P4Runtime_ReadServer) error {
 	log.Infof("Device %s: Read received", s.deviceID)
-	entities := make([]*p4api.Entity, 0, len(request.Entities))
 
-	// TODO: implement this for realgen
-	// Accumulate entities to respond with
-	entities = append(entities, request.Entities...)
+	// Process the read, sending results using the supplied batch sender function
+	_ = s.deviceSim.ProcessRead(request.Entities, func(entities []*p4api.Entity) error {
+		return server.Send(&p4api.ReadResponse{Entities: entities})
+	})
 
-	// Send a response in one go
-	err := server.Send(&p4api.ReadResponse{Entities: entities})
-	if err != nil && err != io.EOF {
-		return errors.Status(err).Err()
-	}
-	return nil
+	// TODO: accummulate batch errors into details
+	return errors.Status(nil).Err()
 }
 
-// SetForwardingPipelineConfig :
+// SetForwardingPipelineConfig sets the forwarding pipeline configuration
 func (s *Server) SetForwardingPipelineConfig(ctx context.Context, request *p4api.SetForwardingPipelineConfigRequest) (*p4api.SetForwardingPipelineConfigResponse, error) {
 	log.Infof("Device %s: Forwarding pipeline configuration has been set", s.deviceID)
 	if err := s.checkMastership(request.DeviceId, request.RoleId, request.ElectionId); err != nil {
@@ -102,7 +98,7 @@ func (s *Server) SetForwardingPipelineConfig(ctx context.Context, request *p4api
 	return &p4api.SetForwardingPipelineConfigResponse{}, nil
 }
 
-// GetForwardingPipelineConfig :
+// GetForwardingPipelineConfig retrieves the current forwarding pipeline configuration
 func (s *Server) GetForwardingPipelineConfig(ctx context.Context, request *p4api.GetForwardingPipelineConfigRequest) (*p4api.GetForwardingPipelineConfigResponse, error) {
 	log.Infof("Device %s: Getting pipeline configuration", s.deviceID)
 	return &p4api.GetForwardingPipelineConfigResponse{

@@ -14,6 +14,9 @@ import (
 	"sort"
 )
 
+// BatchSender is an abstract function for returning batches of read entities
+type BatchSender func(entities []*p4api.Entity) error
+
 // Tables represents a set of P4 tables
 type Tables struct {
 	tables map[uint32]*Table
@@ -89,6 +92,26 @@ func (ts *Tables) ModifyDirectMeterEntry(entry *p4api.DirectMeterEntry, insert b
 	return table.ModifyDirectMeterEntry(entry)
 }
 
+// ReadTableEntries reads the table entries matching the specified table entry, from the appropriate table
+func (ts *Tables) ReadTableEntries(request *p4api.TableEntry, sender BatchSender) error {
+	// If the table ID is 0, read all tables
+	if request.TableId == 0 {
+		for _, table := range ts.tables {
+			if err := table.ReadTableEntries(request, sender); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+
+	// Otherwise, locate the desired table and read from it
+	table, ok := ts.tables[request.TableId]
+	if !ok {
+		return errors.NewNotFound("Table %d not found", request.TableId)
+	}
+	return table.ReadTableEntries(request, sender)
+}
+
 // ModifyTableEntry inserts or modifies the specified entry
 func (t *Table) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
 	// Order field matches in canonical order based on field ID
@@ -152,12 +175,63 @@ func (t *Table) RemoveTableEntry(entry *p4api.TableEntry) error {
 	return nil
 }
 
-// Produces a table entry key using a uint64 hash of its priority and field matches
+type entityBuffer struct {
+	entities []*p4api.Entity
+	sender   BatchSender
+}
+
+func newBuffer(sender BatchSender) *entityBuffer {
+	return &entityBuffer{
+		entities: make([]*p4api.Entity, 0, 64),
+		sender:   sender,
+	}
+}
+
+// Sends the specified entity via an accumulation buffer, flushing when buffer reaches capacity
+func (eb *entityBuffer) sendEntity(entity *p4api.Entity) error {
+	var err error
+	eb.entities = append(eb.entities, entity)
+
+	// If we've reached the buffer capacity, flush it
+	if len(eb.entities) == cap(eb.entities) {
+		err = eb.flush()
+	}
+	return err
+}
+
+// Flushes the buffer by sending the buffered entities and resets the buffer
+func (eb *entityBuffer) flush() error {
+	err := eb.sender(eb.entities)
+	eb.entities = eb.entities[:0]
+	return err
+}
+
+// ReadTableEntries reads the table entries matching the specified table entry request
+func (t *Table) ReadTableEntries(request *p4api.TableEntry, sender BatchSender) error {
+	// TODO: implement exact match
+	buffer := newBuffer(sender)
+
+	// Otherwise, iterate over all entries, matching each against the request
+	for _, entry := range t.entries {
+		if t.tableEntryMatches(request, entry) {
+			if err := buffer.sendEntity(&p4api.Entity{Entity: &p4api.Entity_TableEntry{TableEntry: entry}}); err != nil {
+				return err
+			}
+		}
+	}
+	return buffer.flush()
+}
+
+func (t *Table) tableEntryMatches(request *p4api.TableEntry, entry *p4api.TableEntry) bool {
+	// TODO: implement full spectrum of wildcard matching
+	return true
+}
+
+// Produces a table entry key using a uint64 hash of its field matches
 func (t *Table) entryKey(entry *p4api.TableEntry) uint64 {
 	hf := fnv.New64()
-	writeHash(hf, entry.Priority)
 
-	// Then hash the matches; this assumes they have already been put in canonical order
+	// This assumes matches have already been put in canonical order
 	// TODO: implement field ID validation against the P4Info table schema
 	for _, m := range entry.Match {
 		switch {
