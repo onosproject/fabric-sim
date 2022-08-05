@@ -103,7 +103,7 @@ func TestTableBasics(t *testing.T) {
 	var entry *p4api.TableEntry
 
 	// Read all tables
-	err = tables.ReadTableEntries(&p4api.TableEntry{}, func(entities []*p4api.Entity) error {
+	err = tables.ReadTableEntries(&p4api.TableEntry{}, ReadTableEntry, func(entities []*p4api.Entity) error {
 		count = count + len(entities)
 		entry = entities[0].GetTableEntry()
 		return nil
@@ -116,7 +116,7 @@ func TestTableBasics(t *testing.T) {
 	// Read a table
 	count = 0
 	entry = nil
-	err = tables.ReadTableEntries(&p4api.TableEntry{TableId: 1}, func(entities []*p4api.Entity) error {
+	err = tables.ReadTableEntries(&p4api.TableEntry{TableId: 1}, ReadTableEntry, func(entities []*p4api.Entity) error {
 		count = count + len(entities)
 		entry = entities[0].GetTableEntry()
 		return nil
@@ -143,7 +143,7 @@ func TestTableErrors(t *testing.T) {
 	err := tables.ModifyTableEntry(&p4api.TableEntry{TableId: 2}, true)
 	assert.Error(t, err)
 
-	err = tables.ReadTableEntries(&p4api.TableEntry{TableId: 2}, func([]*p4api.Entity) error { return nil })
+	err = tables.ReadTableEntries(&p4api.TableEntry{TableId: 2}, ReadTableEntry, func([]*p4api.Entity) error { return nil })
 	assert.Error(t, err)
 
 	err = tables.RemoveTableEntry(&p4api.TableEntry{TableId: 2})

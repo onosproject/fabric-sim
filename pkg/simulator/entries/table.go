@@ -27,6 +27,7 @@ type Row struct {
 	entry       *p4api.TableEntry
 	counterData *p4api.CounterData
 	meterConfig *p4api.MeterConfig
+	meterData   *p4api.MeterCounterData
 }
 
 // Table represents a single P4 table
@@ -35,6 +36,18 @@ type Table struct {
 	rows      map[string]*Row
 	defaulRow *Row
 }
+
+// ReadType specifies whether to read table entry, its direct counter or its direct meter
+type ReadType byte
+
+const (
+	// ReadTableEntry specified that reads should return entities with TableEntry
+	ReadTableEntry ReadType = iota
+	// ReadDirectCounter specified that reads should return entities with DirectCounterEntry
+	ReadDirectCounter
+	// ReadDirectMeter specified that reads should return entities with DirectMeterEntry
+	ReadDirectMeter
+)
 
 // NewTables creates a new set of tables from the given P4 info descriptor
 func NewTables(tablesInfo []*p4info.Table) *Tables {
@@ -62,6 +75,9 @@ func newRow(entry *p4api.TableEntry) *Row {
 	row := &Row{entry: entry, meterConfig: entry.MeterConfig, counterData: &p4api.CounterData{}}
 	if entry.CounterData != nil {
 		row.counterData = entry.CounterData
+	}
+	if entry.MeterCounterData != nil {
+		row.meterData = entry.MeterCounterData
 	}
 	return row
 }
@@ -109,11 +125,11 @@ func (ts *Tables) ModifyDirectMeterEntry(entry *p4api.DirectMeterEntry, insert b
 }
 
 // ReadTableEntries reads the table entries matching the specified table entry, from the appropriate table
-func (ts *Tables) ReadTableEntries(request *p4api.TableEntry, sender BatchSender) error {
+func (ts *Tables) ReadTableEntries(request *p4api.TableEntry, readType ReadType, sender BatchSender) error {
 	// If the table ID is 0, read all tables
 	if request.TableId == 0 {
 		for _, table := range ts.tables {
-			if err := table.ReadTableEntries(request, sender); err != nil {
+			if err := table.ReadTableEntries(request, readType, sender); err != nil {
 				return err
 			}
 		}
@@ -125,7 +141,7 @@ func (ts *Tables) ReadTableEntries(request *p4api.TableEntry, sender BatchSender
 	if !ok {
 		return errors.NewNotFound("Table %d not found", request.TableId)
 	}
-	return table.ReadTableEntries(request, sender)
+	return table.ReadTableEntries(request, readType, sender)
 }
 
 // ModifyTableEntry inserts or modifies the specified entry
@@ -263,19 +279,37 @@ func (eb *entityBuffer) flush() error {
 }
 
 // ReadTableEntries reads the table entries matching the specified table entry request
-func (t *Table) ReadTableEntries(request *p4api.TableEntry, sender BatchSender) error {
+func (t *Table) ReadTableEntries(request *p4api.TableEntry, readType ReadType, sender BatchSender) error {
 	// TODO: implement exact match
 	buffer := newBuffer(sender)
 
 	// Otherwise, iterate over all entries, matching each against the request
 	for _, row := range t.rows {
 		if t.tableEntryMatches(request, row.entry) {
-			if err := buffer.sendEntity(&p4api.Entity{Entity: &p4api.Entity_TableEntry{TableEntry: row.entry}}); err != nil {
+			if err := buffer.sendEntity(getEntry(readType, row)); err != nil {
 				return err
 			}
 		}
 	}
 	return buffer.flush()
+}
+
+// Get the entity with the entry typed according to the specified read type
+func getEntry(readType ReadType, row *Row) *p4api.Entity {
+	switch readType {
+	case ReadDirectCounter:
+		return &p4api.Entity{Entity: &p4api.Entity_DirectCounterEntry{DirectCounterEntry: &p4api.DirectCounterEntry{
+			TableEntry: row.entry,
+			Data:       row.counterData,
+		}}}
+	case ReadDirectMeter:
+		return &p4api.Entity{Entity: &p4api.Entity_DirectMeterEntry{DirectMeterEntry: &p4api.DirectMeterEntry{
+			TableEntry:  row.entry,
+			Config:      row.meterConfig,
+			CounterData: row.meterData,
+		}}}
+	}
+	return &p4api.Entity{Entity: &p4api.Entity_TableEntry{TableEntry: row.entry}}
 }
 
 func (t *Table) tableEntryMatches(request *p4api.TableEntry, entry *p4api.TableEntry) bool {

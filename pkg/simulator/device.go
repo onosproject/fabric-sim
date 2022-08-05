@@ -388,11 +388,13 @@ func (ds *DeviceSimulator) ProcessRead(requests []*p4api.Entity, sender entries.
 func (ds *DeviceSimulator) processRead(request *p4api.Entity, sender entries.BatchSender) error {
 	switch {
 	case request.GetTableEntry() != nil:
-		return ds.tables.ReadTableEntries(request.GetTableEntry(), sender)
+		return ds.tables.ReadTableEntries(request.GetTableEntry(), entries.ReadTableEntry, sender)
 	case request.GetCounterEntry() != nil:
 	case request.GetDirectCounterEntry() != nil:
+		return ds.tables.ReadTableEntries(request.GetTableEntry(), entries.ReadDirectCounter, sender)
 	case request.GetMeterEntry() != nil:
 	case request.GetDirectMeterEntry() != nil:
+		return ds.tables.ReadTableEntries(request.GetTableEntry(), entries.ReadDirectMeter, sender)
 
 	case request.GetRegisterEntry() != nil:
 	case request.GetValueSetEntry() != nil:
