@@ -10,34 +10,51 @@ import (
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 )
 
+// Counter represents all cells of a specific counter
+type Counter struct {
+	info  *p4info.Counter
+	cells []*p4api.CounterEntry
+}
+
 // Counters represents a set of P4 counters
 type Counters struct {
-	counters map[uint32]*p4api.CounterEntry
+	counters map[uint32]*Counter
 }
 
 // NewCounters creates a new counters store
 func NewCounters(c []*p4info.Counter) *Counters {
 	return &Counters{
-		counters: make(map[uint32]*p4api.CounterEntry),
+		counters: make(map[uint32]*Counter),
 	}
 }
 
-// ModifyCounterEntry modifies the specified table entry in its appropriate table
+// NewCounter creates a new counter and all its cell entries
+func NewCounter(info *p4info.Counter) *Counter {
+	cells := make([]*p4api.CounterEntry, info.Size)
+	for i := 0; i < int(info.Size); i++ {
+		// TODO: properly setup the counter spec
+		cells[i] = &p4api.CounterEntry{CounterId: info.Preamble.Id, Index: &p4api.Index{Index: int64(i)}}
+	}
+	return &Counter{
+		info:  info,
+		cells: cells,
+	}
+}
+
+// ModifyCounterEntry modifies the specified counter entry cell
 func (cs *Counters) ModifyCounterEntry(entry *p4api.CounterEntry, insert bool) error {
-	entry, ok := cs.counters[entry.CounterId]
-	if ok && insert {
-		// If the entry exists, and we're supposed to do a new insert, raise error
-		return errors.NewAlreadyExists("....")
-	} else if !ok && !insert {
-		// If the entry doesn't exist, and we're supposed to modify, raise error
-		return errors.NewNotFound("....")
+	if insert {
+		return errors.NewInvalid("Counter cannot be inserted")
 	}
-	cs.counters[entry.CounterId] = entry
-	return nil
-}
 
-// RemoveCounterEntry removes the specified table entry
-func (cs *Counters) RemoveCounterEntry(entry *p4api.CounterEntry) error {
-	delete(cs.counters, entry.CounterId)
+	counter, ok := cs.counters[entry.CounterId]
+	if !ok {
+		return errors.NewNotFound("Counter not found")
+	}
+	if entry.Index == nil || entry.Index.Index < 0 || int(entry.Index.Index) >= len(counter.cells) {
+		return errors.NewNotFound("Counter index out of bounds")
+	}
+
+	counter.cells[entry.Index.Index] = entry
 	return nil
 }
