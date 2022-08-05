@@ -6,11 +6,11 @@
 package entries
 
 import (
+	"crypto/sha1"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"hash"
-	"hash/fnv"
 	"sort"
 )
 
@@ -32,7 +32,7 @@ type Row struct {
 // Table represents a single P4 table
 type Table struct {
 	info      *p4info.Table
-	rows      map[uint64]*Row
+	rows      map[string]*Row
 	defaulRow *Row
 }
 
@@ -53,7 +53,7 @@ func NewTable(table *p4info.Table) *Table {
 	sort.SliceStable(table.MatchFields, func(i, j int) bool { return table.MatchFields[i].Id < table.MatchFields[j].Id })
 	return &Table{
 		info: table,
-		rows: make(map[uint64]*Row),
+		rows: make(map[string]*Row),
 	}
 }
 
@@ -285,14 +285,14 @@ func (t *Table) tableEntryMatches(request *p4api.TableEntry, entry *p4api.TableE
 
 // Produces a table entry key using a uint64 hash of its field matches; returns error if the matches do not comply
 // with the table schema
-func (t *Table) entryKey(entry *p4api.TableEntry) (uint64, error) {
-	hf := fnv.New64()
+func (t *Table) entryKey(entry *p4api.TableEntry) (string, error) {
+	hf := sha1.New()
 
 	// This assumes matches have already been put in canonical order
 	// TODO: implement field ID validation against the P4Info table schema
 	for i, m := range entry.Match {
 		if err := t.validateMatch(i, m); err != nil {
-			return 0, err
+			return "", err
 		}
 		switch {
 		case m.GetExact() != nil:
@@ -315,7 +315,7 @@ func (t *Table) entryKey(entry *p4api.TableEntry) (uint64, error) {
 			_, _ = hf.Write(m.GetOptional().Value)
 		}
 	}
-	return hf.Sum64(), nil
+	return string(hf.Sum(nil)), nil
 }
 
 // Validates that the specified match corresponds to the expected table schema
@@ -328,7 +328,7 @@ func (t *Table) validateMatch(i int, m *p4api.FieldMatch) error {
 	return nil
 }
 
-func writeHash(hash hash.Hash64, n int32) {
+func writeHash(hash hash.Hash, n int32) {
 	_, _ = hash.Write([]byte{byte((n & 0xff0000) >> 24), byte((n & 0xff0000) >> 16), byte((n & 0xff00) >> 8), byte(n & 0xff)})
 }
 

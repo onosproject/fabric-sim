@@ -7,7 +7,8 @@ package basic
 import (
 	"context"
 	"github.com/onosproject/fabric-sim/pkg/topo"
-	utils "github.com/onosproject/fabric-sim/test/utils"
+	"github.com/onosproject/fabric-sim/pkg/utils"
+	"github.com/onosproject/fabric-sim/test/client"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
@@ -40,7 +41,7 @@ type HostNICCount func(host *simapi.Host) int
 
 // LoadAndValidate loads the specified topology and validates the correct counts of devices, links and hosts
 func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts int, portsPerDevice DevicePortCount, nicsPerHost HostNICCount) []*simapi.Device {
-	conn, err := utils.CreateConnection()
+	conn, err := client.CreateConnection()
 	assert.NoError(t, err)
 	defer conn.Close()
 
@@ -88,7 +89,7 @@ func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts in
 // CleanUp cleans up the simulation
 func CleanUp(t *testing.T) {
 	t.Log("Cleaning up topology")
-	if conn, err := utils.CreateConnection(); err == nil {
+	if conn, err := client.CreateConnection(); err == nil {
 		if err := topo.ClearTopology(conn); err != nil {
 			t.Log("Unable to clear topology")
 			assert.NoError(t, err)
@@ -128,7 +129,7 @@ func ProbeAllDevices(t *testing.T, devices []*simapi.Device) {
 
 // GetP4Client returns a new P4Runtime service client and its underlying connection for the given device
 func GetP4Client(t *testing.T, device *simapi.Device) (p4api.P4RuntimeClient, *grpc.ClientConn) {
-	conn, err := utils.CreateDeviceConnection(device)
+	conn, err := client.CreateDeviceConnection(device)
 	assert.NoError(t, err)
 	return p4api.NewP4RuntimeClient(conn), conn
 }

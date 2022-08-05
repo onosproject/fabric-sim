@@ -11,7 +11,17 @@ import (
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/protobuf/encoding/prototext"
 	"io/ioutil"
+	"math"
 )
+
+// CreateMastershipArbitration returns stream message request with the specified election ID components
+func CreateMastershipArbitration(electionID *p4api.Uint128) *p4api.StreamMessageRequest {
+	return &p4api.StreamMessageRequest{
+		Update: &p4api.StreamMessageRequest_Arbitration{
+			Arbitration: &p4api.MasterArbitrationUpdate{
+				ElectionId: electionID,
+			}}}
+}
 
 // LoadP4Info loads the specified file containing protoJSON representation of a P4Info and returns its descriptor
 func LoadP4Info(path string) (*p4info.P4Info, error) {
@@ -55,7 +65,6 @@ func GenerateTableAction(tableInfo *p4info.Table) *p4api.TableAction {
 	action := &p4api.TableAction{
 		Type: &p4api.TableAction_Action{Action: &p4api.Action{
 			ActionId: tableInfo.ActionRefs[0].Id,
-			Params:   nil,
 		}},
 	}
 	return action
@@ -105,7 +114,7 @@ func GenerateFieldMatch(mf *p4info.MatchField) *p4api.FieldMatch {
 
 // RandomBytes returns a buffer spanning at least the specified number of bits, filled with random content
 func RandomBytes(bitwidth int32) []byte {
-	b := make([]byte, bitwidth/8)
+	b := make([]byte, int(math.Ceil(float64(bitwidth)/8.0))) // Round-up to next byte
 	_, _ = rand.Read(b)
 	return b
 }
