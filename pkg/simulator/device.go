@@ -350,11 +350,11 @@ func (ds *DeviceSimulator) processDelete(update *p4api.Update) error {
 	case entity.GetTableEntry() != nil:
 		err = ds.tables.RemoveTableEntry(entity.GetTableEntry())
 	case entity.GetCounterEntry() != nil:
-		err = ds.counters.RemoveCounterEntry(entity.GetCounterEntry())
+		return errors.NewInvalid("Counter cannot be deleted")
 	case entity.GetDirectCounterEntry() != nil:
 		err = errors.NewInvalid("Direct counter entry cannot be deleted")
 	case entity.GetMeterEntry() != nil:
-		err = ds.meters.RemoveMeterEntry(entity.GetMeterEntry())
+		return errors.NewInvalid("Meter cannot be deleted")
 	case entity.GetDirectMeterEntry() != nil:
 		err = errors.NewInvalid("Direct meter entry cannot be deleted")
 
