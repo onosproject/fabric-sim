@@ -83,7 +83,7 @@ func (s *Server) Read(request *p4api.ReadRequest, server p4api.P4Runtime_ReadSer
 		return server.Send(&p4api.ReadResponse{Entities: entities})
 	})
 
-	// TODO: accummulate batch errors into details
+	// TODO: accumulate batch errors into details
 	return errors.Status(nil).Err()
 }
 
