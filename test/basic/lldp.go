@@ -8,7 +8,8 @@ import (
 	"context"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
-	utils "github.com/onosproject/fabric-sim/test/utils"
+	"github.com/onosproject/fabric-sim/pkg/utils"
+	"github.com/onosproject/fabric-sim/test/client"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
@@ -24,7 +25,7 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 		func(*simapi.Device) int { return 2 }, func(*simapi.Host) int { return 1 })
 	defer CleanUp(t)
 
-	conn, err := utils.CreateConnection()
+	conn, err := client.CreateConnection()
 	assert.NoError(t, err)
 	defer conn.Close()
 
