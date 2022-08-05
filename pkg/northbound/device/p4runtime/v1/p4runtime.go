@@ -24,6 +24,7 @@ type Server struct {
 	deviceID   simapi.DeviceID
 	simulation *simulator.Simulation
 	deviceSim  *simulator.DeviceSimulator
+	p4api.UnimplementedP4RuntimeServer
 }
 
 // NewServer creates a new P4Runtime API server
@@ -48,7 +49,7 @@ func (s *Server) Capabilities(ctx context.Context, request *p4api.CapabilitiesRe
 // Write applies a set of updates to the device
 func (s *Server) Write(ctx context.Context, request *p4api.WriteRequest) (*p4api.WriteResponse, error) {
 	log.Infof("Device %s: Write received", s.deviceID)
-	if err := s.checkMastership(request.DeviceId, request.RoleId, request.ElectionId); err != nil {
+	if err := s.checkMastership(request.DeviceId, request.Role, request.ElectionId); err != nil {
 		return nil, errors.Status(err).Err()
 	}
 	if err := s.checkForwardingPipeline(); err != nil {
@@ -61,8 +62,8 @@ func (s *Server) Write(ctx context.Context, request *p4api.WriteRequest) (*p4api
 }
 
 // Makes sure that the specified role and election ID have mastership over the given device; returns error if not
-func (s *Server) checkMastership(deviceID uint64, roleID uint64, electionID *p4api.Uint128) error {
-	return s.deviceSim.IsMaster(deviceID, roleID, electionID)
+func (s *Server) checkMastership(deviceID uint64, role string, electionID *p4api.Uint128) error {
+	return s.deviceSim.IsMaster(deviceID, role, electionID)
 }
 
 // Makes sure that the forwarding pipeline has been set fo the device
@@ -89,7 +90,7 @@ func (s *Server) Read(request *p4api.ReadRequest, server p4api.P4Runtime_ReadSer
 // SetForwardingPipelineConfig sets the forwarding pipeline configuration
 func (s *Server) SetForwardingPipelineConfig(ctx context.Context, request *p4api.SetForwardingPipelineConfigRequest) (*p4api.SetForwardingPipelineConfigResponse, error) {
 	log.Infof("Device %s: Forwarding pipeline configuration has been set", s.deviceID)
-	if err := s.checkMastership(request.DeviceId, request.RoleId, request.ElectionId); err != nil {
+	if err := s.checkMastership(request.DeviceId, request.Role, request.ElectionId); err != nil {
 		return nil, errors.Status(err).Err()
 	}
 	if err := s.deviceSim.SetPipelineConfig(request.Config); err != nil {

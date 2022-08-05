@@ -12,11 +12,14 @@ import (
 )
 
 func TestTableBasics(t *testing.T) {
-	tables := NewTables([]*p4info.Table{{Preamble: &p4info.Preamble{Id: 1}}})
+	tables := NewTables([]*p4info.Table{{
+		Preamble:    &p4info.Preamble{Id: 1},
+		MatchFields: []*p4info.MatchField{{Id: 1024}, {Id: 1025}, {Id: 1026}, {Id: 1027}, {Id: 1028}},
+	}})
 	assert.Len(t, tables.tables, 1)
 
 	table := tables.tables[1]
-	assert.Len(t, table.entries, 0)
+	assert.Len(t, table.rows, 0)
 
 	exact1 := &p4api.FieldMatch{
 		FieldId: 1024,
@@ -83,18 +86,18 @@ func TestTableBasics(t *testing.T) {
 	// Insert new entry
 	err := tables.ModifyTableEntry(e1, true)
 	assert.NoError(t, err)
-	assert.Len(t, table.entries, 1)
+	assert.Len(t, table.rows, 1)
 
 	// Modify an existing entry
 	e1.Action = &p4api.TableAction{}
 	err = tables.ModifyTableEntry(e2, false)
 	assert.NoError(t, err)
-	assert.Len(t, table.entries, 1)
+	assert.Len(t, table.rows, 1)
 
 	// Insert of the same entry should fail
 	err = tables.ModifyTableEntry(e2, true)
 	assert.Error(t, err)
-	assert.Len(t, table.entries, 1)
+	assert.Len(t, table.rows, 1)
 
 	count := 0
 	var entry *p4api.TableEntry
@@ -125,12 +128,12 @@ func TestTableBasics(t *testing.T) {
 
 	err = tables.RemoveTableEntry(e1)
 	assert.NoError(t, err)
-	assert.Len(t, table.entries, 0)
+	assert.Len(t, table.rows, 0)
 
 	// Modify of non-existent entry should fail
 	err = tables.ModifyTableEntry(e2, false)
 	assert.Error(t, err)
-	assert.Len(t, table.entries, 0)
+	assert.Len(t, table.rows, 0)
 }
 
 func TestTableErrors(t *testing.T) {

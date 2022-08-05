@@ -22,12 +22,18 @@ type Tables struct {
 	tables map[uint32]*Table
 }
 
+// Row represents table row entry and its mutable direct resources
+type Row struct {
+	entry       *p4api.TableEntry
+	counterData *p4api.CounterData
+	meterConfig *p4api.MeterConfig
+}
+
 // Table represents a single P4 table
 type Table struct {
-	info     *p4info.Table
-	entries  map[uint64]*p4api.TableEntry
-	counters map[uint64]*p4api.CounterData
-	meters   map[uint64]*p4api.MeterConfig
+	info      *p4info.Table
+	rows      map[uint64]*Row
+	defaulRow *Row
 }
 
 // NewTables creates a new set of tables from the given P4 info descriptor
@@ -43,11 +49,21 @@ func NewTables(tablesInfo []*p4info.Table) *Tables {
 
 // NewTable creates a new device table
 func NewTable(table *p4info.Table) *Table {
+	// Sort the fields into canonical order based on ID
+	sort.SliceStable(table.MatchFields, func(i, j int) bool { return table.MatchFields[i].Id < table.MatchFields[j].Id })
 	return &Table{
-		info:     table,
-		entries:  make(map[uint64]*p4api.TableEntry),
-		counters: make(map[uint64]*p4api.CounterData),
+		info: table,
+		rows: make(map[uint64]*Row),
 	}
+}
+
+// Creates a new table row from the specified table entry
+func newRow(entry *p4api.TableEntry) *Row {
+	row := &Row{entry: entry, meterConfig: entry.MeterConfig, counterData: &p4api.CounterData{}}
+	if entry.CounterData != nil {
+		row.counterData = entry.CounterData
+	}
+	return row
 }
 
 // ModifyTableEntry modifies the specified table entry in its appropriate table
@@ -114,23 +130,68 @@ func (ts *Tables) ReadTableEntries(request *p4api.TableEntry, sender BatchSender
 
 // ModifyTableEntry inserts or modifies the specified entry
 func (t *Table) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
+	if entry.IsDefaultAction {
+		if insert {
+			return errors.NewInvalid("Unable to insert default action entry")
+		}
+		if len(entry.Match) > 0 {
+			return errors.NewInvalid("Default action entry cannot have any match fields")
+		}
+		t.defaulRow = newRow(entry)
+		return nil
+	}
+
 	// Order field matches in canonical order based on field ID
 	sortFieldMatches(entry.Match)
 
 	// Produce a hash of the priority and the field matches to serve as a key
-	key := t.entryKey(entry)
-	_, ok := t.entries[key]
+	key, err := t.entryKey(entry)
+	if err != nil {
+		return err
+	}
+	row, ok := t.rows[key]
 
+	// If the entry exists, and we're supposed to do a new insert, raise error
 	if ok && insert {
-		// If the entry exists, and we're supposed to do a new insert, raise error
 		return errors.NewAlreadyExists("Entry already exists: %v", entry)
-	} else if !ok && !insert {
-		// If the entry doesn't exist, and we're supposed to modify, raise error
+	}
+
+	// If the entry doesn't exist, and we're supposed to modify, raise error
+	if !ok && !insert {
 		return errors.NewNotFound("Entry doesn't exist: %v", entry)
 	}
 
-	// Otherwise, update the entry
-	t.entries[key] = entry
+	// If the entry doesn't exist and we're supposed to do insert, well... do it
+	if !ok && insert {
+		row = newRow(entry)
+		t.rows[key] = row
+	}
+
+	// Otherwise, update the entry and its direct resources
+	row.entry = entry
+	row.meterConfig = entry.MeterConfig
+
+	// If this is an update and counter data has been given, update it
+	if !insert && entry.CounterData != nil {
+		row.counterData = entry.CounterData
+	}
+	return nil
+}
+
+// RemoveTableEntry removes the specified table entry and any direct counter data and meter configs for that entry
+func (t *Table) RemoveTableEntry(entry *p4api.TableEntry) error {
+	if entry.IsDefaultAction {
+		return errors.NewInvalid("Unable to remove default action entry")
+	}
+	// Order field matches in canonical order based on field ID
+	sortFieldMatches(entry.Match)
+
+	// Produce a hash of the priority and the field matches to serve as a key
+	key, err := t.entryKey(entry)
+	if err != nil {
+		return err
+	}
+	delete(t.rows, key)
 	return nil
 }
 
@@ -140,12 +201,15 @@ func (t *Table) ModifyDirectCounterEntry(entry *p4api.DirectCounterEntry) error 
 	sortFieldMatches(entry.TableEntry.Match)
 
 	// Produce a hash of the priority and the field matches to serve as a key
-	key := t.entryKey(entry.TableEntry)
-	_, ok := t.entries[key]
+	key, err := t.entryKey(entry.TableEntry)
+	if err != nil {
+		return err
+	}
+	row, ok := t.rows[key]
 	if !ok {
 		return errors.NewNotFound("Entry doesn't exist: %v", entry)
 	}
-	t.counters[key] = entry.Data
+	row.counterData = entry.Data
 	return nil
 }
 
@@ -155,23 +219,15 @@ func (t *Table) ModifyDirectMeterEntry(entry *p4api.DirectMeterEntry) error {
 	sortFieldMatches(entry.TableEntry.Match)
 
 	// Produce a hash of the priority and the field matches to serve as a key
-	key := t.entryKey(entry.TableEntry)
-	_, ok := t.entries[key]
+	key, err := t.entryKey(entry.TableEntry)
+	if err != nil {
+		return err
+	}
+	row, ok := t.rows[key]
 	if !ok {
 		return errors.NewNotFound("Entry doesn't exist: %v", entry)
 	}
-	t.meters[key] = entry.Config
-	return nil
-}
-
-// RemoveTableEntry removes the specified table entry
-func (t *Table) RemoveTableEntry(entry *p4api.TableEntry) error {
-	// Order field matches in canonical order based on field ID
-	sortFieldMatches(entry.Match)
-
-	// Produce a hash of the priority and the field matches to serve as a key
-	key := t.entryKey(entry)
-	delete(t.entries, key)
+	row.meterConfig = entry.Config
 	return nil
 }
 
@@ -212,9 +268,9 @@ func (t *Table) ReadTableEntries(request *p4api.TableEntry, sender BatchSender) 
 	buffer := newBuffer(sender)
 
 	// Otherwise, iterate over all entries, matching each against the request
-	for _, entry := range t.entries {
-		if t.tableEntryMatches(request, entry) {
-			if err := buffer.sendEntity(&p4api.Entity{Entity: &p4api.Entity_TableEntry{TableEntry: entry}}); err != nil {
+	for _, row := range t.rows {
+		if t.tableEntryMatches(request, row.entry) {
+			if err := buffer.sendEntity(&p4api.Entity{Entity: &p4api.Entity_TableEntry{TableEntry: row.entry}}); err != nil {
 				return err
 			}
 		}
@@ -227,13 +283,17 @@ func (t *Table) tableEntryMatches(request *p4api.TableEntry, entry *p4api.TableE
 	return true
 }
 
-// Produces a table entry key using a uint64 hash of its field matches
-func (t *Table) entryKey(entry *p4api.TableEntry) uint64 {
+// Produces a table entry key using a uint64 hash of its field matches; returns error if the matches do not comply
+// with the table schema
+func (t *Table) entryKey(entry *p4api.TableEntry) (uint64, error) {
 	hf := fnv.New64()
 
 	// This assumes matches have already been put in canonical order
 	// TODO: implement field ID validation against the P4Info table schema
-	for _, m := range entry.Match {
+	for i, m := range entry.Match {
+		if err := t.validateMatch(i, m); err != nil {
+			return 0, err
+		}
 		switch {
 		case m.GetExact() != nil:
 			_, _ = hf.Write([]byte{0x01})
@@ -255,14 +315,24 @@ func (t *Table) entryKey(entry *p4api.TableEntry) uint64 {
 			_, _ = hf.Write(m.GetOptional().Value)
 		}
 	}
-	return hf.Sum64()
+	return hf.Sum64(), nil
+}
+
+// Validates that the specified match corresponds to the expected table schema
+func (t *Table) validateMatch(i int, m *p4api.FieldMatch) error {
+	if i >= len(t.info.MatchFields) {
+		return errors.NewInvalid("Unexpected field match %d: %v", i, m)
+	}
+
+	// TODO: implement validation that the match is of expected type
+	return nil
 }
 
 func writeHash(hash hash.Hash64, n int32) {
 	_, _ = hash.Write([]byte{byte((n & 0xff0000) >> 24), byte((n & 0xff0000) >> 16), byte((n & 0xff00) >> 8), byte(n & 0xff)})
 }
 
-// SortFieldMatches sorts the given array of field matches in place based on the field ID
+// Sorts the given array of field matches in place based on the field ID
 func sortFieldMatches(matches []*p4api.FieldMatch) {
 	sort.SliceStable(matches, func(i, j int) bool { return matches[i].FieldId < matches[j].FieldId })
 }

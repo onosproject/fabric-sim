@@ -25,7 +25,7 @@ type DeviceSimulator struct {
 	lock                     sync.RWMutex
 	forwardingPipelineConfig *p4api.ForwardingPipelineConfig
 	responders               []StreamResponder
-	roleElections            map[uint64]*p4api.Uint128
+	roleElections            map[string]*p4api.Uint128
 	simulation               *Simulation
 	sdnPorts                 map[uint32]*simapi.Port
 
@@ -51,7 +51,7 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 		Device:        device,
 		Ports:         ports,
 		Agent:         agent,
-		roleElections: make(map[uint64]*p4api.Uint128),
+		roleElections: make(map[string]*p4api.Uint128),
 		sdnPorts:      sdnPorts,
 		simulation:    simulation,
 	}
@@ -99,13 +99,13 @@ func (ds *DeviceSimulator) DisablePort(id simapi.PortID, mode simapi.StopMode) e
 }
 
 // IsMaster returns an error if the given election ID is not the master for the specified device (chassis) and role.
-func (ds *DeviceSimulator) IsMaster(chassisID uint64, roleID uint64, electionID *p4api.Uint128) error {
+func (ds *DeviceSimulator) IsMaster(chassisID uint64, role string, electionID *p4api.Uint128) error {
 	if chassisID != ds.Device.ChassisID {
 		return errors.NewConflict("Incorrect device ID: %d", chassisID)
 	}
-	winningElectionID, ok := ds.roleElections[roleID]
+	winningElectionID, ok := ds.roleElections[role]
 	if !ok || winningElectionID.High != electionID.High || winningElectionID.Low != electionID.Low {
-		return errors.NewUnauthorized("Not master for role %d on device ID: %d", roleID, chassisID)
+		return errors.NewUnauthorized("Not master for role %s on device ID: %d", role, chassisID)
 	}
 	return nil
 }
@@ -118,14 +118,14 @@ func (ds *DeviceSimulator) RecordRoleElection(role *p4api.Role, electionID *p4ap
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
 
-	roleID := uint64(0)
+	roleName := ""
 	if role != nil {
-		roleID = role.Id
+		roleName = role.Name
 	}
 
-	maxID, ok := ds.roleElections[roleID]
+	maxID, ok := ds.roleElections[roleName]
 	if !ok || maxID.High < electionID.High || (maxID.High == electionID.High && maxID.Low < electionID.Low) {
-		ds.roleElections[roleID] = electionID
+		ds.roleElections[roleName] = electionID
 		return electionID
 	} else if maxID.High == electionID.High && maxID.Low == electionID.Low {
 		return nil // this role and election ID has already been claimed
