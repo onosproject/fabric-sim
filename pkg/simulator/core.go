@@ -90,7 +90,7 @@ func (s *Simulation) AddDeviceSimulator(dev *simapi.Device, agent DeviceAgent) (
 		s.deviceSimulators[dev.ID] = sim
 		return sim, nil
 	}
-	return nil, errors.NewInvalid("Device %s already created", dev.ID)
+	return nil, errors.NewInvalid("device %s already created", dev.ID)
 }
 
 // GetDeviceSimulators returns a list of all device simulators
@@ -111,7 +111,7 @@ func (s *Simulation) GetDeviceSimulator(id simapi.DeviceID) (*DeviceSimulator, e
 	if sim, ok := s.deviceSimulators[id]; ok {
 		return sim, nil
 	}
-	return nil, errors.NewNotFound("Device %s not found", id)
+	return nil, errors.NewNotFound("device %s not found", id)
 }
 
 // RemoveDeviceSimulator removes the simulator for the specified device ID and stops all its related activities
@@ -123,7 +123,7 @@ func (s *Simulation) RemoveDeviceSimulator(id simapi.DeviceID) error {
 		delete(s.deviceSimulators, id)
 		return nil
 	}
-	return errors.NewNotFound("Device %s not found", id)
+	return errors.NewNotFound("device %s not found", id)
 }
 
 // Link inventory
@@ -144,11 +144,11 @@ func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*LinkSimulator, error)
 	// Validate that the port is in fact available
 	if lon, ok := s.usedEgressPorts[link.SrcID]; ok {
 		log.Errorf("Port %s is already used for %s", link.SrcID, lon)
-		return nil, errors.NewInvalid("Port %s is already used for %s", link.SrcID, lon)
+		return nil, errors.NewInvalid("port %s is already used for %s", link.SrcID, lon)
 	}
 	if lon, ok := s.usedIngressPorts[link.TgtID]; ok {
 		log.Errorf("Port %s is already used for %s", link.TgtID, lon)
-		return nil, errors.NewInvalid("Port %s is already used for %s", link.TgtID, lon)
+		return nil, errors.NewInvalid("port %s is already used for %s", link.TgtID, lon)
 	}
 
 	sim := NewLinkSimulator(link)
@@ -158,7 +158,7 @@ func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*LinkSimulator, error)
 		s.usedIngressPorts[link.TgtID] = &linkOrNIC{link: link}
 		return sim, nil
 	}
-	return nil, errors.NewInvalid("Link %s already created", link.ID)
+	return nil, errors.NewInvalid("link %s already created", link.ID)
 }
 
 func (s *Simulation) validatePort(id simapi.PortID) error {
@@ -169,12 +169,12 @@ func (s *Simulation) validatePort(id simapi.PortID) error {
 	d, ok := s.deviceSimulators[deviceID]
 	if !ok {
 		log.Errorf("Device %s not found for port %s", deviceID, id)
-		return errors.NewNotFound("Device %s not found", deviceID)
+		return errors.NewNotFound("device %s not found", deviceID)
 	}
 
 	if _, ok = d.Ports[id]; !ok {
 		log.Errorf("Port %s not found for device %s", id, deviceID)
-		return errors.NewNotFound("Port %s not found", id)
+		return errors.NewNotFound("port %s not found", id)
 	}
 	return nil
 }
@@ -183,7 +183,7 @@ func (s *Simulation) validatePort(id simapi.PortID) error {
 func ExtractDeviceID(id simapi.PortID) (simapi.DeviceID, error) {
 	f := strings.SplitN(string(id), "/", 2)
 	if len(f) < 2 {
-		return "", errors.NewInvalid("Invalid port ID format: %s", id)
+		return "", errors.NewInvalid("invalid port ID format: %s", id)
 	}
 	deviceID := simapi.DeviceID(f[0])
 	return deviceID, nil
@@ -207,7 +207,7 @@ func (s *Simulation) GetLinkSimulator(id simapi.LinkID) (*LinkSimulator, error) 
 	if sim, ok := s.linkSimulators[id]; ok {
 		return sim, nil
 	}
-	return nil, errors.NewNotFound("Link %s not found", id)
+	return nil, errors.NewNotFound("link %s not found", id)
 }
 
 // RemoveLinkSimulator removes the simulator for the specified link ID and stops all its related activities
@@ -221,7 +221,7 @@ func (s *Simulation) RemoveLinkSimulator(id simapi.LinkID) error {
 		// TODO: Add stop as needed
 		return nil
 	}
-	return errors.NewNotFound("Link %s not found", id)
+	return errors.NewNotFound("link %s not found", id)
 }
 
 // Host inventory
@@ -240,10 +240,10 @@ func (s *Simulation) AddHostSimulator(host *simapi.Host) (*HostSimulator, error)
 
 		// Validate that the port is in fact available
 		if lon, ok := s.usedEgressPorts[nic.ID]; ok {
-			return nil, errors.NewInvalid("Port %s is already used for %s", nic.ID, lon)
+			return nil, errors.NewInvalid("port %s is already used for %s", nic.ID, lon)
 		}
 		if lon, ok := s.usedIngressPorts[nic.ID]; ok {
-			return nil, errors.NewInvalid("Port %s is already used for %s", nic.ID, lon)
+			return nil, errors.NewInvalid("port %s is already used for %s", nic.ID, lon)
 		}
 	}
 
@@ -255,7 +255,7 @@ func (s *Simulation) AddHostSimulator(host *simapi.Host) (*HostSimulator, error)
 		}
 		return sim, nil
 	}
-	return nil, errors.NewInvalid("Host %s already created", host.ID)
+	return nil, errors.NewInvalid("host %s already created", host.ID)
 }
 
 // GetHostSimulators returns a list of all host simulators
@@ -276,7 +276,7 @@ func (s *Simulation) GetHostSimulator(id simapi.HostID) (*HostSimulator, error) 
 	if sim, ok := s.hostSimulators[id]; ok {
 		return sim, nil
 	}
-	return nil, errors.NewNotFound("Host %s not found", id)
+	return nil, errors.NewNotFound("host %s not found", id)
 }
 
 // RemoveHostSimulator removes the simulator for the specified host ID and stops all its related activities
@@ -293,7 +293,7 @@ func (s *Simulation) RemoveHostSimulator(id simapi.HostID) error {
 		// TODO: Add stop as needed
 		return nil
 	}
-	return errors.NewNotFound("Host %s not found", id)
+	return errors.NewNotFound("host %s not found", id)
 }
 
 // GetLinkFromPort returns the link that originates from the specified device port; nil if none

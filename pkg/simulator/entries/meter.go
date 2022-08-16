@@ -48,15 +48,15 @@ func NewMeter(info *p4info.Meter) *Meter {
 // ModifyMeterEntry modifies the specified meter entry cell
 func (cs *Meters) ModifyMeterEntry(entry *p4api.MeterEntry, insert bool) error {
 	if insert {
-		return errors.NewInvalid("Meter cannot be inserted")
+		return errors.NewInvalid("meter cannot be inserted")
 	}
 
 	meter, ok := cs.meters[entry.MeterId]
 	if !ok {
-		return errors.NewNotFound("Meter not found")
+		return errors.NewNotFound("meter not found")
 	}
 	if entry.Index == nil || entry.Index.Index < 0 || int(entry.Index.Index) >= len(meter.cells) {
-		return errors.NewNotFound("Meter index out of bounds")
+		return errors.NewNotFound("meter index out of bounds")
 	}
 
 	meter.cells[entry.Index.Index] = entry

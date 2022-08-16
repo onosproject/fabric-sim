@@ -86,7 +86,7 @@ func newRow(entry *p4api.TableEntry) *Row {
 func (ts *Tables) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
 	table, ok := ts.tables[entry.TableId]
 	if !ok {
-		return errors.NewNotFound("Table %d not found", entry.TableId)
+		return errors.NewNotFound("table %d not found", entry.TableId)
 	}
 	return table.ModifyTableEntry(entry, insert)
 }
@@ -95,7 +95,7 @@ func (ts *Tables) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
 func (ts *Tables) RemoveTableEntry(entry *p4api.TableEntry) error {
 	table, ok := ts.tables[entry.TableId]
 	if !ok {
-		return errors.NewNotFound("Table %d not found", entry.TableId)
+		return errors.NewNotFound("table %d not found", entry.TableId)
 	}
 	return table.RemoveTableEntry(entry)
 }
@@ -103,11 +103,11 @@ func (ts *Tables) RemoveTableEntry(entry *p4api.TableEntry) error {
 // ModifyDirectCounterEntry modifies the specified direct counter entry in its appropriate table
 func (ts *Tables) ModifyDirectCounterEntry(entry *p4api.DirectCounterEntry, insert bool) error {
 	if insert {
-		return errors.NewInvalid("Direct counter entry cannot be inserted")
+		return errors.NewInvalid("direct counter entry cannot be inserted")
 	}
 	table, ok := ts.tables[entry.TableEntry.TableId]
 	if !ok {
-		return errors.NewNotFound("Table %d not found", entry.TableEntry.TableId)
+		return errors.NewNotFound("table %d not found", entry.TableEntry.TableId)
 	}
 	return table.ModifyDirectCounterEntry(entry)
 }
@@ -115,11 +115,11 @@ func (ts *Tables) ModifyDirectCounterEntry(entry *p4api.DirectCounterEntry, inse
 // ModifyDirectMeterEntry modifies the specified direct meter entry in its appropriate table
 func (ts *Tables) ModifyDirectMeterEntry(entry *p4api.DirectMeterEntry, insert bool) error {
 	if insert {
-		return errors.NewInvalid("Direct counter entry cannot be inserted")
+		return errors.NewInvalid("direct counter entry cannot be inserted")
 	}
 	table, ok := ts.tables[entry.TableEntry.TableId]
 	if !ok {
-		return errors.NewNotFound("Table %d not found", entry.TableEntry.TableId)
+		return errors.NewNotFound("table %d not found", entry.TableEntry.TableId)
 	}
 	return table.ModifyDirectMeterEntry(entry)
 }
@@ -139,7 +139,7 @@ func (ts *Tables) ReadTableEntries(request *p4api.TableEntry, readType ReadType,
 	// Otherwise, locate the desired table and read from it
 	table, ok := ts.tables[request.TableId]
 	if !ok {
-		return errors.NewNotFound("Table %d not found", request.TableId)
+		return errors.NewNotFound("table %d not found", request.TableId)
 	}
 	return table.ReadTableEntries(request, readType, sender)
 }
@@ -148,10 +148,10 @@ func (ts *Tables) ReadTableEntries(request *p4api.TableEntry, readType ReadType,
 func (t *Table) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
 	if entry.IsDefaultAction {
 		if insert {
-			return errors.NewInvalid("Unable to insert default action entry")
+			return errors.NewInvalid("unable to insert default action entry")
 		}
 		if len(entry.Match) > 0 {
-			return errors.NewInvalid("Default action entry cannot have any match fields")
+			return errors.NewInvalid("default action entry cannot have any match fields")
 		}
 		t.defaulRow = newRow(entry)
 		return nil
@@ -169,12 +169,12 @@ func (t *Table) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
 
 	// If the entry exists, and we're supposed to do a new insert, raise error
 	if ok && insert {
-		return errors.NewAlreadyExists("Entry already exists: %v", entry)
+		return errors.NewAlreadyExists("entry already exists: %v", entry)
 	}
 
 	// If the entry doesn't exist, and we're supposed to modify, raise error
 	if !ok && !insert {
-		return errors.NewNotFound("Entry doesn't exist: %v", entry)
+		return errors.NewNotFound("entry doesn't exist: %v", entry)
 	}
 
 	// If the entry doesn't exist and we're supposed to do insert, well... do it
@@ -197,7 +197,7 @@ func (t *Table) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
 // RemoveTableEntry removes the specified table entry and any direct counter data and meter configs for that entry
 func (t *Table) RemoveTableEntry(entry *p4api.TableEntry) error {
 	if entry.IsDefaultAction {
-		return errors.NewInvalid("Unable to remove default action entry")
+		return errors.NewInvalid("unable to remove default action entry")
 	}
 	// Order field matches in canonical order based on field ID
 	sortFieldMatches(entry.Match)
@@ -223,7 +223,7 @@ func (t *Table) ModifyDirectCounterEntry(entry *p4api.DirectCounterEntry) error 
 	}
 	row, ok := t.rows[key]
 	if !ok {
-		return errors.NewNotFound("Entry doesn't exist: %v", entry)
+		return errors.NewNotFound("entry doesn't exist: %v", entry)
 	}
 	row.counterData = entry.Data
 	return nil
@@ -241,7 +241,7 @@ func (t *Table) ModifyDirectMeterEntry(entry *p4api.DirectMeterEntry) error {
 	}
 	row, ok := t.rows[key]
 	if !ok {
-		return errors.NewNotFound("Entry doesn't exist: %v", entry)
+		return errors.NewNotFound("entry doesn't exist: %v", entry)
 	}
 	row.meterConfig = entry.Config
 	return nil
@@ -355,7 +355,7 @@ func (t *Table) entryKey(entry *p4api.TableEntry) (string, error) {
 // Validates that the specified match corresponds to the expected table schema
 func (t *Table) validateMatch(i int, m *p4api.FieldMatch) error {
 	if i >= len(t.info.MatchFields) {
-		return errors.NewInvalid("Unexpected field match %d: %v", i, m)
+		return errors.NewInvalid("unexpected field match %d: %v", i, m)
 	}
 
 	// TODO: implement validation that the match is of expected type

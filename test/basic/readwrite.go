@@ -17,7 +17,7 @@ import (
 	"testing"
 )
 
-// TestReadWrite loads simulator with access fabric topolog, primes all switches forwarding pipeline config
+// TestReadWrite loads simulator with access fabric topology, primes all switches forwarding pipeline config
 // and then writes entries into all their tables and reads them back
 func (s *TestSuite) TestReadWrite(t *testing.T) {
 	devices := LoadAndValidate(t, "topologies/access_fabric.yaml", 3+6, (3*3*6+3*2)*2, 3*20,

@@ -44,15 +44,15 @@ func NewCounter(info *p4info.Counter) *Counter {
 // ModifyCounterEntry modifies the specified counter entry cell
 func (cs *Counters) ModifyCounterEntry(entry *p4api.CounterEntry, insert bool) error {
 	if insert {
-		return errors.NewInvalid("Counter cannot be inserted")
+		return errors.NewInvalid("counter cannot be inserted")
 	}
 
 	counter, ok := cs.counters[entry.CounterId]
 	if !ok {
-		return errors.NewNotFound("Counter not found")
+		return errors.NewNotFound("counter not found")
 	}
 	if entry.Index == nil || entry.Index.Index < 0 || int(entry.Index.Index) >= len(counter.cells) {
-		return errors.NewNotFound("Counter index out of bounds")
+		return errors.NewNotFound("counter index out of bounds")
 	}
 
 	counter.cells[entry.Index.Index] = entry
