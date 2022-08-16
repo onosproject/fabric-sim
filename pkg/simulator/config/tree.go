@@ -160,11 +160,13 @@ func (n *Node) DeletePath(path string) *Node {
 	current := n
 	segments := utils.SplitPath(path)
 	for i := 0; i < len(segments)-1; i++ {
+		// TODO: implement wildcard deletions when needed
 		name, key, _ := utils.NameKey(segments[i])
 		if current = current.Get(name, key); current == nil {
 			return nil
 		}
 	}
+	// TODO: implement wildcard deletions when needed
 	name, key, _ := utils.NameKey(segments[len(segments)-1])
 	return current.Delete(name, key)
 }
@@ -172,35 +174,49 @@ func (n *Node) DeletePath(path string) *Node {
 // FindAll finds all nodes matching the specified path, which can include wildcard "..." as key value
 func (n *Node) FindAll(path string) []*Node {
 	nodes := make([]*Node, 0)
-
 	current := n
 	segments := utils.SplitPath(path)
 	for i := 0; i < len(segments)-1; i++ {
 		name, key, hasWildcard := utils.NameKey(segments[i])
 		if hasWildcard {
-			if children, ok := current.children[name]; ok {
-				for _, child := range children {
-					if child.MatchesKey(key) {
-						nodes = append(nodes, child.FindAll(utils.JoinPath(segments[i+1:]))...)
-					}
-				}
-			}
-			return nodes
+			return append(nodes, current.gatherWildcardDescendants(name, key, func(c *Node) []*Node {
+				return c.FindAll(utils.JoinPath(segments[i+1:]))
+			})...)
 		}
 		if current = current.Get(name, key); current == nil {
 			return nil
 		}
 	}
-	name, key, _ := utils.NameKey(segments[len(segments)-1])
+	name, key, hasWildcards := utils.NameKey(segments[len(segments)-1])
+	if hasWildcards {
+		return append(nodes, current.gatherWildcardDescendants(name, key, func(c *Node) []*Node {
+			return c.gatherAllDescendants()
+		})...)
+	}
 	if current = current.Get(name, key); current != nil {
-		nodes = append(nodes, current.GatherAllDescendants()...)
+		nodes = append(nodes, current.gatherAllDescendants()...)
 	}
 
 	return nodes
 }
 
-// GatherAllDescendants gathers all descendants of this node
-func (n *Node) GatherAllDescendants() []*Node {
+type descendantGatherer func(n *Node) []*Node
+
+// Gathers all descendants of the given node with key that involves wildcards
+func (n *Node) gatherWildcardDescendants(name string, key map[string]string, gatherer descendantGatherer) []*Node {
+	nodes := make([]*Node, 0)
+	if children, ok := n.children[name]; ok {
+		for _, child := range children {
+			if child.MatchesKey(key) {
+				nodes = append(nodes, gatherer(child)...)
+			}
+		}
+	}
+	return nodes
+}
+
+// Gathers all descendants of this node
+func (n *Node) gatherAllDescendants() []*Node {
 	if n.value != nil {
 		return []*Node{n}
 	}
@@ -208,7 +224,7 @@ func (n *Node) GatherAllDescendants() []*Node {
 	nodes := make([]*Node, 0)
 	for _, children := range n.children {
 		for _, child := range children {
-			nodes = append(nodes, child.GatherAllDescendants()...)
+			nodes = append(nodes, child.gatherAllDescendants()...)
 		}
 	}
 	return nodes

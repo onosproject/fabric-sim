@@ -33,6 +33,9 @@ func TestDeviceConfig(t *testing.T) {
 	nodes = rootNode.FindAll("interfaces/interface[name=7]/state/ifindex")
 	assert.Len(t, nodes, 1)
 
+	nodes = rootNode.FindAll("interfaces/interface[name=...]")
+	assert.Len(t, nodes, 8*20)
+
 	nodes = rootNode.FindAll("interfaces/interface[name=...]/state")
 	assert.Len(t, nodes, 8*18)
 
