@@ -7,9 +7,12 @@ package simulator
 import (
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
+	"github.com/onosproject/fabric-sim/pkg/simulator/config"
 	"github.com/onosproject/fabric-sim/pkg/simulator/entries"
+	"github.com/onosproject/fabric-sim/pkg/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/openconfig/gnmi/proto/gnmi"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
 	"strconv"
@@ -32,6 +35,8 @@ type DeviceSimulator struct {
 	tables   *entries.Tables
 	counters *entries.Counters
 	meters   *entries.Meters
+
+	config *config.Node
 }
 
 // NewDeviceSimulator initializes a new device simulator
@@ -46,6 +51,8 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 		sdnPorts[port.InternalNumber] = port
 	}
 
+	cfg := config.NewSwitchConfig(ports)
+
 	// Construct and return simulator from the device and the port map
 	return &DeviceSimulator{
 		Device:        device,
@@ -54,6 +61,7 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 		roleElections: make(map[string]*p4api.Uint128),
 		sdnPorts:      sdnPorts,
 		simulation:    simulation,
+		config:        cfg,
 	}
 }
 
@@ -101,11 +109,11 @@ func (ds *DeviceSimulator) DisablePort(id simapi.PortID, mode simapi.StopMode) e
 // IsMaster returns an error if the given election ID is not the master for the specified device (chassis) and role.
 func (ds *DeviceSimulator) IsMaster(chassisID uint64, role string, electionID *p4api.Uint128) error {
 	if chassisID != ds.Device.ChassisID {
-		return errors.NewConflict("Incorrect device ID: %d", chassisID)
+		return errors.NewConflict("incorrect device ID: %d", chassisID)
 	}
 	winningElectionID, ok := ds.roleElections[role]
 	if !ok || winningElectionID.High != electionID.High || winningElectionID.Low != electionID.Low {
-		return errors.NewUnauthorized("Not master for role %s on device ID: %d", role, chassisID)
+		return errors.NewUnauthorized("not master for role %s on device ID: %d", role, chassisID)
 	}
 	return nil
 }
@@ -350,13 +358,13 @@ func (ds *DeviceSimulator) processDelete(update *p4api.Update) error {
 	case entity.GetTableEntry() != nil:
 		err = ds.tables.RemoveTableEntry(entity.GetTableEntry())
 	case entity.GetCounterEntry() != nil:
-		return errors.NewInvalid("Counter cannot be deleted")
+		return errors.NewInvalid("counter cannot be deleted")
 	case entity.GetDirectCounterEntry() != nil:
-		err = errors.NewInvalid("Direct counter entry cannot be deleted")
+		err = errors.NewInvalid("direct counter entry cannot be deleted")
 	case entity.GetMeterEntry() != nil:
-		return errors.NewInvalid("Meter cannot be deleted")
+		return errors.NewInvalid("meter cannot be deleted")
 	case entity.GetDirectMeterEntry() != nil:
-		err = errors.NewInvalid("Direct meter entry cannot be deleted")
+		err = errors.NewInvalid("direct meter entry cannot be deleted")
 
 	case entity.GetRegisterEntry() != nil:
 	case entity.GetValueSetEntry() != nil:
@@ -406,6 +414,83 @@ func (ds *DeviceSimulator) processRead(request *p4api.Entity, sender entries.Bat
 	default:
 	}
 	return nil
+}
+
+// ProcessConfigGet handles the configuration get request
+func (ds *DeviceSimulator) ProcessConfigGet(prefix *gnmi.Path, paths []*gnmi.Path) ([]*gnmi.Notification, error) {
+	notifications := make([]*gnmi.Notification, 0, len(paths))
+	rootNode := ds.config
+	if prefix != nil {
+		ps := utils.ToString(prefix)
+		if rootNode = rootNode.GetPath(ps); rootNode == nil {
+			return nil, errors.NewInvalid("node with given prefix %s not found", ps)
+		}
+	}
+
+	for _, path := range paths {
+		nodes := rootNode.FindAll(utils.ToString(path))
+		if len(nodes) > 0 {
+			notifications = append(notifications, toNotification(prefix, nodes))
+		}
+	}
+
+	// TODO: implement proper error handling
+	return notifications, nil
+}
+
+// Creates a notification message from the specified nodes
+func toNotification(prefix *gnmi.Path, nodes []*config.Node) *gnmi.Notification {
+	updates := make([]*gnmi.Update, 0, len(nodes))
+	for _, node := range nodes {
+		updates = append(updates, toUpdate(node))
+	}
+	return &gnmi.Notification{
+		Timestamp: 0,
+		Prefix:    prefix,
+		Update:    updates,
+	}
+}
+
+// Creates an update message from the specified node
+func toUpdate(node *config.Node) *gnmi.Update {
+	return &gnmi.Update{
+		Path:       utils.ToPath(node.Path()),
+		Val:        node.Value(),
+		Duplicates: 0,
+	}
+}
+
+// ProcessConfigSet handles the configuration set request
+func (ds *DeviceSimulator) ProcessConfigSet(prefix *gnmi.Path,
+	updates []*gnmi.Update, replacements []*gnmi.Update, deletes []*gnmi.Path) ([]*gnmi.UpdateResult, error) {
+	opCount := len(updates) + len(replacements) + len(deletes)
+	if opCount < 1 {
+		return nil, errors.Status(errors.NewInvalid("no updates, replace or deletes")).Err()
+	}
+	results := make([]*gnmi.UpdateResult, 0, opCount)
+
+	rootNode := ds.config
+	if prefix != nil {
+		ps := utils.ToString(prefix)
+		if rootNode = rootNode.GetPath(ps); rootNode == nil {
+			return nil, errors.NewInvalid("node with given prefix %s not found", ps)
+		}
+	}
+
+	for _, path := range deletes {
+		rootNode.DeletePath(utils.ToString(path))
+	}
+
+	for _, update := range replacements {
+		rootNode.ReplacePath(utils.ToString(update.Path), update.Val)
+	}
+
+	for _, update := range updates {
+		rootNode.AddPath(utils.ToString(update.Path), update.Val)
+	}
+
+	// TODO: Implement proper result and error handling
+	return results, nil
 }
 
 // TODO: Additional simulation logic goes here

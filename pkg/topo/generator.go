@@ -56,7 +56,7 @@ func GenerateTopology(recipePath string, topologyPath string) error {
 	case recipe.AccessFabric != nil:
 		topology = GenerateAccessFabric(recipe.AccessFabric)
 	default:
-		return errors.NewInvalid("No supported topology recipe found")
+		return errors.NewInvalid("no supported topology recipe found")
 	}
 	return saveTopologyFile(topology, topologyPath)
 }

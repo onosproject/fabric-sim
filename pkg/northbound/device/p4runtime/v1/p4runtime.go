@@ -69,7 +69,7 @@ func (s *Server) checkMastership(deviceID uint64, role string, electionID *p4api
 // Makes sure that the forwarding pipeline has been set fo the device
 func (s *Server) checkForwardingPipeline() error {
 	if s.deviceSim.GetPipelineConfig() == nil {
-		return errors.NewConflict("Forwarding pipeline not set for %s", s.deviceID)
+		return errors.NewConflict("forwarding pipeline not set for %s", s.deviceID)
 	}
 	return nil
 }
