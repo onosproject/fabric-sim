@@ -137,8 +137,11 @@ func (s *Server) processSubscribeRequest(ctx context.Context, sctx *subContext, 
 		// TODO: Implement various modes of retrieval
 		switch subscribe.Mode {
 		case gnmi.SubscriptionList_ONCE:
-		case gnmi.SubscriptionList_POLL:
+			return s.processSubscribeOnce(ctx, sctx, subscribe)
 		case gnmi.SubscriptionList_STREAM:
+			return s.processSubscribeStream(ctx, sctx, subscribe)
+		case gnmi.SubscriptionList_POLL:
+			return s.processSubscribePoll(ctx, sctx, subscribe)
 		}
 
 	} else if request.GetPoll() != nil {
@@ -148,5 +151,31 @@ func (s *Server) processSubscribeRequest(ctx context.Context, sctx *subContext, 
 		return errors.NewInvalid("unknown subscription message type")
 	}
 
+	return nil
+}
+
+func (s *Server) processSubscribeOnce(ctx context.Context, sctx *subContext, subscribe *gnmi.SubscriptionList) error {
+	paths := make([]*gnmi.Path, 0, len(subscribe.Subscription))
+	for _, s := range subscribe.Subscription {
+		paths = append(paths, s.Path)
+	}
+	notifications, err := s.deviceSim.ProcessConfigGet(subscribe.Prefix, paths)
+	// TODO: implement proper error handling; for now, just return what we got back
+	for _, notification := range notifications {
+		err = sctx.stream.Send(&gnmi.SubscribeResponse{
+			Response: &gnmi.SubscribeResponse_Update{Update: notification},
+		})
+		if err != nil {
+			return err
+		}
+	}
+	return err
+}
+
+func (s *Server) processSubscribePoll(ctx context.Context, sctx *subContext, subscribe *gnmi.SubscriptionList) error {
+	return nil
+}
+
+func (s *Server) processSubscribeStream(ctx context.Context, sctx *subContext, subscribe *gnmi.SubscriptionList) error {
 	return nil
 }

@@ -6,6 +6,7 @@ package basic
 
 import (
 	"context"
+	"fmt"
 	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/onosproject/fabric-sim/test/client"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
@@ -72,4 +73,27 @@ func (s *TestSuite) TestGNMI(t *testing.T) {
 	assert.False(t, resp.Notification[0].Update[0].Val.GetBoolVal())
 
 	// TODO: validate that its state is also disabled
+
+	stream, err := gnmiClient.Subscribe(ctx)
+	assert.NoError(t, err)
+
+	subscriptions := make([]*gnmi.Subscription, 0, len(device.Ports))
+	for _, port := range device.Ports {
+		subscriptions = append(subscriptions, &gnmi.Subscription{Path: utils.ToPath(fmt.Sprintf("interfaces/interface[name=%s]/state", port.Name))})
+	}
+
+	err = stream.Send(&gnmi.SubscribeRequest{
+		Request: &gnmi.SubscribeRequest_Subscribe{
+			Subscribe: &gnmi.SubscriptionList{Subscription: subscriptions, Mode: gnmi.SubscriptionList_ONCE},
+		},
+	})
+	assert.NoError(t, err)
+
+	// We expect as many messages as there are ports... validate each one
+	for i := 1; i < len(device.Ports); i++ {
+		msg, err := stream.Recv()
+		assert.NoError(t, err)
+		assert.NotNil(t, msg.GetUpdate())
+		assert.Len(t, msg.GetUpdate().Update, 18)
+	}
 }
