@@ -87,9 +87,16 @@ func (s *Server) Set(ctx context.Context, request *gnmi.SetRequest) (*gnmi.SetRe
 	}, nil
 }
 
-type subContext struct {
-	stream gnmi.GNMI_SubscribeServer
-	req    *gnmi.SubscribeRequest
+// State related to a single message stream
+type streamState struct {
+	stream          gnmi.GNMI_SubscribeServer
+	req             *gnmi.SubscribeRequest
+	streamResponses chan *gnmi.SubscribeResponse
+}
+
+// Send sends the specified response to the subscription stream
+func (s *streamState) Send(response *gnmi.SubscribeResponse) {
+	panic("implement me")
 }
 
 // Subscribe allows a client to request the target to send it values
@@ -100,7 +107,29 @@ type subContext struct {
 func (s *Server) Subscribe(server gnmi.GNMI_SubscribeServer) error {
 	log.Infof("Device %s: gNMI subscribe request received", s.deviceID)
 
-	sctx := &subContext{stream: server}
+	// Create and register a new record to track the state of this stream
+	responder := &streamState{
+		stream:          server,
+		streamResponses: make(chan *gnmi.SubscribeResponse, 128),
+	}
+	s.deviceSim.AddSubscribeResponder(responder)
+
+	// On stream closure, remove the responder
+	defer s.deviceSim.RemoveSubscribeResponder(responder)
+
+	// Emit any queued-up messages in the background until we get an error or the context is closed
+	go func() {
+		for msg := range responder.streamResponses {
+			if err := server.Send(msg); err != nil {
+				return
+			}
+			select {
+			case <-server.Context().Done():
+				return
+			default:
+			}
+		}
+	}()
 
 	log.Info("Waiting for subscription messages")
 	for {
@@ -116,32 +145,31 @@ func (s *Server) Subscribe(server gnmi.GNMI_SubscribeServer) error {
 		}
 
 		log.Infof("Received gNMI Subscribe Request: %+v", req)
-		err = s.processSubscribeRequest(server.Context(), sctx, req)
+		err = s.processSubscribeRequest(responder, req)
 		if err != nil {
-			log.Warn(err)
-			return err
+			return errors.Status(err).Err()
 		}
 	}
 }
 
-func (s *Server) processSubscribeRequest(ctx context.Context, sctx *subContext, request *gnmi.SubscribeRequest) error {
-	if request.GetSubscribe() != nil && sctx.req != nil {
+func (s *Server) processSubscribeRequest(state *streamState, request *gnmi.SubscribeRequest) error {
+	if request.GetSubscribe() != nil && state.req != nil {
 		return errors.NewInvalid("duplicate subscription message detected")
-	} else if request.GetPoll() != nil && sctx.req == nil {
+	} else if request.GetPoll() != nil && state.req == nil {
 		return errors.NewInvalid("subscription request not received yet")
 
 	} else if request.GetSubscribe() != nil {
 		// If the request is the subscription, remember it
-		sctx.req = request
+		state.req = request
 		subscribe := request.GetSubscribe()
 		// TODO: Implement various modes of retrieval
 		switch subscribe.Mode {
 		case gnmi.SubscriptionList_ONCE:
-			return s.processSubscribeOnce(ctx, sctx, subscribe)
+			return s.processSubscribeOnce(state, subscribe)
 		case gnmi.SubscriptionList_STREAM:
-			return s.processSubscribeStream(ctx, sctx, subscribe)
+			return s.processSubscribeStream(state, subscribe)
 		case gnmi.SubscriptionList_POLL:
-			return s.processSubscribePoll(ctx, sctx, subscribe)
+			return s.processSubscribePoll(state, subscribe)
 		}
 
 	} else if request.GetPoll() != nil {
@@ -150,33 +178,47 @@ func (s *Server) processSubscribeRequest(ctx context.Context, sctx *subContext, 
 	} else {
 		return errors.NewInvalid("unknown subscription message type")
 	}
-
 	return nil
 }
 
-func (s *Server) processSubscribeOnce(ctx context.Context, sctx *subContext, subscribe *gnmi.SubscriptionList) error {
-	paths := make([]*gnmi.Path, 0, len(subscribe.Subscription))
-	for _, s := range subscribe.Subscription {
-		paths = append(paths, s.Path)
-	}
-	notifications, err := s.deviceSim.ProcessConfigGet(subscribe.Prefix, paths)
+func (s *Server) processSubscribeOnce(state *streamState, subscribe *gnmi.SubscriptionList) error {
+	paths := subcriptionPaths(subscribe)
+	notifications, _ := s.deviceSim.ProcessConfigGet(subscribe.Prefix, paths)
 	// TODO: implement proper error handling; for now, just return what we got back
 	for _, notification := range notifications {
-		err = sctx.stream.Send(&gnmi.SubscribeResponse{
-			Response: &gnmi.SubscribeResponse_Update{Update: notification},
-		})
+		// Send messages synchronously
+		err := state.stream.Send(&gnmi.SubscribeResponse{Response: &gnmi.SubscribeResponse_Update{Update: notification}})
 		if err != nil {
 			return err
 		}
 	}
-	return err
+	return io.EOF
 }
 
-func (s *Server) processSubscribePoll(ctx context.Context, sctx *subContext, subscribe *gnmi.SubscriptionList) error {
+func (s *Server) processSubscribeStream(state *streamState, subscribe *gnmi.SubscriptionList) error {
+	if subscribe.UpdatesOnly {
+		// Only send the sync response and bail
+		return state.stream.Send(&gnmi.SubscribeResponse{
+			Response: &gnmi.SubscribeResponse_SyncResponse{SyncResponse: false},
+		})
+	}
+
+	err := s.processSubscribeOnce(state, subscribe)
+	if err != nil && err != io.EOF {
+		return err
+	}
 	return nil
 }
 
-func (s *Server) processSubscribeStream(ctx context.Context, sctx *subContext, subscribe *gnmi.SubscriptionList) error {
-
+func (s *Server) processSubscribePoll(state *streamState, subscribe *gnmi.SubscriptionList) error {
 	return nil
+}
+
+// Produces a list of paths from the given subscription list
+func subcriptionPaths(subscribe *gnmi.SubscriptionList) []*gnmi.Path {
+	paths := make([]*gnmi.Path, 0, len(subscribe.Subscription))
+	for _, s := range subscribe.Subscription {
+		paths = append(paths, s.Path)
+	}
+	return paths
 }
