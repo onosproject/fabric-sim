@@ -9,6 +9,7 @@ import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
+	"github.com/openconfig/gnmi/proto/gnmi"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
 	"strings"
@@ -63,6 +64,12 @@ type StreamResponder interface {
 
 	// IsMaster returns true if the responder is the current master, i.e. has the master election ID, for the given role.
 	IsMaster(role *p4api.Role, masterElectionID *p4api.Uint128) bool
+}
+
+// SubscribeResponder is an abstraction for sending SubscribeResponse messages to controllers
+type SubscribeResponder interface {
+	// Send queues up the specified response to asynchronously sends on the backing stream
+	Send(response *gnmi.SubscribeResponse)
 }
 
 type linkOrNIC struct {

@@ -27,7 +27,8 @@ type DeviceSimulator struct {
 
 	lock                     sync.RWMutex
 	forwardingPipelineConfig *p4api.ForwardingPipelineConfig
-	responders               []StreamResponder
+	streamResponders         []StreamResponder
+	subscribeResponders      []SubscribeResponder
 	roleElections            map[string]*p4api.Uint128
 	simulation               *Simulation
 	sdnPorts                 map[uint32]*simapi.Port
@@ -161,7 +162,7 @@ func (ds *DeviceSimulator) RunMastershipArbitration(role *p4api.Role, electionID
 	if maxElectionID == nil {
 		failCode = code.Code_INVALID_ARGUMENT
 	} else {
-		for _, r := range ds.responders {
+		for _, r := range ds.streamResponders {
 			if r.IsMaster(role, maxElectionID) {
 				failCode = code.Code_ALREADY_EXISTS
 				break
@@ -170,7 +171,7 @@ func (ds *DeviceSimulator) RunMastershipArbitration(role *p4api.Role, electionID
 	}
 
 	// Notify all responders for the role
-	for _, r := range ds.responders {
+	for _, r := range ds.streamResponders {
 		r.SendMastershipArbitration(role, maxElectionID, failCode)
 	}
 
@@ -181,29 +182,54 @@ func (ds *DeviceSimulator) RunMastershipArbitration(role *p4api.Role, electionID
 func (ds *DeviceSimulator) AddStreamResponder(responder StreamResponder) {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
-	ds.responders = append(ds.responders, responder)
+	ds.streamResponders = append(ds.streamResponders, responder)
 }
 
-// RemoveStreamResponder removes the specified stream responder to the specified device
+// RemoveStreamResponder removes the specified stream responder from the specified device
 func (ds *DeviceSimulator) RemoveStreamResponder(responder StreamResponder) {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
 	i := 0
-	for _, r := range ds.responders {
+	for _, r := range ds.streamResponders {
 		if r == responder {
-			ds.responders[i] = r
-			i++
+			ds.streamResponders[i] = ds.streamResponders[len(ds.streamResponders)-1]
+			ds.streamResponders[len(ds.streamResponders)-1] = nil
+			ds.streamResponders = ds.streamResponders[:len(ds.streamResponders)-1] // Truncate
+			return
 		}
+		i++
 	}
-	ds.responders = ds.responders[:i]
 }
 
 // SendToAllResponders sends the specified message to all responders
 func (ds *DeviceSimulator) SendToAllResponders(response *p4api.StreamMessageResponse) {
 	ds.lock.RLock()
 	defer ds.lock.RUnlock()
-	for _, r := range ds.responders {
+	for _, r := range ds.streamResponders {
 		r.Send(response)
+	}
+}
+
+// AddSubscribeResponder adds the given subscribe responder to the specified device
+func (ds *DeviceSimulator) AddSubscribeResponder(responder SubscribeResponder) {
+	ds.lock.Lock()
+	defer ds.lock.Unlock()
+	ds.subscribeResponders = append(ds.subscribeResponders, responder)
+}
+
+// RemoveSubscribeResponder removes the specified subscribe responder from the specified device
+func (ds *DeviceSimulator) RemoveSubscribeResponder(responder SubscribeResponder) {
+	ds.lock.Lock()
+	defer ds.lock.Unlock()
+	i := 0
+	for _, r := range ds.subscribeResponders {
+		if r == responder {
+			ds.subscribeResponders[i] = ds.subscribeResponders[len(ds.subscribeResponders)-1]
+			ds.subscribeResponders[len(ds.subscribeResponders)-1] = nil
+			ds.subscribeResponders = ds.subscribeResponders[:len(ds.subscribeResponders)-1] // Truncate
+			return
+		}
+		i++
 	}
 }
 

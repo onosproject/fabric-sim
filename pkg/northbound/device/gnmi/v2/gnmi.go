@@ -177,5 +177,6 @@ func (s *Server) processSubscribePoll(ctx context.Context, sctx *subContext, sub
 }
 
 func (s *Server) processSubscribeStream(ctx context.Context, sctx *subContext, subscribe *gnmi.SubscriptionList) error {
+
 	return nil
 }
