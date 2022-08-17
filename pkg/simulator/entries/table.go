@@ -14,8 +14,17 @@ import (
 	"sort"
 )
 
+//var log = logging.GetLogger("simulator", "entries")
+
 // BatchSender is an abstract function for returning batches of read entities
 type BatchSender func(entities []*p4api.Entity) error
+
+// Table represents a single P4 table
+type Table struct {
+	info      *p4info.Table
+	rows      map[string]*Row
+	defaulRow *Row
+}
 
 // Tables represents a set of P4 tables
 type Tables struct {
@@ -28,13 +37,6 @@ type Row struct {
 	counterData *p4api.CounterData
 	meterConfig *p4api.MeterConfig
 	meterData   *p4api.MeterCounterData
-}
-
-// Table represents a single P4 table
-type Table struct {
-	info      *p4info.Table
-	rows      map[string]*Row
-	defaulRow *Row
 }
 
 // ReadType specifies whether to read table entry, its direct counter or its direct meter
@@ -55,13 +57,13 @@ func NewTables(tablesInfo []*p4info.Table) *Tables {
 		tables: make(map[uint32]*Table),
 	}
 	for _, ti := range tablesInfo {
-		ts.tables[ti.Preamble.Id] = NewTable(ti)
+		ts.tables[ti.Preamble.Id] = ts.NewTable(ti)
 	}
 	return ts
 }
 
 // NewTable creates a new device table
-func NewTable(table *p4info.Table) *Table {
+func (ts *Tables) NewTable(table *p4info.Table) *Table {
 	// Sort the fields into canonical order based on ID
 	sort.SliceStable(table.MatchFields, func(i, j int) bool { return table.MatchFields[i].Id < table.MatchFields[j].Id })
 	return &Table{
@@ -71,7 +73,7 @@ func NewTable(table *p4info.Table) *Table {
 }
 
 // Creates a new table row from the specified table entry
-func newRow(entry *p4api.TableEntry) *Row {
+func (t *Table) newRow(entry *p4api.TableEntry) *Row {
 	row := &Row{entry: entry, meterConfig: entry.MeterConfig, counterData: &p4api.CounterData{}}
 	if entry.CounterData != nil {
 		row.counterData = entry.CounterData
@@ -80,6 +82,15 @@ func newRow(entry *p4api.TableEntry) *Row {
 		row.meterData = entry.MeterCounterData
 	}
 	return row
+}
+
+// Tables returns the list of tables
+func (ts *Tables) Tables() []*Table {
+	tables := make([]*Table, 0, len(ts.tables))
+	for _, table := range ts.tables {
+		tables = append(tables, table)
+	}
+	return tables
 }
 
 // ModifyTableEntry modifies the specified table entry in its appropriate table
@@ -144,6 +155,16 @@ func (ts *Tables) ReadTableEntries(request *p4api.TableEntry, readType ReadType,
 	return table.ReadTableEntries(request, readType, sender)
 }
 
+// ID returns the table ID
+func (t *Table) ID() uint32 {
+	return t.info.Preamble.Id
+}
+
+// Size returns the number of entries in the table
+func (t *Table) Size() int {
+	return len(t.rows)
+}
+
 // ModifyTableEntry inserts or modifies the specified entry
 func (t *Table) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
 	if entry.IsDefaultAction {
@@ -153,7 +174,7 @@ func (t *Table) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
 		if len(entry.Match) > 0 {
 			return errors.NewInvalid("default action entry cannot have any match fields")
 		}
-		t.defaulRow = newRow(entry)
+		t.defaulRow = t.newRow(entry)
 		return nil
 	}
 
@@ -179,7 +200,7 @@ func (t *Table) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
 
 	// If the entry doesn't exist and we're supposed to do insert, well... do it
 	if !ok && insert {
-		row = newRow(entry)
+		row = t.newRow(entry)
 		t.rows[key] = row
 	}
 

@@ -22,14 +22,18 @@ type Counters struct {
 }
 
 // NewCounters creates a new counters store
-func NewCounters(c []*p4info.Counter) *Counters {
-	return &Counters{
-		counters: make(map[uint32]*Counter),
+func NewCounters(info []*p4info.Counter) *Counters {
+	cs := &Counters{
+		counters: make(map[uint32]*Counter, len(info)),
 	}
+	for _, mi := range info {
+		cs.counters[mi.Preamble.Id] = cs.NewCounter(mi)
+	}
+	return cs
 }
 
 // NewCounter creates a new counter and all its cell entries
-func NewCounter(info *p4info.Counter) *Counter {
+func (cs *Counters) NewCounter(info *p4info.Counter) *Counter {
 	cells := make([]*p4api.CounterEntry, info.Size)
 	for i := 0; i < int(info.Size); i++ {
 		// TODO: properly setup the counter spec
@@ -39,6 +43,15 @@ func NewCounter(info *p4info.Counter) *Counter {
 		info:  info,
 		cells: cells,
 	}
+}
+
+// Counters returns the list of counters
+func (cs *Counters) Counters() []*Counter {
+	counters := make([]*Counter, 0, len(cs.counters))
+	for _, counter := range cs.counters {
+		counters = append(counters, counter)
+	}
+	return counters
 }
 
 // ModifyCounterEntry modifies the specified counter entry cell
@@ -57,4 +70,19 @@ func (cs *Counters) ModifyCounterEntry(entry *p4api.CounterEntry, insert bool) e
 
 	counter.cells[entry.Index.Index] = entry
 	return nil
+}
+
+// ID returns the counter ID
+func (c *Counter) ID() uint32 {
+	return c.info.Preamble.Id
+}
+
+// Size returns the number of cells for the counter
+func (c *Counter) Size() int {
+	return len(c.cells)
+}
+
+// Cell returns the specified cell of the counter
+func (c *Counter) Cell(index int64) *p4api.CounterEntry {
+	return c.cells[index]
 }

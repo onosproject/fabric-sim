@@ -7,6 +7,7 @@ package basic
 import (
 	"context"
 	"github.com/onosproject/fabric-sim/pkg/utils"
+	"github.com/onosproject/fabric-sim/test/client"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
@@ -92,6 +93,8 @@ func ApplyPipelineConfigAndWriteEntries(ctx context.Context, t *testing.T, wg *s
 	assert.NoError(t, err)
 	assert.Equal(t, int32(0), msg.GetArbitration().Status.Code)
 
+	cookie := uint64(rand.Int63())
+
 	_, err = p4Client.SetForwardingPipelineConfig(ctx, &p4api.SetForwardingPipelineConfigRequest{
 		DeviceId:   device.ChassisID,
 		Role:       "",
@@ -100,7 +103,7 @@ func ApplyPipelineConfigAndWriteEntries(ctx context.Context, t *testing.T, wg *s
 		Config: &p4api.ForwardingPipelineConfig{
 			P4Info:         info,
 			P4DeviceConfig: utils.RandomBytes(2048),
-			Cookie:         nil,
+			Cookie:         &p4api.ForwardingPipelineConfig_Cookie{Cookie: cookie},
 		},
 	})
 	assert.NoError(t, err)
@@ -111,6 +114,22 @@ func ApplyPipelineConfigAndWriteEntries(ctx context.Context, t *testing.T, wg *s
 		Atomicity:  p4api.WriteRequest_CONTINUE_ON_ERROR,
 	}, info, totalEntries)
 	assert.NoError(t, err)
+
+	// Use the simulator API to check the device pipeline info
+	conn, err := client.CreateConnection()
+	assert.NoError(t, err)
+	defer conn.Close()
+
+	deviceClient := simapi.NewDeviceServiceClient(conn)
+	resp, err := deviceClient.GetDevice(ctx, &simapi.GetDeviceRequest{ID: device.ID})
+	assert.NoError(t, err)
+
+	pi := resp.Device.PipelineInfo
+	assert.Equal(t, cookie, pi.Cookie)
+	assert.True(t, len(pi.P4Info) > 1024)
+	assert.Len(t, pi.Tables, len(info.Tables))
+	assert.Len(t, pi.Counters, len(info.Counters))
+	assert.Len(t, pi.Meters, len(info.Meters))
 }
 
 // GenerateAndWriteTableEntries generates specified number of entries spread randomly between all the device tables and inserts them

@@ -38,6 +38,12 @@ func LoadP4Info(path string) (*p4info.P4Info, error) {
 	return info, nil
 }
 
+// P4InfoBytes serializes the given P4 info structure into prototext bytes
+func P4InfoBytes(info *p4info.P4Info) []byte {
+	bytes, _ := prototext.Marshal(info)
+	return bytes
+}
+
 // GenerateTableEntry generates a table entry compliant with the specified table schema
 func GenerateTableEntry(tableInfo *p4info.Table, priority int32, action *p4api.TableAction) *p4api.TableEntry {
 	tableAction := action

@@ -54,6 +54,8 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 
 	cfg := config.NewSwitchConfig(ports)
 
+	device.PipelineInfo = &simapi.PipelineInfo{}
+
 	// Construct and return simulator from the device and the port map
 	return &DeviceSimulator{
 		Device:        device,
@@ -64,6 +66,27 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 		simulation:    simulation,
 		config:        cfg,
 	}
+}
+
+// Tables returns the device tables store
+func (ds *DeviceSimulator) Tables() *entries.Tables {
+	return ds.tables
+}
+
+// Counters returns the device counters store
+func (ds *DeviceSimulator) Counters() *entries.Counters {
+	return ds.counters
+}
+
+// Meters returns the device meters store
+func (ds *DeviceSimulator) Meters() *entries.Meters {
+	return ds.meters
+}
+
+// SnapshotStats snapshots any dynamic device stats, e.g. pipeline info
+func (ds *DeviceSimulator) SnapshotStats() *DeviceSimulator {
+	ds.snapshotTables()
+	return ds
 }
 
 // Start spawns the device simulator background tasks and its agent API server, also in the background
@@ -239,12 +262,56 @@ func (ds *DeviceSimulator) SetPipelineConfig(fpc *p4api.ForwardingPipelineConfig
 	defer ds.lock.Unlock()
 	ds.forwardingPipelineConfig = fpc
 
+	// Update the device pipeline info
+	ds.Device.PipelineInfo = &simapi.PipelineInfo{
+		Cookie: fpc.Cookie.Cookie,
+		P4Info: utils.P4InfoBytes(fpc.P4Info),
+	}
+
 	// Create the required entities, e.g. tables, counters, meters, etc.
 	info := fpc.P4Info
 	ds.tables = entries.NewTables(info.Tables)
 	ds.counters = entries.NewCounters(info.Counters)
 	ds.meters = entries.NewMeters(info.Meters)
+
+	// Snapshot the initial state of the pipeline information stats
+	ds.snapshotTables()
+	ds.snapshotCounters()
+	ds.snapshotMeters()
 	return nil
+}
+
+func (ds *DeviceSimulator) snapshotTables() {
+	if ds.tables != nil {
+		tables := ds.tables.Tables()
+		infos := make([]*simapi.EntitiesInfo, 0, len(tables))
+		for _, table := range tables {
+			infos = append(infos, &simapi.EntitiesInfo{ID: table.ID(), Size_: uint32(table.Size())})
+		}
+		ds.Device.PipelineInfo.Tables = infos
+	}
+}
+
+func (ds *DeviceSimulator) snapshotCounters() {
+	if ds.counters != nil {
+		counters := ds.counters.Counters()
+		infos := make([]*simapi.EntitiesInfo, 0, len(counters))
+		for _, counter := range counters {
+			infos = append(infos, &simapi.EntitiesInfo{ID: counter.ID(), Size_: uint32(counter.Size())})
+		}
+		ds.Device.PipelineInfo.Counters = infos
+	}
+}
+
+func (ds *DeviceSimulator) snapshotMeters() {
+	if ds.meters != nil {
+		meters := ds.meters.Meters()
+		infos := make([]*simapi.EntitiesInfo, 0, len(meters))
+		for _, meter := range meters {
+			infos = append(infos, &simapi.EntitiesInfo{ID: meter.ID(), Size_: uint32(meter.Size())})
+		}
+		ds.Device.PipelineInfo.Meters = infos
+	}
 }
 
 // GetPipelineConfig sets the forwarding pipeline configuration for the device
