@@ -10,9 +10,65 @@ import (
 	"github.com/onosproject/fabric-sim/pkg/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/openconfig/gnmi/proto/gnmi"
+	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
+	"google.golang.org/genproto/googleapis/rpc/code"
 	"testing"
 )
+
+type dummyStreamResponder struct {
+}
+
+func (d dummyStreamResponder) LatchMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate) *p4api.MasterArbitrationUpdate {
+	panic("implement me")
+}
+
+func (d dummyStreamResponder) SendMastershipArbitration(role *p4api.Role, masterElectionID *p4api.Uint128, failCode code.Code) {
+	panic("implement me")
+}
+
+func (d dummyStreamResponder) Send(response *p4api.StreamMessageResponse) {
+	panic("implement me")
+}
+
+func (d dummyStreamResponder) IsMaster(role *p4api.Role, masterElectionID *p4api.Uint128) bool {
+	panic("implement me")
+}
+
+func TestAddRemoveStreamResponder(t *testing.T) {
+	ds := &DeviceSimulator{}
+	r1 := &dummyStreamResponder{}
+	r2 := &dummyStreamResponder{}
+	ds.AddStreamResponder(r1)
+	assert.Len(t, ds.streamResponders, 1)
+	ds.AddStreamResponder(r2)
+	assert.Len(t, ds.streamResponders, 2)
+	ds.RemoveStreamResponder(r2)
+	assert.Len(t, ds.streamResponders, 1)
+	ds.RemoveStreamResponder(r1)
+	assert.Len(t, ds.streamResponders, 0)
+}
+
+type dummySubscribeResponder struct {
+}
+
+func (d dummySubscribeResponder) Send(response *gnmi.SubscribeResponse) {
+	panic("implement me")
+}
+
+func TestAddRemoveSubscribeResponder(t *testing.T) {
+	ds := &DeviceSimulator{}
+	r1 := &dummySubscribeResponder{}
+	r2 := &dummySubscribeResponder{}
+	ds.AddSubscribeResponder(r1)
+	assert.Len(t, ds.subscribeResponders, 1)
+	ds.AddSubscribeResponder(r2)
+	assert.Len(t, ds.subscribeResponders, 2)
+	ds.RemoveSubscribeResponder(r2)
+	assert.Len(t, ds.subscribeResponders, 1)
+	ds.RemoveSubscribeResponder(r1)
+	assert.Len(t, ds.subscribeResponders, 0)
+}
 
 // TestDeviceProcessGet tests operation of configuration retrieval
 func TestDeviceProcessGet(t *testing.T) {

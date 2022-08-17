@@ -6,6 +6,7 @@ package basic
 
 import (
 	"context"
+	"fmt"
 	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/onosproject/fabric-sim/test/client"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
@@ -37,7 +38,15 @@ func (s *TestSuite) TestGNMI(t *testing.T) {
 	assert.Len(t, resp.Notification, 1)
 	assert.Len(t, resp.Notification[0].Update, 32*18)
 
-	resp, err = gnmiClient.Get(ctx, &gnmi.GetRequest{
+	testSetGet(ctx, t, gnmiClient)
+
+	testSubscribe(ctx, t, gnmiClient, device, gnmi.SubscriptionList_ONCE, false)
+	testSubscribe(ctx, t, gnmiClient, device, gnmi.SubscriptionList_STREAM, false)
+	testSubscribe(ctx, t, gnmiClient, device, gnmi.SubscriptionList_STREAM, true)
+}
+
+func testSetGet(ctx context.Context, t *testing.T, gnmiClient gnmi.GNMIClient) {
+	resp, err := gnmiClient.Get(ctx, &gnmi.GetRequest{
 		Path: []*gnmi.Path{utils.ToPath("interfaces/interface[name=...]/state/ifindex")},
 	})
 	assert.NoError(t, err)
@@ -72,4 +81,50 @@ func (s *TestSuite) TestGNMI(t *testing.T) {
 	assert.False(t, resp.Notification[0].Update[0].Val.GetBoolVal())
 
 	// TODO: validate that its state is also disabled
+}
+
+func testSubscribe(ctx context.Context, t *testing.T, gnmiClient gnmi.GNMIClient,
+	device *simapi.Device, mode gnmi.SubscriptionList_Mode, updatesOnly bool) {
+	stream, err := gnmiClient.Subscribe(ctx)
+	assert.NoError(t, err)
+
+	subscriptions := make([]*gnmi.Subscription, 0, len(device.Ports))
+	for _, port := range device.Ports {
+		subscriptions = append(subscriptions, &gnmi.Subscription{Path: utils.ToPath(fmt.Sprintf("interfaces/interface[name=%s]/state", port.Name))})
+	}
+
+	err = stream.Send(&gnmi.SubscribeRequest{
+		Request: &gnmi.SubscribeRequest_Subscribe{
+			Subscribe: &gnmi.SubscriptionList{Subscription: subscriptions, Mode: mode, UpdatesOnly: updatesOnly},
+		},
+	})
+	assert.NoError(t, err)
+
+	if updatesOnly {
+		// If we asked for updates only, the first message should be a sync response
+		msg, err := stream.Recv()
+		assert.NoError(t, err)
+		assert.NotNil(t, msg.GetSyncResponse())
+	} else {
+		// We expect as many messages as there are ports... validate each one
+		for i := 0; i < len(device.Ports); i++ {
+			msg, err := stream.Recv()
+			assert.NoError(t, err)
+			assert.NotNil(t, msg.GetUpdate())
+			assert.Len(t, msg.GetUpdate().Update, 18)
+		}
+	}
+
+	// For ONCE mode, the stream should be closed after all port state messages were received
+	if mode == gnmi.SubscriptionList_ONCE {
+		_, err = stream.Recv()
+		assert.Error(t, err)
+		return
+	}
+
+	// TODO: induce changes within the scope of the subscription and wait for notifications
+
+	// Close the stream from the client-side
+	err = stream.CloseSend()
+	assert.NoError(t, err)
 }
