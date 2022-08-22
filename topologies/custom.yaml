@@ -12,32 +12,32 @@ devices:
     agent_port: 20010
     ports:
       - number: 1
-        sdn_number: 1024
+        sdn_number: 224
         speed: 100Gbps
       - number: 2
-        sdn_number: 1025
+        sdn_number: 225
         speed: 100Gbps
       - number: 3
-        sdn_number: 1026
+        sdn_number: 226
         speed: 100Gbps
       - number: 4
-        sdn_number: 1027
+        sdn_number: 227
         speed: 100Gbps
   - id: spine2
     type: switch
     agent_port: 20020
     ports:
       - number: 1
-        sdn_number: 1024
+        sdn_number: 224
         speed: 100Gbps
       - number: 2
-        sdn_number: 1025
+        sdn_number: 225
         speed: 100Gbps
       - number: 3
-        sdn_number: 1026
+        sdn_number: 226
         speed: 100Gbps
       - number: 4
-        sdn_number: 1027
+        sdn_number: 227
         speed: 100Gbps
 
   - id: leaf11
@@ -45,56 +45,56 @@ devices:
     agent_port: 20011
     ports:
       - number: 1
-        sdn_number: 1024
+        sdn_number: 224
         speed: 100Gbps
       - number: 2
-        sdn_number: 1025
+        sdn_number: 225
         speed: 100Gbps
       - number: 3
-        sdn_number: 1026
+        sdn_number: 226
         speed: 10Gbps
       - number: 4
-        sdn_number: 1027
+        sdn_number: 227
         speed: 10Gbps
       - number: 5
-        sdn_number: 1028
+        sdn_number: 228
         speed: 10Gbps
       - number: 6
-        sdn_number: 1029
+        sdn_number: 229
         speed: 10Gbps
       - number: 7
-        sdn_number: 1030
+        sdn_number: 230
         speed: 10Gbps
       - number: 8
-        sdn_number: 1031
+        sdn_number: 231
         speed: 10Gbps
   - id: leaf12
     type: switch
     agent_port: 20012
     ports:
       - number: 1
-        sdn_number: 1024
+        sdn_number: 224
         speed: 100Gbps
       - number: 2
-        sdn_number: 1025
+        sdn_number: 225
         speed: 100Gbps
       - number: 3
-        sdn_number: 1026
+        sdn_number: 226
         speed: 10Gbps
       - number: 4
-        sdn_number: 1027
+        sdn_number: 227
         speed: 10Gbps
       - number: 5
-        sdn_number: 1028
+        sdn_number: 228
         speed: 10Gbps
       - number: 6
-        sdn_number: 1029
+        sdn_number: 229
         speed: 10Gbps
       - number: 7
-        sdn_number: 1030
+        sdn_number: 230
         speed: 10Gbps
       - number: 8
-        sdn_number: 1031
+        sdn_number: 231
         speed: 10Gbps
 
   - id: leaf21
@@ -102,56 +102,56 @@ devices:
     agent_port: 20021
     ports:
       - number: 1
-        sdn_number: 1024
+        sdn_number: 224
         speed: 100Gbps
       - number: 2
-        sdn_number: 1025
+        sdn_number: 225
         speed: 100Gbps
       - number: 3
-        sdn_number: 1026
+        sdn_number: 226
         speed: 10Gbps
       - number: 4
-        sdn_number: 1027
+        sdn_number: 227
         speed: 10Gbps
       - number: 5
-        sdn_number: 1028
+        sdn_number: 228
         speed: 10Gbps
       - number: 6
-        sdn_number: 1029
+        sdn_number: 229
         speed: 10Gbps
       - number: 7
-        sdn_number: 1030
+        sdn_number: 230
         speed: 10Gbps
       - number: 8
-        sdn_number: 1031
+        sdn_number: 231
         speed: 10Gbps
   - id: leaf22
     type: switch
     agent_port: 20022
     ports:
       - number: 1
-        sdn_number: 1024
+        sdn_number: 224
         speed: 100Gbps
       - number: 2
-        sdn_number: 1025
+        sdn_number: 225
         speed: 100Gbps
       - number: 3
-        sdn_number: 1026
+        sdn_number: 226
         speed: 10Gbps
       - number: 4
-        sdn_number: 1027
+        sdn_number: 227
         speed: 10Gbps
       - number: 5
-        sdn_number: 1028
+        sdn_number: 228
         speed: 10Gbps
       - number: 6
-        sdn_number: 1029
+        sdn_number: 229
         speed: 10Gbps
       - number: 7
-        sdn_number: 1030
+        sdn_number: 230
         speed: 10Gbps
       - number: 8
-        sdn_number: 1031
+        sdn_number: 231
         speed: 10Gbps
 
 # Specifies simulated links

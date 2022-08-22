@@ -168,8 +168,8 @@ func createPorts(portCount int) []Port {
 	for i := uint32(1); i <= uint32(portCount); i++ {
 		port := Port{
 			Number:    i,
-			SDNNumber: i + 1023,
-			Speed:     "100Gbps",
+			SDNNumber: i + 200,
+			Speed:     "100GB",
 		}
 		ports = append(ports, port)
 	}

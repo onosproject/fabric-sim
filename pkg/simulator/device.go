@@ -15,7 +15,6 @@ import (
 	"github.com/openconfig/gnmi/proto/gnmi"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
-	"strconv"
 	"sync"
 )
 
@@ -38,6 +37,7 @@ type DeviceSimulator struct {
 	meters   *entries.Meters
 
 	config *config.Node
+	codec  *ControllerMetadataCodec
 }
 
 // NewDeviceSimulator initializes a new device simulator
@@ -268,6 +268,8 @@ func (ds *DeviceSimulator) SetPipelineConfig(fpc *p4api.ForwardingPipelineConfig
 		P4Info: utils.P4InfoBytes(fpc.P4Info),
 	}
 
+	ds.codec = NewControllerMetadataCodec(fpc.P4Info)
+
 	// Create the required entities, e.g. tables, counters, meters, etc.
 	info := fpc.P4Info
 	ds.tables = entries.NewTables(info.Tables)
@@ -323,12 +325,20 @@ func (ds *DeviceSimulator) GetPipelineConfig() *p4api.ForwardingPipelineConfig {
 func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responder StreamResponder) error {
 	log.Infof("Device %s: received packet out: %+v", ds.Device.ID, packetOut)
 
+	if ds.codec == nil {
+		log.Errorf("Device %s: pipeline config not set", ds.Device.ID)
+		return errors.NewInvalid("pipeline config not set yet for %d", ds.Device.ID)
+	}
+
+	// Extract the packet-out metadata
+	pom := ds.codec.DecodePacketOutMetadata(packetOut.Metadata)
+
 	// Start by decoding the packet
 	packet := gopacket.NewPacket(packetOut.Payload, layers.LayerTypeLinkLayerDiscovery, gopacket.Default)
 
 	// See if this is an LLDP packet and process it if so
 	if lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery); lldpLayer != nil {
-		ds.processLLDPPacket(lldpLayer.(*layers.LinkLayerDiscovery), packetOut)
+		ds.processLLDPPacket(lldpLayer.(*layers.LinkLayerDiscovery), packetOut, pom)
 	}
 
 	// Process ARP packet
@@ -346,21 +356,20 @@ func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder 
 
 // Processes the LLDP packet-out by emitting it encapsulated as a packet-in on the simulated device which is
 // adjacent to this device on the link (if any) connected to the port given in the LLDP packet
-func (ds *DeviceSimulator) processLLDPPacket(lldp *layers.LinkLayerDiscovery, packetOut *p4api.PacketOut) {
+func (ds *DeviceSimulator) processLLDPPacket(lldp *layers.LinkLayerDiscovery, packetOut *p4api.PacketOut, pom *PacketOutMetadata) {
 	log.Debugf("Device %s: processing LLDP packet: %+v", ds.Device.ID, lldp)
 
 	// TODO: Add filtering based on device table contents
-	portID := portNumberFromLLDP(lldp.PortID)
 
 	// Find the port corresponding to the specified port ID, which is the internal (SDN) port number
-	port, ok := ds.sdnPorts[portID]
+	egressPort, ok := ds.sdnPorts[pom.EgressPort]
 	if !ok {
-		log.Warnf("Device %s: Port %d not found", ds.Device.ID, portID)
+		log.Warnf("Device %s: Port %d not found", ds.Device.ID, pom.EgressPort)
 		return
 	}
 
 	// Check if the given port has a link originating from it
-	if link := ds.simulation.GetLinkFromPort(port.ID); link != nil {
+	if link := ds.simulation.GetLinkFromPort(egressPort.ID); link != nil {
 		// Now that we found the link, let's emit a packet out on all the responders associated with
 		// the destination device
 		tgtDeviceID, err := ExtractDeviceID(link.TgtID)
@@ -374,10 +383,16 @@ func (ds *DeviceSimulator) processLLDPPacket(lldp *layers.LinkLayerDiscovery, pa
 			log.Warnf("Device %s: Unable to locate link target device %s", ds.Device.ID, tgtDeviceID)
 		}
 
+		ingressPort, ok := tgtDevice.Ports[link.TgtID]
+		if !ok {
+			log.Warnf("Device %s: Unable to locate target port %s", tgtDeviceID, link.TgtID)
+		}
+
 		packetIn := &p4api.StreamMessageResponse{
 			Update: &p4api.StreamMessageResponse_Packet{
 				Packet: &p4api.PacketIn{
-					Payload: packetOut.Payload,
+					Payload:  packetOut.Payload,
+					Metadata: ds.codec.EncodePacketInMetadata(&PacketInMetadata{IngressPort: ingressPort.InternalNumber}),
 				},
 			},
 		}
@@ -386,12 +401,12 @@ func (ds *DeviceSimulator) processLLDPPacket(lldp *layers.LinkLayerDiscovery, pa
 }
 
 // Decodes the specified LLDP port ID into an internal SDN port number
-func portNumberFromLLDP(id layers.LLDPPortID) uint32 {
-	if i, err := strconv.ParseUint(string(id.ID), 10, 32); err == nil {
-		return uint32(i)
-	}
-	return 0
-}
+//func portNumberFromLLDP(id layers.LLDPPortID) uint32 {
+//	if i, err := strconv.ParseUint(string(id.ID), 10, 32); err == nil {
+//		return uint32(i)
+//	}
+//	return 0
+//}
 
 // ProcessWrite processes the specified batch of updates
 func (ds *DeviceSimulator) ProcessWrite(atomicity p4api.WriteRequest_Atomicity, updates []*p4api.Update) error {

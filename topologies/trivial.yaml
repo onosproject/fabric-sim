@@ -12,20 +12,20 @@ devices:
     agent_port: 20011
     ports:
       - number: 1
-        sdn_number: 1024
+        sdn_number: 224
         speed: 100Gbps
       - number: 2
-        sdn_number: 1025
+        sdn_number: 225
         speed: 10Gbps
   - id: switch2
     type: switch
     agent_port: 20012
     ports:
       - number: 1
-        sdn_number: 1024
+        sdn_number: 234
         speed: 100Gbps
       - number: 2
-        sdn_number: 1025
+        sdn_number: 235
         speed: 10Gbps
 
 # Specifies simulated links
