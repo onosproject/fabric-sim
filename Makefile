@@ -41,7 +41,7 @@ integration-tests:  # @HELP run helmit integration tests locally
 	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests
 
 cit:  # @HELP run helmit integration test under current development
-	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests --suite basic --test TestGNMI
+	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests --suite basic --test TestReadWrite
 
 
 fabric-sim-docker: mod-update local-deps # @HELP build fabric-sim base Docker image

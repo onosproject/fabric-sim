@@ -23,17 +23,17 @@ type Meters struct {
 
 // NewMeters creates a new meters store
 func NewMeters(info []*p4info.Meter) *Meters {
-	meters := &Meters{
+	ms := &Meters{
 		meters: make(map[uint32]*Meter, len(info)),
 	}
 	for _, mi := range info {
-		meters.meters[mi.Preamble.Id] = NewMeter(mi)
+		ms.meters[mi.Preamble.Id] = ms.NewMeter(mi)
 	}
-	return meters
+	return ms
 }
 
 // NewMeter creates a new meter and all its cell entries
-func NewMeter(info *p4info.Meter) *Meter {
+func (ms *Meters) NewMeter(info *p4info.Meter) *Meter {
 	cells := make([]*p4api.MeterEntry, info.Size)
 	for i := 0; i < int(info.Size); i++ {
 		// TODO: properly setup the meter spec
@@ -45,13 +45,22 @@ func NewMeter(info *p4info.Meter) *Meter {
 	}
 }
 
+// Meters returns the list of meters
+func (ms *Meters) Meters() []*Meter {
+	meters := make([]*Meter, 0, len(ms.meters))
+	for _, meter := range ms.meters {
+		meters = append(meters, meter)
+	}
+	return meters
+}
+
 // ModifyMeterEntry modifies the specified meter entry cell
-func (cs *Meters) ModifyMeterEntry(entry *p4api.MeterEntry, insert bool) error {
+func (ms *Meters) ModifyMeterEntry(entry *p4api.MeterEntry, insert bool) error {
 	if insert {
 		return errors.NewInvalid("meter cannot be inserted")
 	}
 
-	meter, ok := cs.meters[entry.MeterId]
+	meter, ok := ms.meters[entry.MeterId]
 	if !ok {
 		return errors.NewNotFound("meter not found")
 	}
@@ -61,4 +70,19 @@ func (cs *Meters) ModifyMeterEntry(entry *p4api.MeterEntry, insert bool) error {
 
 	meter.cells[entry.Index.Index] = entry
 	return nil
+}
+
+// ID returns the meter ID
+func (m *Meter) ID() uint32 {
+	return m.info.Preamble.Id
+}
+
+// Size returns the number of cells for the meter
+func (m *Meter) Size() int {
+	return len(m.cells)
+}
+
+// Cell returns the specified cell of the meter
+func (m *Meter) Cell(index int64) *p4api.MeterEntry {
+	return m.cells[index]
 }

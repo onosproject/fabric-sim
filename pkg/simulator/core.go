@@ -106,7 +106,7 @@ func (s *Simulation) GetDeviceSimulators() []*DeviceSimulator {
 	defer s.lock.RUnlock()
 	sims := make([]*DeviceSimulator, 0, len(s.deviceSimulators))
 	for _, sim := range s.deviceSimulators {
-		sims = append(sims, sim)
+		sims = append(sims, sim.SnapshotStats())
 	}
 	return sims
 }
@@ -116,7 +116,7 @@ func (s *Simulation) GetDeviceSimulator(id simapi.DeviceID) (*DeviceSimulator, e
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 	if sim, ok := s.deviceSimulators[id]; ok {
-		return sim, nil
+		return sim.SnapshotStats(), nil
 	}
 	return nil, errors.NewNotFound("device %s not found", id)
 }
