@@ -94,18 +94,8 @@ func ApplyPipelineConfigAndWriteEntries(ctx context.Context, t *testing.T, wg *s
 	assert.Equal(t, int32(0), msg.GetArbitration().Status.Code)
 
 	cookie := uint64(rand.Int63())
-
-	_, err = p4Client.SetForwardingPipelineConfig(ctx, &p4api.SetForwardingPipelineConfigRequest{
-		DeviceId:   device.ChassisID,
-		Role:       "",
-		ElectionId: msg.GetArbitration().ElectionId,
-		Action:     p4api.SetForwardingPipelineConfigRequest_VERIFY_AND_COMMIT,
-		Config: &p4api.ForwardingPipelineConfig{
-			P4Info:         info,
-			P4DeviceConfig: utils.RandomBytes(2048),
-			Cookie:         &p4api.ForwardingPipelineConfig_Cookie{Cookie: cookie},
-		},
-	})
+	arbitration := msg.GetArbitration()
+	err = ApplyPipelineConfig(ctx, p4Client, arbitration.DeviceId, "", arbitration.ElectionId, cookie, info)
 	assert.NoError(t, err)
 
 	err = GenerateAndWriteTableEntries(ctx, p4Client, &p4api.WriteRequest{
@@ -130,6 +120,23 @@ func ApplyPipelineConfigAndWriteEntries(ctx context.Context, t *testing.T, wg *s
 	assert.Len(t, pi.Tables, len(info.Tables))
 	assert.Len(t, pi.Counters, len(info.Counters))
 	assert.Len(t, pi.Meters, len(info.Meters))
+}
+
+// ApplyPipelineConfig applies the forwarding pipeline configuration using the given device P4RT client
+func ApplyPipelineConfig(ctx context.Context, client p4api.P4RuntimeClient, deviceID uint64, role string, electionID *p4api.Uint128,
+	cookie uint64, info *p4info.P4Info) error {
+	_, err := client.SetForwardingPipelineConfig(ctx, &p4api.SetForwardingPipelineConfigRequest{
+		DeviceId:   deviceID,
+		Role:       "",
+		ElectionId: electionID,
+		Action:     p4api.SetForwardingPipelineConfigRequest_VERIFY_AND_COMMIT,
+		Config: &p4api.ForwardingPipelineConfig{
+			P4Info:         info,
+			P4DeviceConfig: utils.RandomBytes(2048),
+			Cookie:         &p4api.ForwardingPipelineConfig_Cookie{Cookie: cookie},
+		},
+	})
+	return err
 }
 
 // GenerateAndWriteTableEntries generates specified number of entries spread randomly between all the device tables and inserts them
