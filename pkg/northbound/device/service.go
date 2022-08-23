@@ -45,16 +45,7 @@ type agent struct {
 
 // Start starts the simulated device agent
 func (a *agent) Start(simulation *simulator.Simulation, deviceSim *simulator.DeviceSimulator) error {
-	a.server = northbound.NewServer(northbound.NewServerCfg(
-		"",
-		"",
-		"",
-		int16(deviceSim.Device.ControlPort),
-		true,
-		northbound.SecurityConfig{
-			AuthenticationEnabled: false,
-			AuthorizationEnabled:  false,
-		}))
+	a.server = northbound.NewServer(northbound.NewInsecureServerConfig(int16(deviceSim.Device.ControlPort)))
 	a.server.AddService(Service{
 		deviceID:   deviceSim.Device.ID,
 		simulation: simulation,

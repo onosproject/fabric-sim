@@ -161,6 +161,8 @@ func (state *streamState) IsMaster(role *p4api.Role, masterElectionID *p4api.Uin
 
 // StreamChannel reads and handles incoming requests and emits any queued up outgoing responses
 func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error {
+	log.Infof("Device %s: Received stream channel request", s.deviceID)
+
 	// Create and register a new record to track the state of this stream
 	responder := &streamState{
 		streamResponses: make(chan *p4api.StreamMessageResponse, 128),

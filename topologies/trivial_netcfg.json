@@ -1,0 +1,26 @@
+{
+  "devices": {
+    "device:switch1": {
+      "basic": {
+        "name": "switch1",
+        "managementAddress": "grpc://fabric-sim:20011?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric-upf",
+        "locType": "grid",
+        "gridX": 200,
+        "gridY": 600
+      }
+    },
+    "device:switch2": {
+      "basic": {
+        "name": "switch2",
+        "managementAddress": "grpc://fabric-sim:20012?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric-upf",
+        "locType": "grid",
+        "gridX": 200,
+        "gridY": 800
+      }
+    }
+  }
+}

@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/insecure"
 	"os"
 )
 
@@ -144,7 +145,7 @@ func getConnection(cmd *cobra.Command) (*grpc.ClientConn, error) {
 
 	if noTLS(cmd) {
 		opts = []grpc.DialOption{
-			grpc.WithInsecure(),
+			grpc.WithTransportCredentials(insecure.NewCredentials()),
 		}
 	} else {
 		if certPath != "" && keyPath != "" {
