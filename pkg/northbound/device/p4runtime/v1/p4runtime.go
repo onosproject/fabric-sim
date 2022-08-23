@@ -102,8 +102,18 @@ func (s *Server) SetForwardingPipelineConfig(ctx context.Context, request *p4api
 // GetForwardingPipelineConfig retrieves the current forwarding pipeline configuration
 func (s *Server) GetForwardingPipelineConfig(ctx context.Context, request *p4api.GetForwardingPipelineConfigRequest) (*p4api.GetForwardingPipelineConfigResponse, error) {
 	log.Infof("Device %s: Getting pipeline configuration", s.deviceID)
+	config := s.deviceSim.GetPipelineConfig()
+	switch request.ResponseType {
+	case p4api.GetForwardingPipelineConfigRequest_COOKIE_ONLY:
+		config.P4Info = nil
+		config.P4DeviceConfig = nil
+	case p4api.GetForwardingPipelineConfigRequest_P4INFO_AND_COOKIE:
+		config.P4DeviceConfig = nil
+	case p4api.GetForwardingPipelineConfigRequest_DEVICE_CONFIG_AND_COOKIE:
+		config.P4Info = nil
+	}
 	return &p4api.GetForwardingPipelineConfigResponse{
-		Config: s.deviceSim.GetPipelineConfig(),
+		Config: config,
 	}, nil
 }
 

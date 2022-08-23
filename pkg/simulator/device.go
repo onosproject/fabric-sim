@@ -13,6 +13,7 @@ import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/openconfig/gnmi/proto/gnmi"
+	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
 	"sync"
@@ -58,9 +59,14 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 
 	// Construct and return simulator from the device and the port map
 	return &DeviceSimulator{
-		Device:        device,
-		Ports:         ports,
-		Agent:         agent,
+		Device: device,
+		Ports:  ports,
+		Agent:  agent,
+		forwardingPipelineConfig: &p4api.ForwardingPipelineConfig{
+			P4Info:         &p4info.P4Info{},
+			P4DeviceConfig: []byte{},
+			Cookie:         &p4api.ForwardingPipelineConfig_Cookie{Cookie: 0},
+		},
 		roleElections: make(map[string]*p4api.Uint128),
 		sdnPorts:      sdnPorts,
 		simulation:    simulation,

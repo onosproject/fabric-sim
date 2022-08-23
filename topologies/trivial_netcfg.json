@@ -5,7 +5,7 @@
         "name": "switch1",
         "managementAddress": "grpc://fabric-sim:20011?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": 200,
         "gridY": 600
@@ -16,7 +16,7 @@
         "name": "switch2",
         "managementAddress": "grpc://fabric-sim:20012?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": 200,
         "gridY": 800

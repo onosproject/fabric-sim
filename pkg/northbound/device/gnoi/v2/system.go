@@ -54,7 +54,7 @@ func (s Server) Traceroute(request *gnoiapi.TracerouteRequest, server gnoiapi.Sy
 
 // Time returns device's time since start of epoch, expressed in nanoseconds
 func (s Server) Time(ctx context.Context, request *gnoiapi.TimeRequest) (*gnoiapi.TimeResponse, error) {
-	log.Infof("Device %s: Received time request", s.deviceID)
+	log.Debugf("Device %s: Received time request", s.deviceID)
 	return &gnoiapi.TimeResponse{Time: uint64(time.Now().UnixNano())}, nil
 }
 
