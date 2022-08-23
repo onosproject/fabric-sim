@@ -7,12 +7,14 @@ package device
 
 import (
 	gnmisim "github.com/onosproject/fabric-sim/pkg/northbound/device/gnmi/v2"
+	gnoisim "github.com/onosproject/fabric-sim/pkg/northbound/device/gnoi/v2"
 	"github.com/onosproject/fabric-sim/pkg/northbound/device/p4runtime/v1"
 	"github.com/onosproject/fabric-sim/pkg/simulator"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/onosproject/onos-lib-go/pkg/northbound"
 	gnmiapi "github.com/openconfig/gnmi/proto/gnmi"
+	gnoiapi "github.com/openconfig/gnoi/system"
 	p4rtapi "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/grpc"
 )
@@ -29,6 +31,7 @@ type Service struct {
 // Register registers the gNMI and P4Runtime with the given gRPC server
 func (s Service) Register(r *grpc.Server) {
 	gnmiapi.RegisterGNMIServer(r, gnmisim.NewServer(s.deviceID, s.simulation))
+	gnoiapi.RegisterSystemServer(r, gnoisim.NewServer(s.deviceID, s.simulation))
 	p4rtapi.RegisterP4RuntimeServer(r, p4runtime.NewServer(s.deviceID, s.simulation))
 	log.Debugf("Device %s: P4Runtime and gNMI registered", s.deviceID)
 }
