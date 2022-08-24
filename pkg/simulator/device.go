@@ -340,7 +340,10 @@ func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responde
 	pom := ds.codec.DecodePacketOutMetadata(packetOut.Metadata)
 
 	// Start by decoding the packet
-	packet := gopacket.NewPacket(packetOut.Payload, layers.LayerTypeLinkLayerDiscovery, gopacket.Default)
+	packet := gopacket.NewPacket(packetOut.Payload, layers.LayerTypeEthernet, gopacket.Default)
+
+	log.Infof("metadata: %+v", pom)
+	log.Infof("packet: %+v", packet)
 
 	// See if this is an LLDP packet and process it if so
 	if lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery); lldpLayer != nil {

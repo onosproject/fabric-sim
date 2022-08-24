@@ -6,7 +6,7 @@ require (
 	github.com/google/gopacket v1.1.19
 	github.com/onosproject/helmit v0.6.19
 	github.com/onosproject/onos-api/go v0.9.35
-	github.com/onosproject/onos-lib-go v0.9.1
+	github.com/onosproject/onos-lib-go v0.9.2
 	github.com/onosproject/onos-test v0.6.6
 	github.com/openconfig/gnmi v0.0.0-20210914185457-51254b657b7d
 	github.com/openconfig/gnoi v0.0.0-20220809151450-6bddacd72ef8

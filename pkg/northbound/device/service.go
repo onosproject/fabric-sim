@@ -56,10 +56,12 @@ func (a *agent) Start(simulation *simulator.Simulation, deviceSim *simulator.Dev
 
 	doneCh := make(chan error)
 	go func() {
+		const maxMessageSize = 10 * 1024 * 1024
+		grpcOpts := []grpc.ServerOption{grpc.MaxRecvMsgSize(maxMessageSize), grpc.MaxSendMsgSize(maxMessageSize)}
 		err := a.server.Serve(func(started string) {
 			log.Infof("Device %s: Started simulated device NBI on %s", deviceSim.Device.ID, started)
 			close(doneCh)
-		})
+		}, grpcOpts...)
 		if err != nil {
 			doneCh <- err
 		}
