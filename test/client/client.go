@@ -13,6 +13,7 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // GetClientCredentials returns client credentials
@@ -49,13 +50,8 @@ func CreateConnection() (*grpc.ClientConn, error) {
 
 // CreateDeviceConnection creates connection to the device agent.
 func CreateDeviceConnection(device *simapi.Device) (*grpc.ClientConn, error) {
-	tlsConfig, err := GetClientCredentials()
-	if err != nil {
-		return nil, err
-	}
-
 	opts := []grpc.DialOption{
-		grpc.WithTransportCredentials(credentials.NewTLS(tlsConfig)),
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	}
 
 	conn, err := grpc.Dial(fmt.Sprintf("fabric-sim:%d", device.ControlPort), opts...)

@@ -10,6 +10,7 @@ devices:
   - id: switch1
     type: switch
     agent_port: 20011
+    chassis_id: 0
     ports:
       - number: 1
         sdn_number: 224
@@ -20,6 +21,7 @@ devices:
   - id: switch2
     type: switch
     agent_port: 20012
+    chassis_id: 0
     ports:
       - number: 1
         sdn_number: 234

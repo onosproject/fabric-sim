@@ -13,6 +13,7 @@ import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/openconfig/gnmi/proto/gnmi"
+	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
 	"sync"
@@ -58,9 +59,14 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 
 	// Construct and return simulator from the device and the port map
 	return &DeviceSimulator{
-		Device:        device,
-		Ports:         ports,
-		Agent:         agent,
+		Device: device,
+		Ports:  ports,
+		Agent:  agent,
+		forwardingPipelineConfig: &p4api.ForwardingPipelineConfig{
+			P4Info:         &p4info.P4Info{},
+			P4DeviceConfig: []byte{},
+			Cookie:         &p4api.ForwardingPipelineConfig_Cookie{Cookie: 0},
+		},
 		roleElections: make(map[string]*p4api.Uint128),
 		sdnPorts:      sdnPorts,
 		simulation:    simulation,
@@ -334,11 +340,13 @@ func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responde
 	pom := ds.codec.DecodePacketOutMetadata(packetOut.Metadata)
 
 	// Start by decoding the packet
-	packet := gopacket.NewPacket(packetOut.Payload, layers.LayerTypeLinkLayerDiscovery, gopacket.Default)
+	packet := gopacket.NewPacket(packetOut.Payload, layers.LayerTypeEthernet, gopacket.Default)
+
+	log.Debugf("metadata: %+v; packet: %+v; lldp: %+v", pom, packet, packet.Layer(layers.LayerTypeLinkLayerDiscovery))
 
 	// See if this is an LLDP packet and process it if so
 	if lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery); lldpLayer != nil {
-		ds.processLLDPPacket(lldpLayer.(*layers.LinkLayerDiscovery), packetOut, pom)
+		ds.processLLDPPacket(packet, packetOut, pom)
 	}
 
 	// Process ARP packet
@@ -356,8 +364,8 @@ func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder 
 
 // Processes the LLDP packet-out by emitting it encapsulated as a packet-in on the simulated device which is
 // adjacent to this device on the link (if any) connected to the port given in the LLDP packet
-func (ds *DeviceSimulator) processLLDPPacket(lldp *layers.LinkLayerDiscovery, packetOut *p4api.PacketOut, pom *PacketOutMetadata) {
-	log.Debugf("Device %s: processing LLDP packet: %+v", ds.Device.ID, lldp)
+func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *p4api.PacketOut, pom *PacketOutMetadata) {
+	log.Infof("Device %s: processing LLDP packet: %+v", ds.Device.ID, packet)
 
 	// TODO: Add filtering based on device table contents
 

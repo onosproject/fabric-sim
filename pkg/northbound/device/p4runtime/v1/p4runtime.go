@@ -102,8 +102,18 @@ func (s *Server) SetForwardingPipelineConfig(ctx context.Context, request *p4api
 // GetForwardingPipelineConfig retrieves the current forwarding pipeline configuration
 func (s *Server) GetForwardingPipelineConfig(ctx context.Context, request *p4api.GetForwardingPipelineConfigRequest) (*p4api.GetForwardingPipelineConfigResponse, error) {
 	log.Infof("Device %s: Getting pipeline configuration", s.deviceID)
+	config := s.deviceSim.GetPipelineConfig()
+	switch request.ResponseType {
+	case p4api.GetForwardingPipelineConfigRequest_COOKIE_ONLY:
+		config.P4Info = nil
+		config.P4DeviceConfig = nil
+	case p4api.GetForwardingPipelineConfigRequest_P4INFO_AND_COOKIE:
+		config.P4DeviceConfig = nil
+	case p4api.GetForwardingPipelineConfigRequest_DEVICE_CONFIG_AND_COOKIE:
+		config.P4Info = nil
+	}
 	return &p4api.GetForwardingPipelineConfigResponse{
-		Config: s.deviceSim.GetPipelineConfig(),
+		Config: config,
 	}, nil
 }
 
@@ -161,6 +171,8 @@ func (state *streamState) IsMaster(role *p4api.Role, masterElectionID *p4api.Uin
 
 // StreamChannel reads and handles incoming requests and emits any queued up outgoing responses
 func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error {
+	log.Infof("Device %s: Received stream channel request", s.deviceID)
+
 	// Create and register a new record to track the state of this stream
 	responder := &streamState{
 		streamResponses: make(chan *p4api.StreamMessageResponse, 128),
