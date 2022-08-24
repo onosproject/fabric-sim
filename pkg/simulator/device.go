@@ -342,12 +342,11 @@ func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responde
 	// Start by decoding the packet
 	packet := gopacket.NewPacket(packetOut.Payload, layers.LayerTypeEthernet, gopacket.Default)
 
-	log.Infof("metadata: %+v", pom)
-	log.Infof("packet: %+v", packet)
+	log.Debugf("metadata: %+v; packet: %+v; lldp: %+v", pom, packet, packet.Layer(layers.LayerTypeLinkLayerDiscovery))
 
 	// See if this is an LLDP packet and process it if so
 	if lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery); lldpLayer != nil {
-		ds.processLLDPPacket(lldpLayer.(*layers.LinkLayerDiscovery), packetOut, pom)
+		ds.processLLDPPacket(packet, packetOut, pom)
 	}
 
 	// Process ARP packet
@@ -365,8 +364,8 @@ func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder 
 
 // Processes the LLDP packet-out by emitting it encapsulated as a packet-in on the simulated device which is
 // adjacent to this device on the link (if any) connected to the port given in the LLDP packet
-func (ds *DeviceSimulator) processLLDPPacket(lldp *layers.LinkLayerDiscovery, packetOut *p4api.PacketOut, pom *PacketOutMetadata) {
-	log.Debugf("Device %s: processing LLDP packet: %+v", ds.Device.ID, lldp)
+func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *p4api.PacketOut, pom *PacketOutMetadata) {
+	log.Infof("Device %s: processing LLDP packet: %+v", ds.Device.ID, packet)
 
 	// TODO: Add filtering based on device table contents
 
