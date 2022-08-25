@@ -349,8 +349,8 @@ func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responde
 		ds.processLLDPPacket(packet, packetOut, pom)
 	}
 
-	// Process ARP packet
-	// Process DHCP packet
+	// Process ARP packets
+	// Process DHCP packets
 	// ...
 	return nil
 }
@@ -396,25 +396,27 @@ func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *
 			log.Warnf("Device %s: Unable to locate target port %s", tgtDeviceID, link.TgtID)
 		}
 
-		packetIn := &p4api.StreamMessageResponse{
-			Update: &p4api.StreamMessageResponse_Packet{
-				Packet: &p4api.PacketIn{
-					Payload:  packetOut.Payload,
-					Metadata: ds.codec.EncodePacketInMetadata(&PacketInMetadata{IngressPort: ingressPort.InternalNumber}),
-				},
-			},
-		}
-		tgtDevice.SendToAllResponders(packetIn)
+		tgtDevice.SendPacketIn(packetOut.Payload, ingressPort.InternalNumber)
 	}
 }
 
-// Decodes the specified LLDP port ID into an internal SDN port number
-//func portNumberFromLLDP(id layers.LLDPPortID) uint32 {
-//	if i, err := strconv.ParseUint(string(id.ID), 10, 32); err == nil {
-//		return uint32(i)
-//	}
-//	return 0
-//}
+// SendPacketIn emits packet in with the specified packet payload and ingress port metadata,
+// to all current responders (streams) associated with this device
+func (ds *DeviceSimulator) SendPacketIn(packet []byte, ingressPort uint32) {
+	if ds.codec == nil {
+		log.Warnf("Device %s: Unable to send packet-in, pipeline config not set yet")
+		return
+	}
+	packetIn := &p4api.StreamMessageResponse{
+		Update: &p4api.StreamMessageResponse_Packet{
+			Packet: &p4api.PacketIn{
+				Payload:  packet,
+				Metadata: ds.codec.EncodePacketInMetadata(&PacketInMetadata{IngressPort: ingressPort}),
+			},
+		},
+	}
+	ds.SendToAllResponders(packetIn)
+}
 
 // ProcessWrite processes the specified batch of updates
 func (ds *DeviceSimulator) ProcessWrite(atomicity p4api.WriteRequest_Atomicity, updates []*p4api.Update) error {
