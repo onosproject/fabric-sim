@@ -61,11 +61,9 @@ func (hs *HostSimulator) SendARPRequest(another *simapi.NetworkInterface) {
 	}
 }
 
-// TODO: Additional simulation logic goes here
-
 // SendARPResponse simulates emission of an ARP response as a packet-in on all the hosts' interfaces
 func (hs *HostSimulator) SendARPResponse(another *simapi.Host) {
-
+	// TODO: implement this when needed
 }
 
 // Periodically emit ARP requests for other hosts' IP addresses
@@ -82,7 +80,7 @@ func (hs *HostSimulator) emitARPRequests() {
 
 // Picks a random host (other than us) and emits an ARP query for it
 func (hs *HostSimulator) emitRandomARPRequest() {
-	if another := hs.simulation.GetRandomHostSimulator(); another != nil {
+	if another := hs.simulation.GetRandomHostSimulator(hs); another != nil {
 		hs.SendARPRequest(another.GetRandomNetworkInterface())
 	}
 }
@@ -101,3 +99,5 @@ func (hs *HostSimulator) GetRandomNetworkInterface() *simapi.NetworkInterface {
 	}
 	return nil
 }
+
+// TODO: Additional simulation logic goes here
