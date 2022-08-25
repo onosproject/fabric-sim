@@ -40,8 +40,10 @@ hosts:
   - id: h1
     nics:
       - mac: 00:00:00:00:11:01
+        ip: 10.10.11.01
         port: switch1/2
   - id: h2
     nics:
       - mac: 00:00:00:00:11:02
+        ip: 10.10.11.02
         port: switch2/2

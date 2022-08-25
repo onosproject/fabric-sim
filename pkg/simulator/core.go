@@ -12,6 +12,7 @@ import (
 	"github.com/openconfig/gnmi/proto/gnmi"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
+	"math/rand"
 	"strings"
 	"sync"
 )
@@ -119,6 +120,15 @@ func (s *Simulation) GetDeviceSimulator(id simapi.DeviceID) (*DeviceSimulator, e
 		return sim.SnapshotStats(), nil
 	}
 	return nil, errors.NewNotFound("device %s not found", id)
+}
+
+// GetDeviceSimulatorForPort returns the simulator for the specified device port ID
+func (s *Simulation) GetDeviceSimulatorForPort(id simapi.PortID) (*DeviceSimulator, error) {
+	deviceID, err := ExtractDeviceID(id)
+	if err != nil {
+		return nil, err
+	}
+	return s.GetDeviceSimulator(deviceID)
 }
 
 // RemoveDeviceSimulator removes the simulator for the specified device ID and stops all its related activities
@@ -237,7 +247,7 @@ func (s *Simulation) RemoveLinkSimulator(id simapi.LinkID) error {
 func (s *Simulation) AddHostSimulator(host *simapi.Host) (*HostSimulator, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	sim := NewHostSimulator(host)
+	sim := NewHostSimulator(host, s)
 
 	// Validate that the port for all NICs exists
 	for _, nic := range host.Interfaces {
@@ -260,6 +270,7 @@ func (s *Simulation) AddHostSimulator(host *simapi.Host) (*HostSimulator, error)
 			s.usedEgressPorts[nic.ID] = &linkOrNIC{nic: nic}
 			s.usedIngressPorts[nic.ID] = &linkOrNIC{nic: nic}
 		}
+		sim.Start() // start the host simulator
 		return sim, nil
 	}
 	return nil, errors.NewInvalid("host %s already created", host.ID)
@@ -284,6 +295,28 @@ func (s *Simulation) GetHostSimulator(id simapi.HostID) (*HostSimulator, error) 
 		return sim, nil
 	}
 	return nil, errors.NewNotFound("host %s not found", id)
+}
+
+// GetRandomHostSimulator returns a random host simulator; except the specified one, if not nil
+func (s *Simulation) GetRandomHostSimulator(except *HostSimulator) *HostSimulator {
+	s.lock.RLock()
+	defer s.lock.RUnlock()
+	ri := rand.Intn(len(s.hostSimulators))
+	i := 0
+	for _, hs := range s.hostSimulators {
+		if i == ri {
+			if hs == except && len(s.hostSimulators) > 1 {
+				// If we landed on the exception and there are at least two hosts, try our luck again
+				return s.GetRandomHostSimulator(except)
+			} else if hs == except {
+				// If we landed on the exception and there is at most one host, return nil
+				return nil
+			}
+			return hs
+		}
+		i++
+	}
+	return nil
 }
 
 // RemoveHostSimulator removes the simulator for the specified host ID and stops all its related activities
