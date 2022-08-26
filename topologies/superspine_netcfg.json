@@ -1,0 +1,116 @@
+{
+  "devices": {
+    "device:leaf11": {
+      "basic": {
+        "name": "leaf11",
+        "managementAddress": "http://fabric-sim:20004?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:leaf12": {
+      "basic": {
+        "name": "leaf12",
+        "managementAddress": "http://fabric-sim:20005?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:leaf21": {
+      "basic": {
+        "name": "leaf21",
+        "managementAddress": "http://fabric-sim:20006?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:leaf22": {
+      "basic": {
+        "name": "leaf22",
+        "managementAddress": "http://fabric-sim:20007?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:leaf31": {
+      "basic": {
+        "name": "leaf31",
+        "managementAddress": "http://fabric-sim:20010?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:leaf32": {
+      "basic": {
+        "name": "leaf32",
+        "managementAddress": "http://fabric-sim:20011?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:leaf41": {
+      "basic": {
+        "name": "leaf41",
+        "managementAddress": "http://fabric-sim:20012?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:leaf42": {
+      "basic": {
+        "name": "leaf42",
+        "managementAddress": "http://fabric-sim:20013?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:spine1": {
+      "basic": {
+        "name": "spine1",
+        "managementAddress": "http://fabric-sim:20002?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:spine2": {
+      "basic": {
+        "name": "spine2",
+        "managementAddress": "http://fabric-sim:20003?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:spine3": {
+      "basic": {
+        "name": "spine3",
+        "managementAddress": "http://fabric-sim:20008?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:spine4": {
+      "basic": {
+        "name": "spine4",
+        "managementAddress": "http://fabric-sim:20009?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:sspine1": {
+      "basic": {
+        "name": "sspine1",
+        "managementAddress": "http://fabric-sim:20000?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    },
+    "device:sspine2": {
+      "basic": {
+        "name": "sspine2",
+        "managementAddress": "http://fabric-sim:20001?device_id=0",
+        "driver": "stratum",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+      }
+    }
+  }
+}

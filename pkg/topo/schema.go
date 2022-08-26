@@ -15,7 +15,7 @@ var log = logging.GetLogger("topo")
 
 // Topology is a description of a simulated network topology
 type Topology struct {
-	Devices []Device `mapstructure:"devices" yaml:"devices"`
+	Devices []Device `mapstructure:"Devices" yaml:"Devices"`
 	Links   []Link   `mapstructure:"links" yaml:"links"`
 	Hosts   []Host   `mapstructure:"hosts" yaml:"hosts"`
 }
