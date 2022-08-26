@@ -73,7 +73,7 @@ func loadRecipeFile(path string, recipe *Recipe) error {
 // Saves the given topology as YAML in the specified file path; stdout if -
 func saveTopologyFile(topology *Topology, path string) error {
 	cfg := viper.New()
-	cfg.Set("devices", topology.Devices)
+	cfg.Set("Devices", topology.Devices)
 	cfg.Set("links", topology.Links)
 	cfg.Set("hosts", topology.Hosts)
 
@@ -109,7 +109,7 @@ func saveTopologyFile(topology *Topology, path string) error {
 		return err
 	}
 
-	// Then append the copy the YAML content
+	// Then append the copy of the YAML content
 	if _, err = fmt.Fprint(output, string(buffer)); err != nil {
 		return err
 	}
@@ -176,7 +176,7 @@ func createPorts(portCount int) []Port {
 	return ports
 }
 
-// Create a trunk of specified number of links between two devices
+// Create a trunk of specified number of links between two Devices
 func createLinkTrunk(src string, tgt string, count int, builder *Builder, topology *Topology) {
 	for i := 0; i < count; i++ {
 		link := Link{

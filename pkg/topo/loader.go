@@ -21,7 +21,7 @@ func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
 		return err
 	}
 
-	log.Debugf("devices: %d; links: %d; hosts: %d",
+	log.Debugf("Devices: %d; links: %d; hosts: %d",
 		len(topology.Devices), len(topology.Links), len(topology.Hosts))
 
 	if err := createDevices(conn, topology.Devices); err != nil {
@@ -47,7 +47,7 @@ func loadTopologyFile(path string, topology *Topology) error {
 	return cfg.Unmarshal(topology)
 }
 
-// Create all simulated devices
+// Create all simulated Devices
 func createDevices(conn *grpc.ClientConn, devices []Device) error {
 	deviceClient := simapi.NewDeviceServiceClient(conn)
 	ctx := context.Background()
@@ -171,7 +171,7 @@ func constructHost(hd Host) *simapi.Host {
 	}
 }
 
-// ClearTopology removes all devices, links and hosts from the simulator
+// ClearTopology removes all Devices, links and hosts from the simulator
 func ClearTopology(conn *grpc.ClientConn) error {
 	log.Info("Clearing entire topology")
 	if err := removeAllHosts(conn); err != nil {

@@ -22,6 +22,9 @@ const (
 	noTLSFlag       = "no-tls"
 	topologyFlag    = "topology"
 	recipeFlag      = "recipe"
+	outputFlag      = "output"
+	driverFlag      = "driver"
+	pipeconfFlag    = "pipeconf"
 )
 
 // The main entry point
@@ -99,21 +102,55 @@ func addEndpointFlags(cmd *cobra.Command) {
 
 func getGenerateCommand() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "generate",
+		Use:     "generate {topology, netcfg}",
 		Aliases: []string{"gen"},
-		Short:   "Generate a simulated fabric topology from a topology recipe YAML file",
+		Short:   "Generate fabric topology or netcfg.json",
 		Args:    cobra.NoArgs,
-		RunE:    runGenerateCommand,
 	}
-	cmd.Flags().String(recipeFlag, "-", "topology recipe YAML file; use - for stdin (default)")
-	cmd.Flags().String(topologyFlag, "-", "output topology YAML file; use - for stdout (default)")
+	cmd.AddCommand(getGenerateTopoCommand())
+	cmd.AddCommand(getGenerateNetcfgCommand())
 	return cmd
 }
 
-func runGenerateCommand(cmd *cobra.Command, args []string) error {
+func getGenerateTopoCommand() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "topology",
+		Aliases: []string{"topo"},
+		Short:   "Generate a simulated fabric topology from a topology recipe YAML file",
+		Args:    cobra.NoArgs,
+		RunE:    runGenerateTopoCommand,
+	}
+	cmd.Flags().String(recipeFlag, "-", "topology recipe YAML file; use - for stdin (default)")
+	cmd.Flags().String(outputFlag, "-", "output topology YAML file; use - for stdout (default)")
+	return cmd
+}
+
+func runGenerateTopoCommand(cmd *cobra.Command, args []string) error {
 	recipePath, _ := cmd.Flags().GetString(recipeFlag)
+	outputPath, _ := cmd.Flags().GetString(outputFlag)
+	return topo.GenerateTopology(recipePath, outputPath)
+}
+
+func getGenerateNetcfgCommand() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "netcfg",
+		Short: "Generate netcfg.json file from the specified topology YAML file",
+		Args:  cobra.NoArgs,
+		RunE:  runGenerateNetcfgCommand,
+	}
+	cmd.Flags().String(topologyFlag, "-", "topology YAML file; use - for stdin (default)")
+	cmd.Flags().String(driverFlag, "stratum-tofino", "ONOS driver")
+	cmd.Flags().String(pipeconfFlag, "org.stratumproject.fabric.montara_sde_9_7_0", "ONOS pipeconf")
+	cmd.Flags().String(outputFlag, "-", "netcfg JSON file; use - for stdout (default)")
+	return cmd
+}
+
+func runGenerateNetcfgCommand(cmd *cobra.Command, args []string) error {
 	topologyPath, _ := cmd.Flags().GetString(topologyFlag)
-	return topo.GenerateTopology(recipePath, topologyPath)
+	outputPath, _ := cmd.Flags().GetString(outputFlag)
+	driver, _ := cmd.Flags().GetString(driverFlag)
+	pipeconf, _ := cmd.Flags().GetString(pipeconfFlag)
+	return topo.GenerateNetcfg(topologyPath, outputPath, driver, pipeconf)
 }
 
 func getAddress(cmd *cobra.Command) string {
