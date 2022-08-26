@@ -3,16 +3,16 @@
     "device:switch1": {
       "basic": {
         "name": "switch1",
-        "managementAddress": "http://fabric-sim:20011?device_id=0",
-        "driver": "stratum",
+        "managementAddress": "grpc://fabric-sim:20011?device_id=0",
+        "driver": "stratum-tofino",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
       }
     },
     "device:switch2": {
       "basic": {
         "name": "switch2",
-        "managementAddress": "http://fabric-sim:20012?device_id=0",
-        "driver": "stratum",
+        "managementAddress": "grpc://fabric-sim:20012?device_id=0",
+        "driver": "stratum-tofino",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
       }
     }

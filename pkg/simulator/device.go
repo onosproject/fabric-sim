@@ -329,7 +329,7 @@ func (ds *DeviceSimulator) GetPipelineConfig() *p4api.ForwardingPipelineConfig {
 
 // ProcessPacketOut handles the specified packet out message
 func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responder StreamResponder) error {
-	log.Infof("Device %s: received packet out: %+v", ds.Device.ID, packetOut)
+	log.Debugf("Device %s: received packet out: %+v", ds.Device.ID, packetOut)
 
 	if ds.codec == nil {
 		log.Errorf("Device %s: pipeline config not set", ds.Device.ID)
@@ -365,7 +365,7 @@ func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder 
 // Processes the LLDP packet-out by emitting it encapsulated as a packet-in on the simulated device which is
 // adjacent to this device on the link (if any) connected to the port given in the LLDP packet
 func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *p4api.PacketOut, pom *PacketOutMetadata) {
-	log.Infof("Device %s: processing LLDP packet: %+v", ds.Device.ID, packet)
+	log.Debugf("Device %s: processing LLDP packet: %+v", ds.Device.ID, packet)
 
 	// TODO: Add filtering based on device table contents
 
@@ -404,7 +404,7 @@ func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *
 // to all current responders (streams) associated with this device
 func (ds *DeviceSimulator) SendPacketIn(packet []byte, ingressPort uint32) {
 	if ds.codec == nil {
-		log.Warnf("Device %s: Unable to send packet-in, pipeline config not set yet")
+		log.Debugf("Device %s: Unable to send packet-in, pipeline config not set yet", ds.Device.ID)
 		return
 	}
 	packetIn := &p4api.StreamMessageResponse{

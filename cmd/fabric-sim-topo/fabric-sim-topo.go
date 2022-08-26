@@ -139,7 +139,7 @@ func getGenerateNetcfgCommand() *cobra.Command {
 		RunE:  runGenerateNetcfgCommand,
 	}
 	cmd.Flags().String(topologyFlag, "-", "topology YAML file; use - for stdin (default)")
-	cmd.Flags().String(driverFlag, "stratum", "ONOS driver")
+	cmd.Flags().String(driverFlag, "stratum-tofino", "ONOS driver")
 	cmd.Flags().String(pipeconfFlag, "org.stratumproject.fabric.montara_sde_9_7_0", "ONOS pipeconf")
 	cmd.Flags().String(outputFlag, "-", "netcfg JSON file; use - for stdout (default)")
 	return cmd

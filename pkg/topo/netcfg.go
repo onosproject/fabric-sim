@@ -55,7 +55,7 @@ func createNetcfgDevice(device Device, driver string, pipeconf string) *NetcfgDe
 	return &NetcfgDevice{
 		Basic: &NetcfgDeviceBasic{
 			Name:              device.ID,
-			ManagementAddress: fmt.Sprintf("http://fabric-sim:%d?device_id=0", device.AgentPort),
+			ManagementAddress: fmt.Sprintf("grpc://fabric-sim:%d?device_id=0", device.AgentPort),
 			Driver:            driver,
 			Pipeconf:          pipeconf,
 		},

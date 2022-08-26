@@ -66,11 +66,16 @@ func (hs *HostSimulator) SendARPResponse(another *simapi.Host) {
 	// TODO: implement this when needed
 }
 
+const (
+	arpMinDelay = 30
+	arpVardelay = 30
+)
+
 // Periodically emit ARP requests for other hosts' IP addresses
 func (hs *HostSimulator) emitARPRequests() {
 	for {
 		select {
-		case <-time.After(15 * time.Second):
+		case <-time.After(time.Duration(arpMinDelay+rand.Intn(arpVardelay)) * time.Second):
 			hs.emitRandomARPRequest()
 		case <-hs.done:
 			return
