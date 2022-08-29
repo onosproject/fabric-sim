@@ -5,26 +5,21 @@
 package main
 
 import (
-	"crypto/tls"
 	"github.com/onosproject/fabric-sim/pkg/topo"
-	"github.com/onosproject/onos-lib-go/pkg/certs"
+	"github.com/onosproject/onos-lib-go/pkg/cli"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/credentials/insecure"
 	"os"
 )
 
 const (
-	addressFlag     = "service-address"
-	tlsCertPathFlag = "tls-cert-path"
-	tlsKeyPathFlag  = "tls-key-path"
-	noTLSFlag       = "no-tls"
-	topologyFlag    = "topology"
-	recipeFlag      = "recipe"
-	outputFlag      = "output"
-	driverFlag      = "driver"
-	pipeconfFlag    = "pipeconf"
+	serviceAddress = "fabric-sim:5150"
+
+	topologyFlag = "topology"
+	recipeFlag   = "recipe"
+	outputFlag   = "output"
+	driverFlag   = "driver"
+	pipeconfFlag = "pipeconf"
 )
 
 // The main entry point
@@ -54,13 +49,13 @@ func getLoadCommand() *cobra.Command {
 		Args:    cobra.NoArgs,
 		RunE:    runLoadCommand,
 	}
-	addEndpointFlags(cmd)
+	cli.AddEndpointFlags(cmd, serviceAddress)
 	cmd.Flags().String(topologyFlag, "-", "topology YAML file; use - for stdin (default)")
 	return cmd
 }
 
 func runLoadCommand(cmd *cobra.Command, args []string) error {
-	conn, err := getConnection(cmd)
+	conn, err := cli.GetConnection(cmd)
 	if err != nil {
 		return err
 	}
@@ -77,12 +72,12 @@ func getClearCommand() *cobra.Command {
 		Args:    cobra.NoArgs,
 		RunE:    runClearCommand,
 	}
-	addEndpointFlags(cmd)
+	cli.AddEndpointFlags(cmd, serviceAddress)
 	return cmd
 }
 
 func runClearCommand(cmd *cobra.Command, args []string) error {
-	conn, err := getConnection(cmd)
+	conn, err := cli.GetConnection(cmd)
 	if err != nil {
 		return err
 	}
@@ -92,12 +87,6 @@ func runClearCommand(cmd *cobra.Command, args []string) error {
 
 func closeConnection(conn *grpc.ClientConn) {
 	_ = conn.Close()
-}
-
-func addEndpointFlags(cmd *cobra.Command) {
-	cmd.Flags().String(addressFlag, "fabric-sim:5150", "service address")
-	cmd.Flags().String(tlsKeyPathFlag, "", "path to client private key")
-	cmd.Flags().String(tlsCertPathFlag, "", "path to client certificate")
 }
 
 func getGenerateCommand() *cobra.Command {
@@ -151,69 +140,4 @@ func runGenerateNetcfgCommand(cmd *cobra.Command, args []string) error {
 	driver, _ := cmd.Flags().GetString(driverFlag)
 	pipeconf, _ := cmd.Flags().GetString(pipeconfFlag)
 	return topo.GenerateNetcfg(topologyPath, outputPath, driver, pipeconf)
-}
-
-func getAddress(cmd *cobra.Command) string {
-	address, _ := cmd.Flags().GetString(addressFlag)
-	return address
-}
-
-func getCertPath(cmd *cobra.Command) string {
-	certPath, _ := cmd.Flags().GetString(tlsCertPathFlag)
-	return certPath
-}
-
-func getKeyPath(cmd *cobra.Command) string {
-	keyPath, _ := cmd.Flags().GetString(tlsKeyPathFlag)
-	return keyPath
-}
-
-func noTLS(cmd *cobra.Command) bool {
-	tls, _ := cmd.Flags().GetBool(noTLSFlag)
-	return tls
-}
-
-// getConnection returns a gRPC client connection to the onos service
-func getConnection(cmd *cobra.Command) (*grpc.ClientConn, error) {
-	address := getAddress(cmd)
-	certPath := getCertPath(cmd)
-	keyPath := getKeyPath(cmd)
-	var opts []grpc.DialOption
-
-	if noTLS(cmd) {
-		opts = []grpc.DialOption{
-			grpc.WithTransportCredentials(insecure.NewCredentials()),
-		}
-	} else {
-		if certPath != "" && keyPath != "" {
-			cert, err := tls.LoadX509KeyPair(certPath, keyPath)
-			if err != nil {
-				return nil, err
-			}
-			opts = []grpc.DialOption{
-				grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{
-					Certificates:       []tls.Certificate{cert},
-					InsecureSkipVerify: true,
-				})),
-			}
-		} else {
-			// Load default Certificates
-			cert, err := tls.X509KeyPair([]byte(certs.DefaultClientCrt), []byte(certs.DefaultClientKey))
-			if err != nil {
-				return nil, err
-			}
-			opts = []grpc.DialOption{
-				grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{
-					Certificates:       []tls.Certificate{cert},
-					InsecureSkipVerify: true,
-				})),
-			}
-		}
-	}
-
-	conn, err := grpc.Dial(address, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return conn, nil
 }
