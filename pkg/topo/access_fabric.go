@@ -6,6 +6,17 @@ package topo
 
 import "fmt"
 
+const (
+	spineY      = 0
+	spinesGap   = 400
+	leafY       = 200
+	leafGap     = 400
+	hostsY      = 450
+	hostsGap    = 70
+	hostsPerRow = 10
+	hostRowGap  = 80
+)
+
 // GenerateAccessFabric generates topology YAML from the specified access fabric recipe
 func GenerateAccessFabric(fabric *AccessFabric) *Topology {
 	log.Infof("Generating Access Fabric")
@@ -15,13 +26,19 @@ func GenerateAccessFabric(fabric *AccessFabric) *Topology {
 
 	// First, create the spines
 	for spine := 1; spine <= fabric.Spines; spine++ {
-		createSwitch(fmt.Sprintf("spine%d", spine), fabric.SpinePortCount, builder, topology)
+		createSwitch(fmt.Sprintf("spine%d", spine), fabric.SpinePortCount, builder, topology,
+			pos(coord(spine, fabric.Spines, spinesGap, 0), spineY))
 	}
 
 	// Then, create the leaves and connect them to the spines
 	for pair := 1; pair <= fabric.LeafPairs; pair++ {
-		leaf1 := createSwitch(fmt.Sprintf("leaf%d%d", pair, 1), fabric.LeafPortCount, builder, topology).ID
-		leaf2 := createSwitch(fmt.Sprintf("leaf%d%d", pair, 2), fabric.LeafPortCount, builder, topology).ID
+		sw1 := createSwitch(fmt.Sprintf("leaf%d%d", pair, 1), fabric.LeafPortCount, builder, topology,
+			pos(coord(2*pair-1, 2*fabric.LeafPairs, leafGap, 0), leafY))
+		sw2 := createSwitch(fmt.Sprintf("leaf%d%d", pair, 2), fabric.LeafPortCount, builder, topology,
+			pos(coord(2*pair, 2*fabric.LeafPairs, leafGap, 0), leafY))
+
+		leaf1 := sw1.ID
+		leaf2 := sw2.ID
 
 		// Attach the leaves to the spines
 		for spine := 1; spine <= fabric.Spines; spine++ {
@@ -34,7 +51,8 @@ func GenerateAccessFabric(fabric *AccessFabric) *Topology {
 		createLinkTrunk(leaf1, leaf2, fabric.PairTrunk, builder, topology)
 
 		// Finally, create the hosts and attach them to the leaf pairs
-		createRackHosts(pair, leaf1, leaf2, fabric.HostsPerPair, builder, topology)
+		createRackHosts(pair, leaf1, leaf2, fabric.HostsPerPair, builder, topology,
+			coord(2*pair, 2*fabric.LeafPairs, leafGap, -leafGap/2))
 	}
 
 	return topology
