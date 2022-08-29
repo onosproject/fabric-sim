@@ -18,6 +18,9 @@ devices:
       - number: 2
         sdn_number: 225
         speed: 10Gbps
+    pos:
+      x: 100
+      "y": -200
   - id: switch2
     type: switch
     agent_port: 20012
@@ -29,6 +32,9 @@ devices:
       - number: 2
         sdn_number: 235
         speed: 10Gbps
+    pos:
+      x: 100
+      "y": 200
 
 # Specifies simulated links
 links:
@@ -42,8 +48,14 @@ hosts:
       - mac: 00:00:00:00:11:01
         ip: 10.10.11.01
         port: switch1/2
+    pos:
+      x: 200
+      "y": -300
   - id: h2
     nics:
       - mac: 00:00:00:00:11:02
         ip: 10.10.11.02
         port: switch2/2
+    pos:
+      x: 200
+      "y": 300

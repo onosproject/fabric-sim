@@ -150,13 +150,14 @@ func (b *Builder) NextDevicePortID(deviceID string) string {
 }
 
 // Create a switch with the specified number of ports
-func createSwitch(deviceID string, portCount int, builder *Builder, topology *Topology) Device {
+func createSwitch(deviceID string, portCount int, builder *Builder, topology *Topology, pos *GridPosition) Device {
 	device := Device{
 		ID:        deviceID,
 		Type:      "switch",
 		AgentPort: builder.NextAgentPort(),
 		Stopped:   false,
 		Ports:     createPorts(portCount),
+		Pos:       pos,
 	}
 	topology.Devices = append(topology.Devices, device)
 	return device
@@ -189,14 +190,25 @@ func createLinkTrunk(src string, tgt string, count int, builder *Builder, topolo
 }
 
 // Create the specified number of hosts, each with two NICs connected to the two switches
-func createRackHosts(rackID int, leaf1 string, leaf2 string, count int, builder *Builder, topology *Topology) {
+func createRackHosts(rackID int, leaf1 string, leaf2 string, count int, builder *Builder, topology *Topology, gridX int) {
+	//yStep := hostRowGap / hostsPerRow  // Used for staggering the Y coordinate
+	x := gridX - (hostsGap*(hostsPerRow-1))/2
+	y := hostsY
+
 	for i := 1; i <= count; i++ {
-		createRackHost(rackID, i, leaf1, leaf2, builder, topology)
+		createRackHost(rackID, i, leaf1, leaf2, builder, topology, pos(x, y))
+		if i%hostsPerRow == 0 {
+			x = gridX - (hostsGap*(hostsPerRow-1))/2
+			y += hostRowGap
+		} else {
+			x += hostsGap
+			//y += yStep
+		}
 	}
 }
 
 // Create a host with two NICs connected to the two switches
-func createRackHost(rackID int, hostID int, leaf1 string, leaf2 string, builder *Builder, topology *Topology) {
+func createRackHost(rackID int, hostID int, leaf1 string, leaf2 string, builder *Builder, topology *Topology, pos *GridPosition) *Host {
 	nic1 := NIC{
 		Mac:  mac(rackID, hostID, 1),
 		IPv4: ipv4(rackID, hostID, 1),
@@ -212,8 +224,10 @@ func createRackHost(rackID int, hostID int, leaf1 string, leaf2 string, builder 
 	host := Host{
 		ID:   fmt.Sprintf("host%d%d", rackID, hostID),
 		NICs: []NIC{nic1, nic2},
+		Pos:  pos,
 	}
 	topology.Hosts = append(topology.Hosts, host)
+	return &host
 }
 
 // Generate a MAC address
@@ -229,4 +243,14 @@ func ipv4(rackID int, hostID int, leafID int) string {
 // Generate an IPv6 address
 func ipv6(rackID int, hostID int, leafID int) string {
 	return fmt.Sprintf("::ffff:10.10.%d%d.%d", rackID, leafID, hostID)
+}
+
+// Generates a coordinate for the i-th element - out of n elements - spaced by a gap and an offset
+func coord(i int, n int, gap int, offset int) int {
+	return gap*(i-1) - (gap*(n-1))/2 + offset
+}
+
+// Generates a grid position for the specified coordinates
+func pos(x int, y int) *GridPosition {
+	return &GridPosition{X: x, Y: y}
 }

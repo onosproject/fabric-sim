@@ -5,7 +5,10 @@
         "name": "leaf11",
         "managementAddress": "grpc://fabric-sim:20003?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": -1000,
+        "gridY": 200
       }
     },
     "device:leaf12": {
@@ -13,7 +16,10 @@
         "name": "leaf12",
         "managementAddress": "grpc://fabric-sim:20004?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": -600,
+        "gridY": 200
       }
     },
     "device:leaf21": {
@@ -21,7 +27,10 @@
         "name": "leaf21",
         "managementAddress": "grpc://fabric-sim:20005?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": -200,
+        "gridY": 200
       }
     },
     "device:leaf22": {
@@ -29,7 +38,10 @@
         "name": "leaf22",
         "managementAddress": "grpc://fabric-sim:20006?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": 200,
+        "gridY": 200
       }
     },
     "device:leaf31": {
@@ -37,7 +49,10 @@
         "name": "leaf31",
         "managementAddress": "grpc://fabric-sim:20007?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": 600,
+        "gridY": 200
       }
     },
     "device:leaf32": {
@@ -45,7 +60,10 @@
         "name": "leaf32",
         "managementAddress": "grpc://fabric-sim:20008?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": 1000,
+        "gridY": 200
       }
     },
     "device:spine1": {
@@ -53,7 +71,10 @@
         "name": "spine1",
         "managementAddress": "grpc://fabric-sim:20000?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": -400,
+        "gridY": 0
       }
     },
     "device:spine2": {
@@ -61,7 +82,10 @@
         "name": "spine2",
         "managementAddress": "grpc://fabric-sim:20001?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
       }
     },
     "device:spine3": {
@@ -69,7 +93,972 @@
         "name": "spine3",
         "managementAddress": "grpc://fabric-sim:20002?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0"
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": 400,
+        "gridY": 0
+      }
+    }
+  },
+  "hosts": {
+    "00:CA:FE:01:01:01/None": {
+      "basic": {
+        "name": "host11",
+        "locType": "grid",
+        "gridX": -1115,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:02/None": {
+      "basic": {
+        "name": "host12",
+        "locType": "grid",
+        "gridX": -1045,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:03/None": {
+      "basic": {
+        "name": "host13",
+        "locType": "grid",
+        "gridX": -975,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:04/None": {
+      "basic": {
+        "name": "host14",
+        "locType": "grid",
+        "gridX": -905,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:05/None": {
+      "basic": {
+        "name": "host15",
+        "locType": "grid",
+        "gridX": -835,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:06/None": {
+      "basic": {
+        "name": "host16",
+        "locType": "grid",
+        "gridX": -765,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:07/None": {
+      "basic": {
+        "name": "host17",
+        "locType": "grid",
+        "gridX": -695,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:08/None": {
+      "basic": {
+        "name": "host18",
+        "locType": "grid",
+        "gridX": -625,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:09/None": {
+      "basic": {
+        "name": "host19",
+        "locType": "grid",
+        "gridX": -555,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:10/None": {
+      "basic": {
+        "name": "host110",
+        "locType": "grid",
+        "gridX": -485,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:11/None": {
+      "basic": {
+        "name": "host111",
+        "locType": "grid",
+        "gridX": -1115,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:12/None": {
+      "basic": {
+        "name": "host112",
+        "locType": "grid",
+        "gridX": -1045,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:13/None": {
+      "basic": {
+        "name": "host113",
+        "locType": "grid",
+        "gridX": -975,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:14/None": {
+      "basic": {
+        "name": "host114",
+        "locType": "grid",
+        "gridX": -905,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:15/None": {
+      "basic": {
+        "name": "host115",
+        "locType": "grid",
+        "gridX": -835,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:16/None": {
+      "basic": {
+        "name": "host116",
+        "locType": "grid",
+        "gridX": -765,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:17/None": {
+      "basic": {
+        "name": "host117",
+        "locType": "grid",
+        "gridX": -695,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:18/None": {
+      "basic": {
+        "name": "host118",
+        "locType": "grid",
+        "gridX": -625,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:19/None": {
+      "basic": {
+        "name": "host119",
+        "locType": "grid",
+        "gridX": -555,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:20/None": {
+      "basic": {
+        "name": "host120",
+        "locType": "grid",
+        "gridX": -485,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:02:01/None": {
+      "basic": {
+        "name": "host11",
+        "locType": "grid",
+        "gridX": -1115,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:02:02/None": {
+      "basic": {
+        "name": "host12",
+        "locType": "grid",
+        "gridX": -1045,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:02:03/None": {
+      "basic": {
+        "name": "host13",
+        "locType": "grid",
+        "gridX": -975,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:02:04/None": {
+      "basic": {
+        "name": "host14",
+        "locType": "grid",
+        "gridX": -905,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:02:05/None": {
+      "basic": {
+        "name": "host15",
+        "locType": "grid",
+        "gridX": -835,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:02:06/None": {
+      "basic": {
+        "name": "host16",
+        "locType": "grid",
+        "gridX": -765,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:02:07/None": {
+      "basic": {
+        "name": "host17",
+        "locType": "grid",
+        "gridX": -695,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:02:08/None": {
+      "basic": {
+        "name": "host18",
+        "locType": "grid",
+        "gridX": -625,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:02:09/None": {
+      "basic": {
+        "name": "host19",
+        "locType": "grid",
+        "gridX": -555,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:02:10/None": {
+      "basic": {
+        "name": "host110",
+        "locType": "grid",
+        "gridX": -485,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:02:11/None": {
+      "basic": {
+        "name": "host111",
+        "locType": "grid",
+        "gridX": -1115,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:02:12/None": {
+      "basic": {
+        "name": "host112",
+        "locType": "grid",
+        "gridX": -1045,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:02:13/None": {
+      "basic": {
+        "name": "host113",
+        "locType": "grid",
+        "gridX": -975,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:02:14/None": {
+      "basic": {
+        "name": "host114",
+        "locType": "grid",
+        "gridX": -905,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:02:15/None": {
+      "basic": {
+        "name": "host115",
+        "locType": "grid",
+        "gridX": -835,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:02:16/None": {
+      "basic": {
+        "name": "host116",
+        "locType": "grid",
+        "gridX": -765,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:02:17/None": {
+      "basic": {
+        "name": "host117",
+        "locType": "grid",
+        "gridX": -695,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:02:18/None": {
+      "basic": {
+        "name": "host118",
+        "locType": "grid",
+        "gridX": -625,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:02:19/None": {
+      "basic": {
+        "name": "host119",
+        "locType": "grid",
+        "gridX": -555,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:02:20/None": {
+      "basic": {
+        "name": "host120",
+        "locType": "grid",
+        "gridX": -485,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:01/None": {
+      "basic": {
+        "name": "host21",
+        "locType": "grid",
+        "gridX": -315,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:02/None": {
+      "basic": {
+        "name": "host22",
+        "locType": "grid",
+        "gridX": -245,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:03/None": {
+      "basic": {
+        "name": "host23",
+        "locType": "grid",
+        "gridX": -175,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:04/None": {
+      "basic": {
+        "name": "host24",
+        "locType": "grid",
+        "gridX": -105,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:05/None": {
+      "basic": {
+        "name": "host25",
+        "locType": "grid",
+        "gridX": -35,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:06/None": {
+      "basic": {
+        "name": "host26",
+        "locType": "grid",
+        "gridX": 35,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:07/None": {
+      "basic": {
+        "name": "host27",
+        "locType": "grid",
+        "gridX": 105,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:08/None": {
+      "basic": {
+        "name": "host28",
+        "locType": "grid",
+        "gridX": 175,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:09/None": {
+      "basic": {
+        "name": "host29",
+        "locType": "grid",
+        "gridX": 245,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:10/None": {
+      "basic": {
+        "name": "host210",
+        "locType": "grid",
+        "gridX": 315,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:11/None": {
+      "basic": {
+        "name": "host211",
+        "locType": "grid",
+        "gridX": -315,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:12/None": {
+      "basic": {
+        "name": "host212",
+        "locType": "grid",
+        "gridX": -245,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:13/None": {
+      "basic": {
+        "name": "host213",
+        "locType": "grid",
+        "gridX": -175,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:14/None": {
+      "basic": {
+        "name": "host214",
+        "locType": "grid",
+        "gridX": -105,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:15/None": {
+      "basic": {
+        "name": "host215",
+        "locType": "grid",
+        "gridX": -35,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:16/None": {
+      "basic": {
+        "name": "host216",
+        "locType": "grid",
+        "gridX": 35,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:17/None": {
+      "basic": {
+        "name": "host217",
+        "locType": "grid",
+        "gridX": 105,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:18/None": {
+      "basic": {
+        "name": "host218",
+        "locType": "grid",
+        "gridX": 175,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:19/None": {
+      "basic": {
+        "name": "host219",
+        "locType": "grid",
+        "gridX": 245,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:20/None": {
+      "basic": {
+        "name": "host220",
+        "locType": "grid",
+        "gridX": 315,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:02:01/None": {
+      "basic": {
+        "name": "host21",
+        "locType": "grid",
+        "gridX": -315,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:02:02/None": {
+      "basic": {
+        "name": "host22",
+        "locType": "grid",
+        "gridX": -245,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:02:03/None": {
+      "basic": {
+        "name": "host23",
+        "locType": "grid",
+        "gridX": -175,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:02:04/None": {
+      "basic": {
+        "name": "host24",
+        "locType": "grid",
+        "gridX": -105,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:02:05/None": {
+      "basic": {
+        "name": "host25",
+        "locType": "grid",
+        "gridX": -35,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:02:06/None": {
+      "basic": {
+        "name": "host26",
+        "locType": "grid",
+        "gridX": 35,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:02:07/None": {
+      "basic": {
+        "name": "host27",
+        "locType": "grid",
+        "gridX": 105,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:02:08/None": {
+      "basic": {
+        "name": "host28",
+        "locType": "grid",
+        "gridX": 175,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:02:09/None": {
+      "basic": {
+        "name": "host29",
+        "locType": "grid",
+        "gridX": 245,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:02:10/None": {
+      "basic": {
+        "name": "host210",
+        "locType": "grid",
+        "gridX": 315,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:02:11/None": {
+      "basic": {
+        "name": "host211",
+        "locType": "grid",
+        "gridX": -315,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:02:12/None": {
+      "basic": {
+        "name": "host212",
+        "locType": "grid",
+        "gridX": -245,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:02:13/None": {
+      "basic": {
+        "name": "host213",
+        "locType": "grid",
+        "gridX": -175,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:02:14/None": {
+      "basic": {
+        "name": "host214",
+        "locType": "grid",
+        "gridX": -105,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:02:15/None": {
+      "basic": {
+        "name": "host215",
+        "locType": "grid",
+        "gridX": -35,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:02:16/None": {
+      "basic": {
+        "name": "host216",
+        "locType": "grid",
+        "gridX": 35,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:02:17/None": {
+      "basic": {
+        "name": "host217",
+        "locType": "grid",
+        "gridX": 105,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:02:18/None": {
+      "basic": {
+        "name": "host218",
+        "locType": "grid",
+        "gridX": 175,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:02:19/None": {
+      "basic": {
+        "name": "host219",
+        "locType": "grid",
+        "gridX": 245,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:02:20/None": {
+      "basic": {
+        "name": "host220",
+        "locType": "grid",
+        "gridX": 315,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:01/None": {
+      "basic": {
+        "name": "host31",
+        "locType": "grid",
+        "gridX": 485,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:02/None": {
+      "basic": {
+        "name": "host32",
+        "locType": "grid",
+        "gridX": 555,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:03/None": {
+      "basic": {
+        "name": "host33",
+        "locType": "grid",
+        "gridX": 625,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:04/None": {
+      "basic": {
+        "name": "host34",
+        "locType": "grid",
+        "gridX": 695,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:05/None": {
+      "basic": {
+        "name": "host35",
+        "locType": "grid",
+        "gridX": 765,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:06/None": {
+      "basic": {
+        "name": "host36",
+        "locType": "grid",
+        "gridX": 835,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:07/None": {
+      "basic": {
+        "name": "host37",
+        "locType": "grid",
+        "gridX": 905,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:08/None": {
+      "basic": {
+        "name": "host38",
+        "locType": "grid",
+        "gridX": 975,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:09/None": {
+      "basic": {
+        "name": "host39",
+        "locType": "grid",
+        "gridX": 1045,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:10/None": {
+      "basic": {
+        "name": "host310",
+        "locType": "grid",
+        "gridX": 1115,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:11/None": {
+      "basic": {
+        "name": "host311",
+        "locType": "grid",
+        "gridX": 485,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:12/None": {
+      "basic": {
+        "name": "host312",
+        "locType": "grid",
+        "gridX": 555,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:13/None": {
+      "basic": {
+        "name": "host313",
+        "locType": "grid",
+        "gridX": 625,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:14/None": {
+      "basic": {
+        "name": "host314",
+        "locType": "grid",
+        "gridX": 695,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:15/None": {
+      "basic": {
+        "name": "host315",
+        "locType": "grid",
+        "gridX": 765,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:16/None": {
+      "basic": {
+        "name": "host316",
+        "locType": "grid",
+        "gridX": 835,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:17/None": {
+      "basic": {
+        "name": "host317",
+        "locType": "grid",
+        "gridX": 905,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:18/None": {
+      "basic": {
+        "name": "host318",
+        "locType": "grid",
+        "gridX": 975,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:19/None": {
+      "basic": {
+        "name": "host319",
+        "locType": "grid",
+        "gridX": 1045,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:20/None": {
+      "basic": {
+        "name": "host320",
+        "locType": "grid",
+        "gridX": 1115,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:02:01/None": {
+      "basic": {
+        "name": "host31",
+        "locType": "grid",
+        "gridX": 485,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:02:02/None": {
+      "basic": {
+        "name": "host32",
+        "locType": "grid",
+        "gridX": 555,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:02:03/None": {
+      "basic": {
+        "name": "host33",
+        "locType": "grid",
+        "gridX": 625,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:02:04/None": {
+      "basic": {
+        "name": "host34",
+        "locType": "grid",
+        "gridX": 695,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:02:05/None": {
+      "basic": {
+        "name": "host35",
+        "locType": "grid",
+        "gridX": 765,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:02:06/None": {
+      "basic": {
+        "name": "host36",
+        "locType": "grid",
+        "gridX": 835,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:02:07/None": {
+      "basic": {
+        "name": "host37",
+        "locType": "grid",
+        "gridX": 905,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:02:08/None": {
+      "basic": {
+        "name": "host38",
+        "locType": "grid",
+        "gridX": 975,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:02:09/None": {
+      "basic": {
+        "name": "host39",
+        "locType": "grid",
+        "gridX": 1045,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:02:10/None": {
+      "basic": {
+        "name": "host310",
+        "locType": "grid",
+        "gridX": 1115,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:02:11/None": {
+      "basic": {
+        "name": "host311",
+        "locType": "grid",
+        "gridX": 485,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:02:12/None": {
+      "basic": {
+        "name": "host312",
+        "locType": "grid",
+        "gridX": 555,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:02:13/None": {
+      "basic": {
+        "name": "host313",
+        "locType": "grid",
+        "gridX": 625,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:02:14/None": {
+      "basic": {
+        "name": "host314",
+        "locType": "grid",
+        "gridX": 695,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:02:15/None": {
+      "basic": {
+        "name": "host315",
+        "locType": "grid",
+        "gridX": 765,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:02:16/None": {
+      "basic": {
+        "name": "host316",
+        "locType": "grid",
+        "gridX": 835,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:02:17/None": {
+      "basic": {
+        "name": "host317",
+        "locType": "grid",
+        "gridX": 905,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:02:18/None": {
+      "basic": {
+        "name": "host318",
+        "locType": "grid",
+        "gridX": 975,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:02:19/None": {
+      "basic": {
+        "name": "host319",
+        "locType": "grid",
+        "gridX": 1045,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:02:20/None": {
+      "basic": {
+        "name": "host320",
+        "locType": "grid",
+        "gridX": 1115,
+        "gridY": 530
       }
     }
   }
