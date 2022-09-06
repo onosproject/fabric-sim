@@ -44,10 +44,10 @@ cit:  # @HELP run helmit integration test under current development
 	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests --suite basic --test TestLLDPPacket
 
 recipes:	# HELP generate topology files from the topology recipes
-	@for topo in "access" "superspine"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen topo --recipe topologies/$${topo}_recipe.yaml --output topologies/$${topo}.yaml; done
+	@for topo in "access" "access2" "superspine"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen topo --recipe topologies/$${topo}_recipe.yaml --output topologies/$${topo}.yaml; done
 
 netcfg:	# HELP generate netcfg files from the topology files
-	@for topo in "trivial" "access" "superspine"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen netcfg --topology topologies/$${topo}.yaml --output topologies/$${topo}_netcfg.json; done
+	@for topo in "trivial" "access" "access2" "superspine"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen netcfg --topology topologies/$${topo}.yaml --output topologies/$${topo}_netcfg.json; done
 
 fabric-sim-docker: mod-update local-deps # @HELP build fabric-sim base Docker image
 	docker build --platform linux/amd64 . -f build/fabric-sim/Dockerfile \

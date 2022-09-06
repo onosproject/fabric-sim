@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2022-present Intel Corporation
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Recipe for creating super-spine fabric topology
+
+# Recipe for 3x6 access fabric
+access_fabric:
+  spines: 2
+  spine_port_count: 32
+
+  leaf_pairs: 2
+  leaf_port_count: 32
+
+  spine_trunk: 3
+  pair_trunk: 2
+
+  # 32 - 3*3
+  hosts_per_pair: 20
