@@ -343,3 +343,17 @@ func (s *Simulation) GetLinkFromPort(portID simapi.PortID) *simapi.Link {
 	}
 	return nil
 }
+
+// EmitARPs triggers the specified host NIC to send ARP requests for a set of IP addresses
+func (s *Simulation) EmitARPs(id simapi.HostID, mac string, ips []string) error {
+	s.lock.RLock()
+	defer s.lock.RUnlock()
+	sim, ok := s.hostSimulators[id]
+	if !ok {
+		return errors.NewNotFound("host %s not found", id)
+	}
+	if nic := sim.GetNetworkInterfaceByMac(mac); nic != nil {
+		return sim.EmitARPRequests(nic, ips)
+	}
+	return errors.NewNotFound("nic with MAC %s not found", mac)
+}

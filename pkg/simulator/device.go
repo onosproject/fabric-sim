@@ -5,7 +5,6 @@
 package simulator
 
 import (
-	"fmt"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/onosproject/fabric-sim/pkg/simulator/config"
@@ -140,7 +139,7 @@ func (ds *DeviceSimulator) setPortStatus(id simapi.PortID, linkStatus simapi.Lin
 	port, ok := ds.Ports[id]
 	if !ok {
 		log.Warnf("Device %s: Port %s not found", ds.Device.ID, id)
-		return errors.NewNotFound(fmt.Sprintf("port %s not found", id))
+		return errors.NewNotFound("port %s not found", id)
 	}
 
 	// Look for any links or interfaces using this port and disable them
