@@ -82,6 +82,11 @@ func (m *Meter) Size() int {
 	return len(m.cells)
 }
 
+// Name returns the meter name
+func (m *Meter) Name() string {
+	return m.info.Preamble.Name
+}
+
 // Cell returns the specified cell of the meter
 func (m *Meter) Cell(index int64) *p4api.MeterEntry {
 	return m.cells[index]

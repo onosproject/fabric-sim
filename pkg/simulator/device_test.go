@@ -115,6 +115,7 @@ func CreateSwitchConfig(portCount uint32) *config.Node {
 			Number:         i,
 			InternalNumber: 1024 + i,
 			Speed:          "100GB",
+			Enabled:        true,
 		}
 	}
 	return config.NewSwitchConfig(ports)
