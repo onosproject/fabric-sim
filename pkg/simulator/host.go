@@ -46,18 +46,9 @@ func (hs *HostSimulator) Stop() {
 // SendARPRequest simulates emission of an ARP request as a packet-in on all the hosts' interfaces
 func (hs *HostSimulator) SendARPRequest(another *simapi.NetworkInterface) {
 	for _, nic := range hs.Host.Interfaces {
-		arp, err := utils.ARPRequestPacket(utils.IP(another.IpAddress), utils.MAC(nic.MacAddress), utils.IP(nic.IpAddress))
-		if err != nil {
-			log.Warnf("Host %s: Unable to serialize ARP request: %+v", hs.Host.ID, err)
-			continue
+		if err := hs.EmitARPRequests(nic, []string{another.IpAddress}); err != nil {
+			log.Warnf("Host %s: Unable to emit ARP for %s: %v", hs.Host.ID, another.IpAddress, err)
 		}
-		deviceSim, err := hs.simulation.GetDeviceSimulatorForPort(nic.ID)
-		if err != nil {
-			log.Warnf("Host %s: Unable to find device simulator: %+v", hs.Host.ID, err)
-			continue
-		}
-
-		deviceSim.SendPacketIn(arp, deviceSim.Ports[nic.ID].InternalNumber)
 	}
 }
 
@@ -101,6 +92,35 @@ func (hs *HostSimulator) GetRandomNetworkInterface() *simapi.NetworkInterface {
 			return nic
 		}
 		i++
+	}
+	return nil
+}
+
+// EmitARPRequests triggers the specified host NIC to send ARP requests for a set of IP addresses
+func (hs *HostSimulator) EmitARPRequests(nic *simapi.NetworkInterface, dstIPs []string) error {
+	for _, ip := range dstIPs {
+		arp, err := utils.ARPRequestPacket(utils.IP(ip), utils.MAC(nic.MacAddress), utils.IP(nic.IpAddress))
+		if err != nil {
+			log.Warnf("Host %s: Unable to serialize ARP request: %+v", hs.Host.ID, err)
+			continue
+		}
+		deviceSim, err := hs.simulation.GetDeviceSimulatorForPort(nic.ID)
+		if err != nil {
+			log.Warnf("Host %s: Unable to find device simulator: %+v", hs.Host.ID, err)
+			continue
+		}
+
+		deviceSim.SendPacketIn(arp, deviceSim.Ports[nic.ID].InternalNumber)
+	}
+	return nil
+}
+
+// GetNetworkInterfaceByMac returns the network interface associated with the specified MAC address on this host
+func (hs *HostSimulator) GetNetworkInterfaceByMac(mac string) *simapi.NetworkInterface {
+	for _, nic := range hs.Host.Interfaces {
+		if nic.MacAddress == mac {
+			return nic
+		}
 	}
 	return nil
 }

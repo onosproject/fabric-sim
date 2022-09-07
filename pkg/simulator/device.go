@@ -123,16 +123,37 @@ func (ds *DeviceSimulator) Stop(mode simapi.StopMode) {
 // EnablePort enables the specified simulated device port
 func (ds *DeviceSimulator) EnablePort(id simapi.PortID) error {
 	log.Infof("Device %s: Enabling port %s", ds.Device.ID, id)
-	// TODO: Implement this
-	// Look for any links or interfaces using this port and enable them
-	return nil
+	return ds.setPortStatus(id, simapi.LinkStatus_LINK_UP)
 }
 
 // DisablePort disables the specified simulated device port
 func (ds *DeviceSimulator) DisablePort(id simapi.PortID, mode simapi.StopMode) error {
 	log.Infof("Device %s: Disabling port %s using %s", ds.Device.ID, id, mode)
-	// TODO: Implement this
+	return ds.setPortStatus(id, simapi.LinkStatus_LINK_DOWN)
+}
+
+func (ds *DeviceSimulator) setPortStatus(id simapi.PortID, linkStatus simapi.LinkStatus) error {
+	ds.lock.Lock()
+	defer ds.lock.Unlock()
+
+	port, ok := ds.Ports[id]
+	if !ok {
+		log.Warnf("Device %s: Port %s not found", ds.Device.ID, id)
+		return errors.NewNotFound("port %s not found", id)
+	}
+
 	// Look for any links or interfaces using this port and disable them
+	switch linkStatus {
+	case simapi.LinkStatus_LINK_UP:
+		port.Enabled = true
+	default:
+		port.Enabled = false
+	}
+	if ln, ok := ds.simulation.usedEgressPorts[id]; ok {
+		if ln.link != nil {
+			ln.link.Status = linkStatus
+		}
+	}
 	return nil
 }
 
@@ -294,7 +315,7 @@ func (ds *DeviceSimulator) snapshotTables() {
 		tables := ds.tables.Tables()
 		infos := make([]*simapi.EntitiesInfo, 0, len(tables))
 		for _, table := range tables {
-			infos = append(infos, &simapi.EntitiesInfo{ID: table.ID(), Size_: uint32(table.Size())})
+			infos = append(infos, &simapi.EntitiesInfo{ID: table.ID(), Size_: uint32(table.Size()), Name: table.Name()})
 		}
 		ds.Device.PipelineInfo.Tables = infos
 	}
@@ -373,6 +394,12 @@ func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *
 	egressPort, ok := ds.sdnPorts[pom.EgressPort]
 	if !ok {
 		log.Warnf("Device %s: Port %d not found", ds.Device.ID, pom.EgressPort)
+		return
+	}
+
+	// Check if the egress port is enabled, if not, bail
+	if !egressPort.Enabled {
+		log.Debugf("Device %s: Port %s is presently disabled", ds.Device.ID, egressPort.ID)
 		return
 	}
 
@@ -607,7 +634,7 @@ func (ds *DeviceSimulator) ProcessConfigSet(prefix *gnmi.Path,
 		rootNode.AddPath(utils.ToString(update.Path), update.Val)
 	}
 
-	// TODO: Implement proper result and error handling
+	// TODO: Implement processing of the new configuration and return proper result; error handling
 	return results, nil
 }
 

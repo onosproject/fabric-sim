@@ -165,6 +165,11 @@ func (t *Table) Size() int {
 	return len(t.rows)
 }
 
+// Name returns the table name
+func (t *Table) Name() string {
+	return t.info.Preamble.Name
+}
+
 // ModifyTableEntry inserts or modifies the specified entry
 func (t *Table) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
 	if entry.IsDefaultAction {

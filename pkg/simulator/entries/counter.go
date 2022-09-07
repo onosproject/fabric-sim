@@ -82,6 +82,11 @@ func (c *Counter) Size() int {
 	return len(c.cells)
 }
 
+// Name returns the counter name
+func (c *Counter) Name() string {
+	return c.info.Preamble.Name
+}
+
 // Cell returns the specified cell of the counter
 func (c *Counter) Cell(index int64) *p4api.CounterEntry {
 	return c.cells[index]

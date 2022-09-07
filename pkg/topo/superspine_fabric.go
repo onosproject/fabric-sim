@@ -57,6 +57,6 @@ func createRackPairFabric(rackID int, fabric *SuperSpineFabric, builder *Builder
 	createLinkTrunk(leaf21, leaf22, 2, builder, topology)
 
 	// Finally, create hosts with dual interfaces to the paired leaves
-	createRackHosts(rackID, leaf11, leaf12, 10, builder, topology, 0)
-	createRackHosts(rackID+1, leaf21, leaf22, 10, builder, topology, 0)
+	createRackHosts(rackID, leaf11, leaf12, 10, builder, topology, 0, hostsPerRow)
+	createRackHosts(rackID+1, leaf21, leaf22, 10, builder, topology, 0, hostsPerRow)
 }

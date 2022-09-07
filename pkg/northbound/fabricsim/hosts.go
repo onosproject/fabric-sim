@@ -44,3 +44,11 @@ func (s *Server) RemoveHost(ctx context.Context, request *simapi.RemoveHostReque
 	}
 	return &simapi.RemoveHostResponse{}, nil
 }
+
+// EmitARPs triggers the specified host NIC to send ARP requests for a set of IP addresses
+func (s *Server) EmitARPs(ctx context.Context, request *simapi.EmitARPsRequest) (*simapi.EmitARPsResponse, error) {
+	if err := s.simulation.EmitARPs(request.ID, request.MacAddress, request.IpAddresses); err != nil {
+		return nil, errors.Status(err).Err()
+	}
+	return &simapi.EmitARPsResponse{}, nil
+}

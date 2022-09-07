@@ -28,13 +28,19 @@ func NewSwitchConfig(ports map[simapi.PortID]*simapi.Port) *Node {
 			&gnmi.TypedValue{Value: &gnmi.TypedValue_UintVal{UintVal: uint64(port.Number)}})
 		interfaceNode.AddPath("state/id",
 			&gnmi.TypedValue{Value: &gnmi.TypedValue_UintVal{UintVal: uint64(port.InternalNumber)}})
+
+		portStatus := "UP"
+		if !port.Enabled {
+			portStatus = "DOWN"
+		}
 		interfaceNode.AddPath("state/oper-status",
-			&gnmi.TypedValue{Value: &gnmi.TypedValue_StringVal{StringVal: "UP"}})
+			&gnmi.TypedValue{Value: &gnmi.TypedValue_StringVal{StringVal: portStatus}})
+
 		interfaceNode.AddPath("state/last-change",
 			&gnmi.TypedValue{Value: &gnmi.TypedValue_UintVal{UintVal: 0}})
 
 		interfaceNode.AddPath("config/enabled",
-			&gnmi.TypedValue{Value: &gnmi.TypedValue_BoolVal{BoolVal: true}})
+			&gnmi.TypedValue{Value: &gnmi.TypedValue_BoolVal{BoolVal: port.Enabled}})
 		interfaceNode.AddPath("ethernet/config/port-speed",
 			&gnmi.TypedValue{Value: &gnmi.TypedValue_StringVal{StringVal: port.Speed}})
 

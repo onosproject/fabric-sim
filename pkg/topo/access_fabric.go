@@ -19,7 +19,7 @@ const (
 
 // GenerateAccessFabric generates topology YAML from the specified access fabric recipe
 func GenerateAccessFabric(fabric *AccessFabric) *Topology {
-	log.Infof("Generating Access Fabric")
+	log.Infof("Generating %dx%d Access Fabric", fabric.Spines, fabric.LeafPairs*2)
 
 	topology := &Topology{}
 	builder := NewBuilder()
@@ -52,7 +52,7 @@ func GenerateAccessFabric(fabric *AccessFabric) *Topology {
 
 		// Finally, create the hosts and attach them to the leaf pairs
 		createRackHosts(pair, leaf1, leaf2, fabric.HostsPerPair, builder, topology,
-			coord(2*pair, 2*fabric.LeafPairs, leafGap, -leafGap/2))
+			coord(2*pair, 2*fabric.LeafPairs, leafGap, -leafGap/2), hostsPerRow)
 	}
 
 	return topology

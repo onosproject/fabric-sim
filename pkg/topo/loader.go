@@ -81,6 +81,7 @@ func constructDevice(dd Device) *simapi.Device {
 			Number:         pd.Number,
 			InternalNumber: internalNumber,
 			Speed:          pd.Speed,
+			Enabled:        true,
 		}
 		ports = append(ports, port)
 	}
