@@ -7,6 +7,7 @@ package simulator
 import (
 	"fmt"
 	"github.com/onosproject/fabric-sim/pkg/simulator/config"
+	"github.com/onosproject/fabric-sim/pkg/topo"
 	"github.com/onosproject/fabric-sim/pkg/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/openconfig/gnmi/proto/gnmi"
@@ -15,6 +16,14 @@ import (
 	"google.golang.org/genproto/googleapis/rpc/code"
 	"testing"
 )
+
+func TestNewDeviceSimulator(t *testing.T) {
+	topology := &topo.Topology{}
+	err := topo.LoadTopologyFile("../../topologies/custom.yaml", topology)
+	assert.NoError(t, err)
+	sim := NewDeviceSimulator(topo.ConstructDevice(topology.Devices[0]), nil, nil)
+	assert.Equal(t, simapi.DeviceID(topology.Devices[0].ID), sim.Device.ID)
+}
 
 type dummyStreamResponder struct {
 }

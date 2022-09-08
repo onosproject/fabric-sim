@@ -54,7 +54,7 @@ func GenerateNetcfg(topologyPath string, netcfgPath string, driver string, pipec
 	log.Infof("Loading topology from %s", topologyPath)
 	topology := &Topology{}
 
-	if err := loadTopologyFile(topologyPath, topology); err != nil {
+	if err := LoadTopologyFile(topologyPath, topology); err != nil {
 		return err
 	}
 
@@ -73,7 +73,7 @@ func GenerateNetcfg(topologyPath string, netcfgPath string, driver string, pipec
 		}
 	}
 
-	return saveNetfgFile(ncfg, netcfgPath)
+	return saveNetcfgFile(ncfg, netcfgPath)
 }
 
 func createNetcfgDevice(device Device, driver string, pipeconf string) *NetcfgDevice {
@@ -111,7 +111,7 @@ func createNetcfgHost(host Host, nic NIC) *NetcfgHost {
 }
 
 // Saves the given netcfg as JSON in the specified file path; stdout if -
-func saveNetfgFile(ncfg *Netcfg, path string) error {
+func saveNetcfgFile(ncfg *Netcfg, path string) error {
 	cfg := viper.New()
 	cfg.Set("Devices", ncfg.Devices)
 	cfg.Set("Hosts", ncfg.Hosts)
