@@ -5,6 +5,7 @@
 package simulator
 
 import (
+	"encoding/binary"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/onosproject/fabric-sim/pkg/simulator/config"
@@ -16,6 +17,7 @@ import (
 	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
+	"strings"
 	"sync"
 )
 
@@ -37,8 +39,17 @@ type DeviceSimulator struct {
 	counters *entries.Counters
 	meters   *entries.Meters
 
-	config *config.Node
-	codec  *ControllerMetadataCodec
+	config     *config.Node
+	codec      *ControllerMetadataCodec
+	puntToCPU  map[layers.EthernetType]bool
+	cpuActions map[uint32]*p4info.Action
+	cpuTables  map[uint32]*cpuTable
+}
+
+// Auxiliary structure to track table that has CPU related actions and the field match related to ETH type
+type cpuTable struct {
+	table          *entries.Table
+	ethTypeFieldID uint32
 }
 
 // NewDeviceSimulator initializes a new device simulator
@@ -71,6 +82,9 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 		sdnPorts:      sdnPorts,
 		simulation:    simulation,
 		config:        cfg,
+		puntToCPU:     make(map[layers.EthernetType]bool),
+		cpuActions:    make(map[uint32]*p4info.Action),
+		cpuTables:     make(map[uint32]*cpuTable),
 	}
 }
 
@@ -303,6 +317,8 @@ func (ds *DeviceSimulator) SetPipelineConfig(fpc *p4api.ForwardingPipelineConfig
 	ds.counters = entries.NewCounters(info.Counters)
 	ds.meters = entries.NewMeters(info.Meters)
 
+	ds.findPuntToCPUTables()
+
 	// Snapshot the initial state of the pipeline information stats
 	ds.snapshotTables()
 	ds.snapshotCounters()
@@ -388,8 +404,6 @@ func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder 
 func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *p4api.PacketOut, pom *PacketOutMetadata) {
 	log.Debugf("Device %s: processing LLDP packet: %+v", ds.Device.ID, packet)
 
-	// TODO: Add filtering based on device table contents
-
 	// Find the port corresponding to the specified port ID, which is the internal (SDN) port number
 	egressPort, ok := ds.sdnPorts[pom.EgressPort]
 	if !ok {
@@ -423,7 +437,9 @@ func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *
 			log.Warnf("Device %s: Unable to locate target port %s", tgtDeviceID, link.TgtID)
 		}
 
-		tgtDevice.SendPacketIn(packetOut.Payload, ingressPort.InternalNumber)
+		if tgtDevice.HasPuntRuleForEthType(layers.EthernetTypeLinkLayerDiscovery) {
+			tgtDevice.SendPacketIn(packetOut.Payload, ingressPort.InternalNumber)
+		}
 	}
 }
 
@@ -475,6 +491,9 @@ func (ds *DeviceSimulator) processModify(update *p4api.Update, isInsert bool) er
 	switch {
 	case entity.GetTableEntry() != nil:
 		err = ds.tables.ModifyTableEntry(entity.GetTableEntry(), isInsert)
+		if err == nil {
+			ds.checkPuntToCPU()
+		}
 	case entity.GetCounterEntry() != nil:
 		err = ds.counters.ModifyCounterEntry(entity.GetCounterEntry(), isInsert)
 	case entity.GetDirectCounterEntry() != nil:
@@ -502,6 +521,9 @@ func (ds *DeviceSimulator) processDelete(update *p4api.Update) error {
 	switch {
 	case entity.GetTableEntry() != nil:
 		err = ds.tables.RemoveTableEntry(entity.GetTableEntry())
+		if err == nil {
+			ds.checkPuntToCPU()
+		}
 	case entity.GetCounterEntry() != nil:
 		return errors.NewInvalid("counter cannot be deleted")
 	case entity.GetDirectCounterEntry() != nil:
@@ -636,6 +658,83 @@ func (ds *DeviceSimulator) ProcessConfigSet(prefix *gnmi.Path,
 
 	// TODO: Implement processing of the new configuration and return proper result; error handling
 	return results, nil
+}
+
+// HasPuntRuleForEthType returns true if the device has a table with punt-to-CPU action installed in one
+// of its tables
+func (ds *DeviceSimulator) HasPuntRuleForEthType(ethType layers.EthernetType) bool {
+	v, ok := ds.puntToCPU[ethType]
+	return ok && v
+}
+
+// Searches all tables with "acl" or "ACL" in their name and looks for rules with action punt to CPU
+// and registers the matching ETH type
+func (ds *DeviceSimulator) checkPuntToCPU() {
+	ds.puntToCPU = make(map[layers.EthernetType]bool)
+	for _, table := range ds.cpuTables {
+		// Search entries for all CPU related tables
+		for _, entry := range table.table.Entries() {
+			action := entry.Action.GetAction()
+			if action != nil {
+				if _, ok := ds.cpuActions[action.ActionId]; ok {
+					// If entry has a CPU related action, find the match referencing ethType exact match
+					for _, match := range entry.Match {
+						if match.FieldId == table.ethTypeFieldID && match.GetTernary() != nil {
+							// Record that this ethType has a punt-to-cpu (or related) action
+							ethType := binary.BigEndian.Uint16(match.GetTernary().Value)
+							ds.puntToCPU[layers.EthernetType(ethType)] = true
+						}
+					}
+				}
+			}
+		}
+	}
+	log.Infof("Device %s: puntToCPU=%+v", ds.Device.ID, ds.puntToCPU)
+}
+
+// Finds all tables that have CPU-related action references and creates auxiliary search structures to
+// facilitate speedy check for punt rules after table modifications.
+func (ds *DeviceSimulator) findPuntToCPUTables() {
+	ds.cpuActions = make(map[uint32]*p4info.Action)
+	for _, action := range ds.forwardingPipelineConfig.P4Info.Actions {
+		if strings.Contains(action.Preamble.Name, "_to_cpu") {
+			ds.cpuActions[action.Preamble.Id] = action
+		}
+	}
+
+	ds.cpuTables = make(map[uint32]*cpuTable)
+	for _, table := range ds.forwardingPipelineConfig.P4Info.Tables {
+		if ds.hasCPUAction(table) {
+			if f := ds.findEthTypeMatchField(table); f != nil {
+				ds.cpuTables[table.Preamble.Id] = &cpuTable{
+					table:          ds.tables.Table(table.Preamble.Id),
+					ethTypeFieldID: f.Id}
+			}
+		}
+	}
+
+	log.Infof("Device %s: cpuActions=%+v", ds.Device.ID, ds.cpuActions)
+	log.Infof("Device %s: cpuTables=%+v", ds.Device.ID, ds.cpuTables)
+}
+
+// Returns true if the table has a reference to a CPU related action
+func (ds *DeviceSimulator) hasCPUAction(table *p4info.Table) bool {
+	for _, aref := range table.ActionRefs {
+		if _, ok := ds.cpuActions[aref.Id]; ok {
+			return true
+		}
+	}
+	return false
+}
+
+// Finds the field match with "ethType" as its name
+func (ds *DeviceSimulator) findEthTypeMatchField(table *p4info.Table) *p4info.MatchField {
+	for _, field := range table.MatchFields {
+		if field.Name == "eth_type" {
+			return field
+		}
+	}
+	return nil
 }
 
 // TODO: Additional simulation logic goes here

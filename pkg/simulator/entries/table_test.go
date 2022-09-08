@@ -21,6 +21,9 @@ func TestTableBasics(t *testing.T) {
 	table := tables.tables[1]
 	assert.Len(t, table.rows, 0)
 
+	table = tables.Table(1)
+	assert.Equal(t, uint32(1), table.info.Preamble.Id)
+
 	exact1 := &p4api.FieldMatch{
 		FieldId: 1024,
 		FieldMatchType: &p4api.FieldMatch_Exact_{

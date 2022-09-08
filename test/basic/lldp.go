@@ -6,6 +6,7 @@ package basic
 
 import (
 	"context"
+	"encoding/binary"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/onosproject/fabric-sim/pkg/simulator"
@@ -65,6 +66,10 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	err = ApplyPipelineConfig(ctx, p4sw2a, r2.Device.ChassisID, "", &eID1, 321, info)
 	assert.NoError(t, err)
 
+	// Install an entry to punt LLDP packets to CPU
+	err = InstallPuntRule(ctx, p4sw2a, r2.Device.ChassisID, &eID1, uint16(layers.EthernetTypeLinkLayerDiscovery))
+	assert.NoError(t, err)
+
 	egressPort := uint32(224)
 	lldpBytes, err := utils.ControllerLLDPPacket(egressPort)
 	assert.NoError(t, err)
@@ -100,6 +105,43 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	ValidateNoPendingMessage(t, stream1)
 	ValidateNoPendingMessage(t, stream2a)
 	ValidateNoPendingMessage(t, stream2b)
+}
+
+// InstallPuntRule installs rule matching on the specified eth type with action to punt to CPU
+func InstallPuntRule(ctx context.Context, p4sw2a p4api.P4RuntimeClient, chassisID uint64, electionID *p4api.Uint128, ethType uint16) error {
+	mask := []byte{0xff, 0xff}
+	ethTypeValue := []byte{0, 0}
+	binary.BigEndian.PutUint16(ethTypeValue, ethType)
+
+	_, err := p4sw2a.Write(ctx, &p4api.WriteRequest{
+		DeviceId:   chassisID,
+		Role:       "",
+		ElectionId: electionID,
+		Updates: []*p4api.Update{{
+			Type: p4api.Update_INSERT,
+			Entity: &p4api.Entity{Entity: &p4api.Entity_TableEntry{
+				TableEntry: &p4api.TableEntry{
+					TableId: 44104738,
+					Match: []*p4api.FieldMatch{{
+						FieldId: 5,
+						FieldMatchType: &p4api.FieldMatch_Ternary_{
+							Ternary: &p4api.FieldMatch_Ternary{
+								Value: ethTypeValue,
+								Mask:  mask,
+							},
+						},
+					}},
+					Action: &p4api.TableAction{
+						Type: &p4api.TableAction_Action{
+							Action: &p4api.Action{
+								ActionId: 23579892,
+							},
+						},
+					},
+				}}},
+		}},
+	})
+	return err
 }
 
 // ValidateLLDPPacket makes sure that the specified message is a packet in with an LLDP packet with an expected port
