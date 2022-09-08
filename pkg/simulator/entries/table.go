@@ -155,6 +155,11 @@ func (ts *Tables) ReadTableEntries(request *p4api.TableEntry, readType ReadType,
 	return table.ReadTableEntries(request, readType, sender)
 }
 
+// Table returns the table with the specified ID
+func (ts *Tables) Table(id uint32) *Table {
+	return ts.tables[id]
+}
+
 // ID returns the table ID
 func (t *Table) ID() uint32 {
 	return t.info.Preamble.Id
@@ -168,6 +173,15 @@ func (t *Table) Size() int {
 // Name returns the table name
 func (t *Table) Name() string {
 	return t.info.Preamble.Name
+}
+
+// Entries returns a copy of the table entries; in no particular order
+func (t *Table) Entries() []*p4api.TableEntry {
+	entries := make([]*p4api.TableEntry, 0, len(t.rows))
+	for _, row := range t.rows {
+		entries = append(entries, row.entry)
+	}
+	return entries
 }
 
 // ModifyTableEntry inserts or modifies the specified entry
