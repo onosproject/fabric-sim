@@ -17,7 +17,7 @@ func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
 	log.Infof("Loading topology from %s", topologyPath)
 	topology := &Topology{}
 
-	if err := loadTopologyFile(topologyPath, topology); err != nil {
+	if err := LoadTopologyFile(topologyPath, topology); err != nil {
 		return err
 	}
 
@@ -38,8 +38,8 @@ func LoadTopology(conn *grpc.ClientConn, topologyPath string) error {
 	return nil
 }
 
-// Loads the specified topology YAML file
-func loadTopologyFile(path string, topology *Topology) error {
+// LoadTopologyFile loads the specified topology YAML file
+func LoadTopologyFile(path string, topology *Topology) error {
 	cfg, err := readConfig(path)
 	if err != nil {
 		return err
@@ -52,7 +52,7 @@ func createDevices(conn *grpc.ClientConn, devices []Device) error {
 	deviceClient := simapi.NewDeviceServiceClient(conn)
 	ctx := context.Background()
 	for _, dd := range devices {
-		device := constructDevice(dd)
+		device := ConstructDevice(dd)
 		if _, err := deviceClient.AddDevice(ctx, &simapi.AddDeviceRequest{Device: device}); err != nil {
 			log.Errorf("Unable to create simulated device: %+v", err)
 			return err
@@ -68,7 +68,8 @@ func createDevices(conn *grpc.ClientConn, devices []Device) error {
 	return nil
 }
 
-func constructDevice(dd Device) *simapi.Device {
+// ConstructDevice creates a device from the specified device YAML descriptor
+func ConstructDevice(dd Device) *simapi.Device {
 	ports := make([]*simapi.Port, 0, len(dd.Ports))
 	for _, pd := range dd.Ports {
 		internalNumber := pd.Number // default internal (SDN) port number to the external number
@@ -102,7 +103,7 @@ func createLinks(conn *grpc.ClientConn, links []Link) error {
 	linkClient := simapi.NewLinkServiceClient(conn)
 	ctx := context.Background()
 	for _, ld := range links {
-		link := constructLink(ld)
+		link := ConstructLink(ld)
 		if _, err := linkClient.AddLink(ctx, &simapi.AddLinkRequest{Link: link}); err != nil {
 			log.Errorf("Unable to create simulated link: %+v", err)
 			return err
@@ -118,7 +119,8 @@ func createLinks(conn *grpc.ClientConn, links []Link) error {
 	return nil
 }
 
-func constructLink(ld Link) *simapi.Link {
+// ConstructLink creates a link from the specified link YAML descriptor
+func ConstructLink(ld Link) *simapi.Link {
 	srcID := simapi.PortID(ld.SrcPortID)
 	tgtID := simapi.PortID(ld.TgtPortID)
 	return &simapi.Link{
@@ -145,7 +147,7 @@ func createHosts(conn *grpc.ClientConn, hosts []Host) error {
 	hostClient := simapi.NewHostServiceClient(conn)
 	ctx := context.Background()
 	for _, hd := range hosts {
-		host := constructHost(hd)
+		host := ConstructHost(hd)
 		if _, err := hostClient.AddHost(ctx, &simapi.AddHostRequest{Host: host}); err != nil {
 			log.Errorf("Unable to create simulated host: %+v", err)
 			return err
@@ -154,7 +156,8 @@ func createHosts(conn *grpc.ClientConn, hosts []Host) error {
 	return nil
 }
 
-func constructHost(hd Host) *simapi.Host {
+// ConstructHost creates a host from the specified host YAML descriptor
+func ConstructHost(hd Host) *simapi.Host {
 	nics := make([]*simapi.NetworkInterface, 0, len(hd.NICs))
 	for _, nd := range hd.NICs {
 		nic := &simapi.NetworkInterface{
