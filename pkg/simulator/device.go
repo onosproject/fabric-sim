@@ -437,7 +437,7 @@ func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *
 			log.Warnf("Device %s: Unable to locate target port %s", tgtDeviceID, link.TgtID)
 		}
 
-		if tgtDevice.hasPuntRuleForEthType(layers.EthernetTypeLinkLayerDiscovery) {
+		if tgtDevice.HasPuntRuleForEthType(layers.EthernetTypeLinkLayerDiscovery) {
 			tgtDevice.SendPacketIn(packetOut.Payload, ingressPort.InternalNumber)
 		}
 	}
@@ -660,7 +660,9 @@ func (ds *DeviceSimulator) ProcessConfigSet(prefix *gnmi.Path,
 	return results, nil
 }
 
-func (ds *DeviceSimulator) hasPuntRuleForEthType(ethType layers.EthernetType) bool {
+// HasPuntRuleForEthType returns true if the device has a table with punt-to-CPU action installed in one
+// of its tables
+func (ds *DeviceSimulator) HasPuntRuleForEthType(ethType layers.EthernetType) bool {
 	v, ok := ds.puntToCPU[ethType]
 	return ok && v
 }

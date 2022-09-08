@@ -5,6 +5,7 @@
 package simulator
 
 import (
+	"github.com/google/gopacket/layers"
 	"github.com/onosproject/fabric-sim/pkg/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"math/rand"
@@ -109,8 +110,9 @@ func (hs *HostSimulator) EmitARPRequests(nic *simapi.NetworkInterface, dstIPs []
 			log.Warnf("Host %s: Unable to find device simulator: %+v", hs.Host.ID, err)
 			continue
 		}
-
-		deviceSim.SendPacketIn(arp, deviceSim.Ports[nic.ID].InternalNumber)
+		if deviceSim.HasPuntRuleForEthType(layers.EthernetTypeARP) {
+			deviceSim.SendPacketIn(arp, deviceSim.Ports[nic.ID].InternalNumber)
+		}
 	}
 	return nil
 }
