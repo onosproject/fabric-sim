@@ -3,6 +3,10 @@ SPDX-FileCopyrightText: 2022 Intel Corporation
 
 SPDX-License-Identifier: Apache-2.0
 -->
+[![Go Report Card](https://goreportcard.com/badge/github.com/onosproject/fabric-sim)](https://goreportcard.com/report/github.com/onosproject/fabric-sim)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/gojp/goreportcard/blob/master/LICENSE)
+[![Coverage Status](https://img.shields.io/coveralls/github/onosproject/fabric-sim/badge.svg)](https://coveralls.io/github/onosproject/fabric-sim?branch=master)
+[![GoDoc](https://godoc.org/github.com/onosproject/fabric-sim?status.svg)](https://godoc.org/github.com/onosproject/fabric-sim)
 
 # Overview
 
