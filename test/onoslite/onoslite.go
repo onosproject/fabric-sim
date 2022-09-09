@@ -74,12 +74,14 @@ type Device struct {
 	gnmiClient gnmi.GNMIClient
 	gnoiClient gnoiapi.SystemClient
 
-	cookie     uint64
-	electionID *p4api.Uint128
-	codec      *utils.ControllerMetadataCodec
-	stream     p4api.P4Runtime_StreamChannelClient
-	ctx        context.Context
-	ctxCancel  context.CancelFunc
+	cookie         uint64
+	electionID     *p4api.Uint128
+	codec          *utils.ControllerMetadataCodec
+	stream         p4api.P4Runtime_StreamChannelClient
+	lastUpdateTime uint64
+	ctx            context.Context
+	ctxCancel      context.CancelFunc
+	halted         bool
 }
 
 // Port is a simple representation of a device port discovered by the ONOS lite
@@ -121,7 +123,11 @@ func (o *LiteONOS) Start(pointers []*DevicePointer) error {
 	}
 	o.DevicePointers = pointers
 	for _, dp := range o.DevicePointers {
-		go o.discoverDevice(dp)
+		// Stagger the starts a bit for added adversity
+		time.Sleep(time.Duration(1000+rand.Intn(3000)) * time.Millisecond)
+
+		device := newDevice(dp)
+		go device.startControl(o)
 	}
 	return nil
 }
@@ -135,7 +141,7 @@ func (o *LiteONOS) Stop() error {
 	}
 	o.DevicePointers = nil
 	for _, device := range o.Devices {
-		device.ctxCancel()
+		device.stopControl()
 	}
 	return nil
 }
@@ -172,7 +178,7 @@ func (o *LiteONOS) addHost(macString string, ipString string) {
 	}
 }
 
-func (o *LiteONOS) discoverDevice(dp *DevicePointer) {
+func newDevice(dp *DevicePointer) *Device {
 	ctx, ctxCancel := context.WithCancel(context.Background())
 	device := &Device{
 		ID:        dp.ID,
@@ -181,16 +187,21 @@ func (o *LiteONOS) discoverDevice(dp *DevicePointer) {
 		ctx:       ctx,
 		ctxCancel: ctxCancel,
 	}
+	return device
+}
+
+func (d *Device) startControl(onos *LiteONOS) {
 	var err error
-	for device.ctx != nil {
-		if err = o.establishDeviceConnection(ctx, device); err == nil {
-			o.addDevice(device)
-			if err = o.reconcilePipelineConfig(ctx, device); err == nil {
-				if err = o.installFlowRules(ctx, device); err == nil {
-					// Add iteration around this...
-					if err = o.discoverPorts(ctx, device); err == nil {
-						if err = o.discoverLinks(device); err == nil {
-							time.Sleep(1 * time.Minute)
+	for !d.halted {
+		if err = d.establishDeviceConnection(); err == nil {
+			onos.addDevice(d)
+			go d.monitorStream(onos)
+			if err = d.reconcilePipelineConfig(); err == nil {
+				err = d.installFlowRules()
+				for !d.halted && err == nil {
+					if err = d.discoverPortsAndLinks(); err == nil {
+						if err = d.testLiveness(); err == nil {
+							d.pause(5 * time.Second)
 						}
 					}
 				}
@@ -198,94 +209,105 @@ func (o *LiteONOS) discoverDevice(dp *DevicePointer) {
 		}
 
 		if err != nil {
-			log.Warnf("%s: %+v", device.ID, err)
+			log.Warnf("%s: %+v", d.ID, err)
 		}
-		time.Sleep(5 * time.Second)
+		d.pause(10 * time.Second)
 	}
 }
 
-func (o *LiteONOS) establishDeviceConnection(ctx context.Context, device *Device) error {
-	log.Infof("%s: connecting...", device.ID)
+func (d *Device) stopControl() {
+	d.halted = true
+	d.ctxCancel()
+}
+
+func (d *Device) pause(duration time.Duration) {
+	select {
+	case <-d.ctx.Done():
+	case <-time.After(duration):
+	}
+}
+
+func (d *Device) establishDeviceConnection() error {
+	log.Infof("%s: connecting...", d.ID)
 	opts := []grpc.DialOption{
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	}
 
 	var err error
-	device.conn, err = grpc.Dial(fmt.Sprintf("fabric-sim:%d", device.Pointer.ControlPort), opts...)
+	d.conn, err = grpc.Dial(fmt.Sprintf("fabric-sim:%d", d.Pointer.ControlPort), opts...)
 	if err != nil {
 		return err
 	}
 
-	device.p4Client = p4api.NewP4RuntimeClient(device.conn)
-	device.gnmiClient = gnmi.NewGNMIClient(device.conn)
-	device.gnoiClient = gnoiapi.NewSystemClient(device.conn)
+	d.p4Client = p4api.NewP4RuntimeClient(d.conn)
+	d.gnmiClient = gnmi.NewGNMIClient(d.conn)
+	d.gnoiClient = gnoiapi.NewSystemClient(d.conn)
 
 	// Establish stream and issue mastership
-	if device.stream, err = device.p4Client.StreamChannel(ctx); err != nil {
+	if d.stream, err = d.p4Client.StreamChannel(d.ctx); err != nil {
 		return err
 	}
 
-	device.electionID = &p4api.Uint128{Low: 123, High: 0}
-	if err = device.stream.Send(utils.CreateMastershipArbitration(device.electionID)); err != nil {
+	d.electionID = &p4api.Uint128{Low: 123, High: 0}
+	if err = d.stream.Send(utils.CreateMastershipArbitration(d.electionID)); err != nil {
 		return err
 	}
 
 	var msg *p4api.StreamMessageResponse
-	if msg, err = device.stream.Recv(); err != nil {
+	if msg, err = d.stream.Recv(); err != nil {
 		return err
 	}
 	mar := msg.GetArbitration()
 	if mar == nil {
-		return errors.NewInvalid("%s: did not receive mastership arbitration", device.ID)
+		return errors.NewInvalid("%s: did not receive mastership arbitration", d.ID)
 	}
-	if mar.ElectionId == nil || mar.ElectionId.High != device.electionID.High || mar.ElectionId.Low != device.electionID.Low {
-		return errors.NewInvalid("%s: did not win election", device.ID)
+	if mar.ElectionId == nil || mar.ElectionId.High != d.electionID.High || mar.ElectionId.Low != d.electionID.Low {
+		return errors.NewInvalid("%s: did not win election", d.ID)
 	}
-	go o.monitorStream(device)
 	return nil
 }
 
-func (o *LiteONOS) monitorStream(device *Device) {
-	log.Infof("%s: monitoring message stream", device.ID)
+func (d *Device) monitorStream(onos *LiteONOS) {
+	log.Infof("%s: monitoring message stream", d.ID)
 	for {
-		msg, err := device.stream.Recv()
+		msg, err := d.stream.Recv()
 		if err != nil {
-			log.Warnf("%s: unable to read stream response: %+v", device.ID, err)
+			log.Warnf("%s: unable to read stream response: %+v", d.ID, err)
 			return
 		}
 
 		if msg.GetPacket() != nil {
-			if err := o.processPacket(msg.GetPacket(), device); err != nil {
-				log.Warnf("%s: unable to process packet-in: %+v", device.ID, err)
+			if err := d.processPacket(msg.GetPacket(), onos); err != nil {
+				log.Warnf("%s: unable to process packet-in: %+v", d.ID, err)
 			}
 		}
 	}
 }
 
-func (o *LiteONOS) processPacket(packetIn *p4api.PacketIn, device *Device) error {
+func (d *Device) processPacket(packetIn *p4api.PacketIn, onos *LiteONOS) error {
 	packet := gopacket.NewPacket(packetIn.Payload, layers.LayerTypeEthernet, gopacket.Default)
-	pim := device.codec.DecodePacketInMetadata(packetIn.Metadata)
+	pim := d.codec.DecodePacketInMetadata(packetIn.Metadata)
 
 	lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery)
 	if lldpLayer != nil {
 		lldp := lldpLayer.(*layers.LinkLayerDiscovery)
-		o.addLink(fmt.Sprintf("%s/%s", string(lldp.PortID.ID), string(lldp.ChassisID.ID)),
-			fmt.Sprintf("%s/%d", device.ID, pim.IngressPort))
+		onos.addLink(fmt.Sprintf("%s/%s", string(lldp.PortID.ID), string(lldp.ChassisID.ID)),
+			fmt.Sprintf("%s/%d", d.ID, pim.IngressPort))
 	}
 
 	arpLayer := packet.Layer(layers.LayerTypeARP)
 	if arpLayer != nil {
 		arp := arpLayer.(*layers.ARP)
-		o.addHost(utils.MACString(arp.SourceHwAddress), utils.IPString(arp.SourceProtAddress))
+		onos.addHost(utils.MACString(arp.SourceHwAddress), utils.IPString(arp.SourceProtAddress))
 	}
 	return nil
 }
 
-func (o *LiteONOS) reconcilePipelineConfig(ctx context.Context, device *Device) error {
-	log.Infof("%s: configuring pipeline...", device.ID)
+func (d *Device) reconcilePipelineConfig() error {
+	log.Infof("%s: configuring pipeline...", d.ID)
 	// ask for the pipeline config cookie
-	gr, err := device.p4Client.GetForwardingPipelineConfig(ctx, &p4api.GetForwardingPipelineConfigRequest{
-		DeviceId:     device.Pointer.ChassisID,
+	gr, err := d.p4Client.GetForwardingPipelineConfig(d.ctx, &p4api.GetForwardingPipelineConfigRequest{
+		DeviceId:     d.Pointer.ChassisID,
 		ResponseType: p4api.GetForwardingPipelineConfigRequest_COOKIE_ONLY,
 	})
 	if err != nil {
@@ -293,7 +315,7 @@ func (o *LiteONOS) reconcilePipelineConfig(ctx context.Context, device *Device) 
 	}
 
 	// if that matches our cookie, we're good
-	if device.cookie == gr.Config.Cookie.Cookie {
+	if d.cookie == gr.Config.Cookie.Cookie {
 		return nil
 	}
 
@@ -303,46 +325,54 @@ func (o *LiteONOS) reconcilePipelineConfig(ctx context.Context, device *Device) 
 		return err
 	}
 
-	device.codec = utils.NewControllerMetadataCodec(info)
+	d.codec = utils.NewControllerMetadataCodec(info)
 
 	// and then apply it to the device
-	_, err = device.p4Client.SetForwardingPipelineConfig(ctx, &p4api.SetForwardingPipelineConfigRequest{
-		DeviceId:   device.Pointer.ChassisID,
+	_, err = d.p4Client.SetForwardingPipelineConfig(d.ctx, &p4api.SetForwardingPipelineConfigRequest{
+		DeviceId:   d.Pointer.ChassisID,
 		Role:       "",
-		ElectionId: device.electionID,
+		ElectionId: d.electionID,
 		Action:     p4api.SetForwardingPipelineConfigRequest_VERIFY_AND_COMMIT,
 		Config: &p4api.ForwardingPipelineConfig{
 			P4Info:         info,
 			P4DeviceConfig: []byte{0, 1, 2, 3},
-			Cookie:         &p4api.ForwardingPipelineConfig_Cookie{Cookie: device.cookie},
+			Cookie:         &p4api.ForwardingPipelineConfig_Cookie{Cookie: d.cookie},
 		},
 	})
 	return err
 }
 
-func (o *LiteONOS) installFlowRules(ctx context.Context, device *Device) error {
-	if err := basic.InstallPuntRule(ctx, device.p4Client, device.Pointer.ChassisID, device.electionID, uint16(layers.EthernetTypeLinkLayerDiscovery)); err != nil {
+func (d *Device) installFlowRules() error {
+	if err := basic.InstallPuntRule(d.ctx, d.p4Client, d.Pointer.ChassisID, d.electionID, uint16(layers.EthernetTypeLinkLayerDiscovery)); err != nil {
 		return err
 	}
-	if err := basic.InstallPuntRule(ctx, device.p4Client, device.Pointer.ChassisID, device.electionID, uint16(layers.EthernetTypeARP)); err != nil {
+	if err := basic.InstallPuntRule(d.ctx, d.p4Client, d.Pointer.ChassisID, d.electionID, uint16(layers.EthernetTypeARP)); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *LiteONOS) discoverPorts(ctx context.Context, device *Device) error {
-	resp, err := device.gnmiClient.Get(ctx, &gnmi.GetRequest{
+func (d *Device) discoverPortsAndLinks() error {
+	log.Infof("%s: (re)discovering links and ports...", d.ID)
+	if err := d.discoverPorts(); err != nil {
+		return err
+	}
+	return d.discoverLinks()
+}
+
+func (d *Device) discoverPorts() error {
+	resp, err := d.gnmiClient.Get(d.ctx, &gnmi.GetRequest{
 		Path: []*gnmi.Path{utils.ToPath("interfaces/interface[name=...]/state")},
 	})
 	if err != nil {
 		return err
 	}
 	if len(resp.Notification) == 0 {
-		return errors.NewInvalid("%s: no port data received", device.ID)
+		return errors.NewInvalid("%s: no port data received", d.ID)
 	}
-	device.Ports = make(map[string]*Port)
+	d.Ports = make(map[string]*Port)
 	for _, update := range resp.Notification[0].Update {
-		port := getPort(device, update.Path.Elem[1].Key["name"])
+		port := d.getPort(update.Path.Elem[1].Key["name"])
 		last := len(update.Path.Elem) - 1
 		switch update.Path.Elem[last].Name {
 		case "id":
@@ -354,18 +384,27 @@ func (o *LiteONOS) discoverPorts(ctx context.Context, device *Device) error {
 	return nil
 }
 
-func (o *LiteONOS) discoverLinks(device *Device) error {
-	for _, port := range device.Ports {
-		lldpBytes, err := utils.ControllerLLDPPacket(device.ID, port.Number)
+func (d *Device) getPort(id string) *Port {
+	port, ok := d.Ports[id]
+	if !ok {
+		port = &Port{ID: id}
+		d.Ports[id] = port
+	}
+	return port
+}
+
+func (d *Device) discoverLinks() error {
+	for _, port := range d.Ports {
+		lldpBytes, err := utils.ControllerLLDPPacket(d.ID, port.Number)
 		if err != nil {
 			return err
 		}
 
-		err = device.stream.Send(&p4api.StreamMessageRequest{
+		err = d.stream.Send(&p4api.StreamMessageRequest{
 			Update: &p4api.StreamMessageRequest_Packet{
 				Packet: &p4api.PacketOut{
 					Payload:  lldpBytes,
-					Metadata: device.codec.EncodePacketOutMetadata(&utils.PacketOutMetadata{EgressPort: port.Number}),
+					Metadata: d.codec.EncodePacketOutMetadata(&utils.PacketOutMetadata{EgressPort: port.Number}),
 				}},
 		})
 		if err != nil {
@@ -375,11 +414,12 @@ func (o *LiteONOS) discoverLinks(device *Device) error {
 	return nil
 }
 
-func getPort(device *Device, id string) *Port {
-	port, ok := device.Ports[id]
-	if !ok {
-		port = &Port{ID: id}
-		device.Ports[id] = port
+func (d *Device) testLiveness() error {
+	log.Debugf("%s: testing liveness", d.ID)
+	resp, err := d.gnoiClient.Time(d.ctx, &gnoiapi.TimeRequest{})
+	if err != nil {
+		return err
 	}
-	return port
+	d.lastUpdateTime = resp.Time
+	return nil
 }

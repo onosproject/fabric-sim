@@ -13,7 +13,11 @@ import (
 
 // IP  returns the given IP address as bytes
 func IP(addr string) []byte {
-	return net.ParseIP(addr)[12:]
+	b := net.ParseIP(addr)
+	if len(b) == 16 {
+		return b[12:]
+	}
+	return b
 }
 
 // IPString returns a string representation of an IP address
