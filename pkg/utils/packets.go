@@ -13,13 +13,33 @@ import (
 
 // IP  returns the given IP address as bytes
 func IP(addr string) []byte {
-	return net.ParseIP(addr)[12:]
+	b := net.ParseIP(addr)
+	if len(b) == 16 {
+		return b[12:]
+	}
+	return b
+}
+
+// IPString returns a string representation of an IP address
+func IPString(addr []byte) string {
+	if len(addr) == 4 {
+		return fmt.Sprintf("%d.%d.%d.%d", addr[0], addr[1], addr[2], addr[3])
+	}
+	return "0.0.0.0"
 }
 
 // MAC returns the given MAC address as bytes
 func MAC(addr string) []byte {
 	b, _ := net.ParseMAC(addr)
 	return b
+}
+
+// MACString returns a string representation of a MAC address
+func MACString(addr []byte) string {
+	if len(addr) == 6 {
+		return fmt.Sprintf("%02x:%02x:%02x:%02x:%02x:%02x", addr[0], addr[1], addr[2], addr[3], addr[4], addr[5])
+	}
+	return "00:00:00:00:00:00"
 }
 
 // ARPRequestPacket returns packet bytes with an ARP request for the specified IP address
@@ -50,7 +70,7 @@ func ARPRequestPacket(theirIP []byte, ourMAC []byte, ourIP []byte) ([]byte, erro
 }
 
 // ControllerLLDPPacket returns packet bytes for an ONOS link discovery packet
-func ControllerLLDPPacket(egressPort uint32) ([]byte, error) {
+func ControllerLLDPPacket(chassisID string, egressPort uint32) ([]byte, error) {
 	eth := &layers.Ethernet{
 		SrcMAC:       net.HardwareAddr{0x00, 0x60, 0x08, 0x69, 0x97, 0xef}, // use what SONiC uses
 		DstMAC:       net.HardwareAddr{0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
@@ -61,7 +81,7 @@ func ControllerLLDPPacket(egressPort uint32) ([]byte, error) {
 		BaseLayer: layers.BaseLayer{},
 		ChassisID: layers.LLDPChassisID{
 			Subtype: layers.LLDPChassisIDSubTypeLocal,
-			ID:      []byte("switch1"),
+			ID:      []byte(chassisID),
 		},
 		// Note that this is not really used; instead the egress port number must be encoded as controller meta-data
 		PortID: layers.LLDPPortID{

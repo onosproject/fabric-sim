@@ -9,7 +9,6 @@ import (
 	"encoding/binary"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
-	"github.com/onosproject/fabric-sim/pkg/simulator"
 	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/onosproject/fabric-sim/test/client"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
@@ -20,7 +19,7 @@ import (
 	"time"
 )
 
-var codec *simulator.ControllerMetadataCodec
+var codec *utils.ControllerMetadataCodec
 
 // TestLLDPPacket tests the LLDP packet-out handling
 func (s *TestSuite) TestLLDPPacket(t *testing.T) {
@@ -31,7 +30,7 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	// Let's create a codec for meta-data from the P4 info file
 	info, err := utils.LoadP4Info("pipelines/fabric-spgw-int.p4info.txt")
 	assert.NoError(t, err)
-	codec = simulator.NewControllerMetadataCodec(info)
+	codec = utils.NewControllerMetadataCodec(info)
 
 	conn, err := client.CreateConnection()
 	assert.NoError(t, err)
@@ -71,14 +70,14 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	assert.NoError(t, err)
 
 	egressPort := uint32(224)
-	lldpBytes, err := utils.ControllerLLDPPacket(egressPort)
+	lldpBytes, err := utils.ControllerLLDPPacket(string(r1.Device.ID), egressPort)
 	assert.NoError(t, err)
 
 	err = stream1.Send(&p4api.StreamMessageRequest{
 		Update: &p4api.StreamMessageRequest_Packet{
 			Packet: &p4api.PacketOut{
 				Payload:  lldpBytes,
-				Metadata: codec.EncodePacketOutMetadata(&simulator.PacketOutMetadata{EgressPort: egressPort}),
+				Metadata: codec.EncodePacketOutMetadata(&utils.PacketOutMetadata{EgressPort: egressPort}),
 			}},
 	})
 	assert.NoError(t, err)

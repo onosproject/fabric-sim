@@ -301,20 +301,22 @@ func (s *Simulation) GetHostSimulator(id simapi.HostID) (*HostSimulator, error) 
 func (s *Simulation) GetRandomHostSimulator(except *HostSimulator) *HostSimulator {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
-	ri := rand.Intn(len(s.hostSimulators))
-	i := 0
-	for _, hs := range s.hostSimulators {
-		if i == ri {
-			if hs == except && len(s.hostSimulators) > 1 {
-				// If we landed on the exception and there are at least two hosts, try our luck again
-				return s.GetRandomHostSimulator(except)
-			} else if hs == except {
-				// If we landed on the exception and there is at most one host, return nil
-				return nil
+	if len(s.hostSimulators) > 0 {
+		ri := rand.Intn(len(s.hostSimulators))
+		i := 0
+		for _, hs := range s.hostSimulators {
+			if i == ri {
+				if hs == except && len(s.hostSimulators) > 1 {
+					// If we landed on the exception and there are at least two hosts, try our luck again
+					return s.GetRandomHostSimulator(except)
+				} else if hs == except {
+					// If we landed on the exception and there is at most one host, return nil
+					return nil
+				}
+				return hs
 			}
-			return hs
+			i++
 		}
-		i++
 	}
 	return nil
 }

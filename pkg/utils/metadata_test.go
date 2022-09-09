@@ -2,16 +2,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package simulator
+package utils
 
 import (
-	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestPacketOutMetadata(t *testing.T) {
-	info, err := utils.LoadP4Info("../../pipelines/fabric-spgw-int.p4info.txt")
+	info, err := LoadP4Info("../../pipelines/fabric-spgw-int.p4info.txt")
 	assert.NoError(t, err)
 
 	codec := NewControllerMetadataCodec(info)
@@ -32,7 +31,7 @@ func TestPacketOutMetadata(t *testing.T) {
 }
 
 func TestPacketInMetadata(t *testing.T) {
-	info, err := utils.LoadP4Info("../../pipelines/fabric-spgw-int.p4info.txt")
+	info, err := LoadP4Info("../../pipelines/fabric-spgw-int.p4info.txt")
 	assert.NoError(t, err)
 
 	codec := NewControllerMetadataCodec(info)
