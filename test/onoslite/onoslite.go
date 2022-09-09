@@ -20,7 +20,6 @@ import (
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"io"
 	"math/rand"
 	"sync"
 	"time"
@@ -250,9 +249,6 @@ func (o *LiteONOS) monitorStream(device *Device) {
 	log.Infof("%s: monitoring message stream", device.ID)
 	for {
 		msg, err := device.stream.Recv()
-		if err == io.EOF {
-			return
-		}
 		if err != nil {
 			log.Warnf("%s: unable to read stream response: %+v", device.ID, err)
 			return
