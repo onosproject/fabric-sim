@@ -27,7 +27,7 @@ func (s *TestSuite) TestLiteONOS(t *testing.T) {
 
 	defer func() { _ = onos.Stop() }()
 
-	time.Sleep(10 * time.Second)
+	time.Sleep(1 * time.Minute)
 
 	t.Logf("Validating discovered topology...")
 
@@ -40,7 +40,9 @@ func (s *TestSuite) TestLiteONOS(t *testing.T) {
 	}
 
 	// Did we discover all links?
+	assert.Len(t, onos.Links, 48)
 	// Did we discover all hosts?
+	assert.Len(t, onos.Hosts, 80)
 }
 
 func extractDevicePointers(devices []*simapi.Device) []*DevicePointer {

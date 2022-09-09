@@ -40,7 +40,7 @@ type DeviceSimulator struct {
 	meters   *entries.Meters
 
 	config     *config.Node
-	codec      *ControllerMetadataCodec
+	codec      *utils.ControllerMetadataCodec
 	puntToCPU  map[layers.EthernetType]bool
 	cpuActions map[uint32]*p4info.Action
 	cpuTables  map[uint32]*cpuTable
@@ -309,7 +309,7 @@ func (ds *DeviceSimulator) SetPipelineConfig(fpc *p4api.ForwardingPipelineConfig
 		P4Info: utils.P4InfoBytes(fpc.P4Info),
 	}
 
-	ds.codec = NewControllerMetadataCodec(fpc.P4Info)
+	ds.codec = utils.NewControllerMetadataCodec(fpc.P4Info)
 
 	// Create the required entities, e.g. tables, counters, meters, etc.
 	info := fpc.P4Info
@@ -401,7 +401,7 @@ func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder 
 
 // Processes the LLDP packet-out by emitting it encapsulated as a packet-in on the simulated device which is
 // adjacent to this device on the link (if any) connected to the port given in the LLDP packet
-func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *p4api.PacketOut, pom *PacketOutMetadata) {
+func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *p4api.PacketOut, pom *utils.PacketOutMetadata) {
 	log.Debugf("Device %s: processing LLDP packet: %+v", ds.Device.ID, packet)
 
 	// Find the port corresponding to the specified port ID, which is the internal (SDN) port number
@@ -454,7 +454,7 @@ func (ds *DeviceSimulator) SendPacketIn(packet []byte, ingressPort uint32) {
 		Update: &p4api.StreamMessageResponse_Packet{
 			Packet: &p4api.PacketIn{
 				Payload:  packet,
-				Metadata: ds.codec.EncodePacketInMetadata(&PacketInMetadata{IngressPort: ingressPort}),
+				Metadata: ds.codec.EncodePacketInMetadata(&utils.PacketInMetadata{IngressPort: ingressPort}),
 			},
 		},
 	}

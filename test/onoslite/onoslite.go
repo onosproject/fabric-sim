@@ -9,6 +9,7 @@ package onoslite
 import (
 	"context"
 	"fmt"
+	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/onosproject/fabric-sim/test/basic"
@@ -19,6 +20,7 @@ import (
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"io"
 	"math/rand"
 	"sync"
 	"time"
@@ -75,6 +77,7 @@ type Device struct {
 
 	cookie     uint64
 	electionID *p4api.Uint128
+	codec      *utils.ControllerMetadataCodec
 	stream     p4api.P4Runtime_StreamChannelClient
 	ctx        context.Context
 	ctxCancel  context.CancelFunc
@@ -146,6 +149,30 @@ func (o *LiteONOS) addDevice(device *Device) {
 	}
 }
 
+func (o *LiteONOS) addLink(srcPort string, tgtPort string) {
+	o.lock.Lock()
+	defer o.lock.Unlock()
+	linkID := fmt.Sprintf("%s-%s", srcPort, tgtPort)
+	if _, ok := o.Links[linkID]; !ok {
+		o.Links[linkID] = &Link{
+			ID:        linkID,
+			SrcPortID: srcPort,
+			TgtPortID: tgtPort,
+		}
+	}
+}
+
+func (o *LiteONOS) addHost(macString string, ipString string) {
+	o.lock.Lock()
+	defer o.lock.Unlock()
+	if _, ok := o.Hosts[macString]; !ok {
+		o.Hosts[macString] = &Host{
+			MAC: macString,
+			IP:  ipString,
+		}
+	}
+}
+
 func (o *LiteONOS) discoverDevice(dp *DevicePointer) {
 	ctx, ctxCancel := context.WithCancel(context.Background())
 	device := &Device{
@@ -161,10 +188,11 @@ func (o *LiteONOS) discoverDevice(dp *DevicePointer) {
 			o.addDevice(device)
 			if err = o.reconcilePipelineConfig(ctx, device); err == nil {
 				if err = o.installFlowRules(ctx, device); err == nil {
+					// Add iteration around this...
 					if err = o.discoverPorts(ctx, device); err == nil {
-						time.Sleep(5 * time.Second)
-						// start link discovery
-						// start liveness test
+						if err = o.discoverLinks(device); err == nil {
+							time.Sleep(1 * time.Minute)
+						}
 					}
 				}
 			}
@@ -214,6 +242,46 @@ func (o *LiteONOS) establishDeviceConnection(ctx context.Context, device *Device
 	if mar.ElectionId == nil || mar.ElectionId.High != device.electionID.High || mar.ElectionId.Low != device.electionID.Low {
 		return errors.NewInvalid("%s: did not win election", device.ID)
 	}
+	go o.monitorStream(device)
+	return nil
+}
+
+func (o *LiteONOS) monitorStream(device *Device) {
+	log.Infof("%s: monitoring message stream", device.ID)
+	for {
+		msg, err := device.stream.Recv()
+		if err == io.EOF {
+			return
+		}
+		if err != nil {
+			log.Warnf("%s: unable to read stream response: %+v", device.ID, err)
+			return
+		}
+
+		if msg.GetPacket() != nil {
+			if err := o.processPacket(msg.GetPacket(), device); err != nil {
+				log.Warnf("%s: unable to process packet-in: %+v", device.ID, err)
+			}
+		}
+	}
+}
+
+func (o *LiteONOS) processPacket(packetIn *p4api.PacketIn, device *Device) error {
+	packet := gopacket.NewPacket(packetIn.Payload, layers.LayerTypeEthernet, gopacket.Default)
+	pim := device.codec.DecodePacketInMetadata(packetIn.Metadata)
+
+	lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery)
+	if lldpLayer != nil {
+		lldp := lldpLayer.(*layers.LinkLayerDiscovery)
+		o.addLink(fmt.Sprintf("%s/%s", string(lldp.PortID.ID), string(lldp.ChassisID.ID)),
+			fmt.Sprintf("%s/%d", device.ID, pim.IngressPort))
+	}
+
+	arpLayer := packet.Layer(layers.LayerTypeARP)
+	if arpLayer != nil {
+		arp := arpLayer.(*layers.ARP)
+		o.addHost(utils.MACString(arp.SourceHwAddress), utils.IPString(arp.SourceProtAddress))
+	}
 	return nil
 }
 
@@ -239,6 +307,8 @@ func (o *LiteONOS) reconcilePipelineConfig(ctx context.Context, device *Device) 
 		return err
 	}
 
+	device.codec = utils.NewControllerMetadataCodec(info)
+
 	// and then apply it to the device
 	_, err = device.p4Client.SetForwardingPipelineConfig(ctx, &p4api.SetForwardingPipelineConfigRequest{
 		DeviceId:   device.Pointer.ChassisID,
@@ -255,10 +325,10 @@ func (o *LiteONOS) reconcilePipelineConfig(ctx context.Context, device *Device) 
 }
 
 func (o *LiteONOS) installFlowRules(ctx context.Context, device *Device) error {
-	if err := basic.InstallPuntRule(ctx, device.p4Client, device.Pointer.ChassisID, device.electionID, uint16(layers.LayerTypeLinkLayerDiscovery)); err != nil {
+	if err := basic.InstallPuntRule(ctx, device.p4Client, device.Pointer.ChassisID, device.electionID, uint16(layers.EthernetTypeLinkLayerDiscovery)); err != nil {
 		return err
 	}
-	if err := basic.InstallPuntRule(ctx, device.p4Client, device.Pointer.ChassisID, device.electionID, uint16(layers.LayerTypeARP)); err != nil {
+	if err := basic.InstallPuntRule(ctx, device.p4Client, device.Pointer.ChassisID, device.electionID, uint16(layers.EthernetTypeARP)); err != nil {
 		return err
 	}
 	return nil
@@ -283,6 +353,27 @@ func (o *LiteONOS) discoverPorts(ctx context.Context, device *Device) error {
 			port.Number = uint32(update.Val.GetUintVal())
 		case "oper-status":
 			port.Status = update.Val.GetStringVal()
+		}
+	}
+	return nil
+}
+
+func (o *LiteONOS) discoverLinks(device *Device) error {
+	for _, port := range device.Ports {
+		lldpBytes, err := utils.ControllerLLDPPacket(device.ID, port.Number)
+		if err != nil {
+			return err
+		}
+
+		err = device.stream.Send(&p4api.StreamMessageRequest{
+			Update: &p4api.StreamMessageRequest_Packet{
+				Packet: &p4api.PacketOut{
+					Payload:  lldpBytes,
+					Metadata: device.codec.EncodePacketOutMetadata(&utils.PacketOutMetadata{EgressPort: port.Number}),
+				}},
+		})
+		if err != nil {
+			return err
 		}
 	}
 	return nil

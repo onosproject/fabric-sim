@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package simulator
+package utils
 
 import (
 	"encoding/binary"
@@ -49,7 +49,6 @@ func NewControllerMetadataCodec(info *p4info.P4Info) *ControllerMetadataCodec {
 			}
 		}
 	}
-	log.Infof("NewControllerMetadataCodec: %+v", cmc)
 	return cmc
 }
 
