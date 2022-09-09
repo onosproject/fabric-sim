@@ -5,10 +5,12 @@
 package config
 
 import (
+	"context"
 	"fmt"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"time"
 )
 
 // TestDeviceConfig is used as a playground to validate the creation of device gNMI config.
@@ -51,6 +53,23 @@ func TestDeviceConfig(t *testing.T) {
 	assert.NotNil(t, node)
 	node = rootNode.GetPath("interfaces/interface[name=2]/state/counters")
 	assert.Nil(t, node)
+}
+
+func TestSimulateTrafficCounters(t *testing.T) {
+	t.Skip()
+	rootNode := CreateSwitchConfig(8)
+	assert.NotNil(t, rootNode.Get("interfaces", nil))
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	SimulateTrafficCounters(ctx, 200*time.Millisecond, rootNode)
+
+	for i := 0; i < 10; i++ {
+		bin := rootNode.GetPath("interfaces/interface[name=2]/state/counters/in-octets")
+		pin := rootNode.GetPath("interfaces/interface[name=2]/state/counters/in-unicast-pkts")
+		fmt.Printf("bin: %d\tpin: %d\n", bin.Value().GetUintVal(), pin.Value().GetUintVal())
+		time.Sleep(400 * time.Millisecond)
+	}
 }
 
 // CreateSwitchConfig creates a test device configuration

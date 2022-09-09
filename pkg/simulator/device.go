@@ -5,6 +5,7 @@
 package simulator
 
 import (
+	"context"
 	"encoding/binary"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
@@ -19,6 +20,7 @@ import (
 	"google.golang.org/genproto/googleapis/rpc/code"
 	"strings"
 	"sync"
+	"time"
 )
 
 // DeviceSimulator simulates a single device
@@ -44,6 +46,8 @@ type DeviceSimulator struct {
 	puntToCPU  map[layers.EthernetType]bool
 	cpuActions map[uint32]*p4info.Action
 	cpuTables  map[uint32]*cpuTable
+
+	cancel context.CancelFunc
 }
 
 // Auxiliary structure to track table that has CPU related actions and the field match related to ETH type
@@ -114,6 +118,9 @@ func (ds *DeviceSimulator) Start(simulation *Simulation) error {
 	log.Infof("Device %s: Starting simulator", ds.Device.ID)
 
 	// Start any background simulation tasks
+	ctx, cancel := context.WithCancel(context.Background())
+	ds.cancel = cancel
+	config.SimulateTrafficCounters(ctx, 4*time.Second, ds.config)
 
 	// Starts the simulated device agent
 	err := ds.Agent.Start(simulation, ds)
@@ -126,12 +133,15 @@ func (ds *DeviceSimulator) Start(simulation *Simulation) error {
 
 // Stop stops the device simulation agent and stops any background simulation tasks
 func (ds *DeviceSimulator) Stop(mode simapi.StopMode) {
+	// Stop any background simulation tasks
+	if ds.cancel != nil {
+		ds.cancel()
+	}
+
 	log.Infof("Device %s: Stopping simulator using %s", ds.Device.ID, mode)
 	if err := ds.Agent.Stop(mode); err != nil {
 		log.Errorf("Device %s: Unable to stop simulator: %+v", ds.Device.ID, err)
 	}
-
-	// Stop any background simulation tasks
 }
 
 // EnablePort enables the specified simulated device port
