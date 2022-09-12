@@ -41,7 +41,7 @@ integration-tests:  # @HELP run helmit integration tests locally
 	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests
 
 cit:  # @HELP run helmit integration test under current development
-	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests --suite onoslite --test TestLiteONOS
+	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests --suite onoslite --test TestLiteONOSWithSuperspineFabric
 
 recipes:	# HELP generate topology files from the topology recipes
 	@for topo in "plain" "access" "access2" "superspine"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen topo --recipe topologies/$${topo}_recipe.yaml --output topologies/$${topo}.yaml; done

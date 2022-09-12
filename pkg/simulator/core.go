@@ -326,6 +326,7 @@ func (s *Simulation) RemoveHostSimulator(id simapi.HostID) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	if sim, ok := s.hostSimulators[id]; ok {
+		sim.Stop()
 		delete(s.hostSimulators, id)
 		for _, nic := range sim.Host.Interfaces {
 			delete(s.usedEgressPorts, nic.ID)
