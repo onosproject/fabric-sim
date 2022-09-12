@@ -19,7 +19,7 @@ import (
 
 // TestTopologyLoad loads simulator with custom.yaml topology and validates proper startup
 func (s *TestSuite) TestTopologyLoad(t *testing.T) {
-	devices := LoadAndValidate(t, "topologies/custom.yaml", 6, 2*8, 16,
+	devices, _, _ := LoadAndValidate(t, "topologies/custom.yaml", 6, 2*8, 16,
 		spineAndLeafPorts, func(host *simapi.Host) int { return 1 })
 	defer CleanUp(t)
 
@@ -40,7 +40,8 @@ type DevicePortCount func(device *simapi.Device) int
 type HostNICCount func(host *simapi.Host) int
 
 // LoadAndValidate loads the specified topology and validates the correct counts of devices, links and hosts
-func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts int, portsPerDevice DevicePortCount, nicsPerHost HostNICCount) []*simapi.Device {
+func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts int,
+	portsPerDevice DevicePortCount, nicsPerHost HostNICCount) ([]*simapi.Device, []*simapi.Link, []*simapi.Host) {
 	conn, err := client.CreateConnection()
 	assert.NoError(t, err)
 	defer conn.Close()
@@ -83,7 +84,7 @@ func LoadAndValidate(t *testing.T, path string, devices int, links int, hosts in
 	for _, host := range hr.Hosts {
 		assert.Equal(t, nicsPerHost(host), len(host.Interfaces))
 	}
-	return dr.Devices
+	return dr.Devices, lr.Links, hr.Hosts
 }
 
 // CleanUp cleans up the simulation

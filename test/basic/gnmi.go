@@ -17,7 +17,7 @@ import (
 
 // TestGNMI loads simulator with access fabric topology, and tests basic gNMI operations
 func (s *TestSuite) TestGNMI(t *testing.T) {
-	devices := LoadAndValidate(t, "topologies/access.yaml", 3+6, (3*3*6+3*2)*2, 3*20,
+	devices, _, _ := LoadAndValidate(t, "topologies/access.yaml", 3+6, (3*3*6+3*2)*2, 3*20,
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 })
 	defer CleanUp(t)
 
