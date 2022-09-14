@@ -56,6 +56,10 @@ func (s *guiServer) serve() {
 	}
 }
 
+func (s *guiServer) stop() {
+	http.DefaultServeMux = new(http.ServeMux)
+}
+
 func (s *guiServer) broadcast(data string) {
 	for _, wc := range s.clients {
 		wc.send(data)
@@ -105,7 +109,7 @@ WriteLoop:
 				log.Infof("Client %d: Event channel closed", wc.id)
 				break WriteLoop
 			}
-			log.Infof("Sending: %s", string(b))
+			log.Debugf("Sending: %s", string(b))
 			err = ws.WriteMessage(websocket.TextMessage, b)
 			if err != nil {
 				log.Warnf("Client %d: Unable to write topo event: %v", wc.id, err)

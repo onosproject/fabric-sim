@@ -199,7 +199,7 @@ func (d *Device) installFlowRules() error {
 }
 
 func (d *Device) discoverPortsAndLinks() error {
-	log.Infof("%s: (re)discovering links and ports...", d.ID)
+	log.Debugf("%s: (re)discovering links and ports...", d.ID)
 	if err := d.discoverPorts(); err != nil {
 		return err
 	}

@@ -6,10 +6,10 @@
 
 # Recipe for 2x4 plain fabric
 plain_fabric:
-  spines: 2
+  spines: 3
   spine_port_count: 32
 
-  leaves: 4
+  leaves: 6
   leaf_port_count: 32
 
   spine_trunk: 3

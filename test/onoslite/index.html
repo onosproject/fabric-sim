@@ -34,45 +34,15 @@ SPDX-License-Identifier: Apache-2.0
         #details pre {
             margin: 0;
         }
-
-        #item-menu {
-            position: absolute;
-            display: block;
-            background-color: #eee;
-            visibility: hidden;
-            border: 1px solid #888;
-            margin: 0px;
-            z-index: 3;
-        }
-
-        .item {
-            display: block;
-            cursor: pointer;
-            padding: 4px;
-            color: inherit;
-            background-color: inherit;
-        }
-
-        .item:hover {
-            color: #eee;
-            background-color: #3b78e7;
-        }
     </style>
 </head>
 <body>
 <div id="graph"></div>
 <div id="details"></div>
-<div id="item-menu">
-    <div class="item" id="unpin">Unpin</div>
-    <hr>
-    <div class="item" id="collapse">Collapse (Not implemented)</div>
-    <div class="item" id="focus">Highlight (Not implemented)</div>
-</div>
 <script>
     const canvas = document.getElementById("graph");
     const details = document.getElementById("details");
-    const itemMenu = document.getElementById("item-menu");
-    let nodes = [], links = [], shownItem, overNode, actionNode;
+    let nodes = [], links = [], shownItem, overNode;
 
     const curvatureMinMax = 0.1;
     const selectionColor = "#3b78e7";
@@ -86,20 +56,16 @@ SPDX-License-Identifier: Apache-2.0
         .minZoom(0.2)
         .graphData({nodes: nodes, links: links})
         .onNodeClick(showDetails)
-        .onNodeRightClick(nodeMenu)
         .onNodeDragEnd(pinNode)
-        .onNodeHover(node => {
-            overNode = node
-        })
+        .onNodeHover(node => { overNode = node; })
         .onLinkClick(showDetails)
-        .onBackgroundClick(hideExtras)
-        .onBackgroundRightClick(hideExtras)
+        .onBackgroundClick(hideDetails)
+        .onBackgroundRightClick(hideDetails)
         .nodeCanvasObject(drawNode)
         .nodePointerAreaPaint(nodeAreaPaint)
         .linkCurvature('curvature')
         .linkColor(linkTypeColor)
         .linkWidth(linkTypeWidth)
-        .linkLineDash(linkTypeDash)
         .linkDirectionalArrowLength(2)
         .linkDirectionalArrowRelPos(1)
         .linkCanvasObjectMode(() => "after")
@@ -117,7 +83,6 @@ SPDX-License-Identifier: Apache-2.0
         console.error("ERROR: " + evt.data);
     }
     ws.onmessage = function (evt) {
-        console.log(evt.data);
         processTopoEvent(JSON.parse(evt.data));
     }
 
@@ -128,7 +93,6 @@ SPDX-License-Identifier: Apache-2.0
             unpinNode(overNode);
         } else if (evt.key === "Escape") {
             hideDetails();
-            hideNodeMenu();
         }
         // console.log(evt);
     });
@@ -138,7 +102,7 @@ SPDX-License-Identifier: Apache-2.0
     }, 2000)
 
     function processTopoEvent(data) {
-        console.log(data);
+        // console.log(data);
         if (data.event === "added") {
             if (data.type === "node") {
                 nodes = [...nodes, {id: data.id, data: data}];
@@ -227,17 +191,9 @@ SPDX-License-Identifier: Apache-2.0
         return list
     }
 
-    const kindDash = {
-        "edge": [2, 1],
-    }
-
-    function linkTypeDash(link) {
-        return kindDash[link.data.kind] || null;
-    }
-
     const kindColor = {
-        "infra": "#a55",
-        "edge": "#55a",
+        "infra": "#877",
+        "edge": "#99a",
     }
 
     function linkTypeColor(link) {
@@ -245,11 +201,12 @@ SPDX-License-Identifier: Apache-2.0
     }
 
     const kindWidth = {
+        "infra": 1,
         "edge": 1,
     }
 
     function linkTypeWidth(link) {
-        return kindWidth[link.data.kind] || 2;
+        return kindWidth[link.data.kind] || 1;
     }
 
     function pinNode(node) {
@@ -265,7 +222,7 @@ SPDX-License-Identifier: Apache-2.0
     }
 
     function drawNode(node, ctx, globalScale) {
-        if (globalScale > 1.5) {
+        if (globalScale > 3) {
             const label = node.id;
             const maxFontSize = 256;
             const fontSize = Math.min(12 / globalScale, maxFontSize);
@@ -349,7 +306,6 @@ SPDX-License-Identifier: Apache-2.0
     }
 
     function showDetails(obj, pos) {
-        hideNodeMenu();
         shownItem = obj;
         details.innerHTML = `<h1>${obj.data.type} ${obj.id}</h1><pre>${JSON.stringify(obj.data, null, 2)}</pre>`;
         if (pos) {
@@ -363,42 +319,6 @@ SPDX-License-Identifier: Apache-2.0
         shownItem = null;
         details.style.visibility = "hidden";
     }
-
-    function nodeMenu(node, pos) {
-        hideDetails();
-        actionNode = node;
-        if (pos) {
-            itemMenu.style.left = `${pos.x}px`;
-            itemMenu.style.top = `${pos.y}px`;
-            itemMenu.style.visibility = "visible";
-        }
-    }
-
-    function hideNodeMenu() {
-        actionNode = null;
-        itemMenu.style.visibility = "hidden";
-    }
-
-    function hideExtras() {
-        hideNodeMenu();
-        hideDetails();
-    }
-
-    document.getElementById("unpin").addEventListener("click", evt => {
-        unpinNode(actionNode);
-        hideNodeMenu();
-    });
-
-    document.getElementById("collapse").addEventListener("click", evt => {
-        console.log("toggle node collapsed", evt, actionNode);
-        hideNodeMenu();
-    });
-
-    document.getElementById("focus").addEventListener("click", evt => {
-        console.log("focusing on node", evt, actionNode);
-        hideNodeMenu();
-    });
-
 </script>
 </body>
 </html>

@@ -146,6 +146,8 @@ func (o *LiteONOS) Stop() error {
 	for _, device := range o.Devices {
 		device.stopControl()
 	}
+
+	o.server.stop()
 	return nil
 }
 
