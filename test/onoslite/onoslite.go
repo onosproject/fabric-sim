@@ -17,6 +17,7 @@ import (
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/grpc"
 	"math/rand"
+	"strings"
 	"sync"
 	"time"
 )
@@ -49,7 +50,8 @@ type LiteONOS struct {
 	Links          map[string]*Link
 	Hosts          map[string]*Host
 
-	lock sync.RWMutex
+	server *guiServer
+	lock   sync.RWMutex
 }
 
 // DevicePointer is a structure holding information required to prime device discovery
@@ -96,18 +98,21 @@ type Link struct {
 
 // Host is a simple representation of a host network interface discovered by the ONOS lite
 type Host struct {
-	MAC string
-	IP  string
+	MAC  string
+	IP   string
+	Port string
 }
 
 // NewLiteONOS creates a new ONOS lite object
 func NewLiteONOS() *LiteONOS {
-	return &LiteONOS{
+	onos := &LiteONOS{
 		DevicePointers: nil,
 		Devices:        make(map[string]*Device),
 		Links:          make(map[string]*Link),
 		Hosts:          make(map[string]*Host),
 	}
+	onos.server = newGUIServer(onos)
+	return onos
 }
 
 // Start starts the controller and primes its device discovery with the specified list of device pointers
@@ -117,11 +122,13 @@ func (o *LiteONOS) Start(pointers []*DevicePointer) error {
 	if len(o.DevicePointers) > 0 {
 		return errors.NewInvalid("already started")
 	}
+
+	go o.server.serve()
+
 	o.DevicePointers = pointers
 	for _, dp := range o.DevicePointers {
 		// Stagger the starts a bit for added adversity
-		time.Sleep(time.Duration(1000+rand.Intn(3000)) * time.Millisecond)
-
+		time.Sleep(time.Duration(500+rand.Intn(1500)) * time.Millisecond)
 		device := newDevice(dp)
 		go device.startControl(o)
 	}
@@ -147,6 +154,7 @@ func (o *LiteONOS) addDevice(device *Device) {
 	defer o.lock.Unlock()
 	if _, ok := o.Devices[device.ID]; !ok {
 		o.Devices[device.ID] = device
+		o.server.broadcast(nodeEvent("added", device.ID, "device"))
 	}
 }
 
@@ -160,16 +168,25 @@ func (o *LiteONOS) addLink(srcPort string, tgtPort string) {
 			SrcPortID: srcPort,
 			TgtPortID: tgtPort,
 		}
+		o.server.broadcast(edgeEvent("added", linkID, stripPort(srcPort), stripPort(tgtPort), "infra"))
 	}
 }
 
-func (o *LiteONOS) addHost(macString string, ipString string) {
+func (o *LiteONOS) addHost(macString string, ipString string, port string) {
 	o.lock.Lock()
 	defer o.lock.Unlock()
 	if _, ok := o.Hosts[macString]; !ok {
 		o.Hosts[macString] = &Host{
-			MAC: macString,
-			IP:  ipString,
+			MAC:  macString,
+			IP:   ipString,
+			Port: port,
 		}
+		o.server.broadcast(nodeEvent("added", macString, "host"))
+		o.server.broadcast(edgeEvent("added", macString+stripPort(port), macString, stripPort(port), "edge"))
 	}
+}
+
+func stripPort(port string) string {
+	f := strings.SplitN(port, "/", 2)
+	return f[0]
 }

@@ -143,7 +143,8 @@ func (d *Device) processPacket(packetIn *p4api.PacketIn, onos *LiteONOS) error {
 	arpLayer := packet.Layer(layers.LayerTypeARP)
 	if arpLayer != nil {
 		arp := arpLayer.(*layers.ARP)
-		onos.addHost(utils.MACString(arp.SourceHwAddress), utils.IPString(arp.SourceProtAddress))
+		onos.addHost(utils.MACString(arp.SourceHwAddress), utils.IPString(arp.SourceProtAddress),
+			fmt.Sprintf("%s/%d", d.ID, pim.IngressPort))
 	}
 	return nil
 }
