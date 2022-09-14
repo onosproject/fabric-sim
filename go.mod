@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/google/gopacket v1.1.19
+	github.com/gorilla/websocket v1.4.2
 	github.com/onosproject/helmit v0.6.19
 	github.com/onosproject/onos-api/go v0.9.42
 	github.com/onosproject/onos-lib-go v0.9.3

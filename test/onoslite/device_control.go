@@ -143,7 +143,8 @@ func (d *Device) processPacket(packetIn *p4api.PacketIn, onos *LiteONOS) error {
 	arpLayer := packet.Layer(layers.LayerTypeARP)
 	if arpLayer != nil {
 		arp := arpLayer.(*layers.ARP)
-		onos.addHost(utils.MACString(arp.SourceHwAddress), utils.IPString(arp.SourceProtAddress))
+		onos.addHost(utils.MACString(arp.SourceHwAddress), utils.IPString(arp.SourceProtAddress),
+			fmt.Sprintf("%s/%d", d.ID, pim.IngressPort))
 	}
 	return nil
 }
@@ -198,7 +199,7 @@ func (d *Device) installFlowRules() error {
 }
 
 func (d *Device) discoverPortsAndLinks() error {
-	log.Infof("%s: (re)discovering links and ports...", d.ID)
+	log.Debugf("%s: (re)discovering links and ports...", d.ID)
 	if err := d.discoverPorts(); err != nil {
 		return err
 	}

@@ -1,0 +1,324 @@
+<!--
+SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="//unpkg.com/force-graph"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+        #details {
+            position: absolute;
+            display: block;
+            background-color: #eee;
+            visibility: hidden;
+            border: 1px solid #888;
+            border-radius: 4px;
+            padding: 8px;
+            z-index: 2;
+        }
+
+        #details h1 {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        #details pre {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="graph"></div>
+<div id="details"></div>
+<script>
+    const canvas = document.getElementById("graph");
+    const details = document.getElementById("details");
+    let nodes = [], links = [], shownItem, overNode;
+
+    const curvatureMinMax = 0.1;
+    const selectionColor = "#3b78e7";
+    const nodeShapeColor = "#999";
+    const nodeTextColor = "#333";
+    const nodeSelectedTextColor = "#eee";
+    const linkTextColor = "#555";
+
+    const graph = ForceGraph()(canvas)
+        .maxZoom(12)
+        .minZoom(0.2)
+        .graphData({nodes: nodes, links: links})
+        .onNodeClick(showDetails)
+        .onNodeDragEnd(pinNode)
+        .onNodeHover(node => { overNode = node; })
+        .onLinkClick(showDetails)
+        .onBackgroundClick(hideDetails)
+        .onBackgroundRightClick(hideDetails)
+        .nodeCanvasObject(drawNode)
+        .nodePointerAreaPaint(nodeAreaPaint)
+        .linkCurvature('curvature')
+        .linkColor(linkTypeColor)
+        .linkWidth(linkTypeWidth)
+        .linkDirectionalArrowLength(2)
+        .linkDirectionalArrowRelPos(1)
+        .linkCanvasObjectMode(() => "after")
+        .linkCanvasObject(drawLink);
+
+    let ws = new WebSocket("{{.}}");
+    ws.onopen = function (evt) {
+        console.log("Connected");
+    }
+    ws.onclose = function (evt) {
+        console.log("Disconnected");
+        ws = null;
+    }
+    ws.onerror = function (evt) {
+        console.error("ERROR: " + evt.data);
+    }
+    ws.onmessage = function (evt) {
+        processTopoEvent(JSON.parse(evt.data));
+    }
+
+    window.addEventListener("keypress", evt => {
+        if (evt.key === "r") {
+            graph.zoomToFit(500, 10);
+        } else if (evt.key === "u") {
+            unpinNode(overNode);
+        } else if (evt.key === "Escape") {
+            hideDetails();
+        }
+        // console.log(evt);
+    });
+
+    setTimeout(() => {
+        graph.zoomToFit(500, 10);
+    }, 2000)
+
+    function processTopoEvent(data) {
+        // console.log(data);
+        if (data.event === "added") {
+            if (data.type === "node") {
+                nodes = [...nodes, {id: data.id, data: data}];
+            } else {
+                links = [...links, {id: data.id, source: data.src, target: data.tgt, data: data}];
+            }
+            delete data.event;
+
+        } else if (data.event === "updated") {
+            if (data.type === "node") {
+                update(nodes, data);
+            } else {
+                update(links, data);
+            }
+            delete data.event;
+
+        } else if (data.event === "removed") {
+            if (data.type === "node") {
+                nodes = remove(nodes, data.id);
+            } else {
+                links = remove(links, data.id);
+            }
+        }
+        // console.log("nodes:", nodes, "links:", links)
+        graph.graphData({nodes: nodes, links: links});
+        processLinks();
+
+        if (shownItem && shownItem.id === data.id) {
+            showDetails(shownItem, null);
+        }
+    }
+
+    function getLID(link) {
+        if (typeof link.source === "object") {
+            return link.source.id <= link.target.id ? link.source.id + "_" + link.target.id : link.target.id + "_" + link.source.id;
+        }
+        return link.source <= link.target ? link.source + "_" + link.target : link.target + "_" + link.source;
+    }
+
+    function processLinks() {
+        let map = {};
+        links.forEach(link => {
+            link.lid = getLID(link);
+            if (!map[link.lid]) {
+                map[link.lid] = [];
+            }
+            map[link.lid].push(link);
+        });
+
+        // Compute the curvature for links sharing the same two nodes to avoid overlaps
+        Object.keys(map).forEach(lid => {
+            let same = map[lid];
+            if (same && same.length > 1) {
+                let lastIndex = same.length - 1;
+                let lastLink = same[lastIndex];
+                lastLink.curvature = curvatureMinMax;
+                let delta = 2 * curvatureMinMax / lastIndex;
+                for (let i = 0; i < lastIndex; i++) {
+                    same[i].curvature = -curvatureMinMax + i * delta;
+                    if (lastLink.source !== same[i].source) {
+                        same[i].curvature *= -1; // flip it around, otherwise they overlap
+                    }
+                }
+            } else if (same.length === 1) {
+                same[0].curvature = 0;
+            }
+        });
+    }
+
+    function update(list, data) {
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].id === data.id) {
+                list[i].data = data;
+                return;
+            }
+        }
+    }
+
+    function remove(list, id) {
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].id === id) {
+                list.splice(i, 1);
+                return list;
+            }
+        }
+        return list
+    }
+
+    const kindColor = {
+        "infra": "#877",
+        "edge": "#99a",
+    }
+
+    function linkTypeColor(link) {
+        return kindColor[link.data.kind] || "#aaa";
+    }
+
+    const kindWidth = {
+        "infra": 1,
+        "edge": 1,
+    }
+
+    function linkTypeWidth(link) {
+        return kindWidth[link.data.kind] || 1;
+    }
+
+    function pinNode(node) {
+        node.fx = node.x;
+        node.fy = node.y;
+    }
+
+    function unpinNode(node) {
+        if (node) {
+            delete node.fx;
+            delete node.fy;
+        }
+    }
+
+    function drawNode(node, ctx, globalScale) {
+        if (globalScale > 3) {
+            const label = node.id;
+            const maxFontSize = 256;
+            const fontSize = Math.min(12 / globalScale, maxFontSize);
+            ctx.font = `${fontSize}px Sans-Serif`;
+            const textWidth = ctx.measureText(label).width;
+            const bckgDimensions = [textWidth + 4, fontSize + 2].map(n => n + fontSize * 0.2); // some padding
+            ctx.fillStyle = overNode === node ? selectionColor : "rgba(255, 255, 255, 0.8)";
+            ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = overNode === node ? nodeSelectedTextColor : nodeTextColor;
+            ctx.fillText(label, node.x, node.y);
+
+            node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
+        } else {
+            ctx.fillStyle = overNode === node ? selectionColor : nodeShapeColor;
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, 3, 0, 2 * Math.PI, false);
+            ctx.fill();
+            node.__bckgDimensions = [ 3, 3 ];
+        }
+    }
+
+    function nodeAreaPaint(node, color, ctx) {
+        ctx.fillStyle = color;
+        const bckgDimensions = node.__bckgDimensions;
+        bckgDimensions && ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
+    }
+
+    function drawLink(link, ctx, globalScale) {
+        if (globalScale < 5) {
+            return;
+        }
+
+        // TODO: Clean this up
+        const maxFontSize = 10 / globalScale;
+        const labelMargin = graph.nodeRelSize() * 1.5;
+
+        const start = link.source;
+        const end = link.target;
+
+        // ignore unbound links
+        if (typeof start !== "object" || typeof end !== "object") return;
+
+        // calculate label positioning
+        const textPos = Object.assign(...["x", "y"].map(c => ({
+            [c]: end[c] + (start[c] - end[c]) / 1.4 // calc position
+        })));
+
+        const relLink = {x: end.x - start.x, y: end.y - start.y};
+
+        const maxTextLength = Math.sqrt(Math.pow(relLink.x, 2) + Math.pow(relLink.y, 2)) - labelMargin * 2;
+
+        let textAngle = Math.atan2(relLink.y, relLink.x);
+        // maintain label vertical orientation for legibility
+        if (textAngle > Math.PI / 2) textAngle = -(Math.PI - textAngle);
+        if (textAngle < -Math.PI / 2) textAngle = -(-Math.PI - textAngle);
+
+        const label = link.data.kind;
+
+        // estimate fontSize to fit in link length
+        ctx.font = "1px Sans-Serif";
+        const fontSize = Math.min(maxFontSize, maxTextLength / ctx.measureText(label).width);
+        ctx.font = `${fontSize}px Sans-Serif`;
+        const textWidth = ctx.measureText(label).width;
+        const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+
+        // draw text label (with background rect)
+        ctx.save();
+        ctx.translate(textPos.x, textPos.y);
+        ctx.rotate(textAngle);
+
+        ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+        ctx.fillRect(-bckgDimensions[0] / 2, -bckgDimensions[1] / 2, ...bckgDimensions);
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = linkTextColor;
+        ctx.fillText(label, 0, 0);
+        ctx.restore();
+    }
+
+    function showDetails(obj, pos) {
+        shownItem = obj;
+        details.innerHTML = `<h1>${obj.data.type} ${obj.id}</h1><pre>${JSON.stringify(obj.data, null, 2)}</pre>`;
+        if (pos) {
+            details.style.left = `${pos.x}px`;
+            details.style.top = `${pos.y}px`;
+            details.style.visibility = "visible";
+        }
+    }
+
+    function hideDetails() {
+        shownItem = null;
+        details.style.visibility = "hidden";
+    }
+</script>
+</body>
+</html>

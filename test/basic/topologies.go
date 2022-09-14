@@ -11,7 +11,7 @@ import (
 
 // TestPlainFabricLoad loads simulator with the plain.yaml topology and validates proper startup
 func (s *TestSuite) TestPlainFabricLoad(t *testing.T) {
-	devices, _, _ := LoadAndValidate(t, "topologies/plain.yaml", 6, 48, 80,
+	devices, _, _ := LoadAndValidate(t, "topologies/plain.yaml", 3+6, (3*3*6)*2, 6*20,
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 1 })
 	defer CleanUp(t)
 	ProbeAllDevices(t, devices)
