@@ -136,7 +136,7 @@ func (d *Device) processPacket(packetIn *p4api.PacketIn, onos *LiteONOS) error {
 	lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery)
 	if lldpLayer != nil {
 		lldp := lldpLayer.(*layers.LinkLayerDiscovery)
-		onos.addLink(fmt.Sprintf("%s/%s", string(lldp.PortID.ID), string(lldp.ChassisID.ID)),
+		onos.addLink(fmt.Sprintf("%s/%s", string(lldp.ChassisID.ID), string(lldp.PortID.ID)),
 			fmt.Sprintf("%s/%d", d.ID, pim.IngressPort))
 	}
 
