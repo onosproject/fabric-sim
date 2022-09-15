@@ -75,7 +75,6 @@ switch2          SWITCH      20012          2
 ```
 
 
-
 ## fabric-sim-topo tool
 
 In addition to the `onos-cli`, a number of special-purpose tools, not available via the simulator
@@ -129,6 +128,36 @@ the [simulator helm chart] is made available under the main ONOS helm charts rep
 A number of integration tests are available for the simulator, built atop the [helmit] test framework.
 To execute them, simply run `make integration-tests` command.
 
+### LiteONOS Controller
+One of the integration test suites (`onoslite`) aims to mimic the type of interactions that the ONOS controller
+has with the network environment in order to discover and control it. To that end, it implements an
+ultralight controller, dubbed `LiteONOS` which can be used to test the fabric simulator functionality
+as part of the Helmit integration tests.
+
+The `LiteONOS` controller establishes connection with each simulated device, and uses the P4Runtime interface
+to do the following:
+* establish mastership for the default role
+* reconcile the forwarding pipeline configuration
+* install flows to punt LLDP and ARP ether-type traffic to the controller
+* monitor packet-in messages for LLDP and ARP packets for link and host discovery, respectively
+* emit LLDP packet-out messages for link discovery
+
+It also uses the gNMI interface of each simulated device to discover ports and their state, and gNOI
+System.Time service as device liveness/availability probe.
+
+The `LiteONOS` controller itself does not perform any assertions - it is pure Golang code - but the
+tests in the suite that ignite the controller and load the fabric sim using several topologies, 
+indeed do perform assertions to make sure that the controller managed to discover all devices, their ports, 
+links, and all the hosts.
+
+### LiteONOS GUI
+To aid in troubleshooting and debugging, the `LiteONOS` controller provides a simple web-based GUI
+that displays the devices, links, and hosts in a force-layout graph in a browser. To access this GUI,
+one must establish port-forwarding for port `5152` from the helmit kubernetes pod that executes the tests
+(matching `-onoslite-` regex) and point their browser at `http://localhost:5152`. The following screenshot
+demonstrates what the view will look like for the `superspine.yaml` topology test.
+
+![LiteONOS GUI depicting a simulated superspine fabric network](docs/images/onoslite-gui-superspine.png)
 
 [topologies]: topologies
 
