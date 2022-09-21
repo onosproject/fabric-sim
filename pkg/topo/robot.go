@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/viper"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -83,29 +84,67 @@ func GenerateRobotTopology(topologyPath string, robotTopologyPath string) error 
 	return saveRobotTopologyFile(rtopo, robotTopologyPath)
 }
 
+func did(id string) string {
+	return fmt.Sprintf("device:%s", id)
+}
+
+func pid(name string, device Device) string {
+	id, _ := strconv.ParseUint(name, 10, 32)
+	internalPort := uint32(0)
+	for _, p := range device.Ports {
+		if p.Number == uint32(id) {
+			internalPort = p.SDNNumber
+		}
+	}
+	return fmt.Sprintf("[%s](%d)", name, internalPort)
+}
+
 func createRobotDevice(device Device, topology *Topology) *RobotDevice {
 	links := make([]*RobotLink, 0)
 	for _, link := range topology.Links {
 		sf := strings.SplitN(link.SrcPortID, "/", 2)
 		tf := strings.SplitN(link.TgtPortID, "/", 2)
-		if len(sf) > 1 && len(tf) > 1 && sf[0] == device.ID {
-			links = append(links, &RobotLink{Target: tf[0], SourcePort: sf[1], TargetPort: tf[1]})
+		if len(sf) > 1 && len(tf) > 1 {
+			if sf[0] == device.ID {
+				links = append(links, &RobotLink{
+					Target:     did(tf[0]),
+					SourcePort: pid(sf[1], device),
+					TargetPort: pid(tf[1], findDevice(tf[0], topology)),
+				})
+			} else if !link.Unidirectional && tf[0] == device.ID {
+				links = append(links, &RobotLink{
+					Target:     did(sf[0]),
+					SourcePort: pid(tf[1], device),
+					TargetPort: pid(sf[1], findDevice(sf[0], topology)),
+				})
+			}
 		}
 	}
-	return &RobotDevice{ID: device.ID, Links: links}
+	return &RobotDevice{ID: did(device.ID), Links: links}
 }
 
 func createRobotHost(host Host, nic NIC, topology *Topology) *RobotHost {
 	f := strings.SplitN(nic.Port, "/", 2)
+	ip := strings.ReplaceAll(nic.IPv4, ".0", ".")
 	return &RobotHost{
 		ID:       host.ID,
 		MAC:      nic.Mac,
-		IP:       nic.IPv4,
-		Gateway:  nic.IPv4,
+		IP:       ip,
+		Gateway:  ip,
 		VLAN:     "None",
 		TenantID: "0",
-		Links:    []*RobotHostLink{{Device: f[0], Port: f[1]}},
+		Links:    []*RobotHostLink{{Device: did(f[0]), Port: pid(f[1], findDevice(f[0], topology))}},
 	}
+}
+
+func findDevice(id string, topology *Topology) Device {
+	device := Device{}
+	for _, d := range topology.Devices {
+		if id == d.ID {
+			return d
+		}
+	}
+	return device
 }
 
 // Saves the given robot structure as YAML in the specified file path; stdout if -
