@@ -91,13 +91,14 @@ func closeConnection(conn *grpc.ClientConn) {
 
 func getGenerateCommand() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "generate {topology, netcfg}",
+		Use:     "generate {topology, netcfg, robot}",
 		Aliases: []string{"gen"},
-		Short:   "Generate fabric topology or netcfg.json",
+		Short:   "Generate fabric topology YAML, netcfg JSON, or Robot tests topology YAML",
 		Args:    cobra.NoArgs,
 	}
 	cmd.AddCommand(getGenerateTopoCommand())
 	cmd.AddCommand(getGenerateNetcfgCommand())
+	cmd.AddCommand(getGenerateRobotCommand())
 	return cmd
 }
 
@@ -123,7 +124,7 @@ func runGenerateTopoCommand(cmd *cobra.Command, args []string) error {
 func getGenerateNetcfgCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "netcfg",
-		Short: "Generate netcfg.json file from the specified topology YAML file",
+		Short: "Generate netcfg JSON file from the specified topology YAML file",
 		Args:  cobra.NoArgs,
 		RunE:  runGenerateNetcfgCommand,
 	}
@@ -140,4 +141,22 @@ func runGenerateNetcfgCommand(cmd *cobra.Command, args []string) error {
 	driver, _ := cmd.Flags().GetString(driverFlag)
 	pipeconf, _ := cmd.Flags().GetString(pipeconfFlag)
 	return topo.GenerateNetcfg(topologyPath, outputPath, driver, pipeconf)
+}
+
+func getGenerateRobotCommand() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "robot",
+		Short: "Generate Robot topology YAML file from the specified topology YAML file",
+		Args:  cobra.NoArgs,
+		RunE:  runGenerateRobotCommand,
+	}
+	cmd.Flags().String(topologyFlag, "-", "topology YAML file; use - for stdin (default)")
+	cmd.Flags().String(outputFlag, "-", "Robot topology YAML file; use - for stdout (default)")
+	return cmd
+}
+
+func runGenerateRobotCommand(cmd *cobra.Command, args []string) error {
+	topologyPath, _ := cmd.Flags().GetString(topologyFlag)
+	outputPath, _ := cmd.Flags().GetString(outputFlag)
+	return topo.GenerateRobotTopology(topologyPath, outputPath)
 }

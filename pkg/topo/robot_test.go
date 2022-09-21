@@ -10,8 +10,8 @@ import (
 	"testing"
 )
 
-func TestGenerateNetcfg(t *testing.T) {
-	err := GenerateNetcfg("../../topologies/plain.yaml", "/tmp/plain_netcfg.json", "stratum-driver", "stratum-pipeconf")
-	defer os.Remove("/tmp/plain_netcfg.json")
+func TestGenerateRobot(t *testing.T) {
+	err := GenerateRobotTopology("../../topologies/plain.yaml", "/tmp/robot.yaml")
+	defer os.Remove("/tmp/robot.yaml")
 	assert.NoError(t, err)
 }
