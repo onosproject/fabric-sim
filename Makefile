@@ -43,11 +43,17 @@ integration-tests:  # @HELP run helmit integration tests locally
 cit:  # @HELP run helmit integration test under current development
 	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests --suite onoslite --test TestLiteONOSWithSuperspineFabric
 
+topologies:	# @HELP generate all topologies related artifacts
+topologies: recipes netcfg robot
+
 recipes:	# HELP generate topology files from the topology recipes
 	@for topo in "plain" "access" "access2" "superspine"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen topo --recipe topologies/$${topo}_recipe.yaml --output topologies/$${topo}.yaml; done
 
 netcfg:	# HELP generate netcfg files from the topology files
 	@for topo in "trivial" "plain" "access" "access2" "superspine"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen netcfg --topology topologies/$${topo}.yaml --output topologies/$${topo}_netcfg.json; done
+
+robot:	# HELP generate Robot test topology files from the topology files
+	@for topo in "trivial" "plain" "access" "access2" "superspine"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen robot --topology topologies/$${topo}.yaml --output topologies/$${topo}_robot.yaml; done
 
 fabric-sim-docker: mod-update local-deps # @HELP build fabric-sim base Docker image
 	docker build --platform linux/amd64 . -f build/fabric-sim/Dockerfile \
