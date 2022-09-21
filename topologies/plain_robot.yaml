@@ -345,7 +345,7 @@ devices:
     tgtport: '[18](218)'
 hosts:
 - id: host11
-  mac: 00:ca:fe:01:01:01
+  mac: 00:CA:FE:01:01:01
   ip: 10.10.11.1
   gw: 10.10.11.1
   vlan: None
@@ -354,7 +354,7 @@ hosts:
   - device: device:leaf1
     port: '[10](210)'
 - id: host12
-  mac: 00:ca:fe:01:01:02
+  mac: 00:CA:FE:01:01:02
   ip: 10.10.11.2
   gw: 10.10.11.2
   vlan: None
@@ -363,7 +363,7 @@ hosts:
   - device: device:leaf1
     port: '[11](211)'
 - id: host13
-  mac: 00:ca:fe:01:01:03
+  mac: 00:CA:FE:01:01:03
   ip: 10.10.11.3
   gw: 10.10.11.3
   vlan: None
@@ -372,7 +372,7 @@ hosts:
   - device: device:leaf1
     port: '[12](212)'
 - id: host14
-  mac: 00:ca:fe:01:01:04
+  mac: 00:CA:FE:01:01:04
   ip: 10.10.11.4
   gw: 10.10.11.4
   vlan: None
@@ -381,7 +381,7 @@ hosts:
   - device: device:leaf1
     port: '[13](213)'
 - id: host15
-  mac: 00:ca:fe:01:01:05
+  mac: 00:CA:FE:01:01:05
   ip: 10.10.11.5
   gw: 10.10.11.5
   vlan: None
@@ -390,7 +390,7 @@ hosts:
   - device: device:leaf1
     port: '[14](214)'
 - id: host16
-  mac: 00:ca:fe:01:01:06
+  mac: 00:CA:FE:01:01:06
   ip: 10.10.11.6
   gw: 10.10.11.6
   vlan: None
@@ -399,7 +399,7 @@ hosts:
   - device: device:leaf1
     port: '[15](215)'
 - id: host17
-  mac: 00:ca:fe:01:01:07
+  mac: 00:CA:FE:01:01:07
   ip: 10.10.11.7
   gw: 10.10.11.7
   vlan: None
@@ -408,7 +408,7 @@ hosts:
   - device: device:leaf1
     port: '[16](216)'
 - id: host18
-  mac: 00:ca:fe:01:01:08
+  mac: 00:CA:FE:01:01:08
   ip: 10.10.11.8
   gw: 10.10.11.8
   vlan: None
@@ -417,7 +417,7 @@ hosts:
   - device: device:leaf1
     port: '[17](217)'
 - id: host19
-  mac: 00:ca:fe:01:01:09
+  mac: 00:CA:FE:01:01:09
   ip: 10.10.11.9
   gw: 10.10.11.9
   vlan: None
@@ -426,7 +426,7 @@ hosts:
   - device: device:leaf1
     port: '[18](218)'
 - id: host110
-  mac: 00:ca:fe:01:01:10
+  mac: 00:CA:FE:01:01:10
   ip: 10.10.11.10
   gw: 10.10.11.10
   vlan: None
@@ -435,7 +435,7 @@ hosts:
   - device: device:leaf1
     port: '[19](219)'
 - id: host111
-  mac: 00:ca:fe:01:01:11
+  mac: 00:CA:FE:01:01:11
   ip: 10.10.11.11
   gw: 10.10.11.11
   vlan: None
@@ -444,7 +444,7 @@ hosts:
   - device: device:leaf1
     port: '[20](220)'
 - id: host112
-  mac: 00:ca:fe:01:01:12
+  mac: 00:CA:FE:01:01:12
   ip: 10.10.11.12
   gw: 10.10.11.12
   vlan: None
@@ -453,7 +453,7 @@ hosts:
   - device: device:leaf1
     port: '[21](221)'
 - id: host113
-  mac: 00:ca:fe:01:01:13
+  mac: 00:CA:FE:01:01:13
   ip: 10.10.11.13
   gw: 10.10.11.13
   vlan: None
@@ -462,7 +462,7 @@ hosts:
   - device: device:leaf1
     port: '[22](222)'
 - id: host114
-  mac: 00:ca:fe:01:01:14
+  mac: 00:CA:FE:01:01:14
   ip: 10.10.11.14
   gw: 10.10.11.14
   vlan: None
@@ -471,7 +471,7 @@ hosts:
   - device: device:leaf1
     port: '[23](223)'
 - id: host115
-  mac: 00:ca:fe:01:01:15
+  mac: 00:CA:FE:01:01:15
   ip: 10.10.11.15
   gw: 10.10.11.15
   vlan: None
@@ -480,7 +480,7 @@ hosts:
   - device: device:leaf1
     port: '[24](224)'
 - id: host116
-  mac: 00:ca:fe:01:01:16
+  mac: 00:CA:FE:01:01:16
   ip: 10.10.11.16
   gw: 10.10.11.16
   vlan: None
@@ -489,7 +489,7 @@ hosts:
   - device: device:leaf1
     port: '[25](225)'
 - id: host117
-  mac: 00:ca:fe:01:01:17
+  mac: 00:CA:FE:01:01:17
   ip: 10.10.11.17
   gw: 10.10.11.17
   vlan: None
@@ -498,7 +498,7 @@ hosts:
   - device: device:leaf1
     port: '[26](226)'
 - id: host118
-  mac: 00:ca:fe:01:01:18
+  mac: 00:CA:FE:01:01:18
   ip: 10.10.11.18
   gw: 10.10.11.18
   vlan: None
@@ -507,7 +507,7 @@ hosts:
   - device: device:leaf1
     port: '[27](227)'
 - id: host119
-  mac: 00:ca:fe:01:01:19
+  mac: 00:CA:FE:01:01:19
   ip: 10.10.11.19
   gw: 10.10.11.19
   vlan: None
@@ -516,7 +516,7 @@ hosts:
   - device: device:leaf1
     port: '[28](228)'
 - id: host120
-  mac: 00:ca:fe:01:01:20
+  mac: 00:CA:FE:01:01:20
   ip: 10.10.11.20
   gw: 10.10.11.20
   vlan: None
@@ -525,7 +525,7 @@ hosts:
   - device: device:leaf1
     port: '[29](229)'
 - id: host21
-  mac: 00:ca:fe:02:01:01
+  mac: 00:CA:FE:02:01:01
   ip: 10.10.21.1
   gw: 10.10.21.1
   vlan: None
@@ -534,7 +534,7 @@ hosts:
   - device: device:leaf2
     port: '[10](210)'
 - id: host22
-  mac: 00:ca:fe:02:01:02
+  mac: 00:CA:FE:02:01:02
   ip: 10.10.21.2
   gw: 10.10.21.2
   vlan: None
@@ -543,7 +543,7 @@ hosts:
   - device: device:leaf2
     port: '[11](211)'
 - id: host23
-  mac: 00:ca:fe:02:01:03
+  mac: 00:CA:FE:02:01:03
   ip: 10.10.21.3
   gw: 10.10.21.3
   vlan: None
@@ -552,7 +552,7 @@ hosts:
   - device: device:leaf2
     port: '[12](212)'
 - id: host24
-  mac: 00:ca:fe:02:01:04
+  mac: 00:CA:FE:02:01:04
   ip: 10.10.21.4
   gw: 10.10.21.4
   vlan: None
@@ -561,7 +561,7 @@ hosts:
   - device: device:leaf2
     port: '[13](213)'
 - id: host25
-  mac: 00:ca:fe:02:01:05
+  mac: 00:CA:FE:02:01:05
   ip: 10.10.21.5
   gw: 10.10.21.5
   vlan: None
@@ -570,7 +570,7 @@ hosts:
   - device: device:leaf2
     port: '[14](214)'
 - id: host26
-  mac: 00:ca:fe:02:01:06
+  mac: 00:CA:FE:02:01:06
   ip: 10.10.21.6
   gw: 10.10.21.6
   vlan: None
@@ -579,7 +579,7 @@ hosts:
   - device: device:leaf2
     port: '[15](215)'
 - id: host27
-  mac: 00:ca:fe:02:01:07
+  mac: 00:CA:FE:02:01:07
   ip: 10.10.21.7
   gw: 10.10.21.7
   vlan: None
@@ -588,7 +588,7 @@ hosts:
   - device: device:leaf2
     port: '[16](216)'
 - id: host28
-  mac: 00:ca:fe:02:01:08
+  mac: 00:CA:FE:02:01:08
   ip: 10.10.21.8
   gw: 10.10.21.8
   vlan: None
@@ -597,7 +597,7 @@ hosts:
   - device: device:leaf2
     port: '[17](217)'
 - id: host29
-  mac: 00:ca:fe:02:01:09
+  mac: 00:CA:FE:02:01:09
   ip: 10.10.21.9
   gw: 10.10.21.9
   vlan: None
@@ -606,7 +606,7 @@ hosts:
   - device: device:leaf2
     port: '[18](218)'
 - id: host210
-  mac: 00:ca:fe:02:01:10
+  mac: 00:CA:FE:02:01:10
   ip: 10.10.21.10
   gw: 10.10.21.10
   vlan: None
@@ -615,7 +615,7 @@ hosts:
   - device: device:leaf2
     port: '[19](219)'
 - id: host211
-  mac: 00:ca:fe:02:01:11
+  mac: 00:CA:FE:02:01:11
   ip: 10.10.21.11
   gw: 10.10.21.11
   vlan: None
@@ -624,7 +624,7 @@ hosts:
   - device: device:leaf2
     port: '[20](220)'
 - id: host212
-  mac: 00:ca:fe:02:01:12
+  mac: 00:CA:FE:02:01:12
   ip: 10.10.21.12
   gw: 10.10.21.12
   vlan: None
@@ -633,7 +633,7 @@ hosts:
   - device: device:leaf2
     port: '[21](221)'
 - id: host213
-  mac: 00:ca:fe:02:01:13
+  mac: 00:CA:FE:02:01:13
   ip: 10.10.21.13
   gw: 10.10.21.13
   vlan: None
@@ -642,7 +642,7 @@ hosts:
   - device: device:leaf2
     port: '[22](222)'
 - id: host214
-  mac: 00:ca:fe:02:01:14
+  mac: 00:CA:FE:02:01:14
   ip: 10.10.21.14
   gw: 10.10.21.14
   vlan: None
@@ -651,7 +651,7 @@ hosts:
   - device: device:leaf2
     port: '[23](223)'
 - id: host215
-  mac: 00:ca:fe:02:01:15
+  mac: 00:CA:FE:02:01:15
   ip: 10.10.21.15
   gw: 10.10.21.15
   vlan: None
@@ -660,7 +660,7 @@ hosts:
   - device: device:leaf2
     port: '[24](224)'
 - id: host216
-  mac: 00:ca:fe:02:01:16
+  mac: 00:CA:FE:02:01:16
   ip: 10.10.21.16
   gw: 10.10.21.16
   vlan: None
@@ -669,7 +669,7 @@ hosts:
   - device: device:leaf2
     port: '[25](225)'
 - id: host217
-  mac: 00:ca:fe:02:01:17
+  mac: 00:CA:FE:02:01:17
   ip: 10.10.21.17
   gw: 10.10.21.17
   vlan: None
@@ -678,7 +678,7 @@ hosts:
   - device: device:leaf2
     port: '[26](226)'
 - id: host218
-  mac: 00:ca:fe:02:01:18
+  mac: 00:CA:FE:02:01:18
   ip: 10.10.21.18
   gw: 10.10.21.18
   vlan: None
@@ -687,7 +687,7 @@ hosts:
   - device: device:leaf2
     port: '[27](227)'
 - id: host219
-  mac: 00:ca:fe:02:01:19
+  mac: 00:CA:FE:02:01:19
   ip: 10.10.21.19
   gw: 10.10.21.19
   vlan: None
@@ -696,7 +696,7 @@ hosts:
   - device: device:leaf2
     port: '[28](228)'
 - id: host220
-  mac: 00:ca:fe:02:01:20
+  mac: 00:CA:FE:02:01:20
   ip: 10.10.21.20
   gw: 10.10.21.20
   vlan: None
@@ -705,7 +705,7 @@ hosts:
   - device: device:leaf2
     port: '[29](229)'
 - id: host31
-  mac: 00:ca:fe:03:01:01
+  mac: 00:CA:FE:03:01:01
   ip: 10.10.31.1
   gw: 10.10.31.1
   vlan: None
@@ -714,7 +714,7 @@ hosts:
   - device: device:leaf3
     port: '[10](210)'
 - id: host32
-  mac: 00:ca:fe:03:01:02
+  mac: 00:CA:FE:03:01:02
   ip: 10.10.31.2
   gw: 10.10.31.2
   vlan: None
@@ -723,7 +723,7 @@ hosts:
   - device: device:leaf3
     port: '[11](211)'
 - id: host33
-  mac: 00:ca:fe:03:01:03
+  mac: 00:CA:FE:03:01:03
   ip: 10.10.31.3
   gw: 10.10.31.3
   vlan: None
@@ -732,7 +732,7 @@ hosts:
   - device: device:leaf3
     port: '[12](212)'
 - id: host34
-  mac: 00:ca:fe:03:01:04
+  mac: 00:CA:FE:03:01:04
   ip: 10.10.31.4
   gw: 10.10.31.4
   vlan: None
@@ -741,7 +741,7 @@ hosts:
   - device: device:leaf3
     port: '[13](213)'
 - id: host35
-  mac: 00:ca:fe:03:01:05
+  mac: 00:CA:FE:03:01:05
   ip: 10.10.31.5
   gw: 10.10.31.5
   vlan: None
@@ -750,7 +750,7 @@ hosts:
   - device: device:leaf3
     port: '[14](214)'
 - id: host36
-  mac: 00:ca:fe:03:01:06
+  mac: 00:CA:FE:03:01:06
   ip: 10.10.31.6
   gw: 10.10.31.6
   vlan: None
@@ -759,7 +759,7 @@ hosts:
   - device: device:leaf3
     port: '[15](215)'
 - id: host37
-  mac: 00:ca:fe:03:01:07
+  mac: 00:CA:FE:03:01:07
   ip: 10.10.31.7
   gw: 10.10.31.7
   vlan: None
@@ -768,7 +768,7 @@ hosts:
   - device: device:leaf3
     port: '[16](216)'
 - id: host38
-  mac: 00:ca:fe:03:01:08
+  mac: 00:CA:FE:03:01:08
   ip: 10.10.31.8
   gw: 10.10.31.8
   vlan: None
@@ -777,7 +777,7 @@ hosts:
   - device: device:leaf3
     port: '[17](217)'
 - id: host39
-  mac: 00:ca:fe:03:01:09
+  mac: 00:CA:FE:03:01:09
   ip: 10.10.31.9
   gw: 10.10.31.9
   vlan: None
@@ -786,7 +786,7 @@ hosts:
   - device: device:leaf3
     port: '[18](218)'
 - id: host310
-  mac: 00:ca:fe:03:01:10
+  mac: 00:CA:FE:03:01:10
   ip: 10.10.31.10
   gw: 10.10.31.10
   vlan: None
@@ -795,7 +795,7 @@ hosts:
   - device: device:leaf3
     port: '[19](219)'
 - id: host311
-  mac: 00:ca:fe:03:01:11
+  mac: 00:CA:FE:03:01:11
   ip: 10.10.31.11
   gw: 10.10.31.11
   vlan: None
@@ -804,7 +804,7 @@ hosts:
   - device: device:leaf3
     port: '[20](220)'
 - id: host312
-  mac: 00:ca:fe:03:01:12
+  mac: 00:CA:FE:03:01:12
   ip: 10.10.31.12
   gw: 10.10.31.12
   vlan: None
@@ -813,7 +813,7 @@ hosts:
   - device: device:leaf3
     port: '[21](221)'
 - id: host313
-  mac: 00:ca:fe:03:01:13
+  mac: 00:CA:FE:03:01:13
   ip: 10.10.31.13
   gw: 10.10.31.13
   vlan: None
@@ -822,7 +822,7 @@ hosts:
   - device: device:leaf3
     port: '[22](222)'
 - id: host314
-  mac: 00:ca:fe:03:01:14
+  mac: 00:CA:FE:03:01:14
   ip: 10.10.31.14
   gw: 10.10.31.14
   vlan: None
@@ -831,7 +831,7 @@ hosts:
   - device: device:leaf3
     port: '[23](223)'
 - id: host315
-  mac: 00:ca:fe:03:01:15
+  mac: 00:CA:FE:03:01:15
   ip: 10.10.31.15
   gw: 10.10.31.15
   vlan: None
@@ -840,7 +840,7 @@ hosts:
   - device: device:leaf3
     port: '[24](224)'
 - id: host316
-  mac: 00:ca:fe:03:01:16
+  mac: 00:CA:FE:03:01:16
   ip: 10.10.31.16
   gw: 10.10.31.16
   vlan: None
@@ -849,7 +849,7 @@ hosts:
   - device: device:leaf3
     port: '[25](225)'
 - id: host317
-  mac: 00:ca:fe:03:01:17
+  mac: 00:CA:FE:03:01:17
   ip: 10.10.31.17
   gw: 10.10.31.17
   vlan: None
@@ -858,7 +858,7 @@ hosts:
   - device: device:leaf3
     port: '[26](226)'
 - id: host318
-  mac: 00:ca:fe:03:01:18
+  mac: 00:CA:FE:03:01:18
   ip: 10.10.31.18
   gw: 10.10.31.18
   vlan: None
@@ -867,7 +867,7 @@ hosts:
   - device: device:leaf3
     port: '[27](227)'
 - id: host319
-  mac: 00:ca:fe:03:01:19
+  mac: 00:CA:FE:03:01:19
   ip: 10.10.31.19
   gw: 10.10.31.19
   vlan: None
@@ -876,7 +876,7 @@ hosts:
   - device: device:leaf3
     port: '[28](228)'
 - id: host320
-  mac: 00:ca:fe:03:01:20
+  mac: 00:CA:FE:03:01:20
   ip: 10.10.31.20
   gw: 10.10.31.20
   vlan: None
@@ -885,7 +885,7 @@ hosts:
   - device: device:leaf3
     port: '[29](229)'
 - id: host41
-  mac: 00:ca:fe:04:01:01
+  mac: 00:CA:FE:04:01:01
   ip: 10.10.41.1
   gw: 10.10.41.1
   vlan: None
@@ -894,7 +894,7 @@ hosts:
   - device: device:leaf4
     port: '[10](210)'
 - id: host42
-  mac: 00:ca:fe:04:01:02
+  mac: 00:CA:FE:04:01:02
   ip: 10.10.41.2
   gw: 10.10.41.2
   vlan: None
@@ -903,7 +903,7 @@ hosts:
   - device: device:leaf4
     port: '[11](211)'
 - id: host43
-  mac: 00:ca:fe:04:01:03
+  mac: 00:CA:FE:04:01:03
   ip: 10.10.41.3
   gw: 10.10.41.3
   vlan: None
@@ -912,7 +912,7 @@ hosts:
   - device: device:leaf4
     port: '[12](212)'
 - id: host44
-  mac: 00:ca:fe:04:01:04
+  mac: 00:CA:FE:04:01:04
   ip: 10.10.41.4
   gw: 10.10.41.4
   vlan: None
@@ -921,7 +921,7 @@ hosts:
   - device: device:leaf4
     port: '[13](213)'
 - id: host45
-  mac: 00:ca:fe:04:01:05
+  mac: 00:CA:FE:04:01:05
   ip: 10.10.41.5
   gw: 10.10.41.5
   vlan: None
@@ -930,7 +930,7 @@ hosts:
   - device: device:leaf4
     port: '[14](214)'
 - id: host46
-  mac: 00:ca:fe:04:01:06
+  mac: 00:CA:FE:04:01:06
   ip: 10.10.41.6
   gw: 10.10.41.6
   vlan: None
@@ -939,7 +939,7 @@ hosts:
   - device: device:leaf4
     port: '[15](215)'
 - id: host47
-  mac: 00:ca:fe:04:01:07
+  mac: 00:CA:FE:04:01:07
   ip: 10.10.41.7
   gw: 10.10.41.7
   vlan: None
@@ -948,7 +948,7 @@ hosts:
   - device: device:leaf4
     port: '[16](216)'
 - id: host48
-  mac: 00:ca:fe:04:01:08
+  mac: 00:CA:FE:04:01:08
   ip: 10.10.41.8
   gw: 10.10.41.8
   vlan: None
@@ -957,7 +957,7 @@ hosts:
   - device: device:leaf4
     port: '[17](217)'
 - id: host49
-  mac: 00:ca:fe:04:01:09
+  mac: 00:CA:FE:04:01:09
   ip: 10.10.41.9
   gw: 10.10.41.9
   vlan: None
@@ -966,7 +966,7 @@ hosts:
   - device: device:leaf4
     port: '[18](218)'
 - id: host410
-  mac: 00:ca:fe:04:01:10
+  mac: 00:CA:FE:04:01:10
   ip: 10.10.41.10
   gw: 10.10.41.10
   vlan: None
@@ -975,7 +975,7 @@ hosts:
   - device: device:leaf4
     port: '[19](219)'
 - id: host411
-  mac: 00:ca:fe:04:01:11
+  mac: 00:CA:FE:04:01:11
   ip: 10.10.41.11
   gw: 10.10.41.11
   vlan: None
@@ -984,7 +984,7 @@ hosts:
   - device: device:leaf4
     port: '[20](220)'
 - id: host412
-  mac: 00:ca:fe:04:01:12
+  mac: 00:CA:FE:04:01:12
   ip: 10.10.41.12
   gw: 10.10.41.12
   vlan: None
@@ -993,7 +993,7 @@ hosts:
   - device: device:leaf4
     port: '[21](221)'
 - id: host413
-  mac: 00:ca:fe:04:01:13
+  mac: 00:CA:FE:04:01:13
   ip: 10.10.41.13
   gw: 10.10.41.13
   vlan: None
@@ -1002,7 +1002,7 @@ hosts:
   - device: device:leaf4
     port: '[22](222)'
 - id: host414
-  mac: 00:ca:fe:04:01:14
+  mac: 00:CA:FE:04:01:14
   ip: 10.10.41.14
   gw: 10.10.41.14
   vlan: None
@@ -1011,7 +1011,7 @@ hosts:
   - device: device:leaf4
     port: '[23](223)'
 - id: host415
-  mac: 00:ca:fe:04:01:15
+  mac: 00:CA:FE:04:01:15
   ip: 10.10.41.15
   gw: 10.10.41.15
   vlan: None
@@ -1020,7 +1020,7 @@ hosts:
   - device: device:leaf4
     port: '[24](224)'
 - id: host416
-  mac: 00:ca:fe:04:01:16
+  mac: 00:CA:FE:04:01:16
   ip: 10.10.41.16
   gw: 10.10.41.16
   vlan: None
@@ -1029,7 +1029,7 @@ hosts:
   - device: device:leaf4
     port: '[25](225)'
 - id: host417
-  mac: 00:ca:fe:04:01:17
+  mac: 00:CA:FE:04:01:17
   ip: 10.10.41.17
   gw: 10.10.41.17
   vlan: None
@@ -1038,7 +1038,7 @@ hosts:
   - device: device:leaf4
     port: '[26](226)'
 - id: host418
-  mac: 00:ca:fe:04:01:18
+  mac: 00:CA:FE:04:01:18
   ip: 10.10.41.18
   gw: 10.10.41.18
   vlan: None
@@ -1047,7 +1047,7 @@ hosts:
   - device: device:leaf4
     port: '[27](227)'
 - id: host419
-  mac: 00:ca:fe:04:01:19
+  mac: 00:CA:FE:04:01:19
   ip: 10.10.41.19
   gw: 10.10.41.19
   vlan: None
@@ -1056,7 +1056,7 @@ hosts:
   - device: device:leaf4
     port: '[28](228)'
 - id: host420
-  mac: 00:ca:fe:04:01:20
+  mac: 00:CA:FE:04:01:20
   ip: 10.10.41.20
   gw: 10.10.41.20
   vlan: None
@@ -1065,7 +1065,7 @@ hosts:
   - device: device:leaf4
     port: '[29](229)'
 - id: host51
-  mac: 00:ca:fe:05:01:01
+  mac: 00:CA:FE:05:01:01
   ip: 10.10.51.1
   gw: 10.10.51.1
   vlan: None
@@ -1074,7 +1074,7 @@ hosts:
   - device: device:leaf5
     port: '[10](210)'
 - id: host52
-  mac: 00:ca:fe:05:01:02
+  mac: 00:CA:FE:05:01:02
   ip: 10.10.51.2
   gw: 10.10.51.2
   vlan: None
@@ -1083,7 +1083,7 @@ hosts:
   - device: device:leaf5
     port: '[11](211)'
 - id: host53
-  mac: 00:ca:fe:05:01:03
+  mac: 00:CA:FE:05:01:03
   ip: 10.10.51.3
   gw: 10.10.51.3
   vlan: None
@@ -1092,7 +1092,7 @@ hosts:
   - device: device:leaf5
     port: '[12](212)'
 - id: host54
-  mac: 00:ca:fe:05:01:04
+  mac: 00:CA:FE:05:01:04
   ip: 10.10.51.4
   gw: 10.10.51.4
   vlan: None
@@ -1101,7 +1101,7 @@ hosts:
   - device: device:leaf5
     port: '[13](213)'
 - id: host55
-  mac: 00:ca:fe:05:01:05
+  mac: 00:CA:FE:05:01:05
   ip: 10.10.51.5
   gw: 10.10.51.5
   vlan: None
@@ -1110,7 +1110,7 @@ hosts:
   - device: device:leaf5
     port: '[14](214)'
 - id: host56
-  mac: 00:ca:fe:05:01:06
+  mac: 00:CA:FE:05:01:06
   ip: 10.10.51.6
   gw: 10.10.51.6
   vlan: None
@@ -1119,7 +1119,7 @@ hosts:
   - device: device:leaf5
     port: '[15](215)'
 - id: host57
-  mac: 00:ca:fe:05:01:07
+  mac: 00:CA:FE:05:01:07
   ip: 10.10.51.7
   gw: 10.10.51.7
   vlan: None
@@ -1128,7 +1128,7 @@ hosts:
   - device: device:leaf5
     port: '[16](216)'
 - id: host58
-  mac: 00:ca:fe:05:01:08
+  mac: 00:CA:FE:05:01:08
   ip: 10.10.51.8
   gw: 10.10.51.8
   vlan: None
@@ -1137,7 +1137,7 @@ hosts:
   - device: device:leaf5
     port: '[17](217)'
 - id: host59
-  mac: 00:ca:fe:05:01:09
+  mac: 00:CA:FE:05:01:09
   ip: 10.10.51.9
   gw: 10.10.51.9
   vlan: None
@@ -1146,7 +1146,7 @@ hosts:
   - device: device:leaf5
     port: '[18](218)'
 - id: host510
-  mac: 00:ca:fe:05:01:10
+  mac: 00:CA:FE:05:01:10
   ip: 10.10.51.10
   gw: 10.10.51.10
   vlan: None
@@ -1155,7 +1155,7 @@ hosts:
   - device: device:leaf5
     port: '[19](219)'
 - id: host511
-  mac: 00:ca:fe:05:01:11
+  mac: 00:CA:FE:05:01:11
   ip: 10.10.51.11
   gw: 10.10.51.11
   vlan: None
@@ -1164,7 +1164,7 @@ hosts:
   - device: device:leaf5
     port: '[20](220)'
 - id: host512
-  mac: 00:ca:fe:05:01:12
+  mac: 00:CA:FE:05:01:12
   ip: 10.10.51.12
   gw: 10.10.51.12
   vlan: None
@@ -1173,7 +1173,7 @@ hosts:
   - device: device:leaf5
     port: '[21](221)'
 - id: host513
-  mac: 00:ca:fe:05:01:13
+  mac: 00:CA:FE:05:01:13
   ip: 10.10.51.13
   gw: 10.10.51.13
   vlan: None
@@ -1182,7 +1182,7 @@ hosts:
   - device: device:leaf5
     port: '[22](222)'
 - id: host514
-  mac: 00:ca:fe:05:01:14
+  mac: 00:CA:FE:05:01:14
   ip: 10.10.51.14
   gw: 10.10.51.14
   vlan: None
@@ -1191,7 +1191,7 @@ hosts:
   - device: device:leaf5
     port: '[23](223)'
 - id: host515
-  mac: 00:ca:fe:05:01:15
+  mac: 00:CA:FE:05:01:15
   ip: 10.10.51.15
   gw: 10.10.51.15
   vlan: None
@@ -1200,7 +1200,7 @@ hosts:
   - device: device:leaf5
     port: '[24](224)'
 - id: host516
-  mac: 00:ca:fe:05:01:16
+  mac: 00:CA:FE:05:01:16
   ip: 10.10.51.16
   gw: 10.10.51.16
   vlan: None
@@ -1209,7 +1209,7 @@ hosts:
   - device: device:leaf5
     port: '[25](225)'
 - id: host517
-  mac: 00:ca:fe:05:01:17
+  mac: 00:CA:FE:05:01:17
   ip: 10.10.51.17
   gw: 10.10.51.17
   vlan: None
@@ -1218,7 +1218,7 @@ hosts:
   - device: device:leaf5
     port: '[26](226)'
 - id: host518
-  mac: 00:ca:fe:05:01:18
+  mac: 00:CA:FE:05:01:18
   ip: 10.10.51.18
   gw: 10.10.51.18
   vlan: None
@@ -1227,7 +1227,7 @@ hosts:
   - device: device:leaf5
     port: '[27](227)'
 - id: host519
-  mac: 00:ca:fe:05:01:19
+  mac: 00:CA:FE:05:01:19
   ip: 10.10.51.19
   gw: 10.10.51.19
   vlan: None
@@ -1236,7 +1236,7 @@ hosts:
   - device: device:leaf5
     port: '[28](228)'
 - id: host520
-  mac: 00:ca:fe:05:01:20
+  mac: 00:CA:FE:05:01:20
   ip: 10.10.51.20
   gw: 10.10.51.20
   vlan: None
@@ -1245,7 +1245,7 @@ hosts:
   - device: device:leaf5
     port: '[29](229)'
 - id: host61
-  mac: 00:ca:fe:06:01:01
+  mac: 00:CA:FE:06:01:01
   ip: 10.10.61.1
   gw: 10.10.61.1
   vlan: None
@@ -1254,7 +1254,7 @@ hosts:
   - device: device:leaf6
     port: '[10](210)'
 - id: host62
-  mac: 00:ca:fe:06:01:02
+  mac: 00:CA:FE:06:01:02
   ip: 10.10.61.2
   gw: 10.10.61.2
   vlan: None
@@ -1263,7 +1263,7 @@ hosts:
   - device: device:leaf6
     port: '[11](211)'
 - id: host63
-  mac: 00:ca:fe:06:01:03
+  mac: 00:CA:FE:06:01:03
   ip: 10.10.61.3
   gw: 10.10.61.3
   vlan: None
@@ -1272,7 +1272,7 @@ hosts:
   - device: device:leaf6
     port: '[12](212)'
 - id: host64
-  mac: 00:ca:fe:06:01:04
+  mac: 00:CA:FE:06:01:04
   ip: 10.10.61.4
   gw: 10.10.61.4
   vlan: None
@@ -1281,7 +1281,7 @@ hosts:
   - device: device:leaf6
     port: '[13](213)'
 - id: host65
-  mac: 00:ca:fe:06:01:05
+  mac: 00:CA:FE:06:01:05
   ip: 10.10.61.5
   gw: 10.10.61.5
   vlan: None
@@ -1290,7 +1290,7 @@ hosts:
   - device: device:leaf6
     port: '[14](214)'
 - id: host66
-  mac: 00:ca:fe:06:01:06
+  mac: 00:CA:FE:06:01:06
   ip: 10.10.61.6
   gw: 10.10.61.6
   vlan: None
@@ -1299,7 +1299,7 @@ hosts:
   - device: device:leaf6
     port: '[15](215)'
 - id: host67
-  mac: 00:ca:fe:06:01:07
+  mac: 00:CA:FE:06:01:07
   ip: 10.10.61.7
   gw: 10.10.61.7
   vlan: None
@@ -1308,7 +1308,7 @@ hosts:
   - device: device:leaf6
     port: '[16](216)'
 - id: host68
-  mac: 00:ca:fe:06:01:08
+  mac: 00:CA:FE:06:01:08
   ip: 10.10.61.8
   gw: 10.10.61.8
   vlan: None
@@ -1317,7 +1317,7 @@ hosts:
   - device: device:leaf6
     port: '[17](217)'
 - id: host69
-  mac: 00:ca:fe:06:01:09
+  mac: 00:CA:FE:06:01:09
   ip: 10.10.61.9
   gw: 10.10.61.9
   vlan: None
@@ -1326,7 +1326,7 @@ hosts:
   - device: device:leaf6
     port: '[18](218)'
 - id: host610
-  mac: 00:ca:fe:06:01:10
+  mac: 00:CA:FE:06:01:10
   ip: 10.10.61.10
   gw: 10.10.61.10
   vlan: None
@@ -1335,7 +1335,7 @@ hosts:
   - device: device:leaf6
     port: '[19](219)'
 - id: host611
-  mac: 00:ca:fe:06:01:11
+  mac: 00:CA:FE:06:01:11
   ip: 10.10.61.11
   gw: 10.10.61.11
   vlan: None
@@ -1344,7 +1344,7 @@ hosts:
   - device: device:leaf6
     port: '[20](220)'
 - id: host612
-  mac: 00:ca:fe:06:01:12
+  mac: 00:CA:FE:06:01:12
   ip: 10.10.61.12
   gw: 10.10.61.12
   vlan: None
@@ -1353,7 +1353,7 @@ hosts:
   - device: device:leaf6
     port: '[21](221)'
 - id: host613
-  mac: 00:ca:fe:06:01:13
+  mac: 00:CA:FE:06:01:13
   ip: 10.10.61.13
   gw: 10.10.61.13
   vlan: None
@@ -1362,7 +1362,7 @@ hosts:
   - device: device:leaf6
     port: '[22](222)'
 - id: host614
-  mac: 00:ca:fe:06:01:14
+  mac: 00:CA:FE:06:01:14
   ip: 10.10.61.14
   gw: 10.10.61.14
   vlan: None
@@ -1371,7 +1371,7 @@ hosts:
   - device: device:leaf6
     port: '[23](223)'
 - id: host615
-  mac: 00:ca:fe:06:01:15
+  mac: 00:CA:FE:06:01:15
   ip: 10.10.61.15
   gw: 10.10.61.15
   vlan: None
@@ -1380,7 +1380,7 @@ hosts:
   - device: device:leaf6
     port: '[24](224)'
 - id: host616
-  mac: 00:ca:fe:06:01:16
+  mac: 00:CA:FE:06:01:16
   ip: 10.10.61.16
   gw: 10.10.61.16
   vlan: None
@@ -1389,7 +1389,7 @@ hosts:
   - device: device:leaf6
     port: '[25](225)'
 - id: host617
-  mac: 00:ca:fe:06:01:17
+  mac: 00:CA:FE:06:01:17
   ip: 10.10.61.17
   gw: 10.10.61.17
   vlan: None
@@ -1398,7 +1398,7 @@ hosts:
   - device: device:leaf6
     port: '[26](226)'
 - id: host618
-  mac: 00:ca:fe:06:01:18
+  mac: 00:CA:FE:06:01:18
   ip: 10.10.61.18
   gw: 10.10.61.18
   vlan: None
@@ -1407,7 +1407,7 @@ hosts:
   - device: device:leaf6
     port: '[27](227)'
 - id: host619
-  mac: 00:ca:fe:06:01:19
+  mac: 00:CA:FE:06:01:19
   ip: 10.10.61.19
   gw: 10.10.61.19
   vlan: None
@@ -1416,7 +1416,7 @@ hosts:
   - device: device:leaf6
     port: '[28](228)'
 - id: host620
-  mac: 00:ca:fe:06:01:20
+  mac: 00:CA:FE:06:01:20
   ip: 10.10.61.20
   gw: 10.10.61.20
   vlan: None

@@ -128,7 +128,7 @@ func createRobotHost(host Host, nic NIC, topology *Topology) *RobotHost {
 	ip := strings.ReplaceAll(nic.IPv4, ".0", ".")
 	return &RobotHost{
 		ID:       host.ID,
-		MAC:      nic.Mac,
+		MAC:      strings.ToUpper(nic.Mac),
 		IP:       ip,
 		Gateway:  ip,
 		VLAN:     "None",
