@@ -21,9 +21,9 @@ type BatchSender func(entities []*p4api.Entity) error
 
 // Table represents a single P4 table
 type Table struct {
-	info      *p4info.Table
-	rows      map[string]*Row
-	defaulRow *Row
+	info       *p4info.Table
+	rows       map[string]*Row
+	defaultRow *Row
 }
 
 // Tables represents a set of P4 tables
@@ -167,6 +167,9 @@ func (t *Table) ID() uint32 {
 
 // Size returns the number of entries in the table
 func (t *Table) Size() int {
+	if t.defaultRow != nil {
+		return len(t.rows) + 1
+	}
 	return len(t.rows)
 }
 
@@ -181,6 +184,9 @@ func (t *Table) Entries() []*p4api.TableEntry {
 	for _, row := range t.rows {
 		entries = append(entries, row.entry)
 	}
+	if t.defaultRow != nil {
+		entries = append(entries, t.defaultRow.entry)
+	}
 	return entries
 }
 
@@ -193,7 +199,7 @@ func (t *Table) ModifyTableEntry(entry *p4api.TableEntry, insert bool) error {
 		if len(entry.Match) > 0 {
 			return errors.NewInvalid("default action entry cannot have any match fields")
 		}
-		t.defaulRow = t.newRow(entry)
+		t.defaultRow = t.newRow(entry)
 		return nil
 	}
 
@@ -329,6 +335,11 @@ func (t *Table) ReadTableEntries(request *p4api.TableEntry, readType ReadType, s
 			if err := buffer.sendEntity(getEntry(readType, row)); err != nil {
 				return err
 			}
+		}
+	}
+	if t.defaultRow != nil {
+		if err := buffer.sendEntity(getEntry(readType, t.defaultRow)); err != nil {
+			return err
 		}
 	}
 	return buffer.flush()

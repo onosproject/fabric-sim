@@ -480,10 +480,12 @@ func (ds *DeviceSimulator) ProcessWrite(atomicity p4api.WriteRequest_Atomicity, 
 		switch {
 		case update.Type == p4api.Update_INSERT:
 			if err := ds.processModify(update, true); err != nil {
+				log.Warnf("Device %s: Unable to insert entry: %+v", ds.Device.ID, err)
 				return err
 			}
 		case update.Type == p4api.Update_MODIFY:
 			if err := ds.processModify(update, false); err != nil {
+				log.Warnf("Device %s: Unable to update entry: %+v", ds.Device.ID, err)
 				return err
 			}
 		case update.Type == p4api.Update_DELETE:
