@@ -41,7 +41,7 @@ integration-tests:  # @HELP run helmit integration tests locally
 	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests
 
 cit:  # @HELP run helmit integration test under current development
-	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests --suite onoslite --test TestLiteONOSWithSuperspineFabric
+	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests --suite onoslite --test TestLiteONOSWithPlainFabric
 
 topologies:	# @HELP generate all topologies related artifacts
 topologies: recipes netcfg robot

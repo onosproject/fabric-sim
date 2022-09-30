@@ -53,7 +53,7 @@ func TestGeneration(t *testing.T) {
 
 func TestArbitration(t *testing.T) {
 	eid := &p4api.Uint128{High: 1, Low: 2}
-	mar := CreateMastershipArbitration(eid)
+	mar := CreateMastershipArbitration(eid, nil)
 	assert.NotNil(t, mar.GetArbitration())
 	assert.Equal(t, mar.GetArbitration().ElectionId.High, uint64(1))
 	assert.Equal(t, mar.GetArbitration().ElectionId.Low, uint64(2))

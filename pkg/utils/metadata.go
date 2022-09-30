@@ -22,6 +22,7 @@ type ControllerMetadataCodec struct {
 	opad    meta
 	ingress meta
 	ipad    meta
+	roleid  meta
 }
 
 // NewControllerMetadataCodec creates a new codec from the supplied P4 info
@@ -43,6 +44,8 @@ func NewControllerMetadataCodec(info *p4info.P4Info) *ControllerMetadataCodec {
 				switch m.Name {
 				case "ingress_port":
 					copyMeta(m, &cmc.ingress)
+				case "role_agent_id":
+					copyMeta(m, &cmc.roleid)
 				case "_pad":
 					copyMeta(m, &cmc.ipad)
 				}
@@ -65,6 +68,7 @@ type PacketOutMetadata struct {
 // PacketInMetadata carries basic packet-in metadata contents
 type PacketInMetadata struct {
 	IngressPort uint32
+	RoleAgentID uint32
 }
 
 // DecodePacketOutMetadata decodes the received metadata into an internal structure
@@ -72,7 +76,7 @@ func (c *ControllerMetadataCodec) DecodePacketOutMetadata(md []*p4api.PacketMeta
 	pom := &PacketOutMetadata{}
 	for _, m := range md {
 		if m.MetadataId == c.egress.id {
-			pom.EgressPort = parseMetadataValue(m.Value)
+			pom.EgressPort = DecodeValueAsUint32(m.Value)
 		}
 	}
 	return pom
@@ -82,7 +86,7 @@ func (c *ControllerMetadataCodec) DecodePacketOutMetadata(md []*p4api.PacketMeta
 func (c *ControllerMetadataCodec) EncodePacketOutMetadata(pom *PacketOutMetadata) []*p4api.PacketMetadata {
 	b := make([]byte, 4)
 	binary.BigEndian.PutUint32(b, pom.EgressPort)
-	b = trimToBitwidth(b, c.egress.size)
+	b = TrimToBitwidth(b, c.egress.size)
 	metadata := []*p4api.PacketMetadata{{MetadataId: c.egress.id, Value: b}}
 	if c.opad.id != 0 {
 		metadata = append(metadata, &p4api.PacketMetadata{MetadataId: c.opad.id, Value: []byte{0}})
@@ -96,7 +100,9 @@ func (c *ControllerMetadataCodec) DecodePacketInMetadata(md []*p4api.PacketMetad
 	pim := &PacketInMetadata{}
 	for _, m := range md {
 		if m.MetadataId == c.ingress.id {
-			pim.IngressPort = parseMetadataValue(m.Value)
+			pim.IngressPort = DecodeValueAsUint32(m.Value)
+		} else if m.MetadataId == c.roleid.id {
+			pim.RoleAgentID = DecodeValueAsUint32(m.Value)
 		}
 	}
 	return pim
@@ -104,17 +110,25 @@ func (c *ControllerMetadataCodec) DecodePacketInMetadata(md []*p4api.PacketMetad
 
 // EncodePacketInMetadata encodes the metadata into an external representation
 func (c *ControllerMetadataCodec) EncodePacketInMetadata(pim *PacketInMetadata) []*p4api.PacketMetadata {
-	b := make([]byte, 4)
-	binary.BigEndian.PutUint32(b, pim.IngressPort)
-	b = trimToBitwidth(b, c.ingress.size)
-	metadata := []*p4api.PacketMetadata{{MetadataId: c.ingress.id, Value: b}}
+	b1 := make([]byte, 4)
+	binary.BigEndian.PutUint32(b1, pim.IngressPort)
+	b1 = TrimToBitwidth(b1, c.ingress.size)
+
+	b2 := make([]byte, 4)
+	binary.BigEndian.PutUint32(b2, pim.RoleAgentID)
+	b2 = TrimToBitwidth(b2, c.roleid.size)
+
+	metadata := []*p4api.PacketMetadata{{MetadataId: c.ingress.id, Value: b1}, {MetadataId: c.roleid.id, Value: b2}}
+
+	// Tack on padding if needed
 	if c.ipad.id != 0 {
 		metadata = append(metadata, &p4api.PacketMetadata{MetadataId: c.ipad.id, Value: []byte{0}})
 	}
 	return metadata
 }
 
-func trimToBitwidth(b []byte, bits int32) []byte {
+// TrimToBitwidth trims the specified bytes to the specified width
+func TrimToBitwidth(b []byte, bits int32) []byte {
 	byteCount := int(math.Ceil(float64(bits) / 8.0)) // compute bytes needed from the bit-width
 	ni := len(b) - byteCount
 	if ni < 0 {
@@ -128,7 +142,8 @@ func trimToBitwidth(b []byte, bits int32) []byte {
 	return b[ni:]
 }
 
-func parseMetadataValue(value []byte) uint32 {
+// DecodeValueAsUint32 decodes the specified bytes as uint32 value
+func DecodeValueAsUint32(value []byte) uint32 {
 	b := make([]byte, 4)
 	offset := len(b) - len(value)
 	if offset >= 0 {

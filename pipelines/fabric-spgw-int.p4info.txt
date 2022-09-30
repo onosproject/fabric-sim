@@ -1541,6 +1541,11 @@ controller_packet_metadata {
     name: "_pad"
     bitwidth: 7
   }
+  metadata {
+    id: 3
+    name: "role_agent_id"
+    bitwidth: 4
+  }
 }
 controller_packet_metadata {
   preamble {

@@ -86,7 +86,7 @@ func ApplyPipelineConfigAndWriteEntries(ctx context.Context, t *testing.T, wg *s
 	stream, err := p4Client.StreamChannel(ctx)
 	assert.NoError(t, err)
 
-	err = stream.Send(utils.CreateMastershipArbitration(&p4api.Uint128{High: 0, Low: 1}))
+	err = stream.Send(utils.CreateMastershipArbitration(&p4api.Uint128{High: 0, Low: 1}, nil))
 	assert.NoError(t, err)
 
 	msg, err := stream.Recv()

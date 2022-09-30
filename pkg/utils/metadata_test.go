@@ -36,17 +36,19 @@ func TestPacketInMetadata(t *testing.T) {
 
 	codec := NewControllerMetadataCodec(info)
 
-	pim := PacketInMetadata{IngressPort: 243}
+	pim := PacketInMetadata{IngressPort: 243, RoleAgentID: 15}
 	md := codec.EncodePacketInMetadata(&pim)
-	assert.Len(t, md, 2)
+	assert.Len(t, md, 3)
 
 	pom1 := codec.DecodePacketInMetadata(md)
 	assert.Equal(t, pim.IngressPort, pom1.IngressPort)
+	assert.Equal(t, pim.RoleAgentID, pom1.RoleAgentID)
 
-	pim = PacketInMetadata{IngressPort: 343}
+	pim = PacketInMetadata{IngressPort: 343, RoleAgentID: 1}
 	md = codec.EncodePacketInMetadata(&pim)
-	assert.Len(t, md, 2)
+	assert.Len(t, md, 3)
 
 	pom1 = codec.DecodePacketInMetadata(md)
 	assert.Equal(t, pim.IngressPort, pom1.IngressPort)
+	assert.Equal(t, pim.RoleAgentID, pom1.RoleAgentID)
 }

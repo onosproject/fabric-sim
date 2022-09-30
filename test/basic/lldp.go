@@ -66,7 +66,7 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Install an entry to punt LLDP packets to CPU
-	err = InstallPuntRule(ctx, p4sw2a, r2.Device.ChassisID, &eID1, uint16(layers.EthernetTypeLinkLayerDiscovery))
+	err = InstallPuntRule(ctx, p4sw2a, r2.Device.ChassisID, "", &eID1, uint16(layers.EthernetTypeLinkLayerDiscovery))
 	assert.NoError(t, err)
 
 	egressPort := uint32(224)
@@ -107,14 +107,14 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 }
 
 // InstallPuntRule installs rule matching on the specified eth type with action to punt to CPU
-func InstallPuntRule(ctx context.Context, p4sw2a p4api.P4RuntimeClient, chassisID uint64, electionID *p4api.Uint128, ethType uint16) error {
+func InstallPuntRule(ctx context.Context, p4sw2a p4api.P4RuntimeClient, chassisID uint64, roleName string, electionID *p4api.Uint128, ethType uint16) error {
 	mask := []byte{0xff, 0xff}
 	ethTypeValue := []byte{0, 0}
 	binary.BigEndian.PutUint16(ethTypeValue, ethType)
 
 	_, err := p4sw2a.Write(ctx, &p4api.WriteRequest{
 		DeviceId:   chassisID,
-		Role:       "",
+		Role:       roleName,
 		ElectionId: electionID,
 		Updates: []*p4api.Update{{
 			Type: p4api.Update_INSERT,
@@ -176,7 +176,7 @@ func StartStream(ctx context.Context, t *testing.T, client p4api.P4RuntimeClient
 	stream, err := client.StreamChannel(ctx)
 	assert.NoError(t, err)
 
-	err = stream.Send(utils.CreateMastershipArbitration(electionID))
+	err = stream.Send(utils.CreateMastershipArbitration(electionID, nil))
 	assert.NoError(t, err)
 
 	msg, err := stream.Recv()
