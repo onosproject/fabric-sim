@@ -164,9 +164,11 @@ func (state *streamState) LatchMastershipArbitration(arbitration *p4api.MasterAr
 		state.role = arbitration.Role
 		state.electionID = arbitration.ElectionId
 
-		state.roleConfig = &stratum.P4RoleConfig{}
-		any := &gogo.Any{TypeUrl: state.role.Config.TypeUrl, Value: state.role.Config.Value}
-		_ = gogo.UnmarshalAny(any, state.roleConfig)
+		if arbitration.Role != nil && arbitration.Role.Config != nil {
+			state.roleConfig = &stratum.P4RoleConfig{}
+			any := &gogo.Any{TypeUrl: state.role.Config.TypeUrl, Value: state.role.Config.Value}
+			_ = gogo.UnmarshalAny(any, state.roleConfig)
+		}
 	}
 	return arbitration
 }
