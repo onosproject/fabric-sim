@@ -1,0 +1,271 @@
+{
+  "devices": {
+    "device:leaf1": {
+      "basic": {
+        "name": "leaf1",
+        "managementAddress": "grpc://fabric-sim:20002?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-0.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": -600,
+        "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 101,
+        "loopbacks": [
+          "192.168.1.1"
+        ],
+        "routerMac": "00:AA:00:00:00:01",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
+      }
+    },
+    "device:leaf2": {
+      "basic": {
+        "name": "leaf2",
+        "managementAddress": "grpc://fabric-sim:20003?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-1.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": -200,
+        "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 102,
+        "loopbacks": [
+          "192.168.1.2"
+        ],
+        "routerMac": "00:AA:00:00:00:02",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
+      }
+    },
+    "device:spine1": {
+      "basic": {
+        "name": "spine1",
+        "managementAddress": "grpc://fabric-sim:20000?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": -600,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 201,
+        "loopbacks": [
+          "192.168.2.1"
+        ],
+        "routerMac": "00:BB:00:00:00:01",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:spine2": {
+      "basic": {
+        "name": "spine2",
+        "managementAddress": "grpc://fabric-sim:20001?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "locType": "grid",
+        "gridX": -200,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 202,
+        "loopbacks": [
+          "192.168.2.2"
+        ],
+        "routerMac": "00:BB:00:00:00:02",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    }
+  },
+  "hosts": {
+    "00:CA:FE:01:01:01/None": {
+      "basic": {
+        "name": "host11",
+        "locType": "grid",
+        "gridX": -740,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:02/None": {
+      "basic": {
+        "name": "host12",
+        "locType": "grid",
+        "gridX": -670,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:03/None": {
+      "basic": {
+        "name": "host13",
+        "locType": "grid",
+        "gridX": -600,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:04/None": {
+      "basic": {
+        "name": "host14",
+        "locType": "grid",
+        "gridX": -530,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:05/None": {
+      "basic": {
+        "name": "host15",
+        "locType": "grid",
+        "gridX": -460,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:06/None": {
+      "basic": {
+        "name": "host16",
+        "locType": "grid",
+        "gridX": -740,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:07/None": {
+      "basic": {
+        "name": "host17",
+        "locType": "grid",
+        "gridX": -670,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:08/None": {
+      "basic": {
+        "name": "host18",
+        "locType": "grid",
+        "gridX": -600,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:09/None": {
+      "basic": {
+        "name": "host19",
+        "locType": "grid",
+        "gridX": -530,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:10/None": {
+      "basic": {
+        "name": "host110",
+        "locType": "grid",
+        "gridX": -460,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:01/None": {
+      "basic": {
+        "name": "host21",
+        "locType": "grid",
+        "gridX": -340,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:02/None": {
+      "basic": {
+        "name": "host22",
+        "locType": "grid",
+        "gridX": -270,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:03/None": {
+      "basic": {
+        "name": "host23",
+        "locType": "grid",
+        "gridX": -200,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:04/None": {
+      "basic": {
+        "name": "host24",
+        "locType": "grid",
+        "gridX": -130,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:05/None": {
+      "basic": {
+        "name": "host25",
+        "locType": "grid",
+        "gridX": -60,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:06/None": {
+      "basic": {
+        "name": "host26",
+        "locType": "grid",
+        "gridX": -340,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:07/None": {
+      "basic": {
+        "name": "host27",
+        "locType": "grid",
+        "gridX": -270,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:08/None": {
+      "basic": {
+        "name": "host28",
+        "locType": "grid",
+        "gridX": -200,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:09/None": {
+      "basic": {
+        "name": "host29",
+        "locType": "grid",
+        "gridX": -130,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:10/None": {
+      "basic": {
+        "name": "host210",
+        "locType": "grid",
+        "gridX": -60,
+        "gridY": 530
+      }
+    }
+  },
+  "ports": {}
+}

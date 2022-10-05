@@ -67,30 +67,5 @@
       }
     }
   },
-  "ports": {
-    "device:switch1/2": {
-      "interfaces": [
-        {
-          "name": "switch1-2",
-          "ips": [
-            "10.10.11.01/24"
-          ],
-          "vlan-untagged": 100,
-          "mac": "00:AA:00:00:00:01"
-        }
-      ]
-    },
-    "device:switch2/2": {
-      "interfaces": [
-        {
-          "name": "switch2-2",
-          "ips": [
-            "10.10.11.02/24"
-          ],
-          "vlan-untagged": 100,
-          "mac": "00:AA:00:00:00:02"
-        }
-      ]
-    }
-  }
+  "ports": {}
 }

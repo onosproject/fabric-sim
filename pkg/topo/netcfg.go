@@ -108,8 +108,8 @@ func GenerateNetcfg(topologyPath string, netcfgPath string, driver string, pipec
 
 	for _, host := range topology.Hosts {
 		for _, nic := range host.NICs {
-			portID := fmt.Sprintf("device:%s", nic.Port)
-			ncfg.Ports[portID] = createNetcfgPort(portID, host, nic)
+			//portID := fmt.Sprintf("device:%s", nic.Port)
+			//ncfg.Ports[portID] = createNetcfgPort(portID, host, nic)
 			ncfg.Hosts[fmt.Sprintf("%s/None", strings.ToUpper(nic.Mac))] = createNetcfgHost(host, nic)
 		}
 	}
