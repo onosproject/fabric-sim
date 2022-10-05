@@ -5,6 +5,7 @@
 package simulator
 
 import (
+	"bytes"
 	"context"
 	"encoding/binary"
 	gogo "github.com/gogo/protobuf/types"
@@ -238,8 +239,7 @@ func (ds *DeviceSimulator) getRoleConfig(role *p4api.Role, electionID *p4api.Uin
 			Value:   role.Config.Value,
 		}
 		_ = gogo.UnmarshalAny(any, rc)
-		//role.Config.UnmarshalTo(roleConfig)
-		log.Infof("Device %s: role config: %+v; any: %+v", ds.Device.ID, rc, role.Config)
+		log.Debugf("Device %s: rc: %+v; any: %+v", ds.Device.ID, rc, role.Config)
 	}
 	return &roleConfig{electionID: electionID, config: rc}
 }
@@ -491,11 +491,12 @@ func (ds *DeviceSimulator) SendPacketIn(packet []byte, md *utils.PacketInMetadat
 		log.Debugf("Device %s: Unable to send packet-in, pipeline config not set yet", ds.Device.ID)
 		return
 	}
+	metadata := ds.codec.EncodePacketInMetadata(md)
 	packetIn := &p4api.StreamMessageResponse{
 		Update: &p4api.StreamMessageResponse_Packet{
 			Packet: &p4api.PacketIn{
 				Payload:  packet,
-				Metadata: ds.codec.EncodePacketInMetadata(md),
+				Metadata: metadata,
 			},
 		},
 	}
@@ -503,18 +504,24 @@ func (ds *DeviceSimulator) SendPacketIn(packet []byte, md *utils.PacketInMetadat
 	ds.lock.RLock()
 	defer ds.lock.RUnlock()
 	for _, r := range ds.streamResponders {
-		if matchesMetaData(r.GetRoleConfig(), md) {
+		if matchesMetaData(r.GetRoleConfig(), metadata) {
 			r.Send(packetIn)
 		}
 	}
 }
 
-func matchesMetaData(roleConfig *stratum.P4RoleConfig, md *utils.PacketInMetadata) bool {
-	if roleConfig == nil {
+func matchesMetaData(roleConfig *stratum.P4RoleConfig, metadata []*p4api.PacketMetadata) bool {
+	if roleConfig == nil || (roleConfig.ReceivesPacketIns && roleConfig.PacketInFilter == nil) {
 		return true
 	}
-	// TODO implement packet filtering
-	return true
+	if roleConfig.ReceivesPacketIns {
+		for _, md := range metadata {
+			if md.MetadataId == roleConfig.PacketInFilter.MetadataId {
+				return bytes.Equal(md.Value, roleConfig.PacketInFilter.Value)
+			}
+		}
+	}
+	return false
 }
 
 // ProcessWrite processes the specified batch of updates
@@ -747,7 +754,7 @@ func (ds *DeviceSimulator) checkPuntToCPU() {
 			}
 		}
 	}
-	log.Infof("Device %s: puntToCPU=%+v", ds.Device.ID, ds.puntToCPU)
+	log.Debugf("Device %s: puntToCPU=%+v", ds.Device.ID, ds.puntToCPU)
 }
 
 // Extract the role agent ID field value from the action parameters
@@ -774,6 +781,7 @@ func (ds *DeviceSimulator) findPuntToCPUTables() {
 			}
 		}
 	}
+	// for k, v := range ds.cpuActions {log.Infof("cpuAction %+v => %+v", k, v)}
 
 	ds.cpuTables = make(map[uint32]*cpuTable)
 	for _, table := range ds.forwardingPipelineConfig.P4Info.Tables {
@@ -785,9 +793,7 @@ func (ds *DeviceSimulator) findPuntToCPUTables() {
 			}
 		}
 	}
-
-	log.Infof("Device %s: cpuActions=%+v", ds.Device.ID, ds.cpuActions)
-	log.Infof("Device %s: cpuTables=%+v", ds.Device.ID, ds.cpuTables)
+	//for k, v := range ds.cpuTables {log.Infof("cpuTable %+v => %+v", k, v)}
 }
 
 // Returns true if the table has a reference to a CPU related action

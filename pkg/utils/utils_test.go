@@ -12,19 +12,19 @@ import (
 )
 
 func TestLoadP4Info(t *testing.T) {
-	info, err := LoadP4Info("../../pipelines/fabric-spgw-int.p4info.txt")
+	info, err := LoadP4Info("../../pipelines/p4info.txt")
 	assert.NoError(t, err)
-	assert.Equal(t, info.PkgInfo.Arch, "v1model")
+	assert.Equal(t, "tna", info.PkgInfo.Arch)
 
-	assert.Len(t, info.Tables, 22)
-	assert.Len(t, info.Actions, 41)
+	assert.Len(t, info.Tables, 20)
+	assert.Len(t, info.Actions, 40)
 	assert.Len(t, info.ActionProfiles, 1)
 	assert.Len(t, info.Meters, 1)
-	assert.Len(t, info.Counters, 4)
+	assert.Len(t, info.Counters, 0)
 	assert.Len(t, info.DirectMeters, 0)
-	assert.Len(t, info.DirectCounters, 15)
+	assert.Len(t, info.DirectCounters, 14)
 	assert.Len(t, info.Digests, 0)
-	assert.Len(t, info.Externs, 0)
+	assert.Len(t, info.Externs, 1)
 	assert.Len(t, info.Registers, 0)
 	assert.Len(t, info.ValueSets, 0)
 
@@ -41,7 +41,7 @@ func TestLoadP4Info(t *testing.T) {
 }
 
 func TestGeneration(t *testing.T) {
-	info, err := LoadP4Info("../../pipelines/fabric-spgw-int.p4info.txt")
+	info, err := LoadP4Info("../../pipelines/p4info.txt")
 	assert.NoError(t, err)
 
 	tl := int32(len(info.Tables))

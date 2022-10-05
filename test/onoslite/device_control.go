@@ -34,7 +34,7 @@ func newONOSRole() *p4api.Role {
 	roleConfig := &stratum.P4RoleConfig{
 		PacketInFilter: &stratum.P4RoleConfig_PacketFilter{
 			MetadataId: 4,
-			Value:      []byte{0x1},
+			Value:      []byte("\x01"),
 		},
 		ReceivesPacketIns: true,
 		CanPushPipeline:   true,
@@ -192,7 +192,7 @@ func (d *Device) reconcilePipelineConfig() error {
 	}
 
 	// otherwise load pipeline config
-	info, err := utils.LoadP4Info("pipelines/fabric-spgw-int.p4info.txt")
+	info, err := utils.LoadP4Info("pipelines/p4info.txt")
 	if err != nil {
 		return err
 	}

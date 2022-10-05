@@ -28,7 +28,7 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	defer CleanUp(t)
 
 	// Let's create a codec for meta-data from the P4 info file
-	info, err := utils.LoadP4Info("pipelines/fabric-spgw-int.p4info.txt")
+	info, err := utils.LoadP4Info("pipelines/p4info.txt")
 	assert.NoError(t, err)
 	codec = utils.NewControllerMetadataCodec(info)
 
@@ -120,7 +120,7 @@ func InstallPuntRule(ctx context.Context, p4sw2a p4api.P4RuntimeClient, chassisI
 			Type: p4api.Update_INSERT,
 			Entity: &p4api.Entity{Entity: &p4api.Entity_TableEntry{
 				TableEntry: &p4api.TableEntry{
-					TableId: 44104738,
+					TableId: 39601850,
 					Match: []*p4api.FieldMatch{{
 						FieldId: 5,
 						FieldMatchType: &p4api.FieldMatch_Ternary_{
@@ -134,6 +134,7 @@ func InstallPuntRule(ctx context.Context, p4sw2a p4api.P4RuntimeClient, chassisI
 						Type: &p4api.TableAction_Action{
 							Action: &p4api.Action{
 								ActionId: 23579892,
+								Params:   []*p4api.Action_Param{{ParamId: 1, Value: []byte("\x01")}},
 							},
 						},
 					},

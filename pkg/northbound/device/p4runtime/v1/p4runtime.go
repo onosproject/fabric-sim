@@ -175,7 +175,8 @@ func (state *streamState) LatchMastershipArbitration(arbitration *p4api.MasterAr
 
 // IsMaster returns true if the responder is the current master, i.e. has the master election ID, for the given role.
 func (state *streamState) IsMaster(role *p4api.Role, masterElectionID *p4api.Uint128) bool {
-	return state.role == role && state.electionID.High == masterElectionID.High && state.electionID.Low == masterElectionID.Low
+	return (state.role == role || (state.role != nil && role != nil && state.role.Name == role.Name)) &&
+		state.electionID.High == masterElectionID.High && state.electionID.Low == masterElectionID.Low
 }
 
 // GetRoleConfig returns the stratum role configuration received during role arbitration; nil if none

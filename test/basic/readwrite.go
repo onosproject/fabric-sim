@@ -25,7 +25,7 @@ func (s *TestSuite) TestReadWrite(t *testing.T) {
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 })
 	defer CleanUp(t)
 
-	info, err := utils.LoadP4Info("pipelines/fabric-spgw-int.p4info.txt")
+	info, err := utils.LoadP4Info("pipelines/p4info.txt")
 	assert.NoError(t, err)
 
 	totalEntries := 100

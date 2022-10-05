@@ -19,9 +19,7 @@ type meta struct {
 // ControllerMetadataCodec allows basic encoding and decoding of packet out/in metadata
 type ControllerMetadataCodec struct {
 	egress  meta
-	opad    meta
 	ingress meta
-	ipad    meta
 	roleid  meta
 }
 
@@ -35,8 +33,6 @@ func NewControllerMetadataCodec(info *p4info.P4Info) *ControllerMetadataCodec {
 				switch m.Name {
 				case "egress_port":
 					copyMeta(m, &cmc.egress)
-				case "_pad":
-					copyMeta(m, &cmc.opad)
 				}
 			}
 		case "packet_in":
@@ -46,8 +42,6 @@ func NewControllerMetadataCodec(info *p4info.P4Info) *ControllerMetadataCodec {
 					copyMeta(m, &cmc.ingress)
 				case "role_agent_id":
 					copyMeta(m, &cmc.roleid)
-				case "_pad":
-					copyMeta(m, &cmc.ipad)
 				}
 			}
 		}
@@ -88,9 +82,6 @@ func (c *ControllerMetadataCodec) EncodePacketOutMetadata(pom *PacketOutMetadata
 	binary.BigEndian.PutUint32(b, pom.EgressPort)
 	b = TrimToBitwidth(b, c.egress.size)
 	metadata := []*p4api.PacketMetadata{{MetadataId: c.egress.id, Value: b}}
-	if c.opad.id != 0 {
-		metadata = append(metadata, &p4api.PacketMetadata{MetadataId: c.opad.id, Value: []byte{0}})
-	}
 	return metadata
 
 }
@@ -119,11 +110,6 @@ func (c *ControllerMetadataCodec) EncodePacketInMetadata(pim *PacketInMetadata) 
 	b2 = TrimToBitwidth(b2, c.roleid.size)
 
 	metadata := []*p4api.PacketMetadata{{MetadataId: c.ingress.id, Value: b1}, {MetadataId: c.roleid.id, Value: b2}}
-
-	// Tack on padding if needed
-	if c.ipad.id != 0 {
-		metadata = append(metadata, &p4api.PacketMetadata{MetadataId: c.ipad.id, Value: []byte{0}})
-	}
 	return metadata
 }
 
