@@ -4,88 +4,224 @@
       "basic": {
         "name": "leaf11",
         "managementAddress": "grpc://fabric-sim:20004?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-10.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": -1400,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 111,
+        "loopbacks": [
+          "192.168.1.11"
+        ],
+        "routerMac": "00:AA:00:00:00:11",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf12": {
       "basic": {
         "name": "leaf12",
         "managementAddress": "grpc://fabric-sim:20005?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-11.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": -1000,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 112,
+        "loopbacks": [
+          "192.168.1.12"
+        ],
+        "routerMac": "00:AA:00:00:00:12",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf21": {
       "basic": {
         "name": "leaf21",
         "managementAddress": "grpc://fabric-sim:20006?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-20.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": -600,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 121,
+        "loopbacks": [
+          "192.168.1.21"
+        ],
+        "routerMac": "00:AA:00:00:00:21",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf22": {
       "basic": {
         "name": "leaf22",
         "managementAddress": "grpc://fabric-sim:20007?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-21.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": -200,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 122,
+        "loopbacks": [
+          "192.168.1.22"
+        ],
+        "routerMac": "00:AA:00:00:00:22",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf31": {
       "basic": {
         "name": "leaf31",
         "managementAddress": "grpc://fabric-sim:20010?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-30.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": 200,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 131,
+        "loopbacks": [
+          "192.168.1.31"
+        ],
+        "routerMac": "00:AA:00:00:00:31",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf32": {
       "basic": {
         "name": "leaf32",
         "managementAddress": "grpc://fabric-sim:20011?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-31.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": 600,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 132,
+        "loopbacks": [
+          "192.168.1.32"
+        ],
+        "routerMac": "00:AA:00:00:00:32",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf41": {
       "basic": {
         "name": "leaf41",
         "managementAddress": "grpc://fabric-sim:20012?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-40.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": 1000,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 141,
+        "loopbacks": [
+          "192.168.1.41"
+        ],
+        "routerMac": "00:AA:00:00:00:41",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf42": {
       "basic": {
         "name": "leaf42",
         "managementAddress": "grpc://fabric-sim:20013?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-41.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": 1400,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 142,
+        "loopbacks": [
+          "192.168.1.42"
+        ],
+        "routerMac": "00:AA:00:00:00:42",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:spine1": {
@@ -97,6 +233,19 @@
         "locType": "grid",
         "gridX": -1200,
         "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 201,
+        "loopbacks": [
+          "192.168.2.1"
+        ],
+        "routerMac": "00:BB:00:00:00:01",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     },
     "device:spine2": {
@@ -108,6 +257,19 @@
         "locType": "grid",
         "gridX": -400,
         "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 202,
+        "loopbacks": [
+          "192.168.2.2"
+        ],
+        "routerMac": "00:BB:00:00:00:02",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     },
     "device:spine3": {
@@ -119,6 +281,19 @@
         "locType": "grid",
         "gridX": 400,
         "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 203,
+        "loopbacks": [
+          "192.168.2.3"
+        ],
+        "routerMac": "00:BB:00:00:00:03",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     },
     "device:spine4": {
@@ -130,6 +305,19 @@
         "locType": "grid",
         "gridX": 1200,
         "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 204,
+        "loopbacks": [
+          "192.168.2.4"
+        ],
+        "routerMac": "00:BB:00:00:00:04",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     },
     "device:sspine1": {
@@ -141,6 +329,19 @@
         "locType": "grid",
         "gridX": -400,
         "gridY": -200
+      },
+      "underlay": {
+        "nodeSid": 201,
+        "loopbacks": [
+          "192.168.2.1"
+        ],
+        "routerMac": "00:BB:00:00:00:01",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     },
     "device:sspine2": {
@@ -152,6 +353,19 @@
         "locType": "grid",
         "gridX": 400,
         "gridY": -200
+      },
+      "underlay": {
+        "nodeSid": 202,
+        "loopbacks": [
+          "192.168.2.2"
+        ],
+        "routerMac": "00:BB:00:00:00:02",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     }
   },
@@ -795,6 +1009,968 @@
         "gridX": 1515,
         "gridY": 450
       }
+    }
+  },
+  "ports": {
+    "device:leaf11/11": {
+      "interfaces": [
+        {
+          "name": "leaf11-11",
+          "ips": [
+            "10.10.11.1/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:11"
+        }
+      ]
+    },
+    "device:leaf11/12": {
+      "interfaces": [
+        {
+          "name": "leaf11-12",
+          "ips": [
+            "10.10.11.2/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:11"
+        }
+      ]
+    },
+    "device:leaf11/13": {
+      "interfaces": [
+        {
+          "name": "leaf11-13",
+          "ips": [
+            "10.10.11.3/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:11"
+        }
+      ]
+    },
+    "device:leaf11/14": {
+      "interfaces": [
+        {
+          "name": "leaf11-14",
+          "ips": [
+            "10.10.11.4/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:11"
+        }
+      ]
+    },
+    "device:leaf11/15": {
+      "interfaces": [
+        {
+          "name": "leaf11-15",
+          "ips": [
+            "10.10.11.5/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:11"
+        }
+      ]
+    },
+    "device:leaf11/16": {
+      "interfaces": [
+        {
+          "name": "leaf11-16",
+          "ips": [
+            "10.10.11.6/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:11"
+        }
+      ]
+    },
+    "device:leaf11/17": {
+      "interfaces": [
+        {
+          "name": "leaf11-17",
+          "ips": [
+            "10.10.11.7/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:11"
+        }
+      ]
+    },
+    "device:leaf11/18": {
+      "interfaces": [
+        {
+          "name": "leaf11-18",
+          "ips": [
+            "10.10.11.8/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:11"
+        }
+      ]
+    },
+    "device:leaf11/19": {
+      "interfaces": [
+        {
+          "name": "leaf11-19",
+          "ips": [
+            "10.10.11.9/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:11"
+        }
+      ]
+    },
+    "device:leaf11/20": {
+      "interfaces": [
+        {
+          "name": "leaf11-20",
+          "ips": [
+            "10.10.11.10/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:11"
+        }
+      ]
+    },
+    "device:leaf12/11": {
+      "interfaces": [
+        {
+          "name": "leaf12-11",
+          "ips": [
+            "10.10.12.1/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:12"
+        }
+      ]
+    },
+    "device:leaf12/12": {
+      "interfaces": [
+        {
+          "name": "leaf12-12",
+          "ips": [
+            "10.10.12.2/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:12"
+        }
+      ]
+    },
+    "device:leaf12/13": {
+      "interfaces": [
+        {
+          "name": "leaf12-13",
+          "ips": [
+            "10.10.12.3/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:12"
+        }
+      ]
+    },
+    "device:leaf12/14": {
+      "interfaces": [
+        {
+          "name": "leaf12-14",
+          "ips": [
+            "10.10.12.4/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:12"
+        }
+      ]
+    },
+    "device:leaf12/15": {
+      "interfaces": [
+        {
+          "name": "leaf12-15",
+          "ips": [
+            "10.10.12.5/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:12"
+        }
+      ]
+    },
+    "device:leaf12/16": {
+      "interfaces": [
+        {
+          "name": "leaf12-16",
+          "ips": [
+            "10.10.12.6/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:12"
+        }
+      ]
+    },
+    "device:leaf12/17": {
+      "interfaces": [
+        {
+          "name": "leaf12-17",
+          "ips": [
+            "10.10.12.7/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:12"
+        }
+      ]
+    },
+    "device:leaf12/18": {
+      "interfaces": [
+        {
+          "name": "leaf12-18",
+          "ips": [
+            "10.10.12.8/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:12"
+        }
+      ]
+    },
+    "device:leaf12/19": {
+      "interfaces": [
+        {
+          "name": "leaf12-19",
+          "ips": [
+            "10.10.12.9/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:12"
+        }
+      ]
+    },
+    "device:leaf12/20": {
+      "interfaces": [
+        {
+          "name": "leaf12-20",
+          "ips": [
+            "10.10.12.10/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:12"
+        }
+      ]
+    },
+    "device:leaf21/11": {
+      "interfaces": [
+        {
+          "name": "leaf21-11",
+          "ips": [
+            "10.10.21.1/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:21"
+        }
+      ]
+    },
+    "device:leaf21/12": {
+      "interfaces": [
+        {
+          "name": "leaf21-12",
+          "ips": [
+            "10.10.21.2/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:21"
+        }
+      ]
+    },
+    "device:leaf21/13": {
+      "interfaces": [
+        {
+          "name": "leaf21-13",
+          "ips": [
+            "10.10.21.3/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:21"
+        }
+      ]
+    },
+    "device:leaf21/14": {
+      "interfaces": [
+        {
+          "name": "leaf21-14",
+          "ips": [
+            "10.10.21.4/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:21"
+        }
+      ]
+    },
+    "device:leaf21/15": {
+      "interfaces": [
+        {
+          "name": "leaf21-15",
+          "ips": [
+            "10.10.21.5/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:21"
+        }
+      ]
+    },
+    "device:leaf21/16": {
+      "interfaces": [
+        {
+          "name": "leaf21-16",
+          "ips": [
+            "10.10.21.6/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:21"
+        }
+      ]
+    },
+    "device:leaf21/17": {
+      "interfaces": [
+        {
+          "name": "leaf21-17",
+          "ips": [
+            "10.10.21.7/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:21"
+        }
+      ]
+    },
+    "device:leaf21/18": {
+      "interfaces": [
+        {
+          "name": "leaf21-18",
+          "ips": [
+            "10.10.21.8/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:21"
+        }
+      ]
+    },
+    "device:leaf21/19": {
+      "interfaces": [
+        {
+          "name": "leaf21-19",
+          "ips": [
+            "10.10.21.9/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:21"
+        }
+      ]
+    },
+    "device:leaf21/20": {
+      "interfaces": [
+        {
+          "name": "leaf21-20",
+          "ips": [
+            "10.10.21.10/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:21"
+        }
+      ]
+    },
+    "device:leaf22/11": {
+      "interfaces": [
+        {
+          "name": "leaf22-11",
+          "ips": [
+            "10.10.22.1/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:22"
+        }
+      ]
+    },
+    "device:leaf22/12": {
+      "interfaces": [
+        {
+          "name": "leaf22-12",
+          "ips": [
+            "10.10.22.2/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:22"
+        }
+      ]
+    },
+    "device:leaf22/13": {
+      "interfaces": [
+        {
+          "name": "leaf22-13",
+          "ips": [
+            "10.10.22.3/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:22"
+        }
+      ]
+    },
+    "device:leaf22/14": {
+      "interfaces": [
+        {
+          "name": "leaf22-14",
+          "ips": [
+            "10.10.22.4/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:22"
+        }
+      ]
+    },
+    "device:leaf22/15": {
+      "interfaces": [
+        {
+          "name": "leaf22-15",
+          "ips": [
+            "10.10.22.5/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:22"
+        }
+      ]
+    },
+    "device:leaf22/16": {
+      "interfaces": [
+        {
+          "name": "leaf22-16",
+          "ips": [
+            "10.10.22.6/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:22"
+        }
+      ]
+    },
+    "device:leaf22/17": {
+      "interfaces": [
+        {
+          "name": "leaf22-17",
+          "ips": [
+            "10.10.22.7/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:22"
+        }
+      ]
+    },
+    "device:leaf22/18": {
+      "interfaces": [
+        {
+          "name": "leaf22-18",
+          "ips": [
+            "10.10.22.8/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:22"
+        }
+      ]
+    },
+    "device:leaf22/19": {
+      "interfaces": [
+        {
+          "name": "leaf22-19",
+          "ips": [
+            "10.10.22.9/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:22"
+        }
+      ]
+    },
+    "device:leaf22/20": {
+      "interfaces": [
+        {
+          "name": "leaf22-20",
+          "ips": [
+            "10.10.22.10/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:22"
+        }
+      ]
+    },
+    "device:leaf31/11": {
+      "interfaces": [
+        {
+          "name": "leaf31-11",
+          "ips": [
+            "10.10.31.1/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:31"
+        }
+      ]
+    },
+    "device:leaf31/12": {
+      "interfaces": [
+        {
+          "name": "leaf31-12",
+          "ips": [
+            "10.10.31.2/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:31"
+        }
+      ]
+    },
+    "device:leaf31/13": {
+      "interfaces": [
+        {
+          "name": "leaf31-13",
+          "ips": [
+            "10.10.31.3/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:31"
+        }
+      ]
+    },
+    "device:leaf31/14": {
+      "interfaces": [
+        {
+          "name": "leaf31-14",
+          "ips": [
+            "10.10.31.4/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:31"
+        }
+      ]
+    },
+    "device:leaf31/15": {
+      "interfaces": [
+        {
+          "name": "leaf31-15",
+          "ips": [
+            "10.10.31.5/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:31"
+        }
+      ]
+    },
+    "device:leaf31/16": {
+      "interfaces": [
+        {
+          "name": "leaf31-16",
+          "ips": [
+            "10.10.31.6/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:31"
+        }
+      ]
+    },
+    "device:leaf31/17": {
+      "interfaces": [
+        {
+          "name": "leaf31-17",
+          "ips": [
+            "10.10.31.7/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:31"
+        }
+      ]
+    },
+    "device:leaf31/18": {
+      "interfaces": [
+        {
+          "name": "leaf31-18",
+          "ips": [
+            "10.10.31.8/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:31"
+        }
+      ]
+    },
+    "device:leaf31/19": {
+      "interfaces": [
+        {
+          "name": "leaf31-19",
+          "ips": [
+            "10.10.31.9/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:31"
+        }
+      ]
+    },
+    "device:leaf31/20": {
+      "interfaces": [
+        {
+          "name": "leaf31-20",
+          "ips": [
+            "10.10.31.10/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:31"
+        }
+      ]
+    },
+    "device:leaf32/11": {
+      "interfaces": [
+        {
+          "name": "leaf32-11",
+          "ips": [
+            "10.10.32.1/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:32"
+        }
+      ]
+    },
+    "device:leaf32/12": {
+      "interfaces": [
+        {
+          "name": "leaf32-12",
+          "ips": [
+            "10.10.32.2/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:32"
+        }
+      ]
+    },
+    "device:leaf32/13": {
+      "interfaces": [
+        {
+          "name": "leaf32-13",
+          "ips": [
+            "10.10.32.3/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:32"
+        }
+      ]
+    },
+    "device:leaf32/14": {
+      "interfaces": [
+        {
+          "name": "leaf32-14",
+          "ips": [
+            "10.10.32.4/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:32"
+        }
+      ]
+    },
+    "device:leaf32/15": {
+      "interfaces": [
+        {
+          "name": "leaf32-15",
+          "ips": [
+            "10.10.32.5/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:32"
+        }
+      ]
+    },
+    "device:leaf32/16": {
+      "interfaces": [
+        {
+          "name": "leaf32-16",
+          "ips": [
+            "10.10.32.6/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:32"
+        }
+      ]
+    },
+    "device:leaf32/17": {
+      "interfaces": [
+        {
+          "name": "leaf32-17",
+          "ips": [
+            "10.10.32.7/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:32"
+        }
+      ]
+    },
+    "device:leaf32/18": {
+      "interfaces": [
+        {
+          "name": "leaf32-18",
+          "ips": [
+            "10.10.32.8/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:32"
+        }
+      ]
+    },
+    "device:leaf32/19": {
+      "interfaces": [
+        {
+          "name": "leaf32-19",
+          "ips": [
+            "10.10.32.9/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:32"
+        }
+      ]
+    },
+    "device:leaf32/20": {
+      "interfaces": [
+        {
+          "name": "leaf32-20",
+          "ips": [
+            "10.10.32.10/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:32"
+        }
+      ]
+    },
+    "device:leaf41/11": {
+      "interfaces": [
+        {
+          "name": "leaf41-11",
+          "ips": [
+            "10.10.41.1/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:41"
+        }
+      ]
+    },
+    "device:leaf41/12": {
+      "interfaces": [
+        {
+          "name": "leaf41-12",
+          "ips": [
+            "10.10.41.2/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:41"
+        }
+      ]
+    },
+    "device:leaf41/13": {
+      "interfaces": [
+        {
+          "name": "leaf41-13",
+          "ips": [
+            "10.10.41.3/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:41"
+        }
+      ]
+    },
+    "device:leaf41/14": {
+      "interfaces": [
+        {
+          "name": "leaf41-14",
+          "ips": [
+            "10.10.41.4/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:41"
+        }
+      ]
+    },
+    "device:leaf41/15": {
+      "interfaces": [
+        {
+          "name": "leaf41-15",
+          "ips": [
+            "10.10.41.5/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:41"
+        }
+      ]
+    },
+    "device:leaf41/16": {
+      "interfaces": [
+        {
+          "name": "leaf41-16",
+          "ips": [
+            "10.10.41.6/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:41"
+        }
+      ]
+    },
+    "device:leaf41/17": {
+      "interfaces": [
+        {
+          "name": "leaf41-17",
+          "ips": [
+            "10.10.41.7/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:41"
+        }
+      ]
+    },
+    "device:leaf41/18": {
+      "interfaces": [
+        {
+          "name": "leaf41-18",
+          "ips": [
+            "10.10.41.8/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:41"
+        }
+      ]
+    },
+    "device:leaf41/19": {
+      "interfaces": [
+        {
+          "name": "leaf41-19",
+          "ips": [
+            "10.10.41.9/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:41"
+        }
+      ]
+    },
+    "device:leaf41/20": {
+      "interfaces": [
+        {
+          "name": "leaf41-20",
+          "ips": [
+            "10.10.41.10/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:41"
+        }
+      ]
+    },
+    "device:leaf42/11": {
+      "interfaces": [
+        {
+          "name": "leaf42-11",
+          "ips": [
+            "10.10.42.1/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:42"
+        }
+      ]
+    },
+    "device:leaf42/12": {
+      "interfaces": [
+        {
+          "name": "leaf42-12",
+          "ips": [
+            "10.10.42.2/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:42"
+        }
+      ]
+    },
+    "device:leaf42/13": {
+      "interfaces": [
+        {
+          "name": "leaf42-13",
+          "ips": [
+            "10.10.42.3/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:42"
+        }
+      ]
+    },
+    "device:leaf42/14": {
+      "interfaces": [
+        {
+          "name": "leaf42-14",
+          "ips": [
+            "10.10.42.4/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:42"
+        }
+      ]
+    },
+    "device:leaf42/15": {
+      "interfaces": [
+        {
+          "name": "leaf42-15",
+          "ips": [
+            "10.10.42.5/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:42"
+        }
+      ]
+    },
+    "device:leaf42/16": {
+      "interfaces": [
+        {
+          "name": "leaf42-16",
+          "ips": [
+            "10.10.42.6/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:42"
+        }
+      ]
+    },
+    "device:leaf42/17": {
+      "interfaces": [
+        {
+          "name": "leaf42-17",
+          "ips": [
+            "10.10.42.7/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:42"
+        }
+      ]
+    },
+    "device:leaf42/18": {
+      "interfaces": [
+        {
+          "name": "leaf42-18",
+          "ips": [
+            "10.10.42.8/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:42"
+        }
+      ]
+    },
+    "device:leaf42/19": {
+      "interfaces": [
+        {
+          "name": "leaf42-19",
+          "ips": [
+            "10.10.42.9/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:42"
+        }
+      ]
+    },
+    "device:leaf42/20": {
+      "interfaces": [
+        {
+          "name": "leaf42-20",
+          "ips": [
+            "10.10.42.10/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:42"
+        }
+      ]
     }
   }
 }

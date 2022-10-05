@@ -9,6 +9,19 @@
         "locType": "grid",
         "gridX": 100,
         "gridY": -200
+      },
+      "underlay": {
+        "nodeSid": 201,
+        "loopbacks": [
+          "192.168.2.1"
+        ],
+        "routerMac": "00:BB:00:00:00:01",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     },
     "device:switch2": {
@@ -20,6 +33,19 @@
         "locType": "grid",
         "gridX": 100,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 202,
+        "loopbacks": [
+          "192.168.2.2"
+        ],
+        "routerMac": "00:BB:00:00:00:02",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     }
   },
@@ -39,6 +65,32 @@
         "gridX": 200,
         "gridY": 300
       }
+    }
+  },
+  "ports": {
+    "device:switch1/2": {
+      "interfaces": [
+        {
+          "name": "switch1-2",
+          "ips": [
+            "10.10.11.01/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:01"
+        }
+      ]
+    },
+    "device:switch2/2": {
+      "interfaces": [
+        {
+          "name": "switch2-2",
+          "ips": [
+            "10.10.11.02/24"
+          ],
+          "vlan-untagged": 100,
+          "mac": "00:AA:00:00:00:02"
+        }
+      ]
     }
   }
 }
