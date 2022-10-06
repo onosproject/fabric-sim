@@ -9,19 +9,45 @@ package onoslite
 import (
 	"context"
 	"fmt"
+	gogo "github.com/gogo/protobuf/types"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/onosproject/fabric-sim/test/basic"
+	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	gnoiapi "github.com/openconfig/gnoi/system"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/protobuf/types/known/anypb"
 	"math/rand"
 	"time"
 )
+
+const onosRoleName = "onos"
+
+var role = newONOSRole()
+
+func newONOSRole() *p4api.Role {
+	roleConfig := &stratum.P4RoleConfig{
+		PacketInFilter: &stratum.P4RoleConfig_PacketFilter{
+			MetadataId: 4,
+			Value:      []byte("\x01"),
+		},
+		ReceivesPacketIns: true,
+		CanPushPipeline:   true,
+	}
+	any, _ := gogo.MarshalAny(roleConfig)
+	return &p4api.Role{
+		Name: onosRoleName,
+		Config: &anypb.Any{
+			TypeUrl: any.TypeUrl,
+			Value:   any.Value,
+		},
+	}
+}
 
 func newDevice(dp *DevicePointer) *Device {
 	ctx, ctxCancel := context.WithCancel(context.Background())
@@ -94,7 +120,7 @@ func (d *Device) establishDeviceConnection() error {
 	}
 
 	d.electionID = &p4api.Uint128{Low: 123, High: 0}
-	if err = d.stream.Send(utils.CreateMastershipArbitration(d.electionID)); err != nil {
+	if err = d.stream.Send(utils.CreateMastershipArbitration(d.electionID, role)); err != nil {
 		return err
 	}
 
@@ -166,7 +192,7 @@ func (d *Device) reconcilePipelineConfig() error {
 	}
 
 	// otherwise load pipeline config
-	info, err := utils.LoadP4Info("pipelines/fabric-spgw-int.p4info.txt")
+	info, err := utils.LoadP4Info("pipelines/p4info.txt")
 	if err != nil {
 		return err
 	}
@@ -176,7 +202,7 @@ func (d *Device) reconcilePipelineConfig() error {
 	// and then apply it to the device
 	_, err = d.p4Client.SetForwardingPipelineConfig(d.ctx, &p4api.SetForwardingPipelineConfigRequest{
 		DeviceId:   d.Pointer.ChassisID,
-		Role:       "",
+		Role:       onosRoleName,
 		ElectionId: d.electionID,
 		Action:     p4api.SetForwardingPipelineConfigRequest_VERIFY_AND_COMMIT,
 		Config: &p4api.ForwardingPipelineConfig{
@@ -189,10 +215,10 @@ func (d *Device) reconcilePipelineConfig() error {
 }
 
 func (d *Device) installFlowRules() error {
-	if err := basic.InstallPuntRule(d.ctx, d.p4Client, d.Pointer.ChassisID, d.electionID, uint16(layers.EthernetTypeLinkLayerDiscovery)); err != nil {
+	if err := basic.InstallPuntRule(d.ctx, d.p4Client, d.Pointer.ChassisID, onosRoleName, d.electionID, uint16(layers.EthernetTypeLinkLayerDiscovery)); err != nil {
 		return err
 	}
-	if err := basic.InstallPuntRule(d.ctx, d.p4Client, d.Pointer.ChassisID, d.electionID, uint16(layers.EthernetTypeARP)); err != nil {
+	if err := basic.InstallPuntRule(d.ctx, d.p4Client, d.Pointer.ChassisID, onosRoleName, d.electionID, uint16(layers.EthernetTypeARP)); err != nil {
 		return err
 	}
 	return nil

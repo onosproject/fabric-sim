@@ -7,8 +7,10 @@ package p4runtime
 
 import (
 	"context"
+	gogo "github.com/gogo/protobuf/types"
 	"github.com/onosproject/fabric-sim/pkg/simulator"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
@@ -121,6 +123,7 @@ func (s *Server) GetForwardingPipelineConfig(ctx context.Context, request *p4api
 type streamState struct {
 	deviceID        uint64
 	role            *p4api.Role
+	roleConfig      *stratum.P4RoleConfig
 	electionID      *p4api.Uint128
 	sentCode        *int32
 	streamResponses chan *p4api.StreamMessageResponse
@@ -160,13 +163,25 @@ func (state *streamState) LatchMastershipArbitration(arbitration *p4api.MasterAr
 		state.deviceID = arbitration.DeviceId
 		state.role = arbitration.Role
 		state.electionID = arbitration.ElectionId
+
+		if arbitration.Role != nil && arbitration.Role.Config != nil {
+			state.roleConfig = &stratum.P4RoleConfig{}
+			any := &gogo.Any{TypeUrl: state.role.Config.TypeUrl, Value: state.role.Config.Value}
+			_ = gogo.UnmarshalAny(any, state.roleConfig)
+		}
 	}
 	return arbitration
 }
 
 // IsMaster returns true if the responder is the current master, i.e. has the master election ID, for the given role.
 func (state *streamState) IsMaster(role *p4api.Role, masterElectionID *p4api.Uint128) bool {
-	return state.role == role && state.electionID.High == masterElectionID.High && state.electionID.Low == masterElectionID.Low
+	return (state.role == role || (state.role != nil && role != nil && state.role.Name == role.Name)) &&
+		state.electionID.High == masterElectionID.High && state.electionID.Low == masterElectionID.Low
+}
+
+// GetRoleConfig returns the stratum role configuration received during role arbitration; nil if none
+func (state *streamState) GetRoleConfig() *stratum.P4RoleConfig {
+	return state.roleConfig
 }
 
 // StreamChannel reads and handles incoming requests and emits any queued up outgoing responses

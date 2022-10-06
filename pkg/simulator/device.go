@@ -5,14 +5,17 @@
 package simulator
 
 import (
+	"bytes"
 	"context"
 	"encoding/binary"
+	gogo "github.com/gogo/protobuf/types"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/onosproject/fabric-sim/pkg/simulator/config"
 	"github.com/onosproject/fabric-sim/pkg/simulator/entries"
 	"github.com/onosproject/fabric-sim/pkg/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
@@ -33,7 +36,7 @@ type DeviceSimulator struct {
 	forwardingPipelineConfig *p4api.ForwardingPipelineConfig
 	streamResponders         []StreamResponder
 	subscribeResponders      []SubscribeResponder
-	roleElections            map[string]*p4api.Uint128
+	roleConfigs              map[string]*roleConfig
 	simulation               *Simulation
 	sdnPorts                 map[uint32]*simapi.Port
 
@@ -43,17 +46,29 @@ type DeviceSimulator struct {
 
 	config     *config.Node
 	codec      *utils.ControllerMetadataCodec
-	puntToCPU  map[layers.EthernetType]bool
-	cpuActions map[uint32]*p4info.Action
+	puntToCPU  map[layers.EthernetType]uint32
+	cpuActions map[uint32]*cpuAction
 	cpuTables  map[uint32]*cpuTable
 
 	cancel context.CancelFunc
+}
+
+type roleConfig struct {
+	electionID *p4api.Uint128
+	config     *stratum.P4RoleConfig
 }
 
 // Auxiliary structure to track table that has CPU related actions and the field match related to ETH type
 type cpuTable struct {
 	table          *entries.Table
 	ethTypeFieldID uint32
+}
+
+// Auxiliary structure to track punt/copy to CPU actions and their associated role agent ID parameter ID
+type cpuAction struct {
+	action              *p4info.Action
+	roleAgentIDParamID  uint32
+	roleAgentIDBitwidth int32
 }
 
 // NewDeviceSimulator initializes a new device simulator
@@ -82,13 +97,13 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 			P4DeviceConfig: []byte{},
 			Cookie:         &p4api.ForwardingPipelineConfig_Cookie{Cookie: 0},
 		},
-		roleElections: make(map[string]*p4api.Uint128),
-		sdnPorts:      sdnPorts,
-		simulation:    simulation,
-		config:        cfg,
-		puntToCPU:     make(map[layers.EthernetType]bool),
-		cpuActions:    make(map[uint32]*p4info.Action),
-		cpuTables:     make(map[uint32]*cpuTable),
+		roleConfigs: make(map[string]*roleConfig),
+		sdnPorts:    sdnPorts,
+		simulation:  simulation,
+		config:      cfg,
+		puntToCPU:   make(map[layers.EthernetType]uint32),
+		cpuActions:  make(map[uint32]*cpuAction),
+		cpuTables:   make(map[uint32]*cpuTable),
 	}
 }
 
@@ -186,8 +201,8 @@ func (ds *DeviceSimulator) IsMaster(chassisID uint64, role string, electionID *p
 	if chassisID != ds.Device.ChassisID {
 		return errors.NewConflict("incorrect device ID: %d", chassisID)
 	}
-	winningElectionID, ok := ds.roleElections[role]
-	if !ok || winningElectionID.High != electionID.High || winningElectionID.Low != electionID.Low {
+	rolleWinner, ok := ds.roleConfigs[role]
+	if !ok || rolleWinner.electionID.High != electionID.High || rolleWinner.electionID.Low != electionID.Low {
 		return errors.NewUnauthorized("not master for role %s on device ID: %d", role, chassisID)
 	}
 	return nil
@@ -206,14 +221,27 @@ func (ds *DeviceSimulator) RecordRoleElection(role *p4api.Role, electionID *p4ap
 		roleName = role.Name
 	}
 
-	maxID, ok := ds.roleElections[roleName]
-	if !ok || maxID.High < electionID.High || (maxID.High == electionID.High && maxID.Low < electionID.Low) {
-		ds.roleElections[roleName] = electionID
+	winner, ok := ds.roleConfigs[roleName]
+	if !ok || winner.electionID.High < electionID.High || (winner.electionID.High == electionID.High && winner.electionID.Low < electionID.Low) {
+		ds.roleConfigs[roleName] = ds.getRoleConfig(role, electionID)
 		return electionID
-	} else if maxID.High == electionID.High && maxID.Low == electionID.Low {
+	} else if winner.electionID.High == electionID.High && winner.electionID.Low == electionID.Low {
 		return nil // this role and election ID has already been claimed
 	}
-	return maxID
+	return winner.electionID
+}
+
+func (ds *DeviceSimulator) getRoleConfig(role *p4api.Role, electionID *p4api.Uint128) *roleConfig {
+	rc := &stratum.P4RoleConfig{}
+	if role != nil && role.Config != nil {
+		any := &gogo.Any{
+			TypeUrl: role.Config.TypeUrl,
+			Value:   role.Config.Value,
+		}
+		_ = gogo.UnmarshalAny(any, rc)
+		log.Debugf("Device %s: rc: %+v; any: %+v", ds.Device.ID, rc, role.Config)
+	}
+	return &roleConfig{electionID: electionID, config: rc}
 }
 
 // RunMastershipArbitration processes the specified arbitration update
@@ -447,28 +475,53 @@ func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *
 			log.Warnf("Device %s: Unable to locate target port %s", tgtDeviceID, link.TgtID)
 		}
 
-		if tgtDevice.HasPuntRuleForEthType(layers.EthernetTypeLinkLayerDiscovery) {
-			tgtDevice.SendPacketIn(packetOut.Payload, ingressPort.InternalNumber)
+		if roleAgentID, ok := tgtDevice.HasPuntRuleForEthType(layers.EthernetTypeLinkLayerDiscovery); ok {
+			tgtDevice.SendPacketIn(packetOut.Payload, &utils.PacketInMetadata{
+				IngressPort: ingressPort.InternalNumber,
+				RoleAgentID: roleAgentID,
+			})
 		}
 	}
 }
 
 // SendPacketIn emits packet in with the specified packet payload and ingress port metadata,
 // to all current responders (streams) associated with this device
-func (ds *DeviceSimulator) SendPacketIn(packet []byte, ingressPort uint32) {
+func (ds *DeviceSimulator) SendPacketIn(packet []byte, md *utils.PacketInMetadata) {
 	if ds.codec == nil {
 		log.Debugf("Device %s: Unable to send packet-in, pipeline config not set yet", ds.Device.ID)
 		return
 	}
+	metadata := ds.codec.EncodePacketInMetadata(md)
 	packetIn := &p4api.StreamMessageResponse{
 		Update: &p4api.StreamMessageResponse_Packet{
 			Packet: &p4api.PacketIn{
 				Payload:  packet,
-				Metadata: ds.codec.EncodePacketInMetadata(&utils.PacketInMetadata{IngressPort: ingressPort}),
+				Metadata: metadata,
 			},
 		},
 	}
-	ds.SendToAllResponders(packetIn)
+
+	ds.lock.RLock()
+	defer ds.lock.RUnlock()
+	for _, r := range ds.streamResponders {
+		if matchesMetaData(r.GetRoleConfig(), metadata) {
+			r.Send(packetIn)
+		}
+	}
+}
+
+func matchesMetaData(roleConfig *stratum.P4RoleConfig, metadata []*p4api.PacketMetadata) bool {
+	if roleConfig == nil || (roleConfig.ReceivesPacketIns && roleConfig.PacketInFilter == nil) {
+		return true
+	}
+	if roleConfig.ReceivesPacketIns {
+		for _, md := range metadata {
+			if md.MetadataId == roleConfig.PacketInFilter.MetadataId {
+				return bytes.Equal(md.Value, roleConfig.PacketInFilter.Value)
+			}
+		}
+	}
+	return false
 }
 
 // ProcessWrite processes the specified batch of updates
@@ -674,45 +727,61 @@ func (ds *DeviceSimulator) ProcessConfigSet(prefix *gnmi.Path,
 
 // HasPuntRuleForEthType returns true if the device has a table with punt-to-CPU action installed in one
 // of its tables
-func (ds *DeviceSimulator) HasPuntRuleForEthType(ethType layers.EthernetType) bool {
-	v, ok := ds.puntToCPU[ethType]
-	return ok && v
+func (ds *DeviceSimulator) HasPuntRuleForEthType(ethType layers.EthernetType) (uint32, bool) {
+	roleAgentID, ok := ds.puntToCPU[ethType]
+	return roleAgentID, ok
 }
 
 // Searches all tables with "acl" or "ACL" in their name and looks for rules with action punt to CPU
-// and registers the matching ETH type
+// and registers the matching ETH type from the match and the role agent ID from the action parameter
 func (ds *DeviceSimulator) checkPuntToCPU() {
-	ds.puntToCPU = make(map[layers.EthernetType]bool)
+	ds.puntToCPU = make(map[layers.EthernetType]uint32)
 	for _, table := range ds.cpuTables {
 		// Search entries for all CPU related tables
 		for _, entry := range table.table.Entries() {
 			action := entry.Action.GetAction()
 			if action != nil {
-				if _, ok := ds.cpuActions[action.ActionId]; ok {
+				if cpuAction, ok := ds.cpuActions[action.ActionId]; ok {
 					// If entry has a CPU related action, find the match referencing ethType exact match
 					for _, match := range entry.Match {
 						if match.FieldId == table.ethTypeFieldID && match.GetTernary() != nil {
 							// Record that this ethType has a punt-to-cpu (or related) action
 							ethType := binary.BigEndian.Uint16(match.GetTernary().Value)
-							ds.puntToCPU[layers.EthernetType(ethType)] = true
+							ds.puntToCPU[layers.EthernetType(ethType)] = findRoleAgentID(action, cpuAction)
 						}
 					}
 				}
 			}
 		}
 	}
-	log.Infof("Device %s: puntToCPU=%+v", ds.Device.ID, ds.puntToCPU)
+	log.Debugf("Device %s: puntToCPU=%+v", ds.Device.ID, ds.puntToCPU)
+}
+
+// Extract the role agent ID field value from the action parameters
+func findRoleAgentID(action *p4api.Action, ca *cpuAction) uint32 {
+	for _, param := range action.Params {
+		if param.ParamId == ca.roleAgentIDParamID {
+			return utils.DecodeValueAsUint32(param.Value)
+		}
+	}
+	return 0
 }
 
 // Finds all tables that have CPU-related action references and creates auxiliary search structures to
 // facilitate speedy check for punt rules after table modifications.
 func (ds *DeviceSimulator) findPuntToCPUTables() {
-	ds.cpuActions = make(map[uint32]*p4info.Action)
+	ds.cpuActions = make(map[uint32]*cpuAction)
 	for _, action := range ds.forwardingPipelineConfig.P4Info.Actions {
 		if strings.Contains(action.Preamble.Name, "_to_cpu") {
-			ds.cpuActions[action.Preamble.Id] = action
+			pid, bw := ds.findRoleAgentParameterID(action)
+			ds.cpuActions[action.Preamble.Id] = &cpuAction{
+				action:              action,
+				roleAgentIDParamID:  pid,
+				roleAgentIDBitwidth: bw,
+			}
 		}
 	}
+	// for k, v := range ds.cpuActions {log.Infof("cpuAction %+v => %+v", k, v)}
 
 	ds.cpuTables = make(map[uint32]*cpuTable)
 	for _, table := range ds.forwardingPipelineConfig.P4Info.Tables {
@@ -724,9 +793,7 @@ func (ds *DeviceSimulator) findPuntToCPUTables() {
 			}
 		}
 	}
-
-	log.Infof("Device %s: cpuActions=%+v", ds.Device.ID, ds.cpuActions)
-	log.Infof("Device %s: cpuTables=%+v", ds.Device.ID, ds.cpuTables)
+	//for k, v := range ds.cpuTables {log.Infof("cpuTable %+v => %+v", k, v)}
 }
 
 // Returns true if the table has a reference to a CPU related action
@@ -737,6 +804,15 @@ func (ds *DeviceSimulator) hasCPUAction(table *p4info.Table) bool {
 		}
 	}
 	return false
+}
+
+func (ds *DeviceSimulator) findRoleAgentParameterID(action *p4info.Action) (uint32, int32) {
+	for _, param := range action.Params {
+		if param.Name == "set_role_agent_id" {
+			return param.Id, param.Bitwidth
+		}
+	}
+	return 0, 0
 }
 
 // Finds the field match with "ethType" as its name

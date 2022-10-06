@@ -25,7 +25,7 @@ func (s *TestSuite) TestReadWrite(t *testing.T) {
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 })
 	defer CleanUp(t)
 
-	info, err := utils.LoadP4Info("pipelines/fabric-spgw-int.p4info.txt")
+	info, err := utils.LoadP4Info("pipelines/p4info.txt")
 	assert.NoError(t, err)
 
 	totalEntries := 100
@@ -86,7 +86,7 @@ func ApplyPipelineConfigAndWriteEntries(ctx context.Context, t *testing.T, wg *s
 	stream, err := p4Client.StreamChannel(ctx)
 	assert.NoError(t, err)
 
-	err = stream.Send(utils.CreateMastershipArbitration(&p4api.Uint128{High: 0, Low: 1}))
+	err = stream.Send(utils.CreateMastershipArbitration(&p4api.Uint128{High: 0, Low: 1}, nil))
 	assert.NoError(t, err)
 
 	msg, err := stream.Recv()

@@ -9,6 +9,19 @@
         "locType": "grid",
         "gridX": 100,
         "gridY": -200
+      },
+      "underlay": {
+        "nodeSid": 201,
+        "loopbacks": [
+          "192.168.2.1"
+        ],
+        "routerMac": "00:BB:00:00:00:01",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     },
     "device:switch2": {
@@ -20,6 +33,19 @@
         "locType": "grid",
         "gridX": 100,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 202,
+        "loopbacks": [
+          "192.168.2.2"
+        ],
+        "routerMac": "00:BB:00:00:00:02",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     }
   },
@@ -40,5 +66,6 @@
         "gridY": 300
       }
     }
-  }
+  },
+  "ports": {}
 }

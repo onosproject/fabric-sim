@@ -7,6 +7,7 @@ package simulator
 
 import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/openconfig/gnmi/proto/gnmi"
@@ -65,6 +66,9 @@ type StreamResponder interface {
 
 	// IsMaster returns true if the responder is the current master, i.e. has the master election ID, for the given role.
 	IsMaster(role *p4api.Role, masterElectionID *p4api.Uint128) bool
+
+	// GetRoleConfig returns the stratum role configuration received during role arbitration
+	GetRoleConfig() *stratum.P4RoleConfig
 }
 
 // SubscribeResponder is an abstraction for sending SubscribeResponse messages to controllers

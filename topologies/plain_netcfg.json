@@ -3,67 +3,113 @@
     "device:leaf1": {
       "basic": {
         "name": "leaf1",
-        "managementAddress": "grpc://fabric-sim:20003?device_id=0",
-        "driver": "stratum-tofino",
+        "managementAddress": "grpc://fabric-sim:20002?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-0.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
-        "gridX": -1400,
+        "gridX": -1000,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 101,
+        "loopbacks": [
+          "192.168.1.1"
+        ],
+        "routerMac": "00:AA:00:00:00:01",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf2": {
       "basic": {
         "name": "leaf2",
-        "managementAddress": "grpc://fabric-sim:20004?device_id=0",
-        "driver": "stratum-tofino",
+        "managementAddress": "grpc://fabric-sim:20003?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-1.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
-        "gridX": -1000,
+        "gridX": -600,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 102,
+        "loopbacks": [
+          "192.168.1.2"
+        ],
+        "routerMac": "00:AA:00:00:00:02",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf3": {
       "basic": {
         "name": "leaf3",
-        "managementAddress": "grpc://fabric-sim:20005?device_id=0",
-        "driver": "stratum-tofino",
+        "managementAddress": "grpc://fabric-sim:20004?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-2.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
-        "gridX": -600,
+        "gridX": -200,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 103,
+        "loopbacks": [
+          "192.168.1.3"
+        ],
+        "routerMac": "00:AA:00:00:00:03",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf4": {
       "basic": {
         "name": "leaf4",
-        "managementAddress": "grpc://fabric-sim:20006?device_id=0",
-        "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
-        "locType": "grid",
-        "gridX": -200,
-        "gridY": 200
-      }
-    },
-    "device:leaf5": {
-      "basic": {
-        "name": "leaf5",
-        "managementAddress": "grpc://fabric-sim:20007?device_id=0",
-        "driver": "stratum-tofino",
+        "managementAddress": "grpc://fabric-sim:20005?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-3.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": 200,
         "gridY": 200
-      }
-    },
-    "device:leaf6": {
-      "basic": {
-        "name": "leaf6",
-        "managementAddress": "grpc://fabric-sim:20008?device_id=0",
-        "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
-        "locType": "grid",
-        "gridX": 600,
-        "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 104,
+        "loopbacks": [
+          "192.168.1.4"
+        ],
+        "routerMac": "00:AA:00:00:00:04",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:spine1": {
@@ -73,8 +119,21 @@
         "driver": "stratum-tofino",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
-        "gridX": -800,
+        "gridX": -600,
         "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 201,
+        "loopbacks": [
+          "192.168.2.1"
+        ],
+        "routerMac": "00:BB:00:00:00:01",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     },
     "device:spine2": {
@@ -84,19 +143,21 @@
         "driver": "stratum-tofino",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
-        "gridX": -400,
+        "gridX": -200,
         "gridY": 0
-      }
-    },
-    "device:spine3": {
-      "basic": {
-        "name": "spine3",
-        "managementAddress": "grpc://fabric-sim:20002?device_id=0",
-        "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
-        "locType": "grid",
-        "gridX": 0,
-        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 202,
+        "loopbacks": [
+          "192.168.2.2"
+        ],
+        "routerMac": "00:BB:00:00:00:02",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     }
   },
@@ -105,7 +166,7 @@
       "basic": {
         "name": "host11",
         "locType": "grid",
-        "gridX": -1540,
+        "gridX": -1140,
         "gridY": 450
       }
     },
@@ -113,7 +174,7 @@
       "basic": {
         "name": "host12",
         "locType": "grid",
-        "gridX": -1470,
+        "gridX": -1070,
         "gridY": 450
       }
     },
@@ -121,7 +182,7 @@
       "basic": {
         "name": "host13",
         "locType": "grid",
-        "gridX": -1400,
+        "gridX": -1000,
         "gridY": 450
       }
     },
@@ -129,7 +190,7 @@
       "basic": {
         "name": "host14",
         "locType": "grid",
-        "gridX": -1330,
+        "gridX": -930,
         "gridY": 450
       }
     },
@@ -137,7 +198,7 @@
       "basic": {
         "name": "host15",
         "locType": "grid",
-        "gridX": -1260,
+        "gridX": -860,
         "gridY": 450
       }
     },
@@ -145,7 +206,7 @@
       "basic": {
         "name": "host16",
         "locType": "grid",
-        "gridX": -1540,
+        "gridX": -1140,
         "gridY": 530
       }
     },
@@ -153,7 +214,7 @@
       "basic": {
         "name": "host17",
         "locType": "grid",
-        "gridX": -1470,
+        "gridX": -1070,
         "gridY": 530
       }
     },
@@ -161,7 +222,7 @@
       "basic": {
         "name": "host18",
         "locType": "grid",
-        "gridX": -1400,
+        "gridX": -1000,
         "gridY": 530
       }
     },
@@ -169,7 +230,7 @@
       "basic": {
         "name": "host19",
         "locType": "grid",
-        "gridX": -1330,
+        "gridX": -930,
         "gridY": 530
       }
     },
@@ -177,7 +238,7 @@
       "basic": {
         "name": "host110",
         "locType": "grid",
-        "gridX": -1260,
+        "gridX": -860,
         "gridY": 530
       }
     },
@@ -185,7 +246,7 @@
       "basic": {
         "name": "host111",
         "locType": "grid",
-        "gridX": -1540,
+        "gridX": -1140,
         "gridY": 610
       }
     },
@@ -193,7 +254,7 @@
       "basic": {
         "name": "host112",
         "locType": "grid",
-        "gridX": -1470,
+        "gridX": -1070,
         "gridY": 610
       }
     },
@@ -201,7 +262,7 @@
       "basic": {
         "name": "host113",
         "locType": "grid",
-        "gridX": -1400,
+        "gridX": -1000,
         "gridY": 610
       }
     },
@@ -209,7 +270,7 @@
       "basic": {
         "name": "host114",
         "locType": "grid",
-        "gridX": -1330,
+        "gridX": -930,
         "gridY": 610
       }
     },
@@ -217,7 +278,7 @@
       "basic": {
         "name": "host115",
         "locType": "grid",
-        "gridX": -1260,
+        "gridX": -860,
         "gridY": 610
       }
     },
@@ -225,7 +286,7 @@
       "basic": {
         "name": "host116",
         "locType": "grid",
-        "gridX": -1540,
+        "gridX": -1140,
         "gridY": 690
       }
     },
@@ -233,7 +294,7 @@
       "basic": {
         "name": "host117",
         "locType": "grid",
-        "gridX": -1470,
+        "gridX": -1070,
         "gridY": 690
       }
     },
@@ -241,7 +302,7 @@
       "basic": {
         "name": "host118",
         "locType": "grid",
-        "gridX": -1400,
+        "gridX": -1000,
         "gridY": 690
       }
     },
@@ -249,7 +310,7 @@
       "basic": {
         "name": "host119",
         "locType": "grid",
-        "gridX": -1330,
+        "gridX": -930,
         "gridY": 690
       }
     },
@@ -257,7 +318,7 @@
       "basic": {
         "name": "host120",
         "locType": "grid",
-        "gridX": -1260,
+        "gridX": -860,
         "gridY": 690
       }
     },
@@ -265,7 +326,7 @@
       "basic": {
         "name": "host21",
         "locType": "grid",
-        "gridX": -1140,
+        "gridX": -740,
         "gridY": 450
       }
     },
@@ -273,7 +334,7 @@
       "basic": {
         "name": "host22",
         "locType": "grid",
-        "gridX": -1070,
+        "gridX": -670,
         "gridY": 450
       }
     },
@@ -281,7 +342,7 @@
       "basic": {
         "name": "host23",
         "locType": "grid",
-        "gridX": -1000,
+        "gridX": -600,
         "gridY": 450
       }
     },
@@ -289,7 +350,7 @@
       "basic": {
         "name": "host24",
         "locType": "grid",
-        "gridX": -930,
+        "gridX": -530,
         "gridY": 450
       }
     },
@@ -297,7 +358,7 @@
       "basic": {
         "name": "host25",
         "locType": "grid",
-        "gridX": -860,
+        "gridX": -460,
         "gridY": 450
       }
     },
@@ -305,7 +366,7 @@
       "basic": {
         "name": "host26",
         "locType": "grid",
-        "gridX": -1140,
+        "gridX": -740,
         "gridY": 530
       }
     },
@@ -313,7 +374,7 @@
       "basic": {
         "name": "host27",
         "locType": "grid",
-        "gridX": -1070,
+        "gridX": -670,
         "gridY": 530
       }
     },
@@ -321,7 +382,7 @@
       "basic": {
         "name": "host28",
         "locType": "grid",
-        "gridX": -1000,
+        "gridX": -600,
         "gridY": 530
       }
     },
@@ -329,7 +390,7 @@
       "basic": {
         "name": "host29",
         "locType": "grid",
-        "gridX": -930,
+        "gridX": -530,
         "gridY": 530
       }
     },
@@ -337,7 +398,7 @@
       "basic": {
         "name": "host210",
         "locType": "grid",
-        "gridX": -860,
+        "gridX": -460,
         "gridY": 530
       }
     },
@@ -345,7 +406,7 @@
       "basic": {
         "name": "host211",
         "locType": "grid",
-        "gridX": -1140,
+        "gridX": -740,
         "gridY": 610
       }
     },
@@ -353,7 +414,7 @@
       "basic": {
         "name": "host212",
         "locType": "grid",
-        "gridX": -1070,
+        "gridX": -670,
         "gridY": 610
       }
     },
@@ -361,7 +422,7 @@
       "basic": {
         "name": "host213",
         "locType": "grid",
-        "gridX": -1000,
+        "gridX": -600,
         "gridY": 610
       }
     },
@@ -369,7 +430,7 @@
       "basic": {
         "name": "host214",
         "locType": "grid",
-        "gridX": -930,
+        "gridX": -530,
         "gridY": 610
       }
     },
@@ -377,7 +438,7 @@
       "basic": {
         "name": "host215",
         "locType": "grid",
-        "gridX": -860,
+        "gridX": -460,
         "gridY": 610
       }
     },
@@ -385,7 +446,7 @@
       "basic": {
         "name": "host216",
         "locType": "grid",
-        "gridX": -1140,
+        "gridX": -740,
         "gridY": 690
       }
     },
@@ -393,7 +454,7 @@
       "basic": {
         "name": "host217",
         "locType": "grid",
-        "gridX": -1070,
+        "gridX": -670,
         "gridY": 690
       }
     },
@@ -401,7 +462,7 @@
       "basic": {
         "name": "host218",
         "locType": "grid",
-        "gridX": -1000,
+        "gridX": -600,
         "gridY": 690
       }
     },
@@ -409,7 +470,7 @@
       "basic": {
         "name": "host219",
         "locType": "grid",
-        "gridX": -930,
+        "gridX": -530,
         "gridY": 690
       }
     },
@@ -417,7 +478,7 @@
       "basic": {
         "name": "host220",
         "locType": "grid",
-        "gridX": -860,
+        "gridX": -460,
         "gridY": 690
       }
     },
@@ -425,7 +486,7 @@
       "basic": {
         "name": "host31",
         "locType": "grid",
-        "gridX": -740,
+        "gridX": -340,
         "gridY": 450
       }
     },
@@ -433,7 +494,7 @@
       "basic": {
         "name": "host32",
         "locType": "grid",
-        "gridX": -670,
+        "gridX": -270,
         "gridY": 450
       }
     },
@@ -441,7 +502,7 @@
       "basic": {
         "name": "host33",
         "locType": "grid",
-        "gridX": -600,
+        "gridX": -200,
         "gridY": 450
       }
     },
@@ -449,7 +510,7 @@
       "basic": {
         "name": "host34",
         "locType": "grid",
-        "gridX": -530,
+        "gridX": -130,
         "gridY": 450
       }
     },
@@ -457,7 +518,7 @@
       "basic": {
         "name": "host35",
         "locType": "grid",
-        "gridX": -460,
+        "gridX": -60,
         "gridY": 450
       }
     },
@@ -465,7 +526,7 @@
       "basic": {
         "name": "host36",
         "locType": "grid",
-        "gridX": -740,
+        "gridX": -340,
         "gridY": 530
       }
     },
@@ -473,7 +534,7 @@
       "basic": {
         "name": "host37",
         "locType": "grid",
-        "gridX": -670,
+        "gridX": -270,
         "gridY": 530
       }
     },
@@ -481,7 +542,7 @@
       "basic": {
         "name": "host38",
         "locType": "grid",
-        "gridX": -600,
+        "gridX": -200,
         "gridY": 530
       }
     },
@@ -489,7 +550,7 @@
       "basic": {
         "name": "host39",
         "locType": "grid",
-        "gridX": -530,
+        "gridX": -130,
         "gridY": 530
       }
     },
@@ -497,7 +558,7 @@
       "basic": {
         "name": "host310",
         "locType": "grid",
-        "gridX": -460,
+        "gridX": -60,
         "gridY": 530
       }
     },
@@ -505,7 +566,7 @@
       "basic": {
         "name": "host311",
         "locType": "grid",
-        "gridX": -740,
+        "gridX": -340,
         "gridY": 610
       }
     },
@@ -513,7 +574,7 @@
       "basic": {
         "name": "host312",
         "locType": "grid",
-        "gridX": -670,
+        "gridX": -270,
         "gridY": 610
       }
     },
@@ -521,7 +582,7 @@
       "basic": {
         "name": "host313",
         "locType": "grid",
-        "gridX": -600,
+        "gridX": -200,
         "gridY": 610
       }
     },
@@ -529,7 +590,7 @@
       "basic": {
         "name": "host314",
         "locType": "grid",
-        "gridX": -530,
+        "gridX": -130,
         "gridY": 610
       }
     },
@@ -537,7 +598,7 @@
       "basic": {
         "name": "host315",
         "locType": "grid",
-        "gridX": -460,
+        "gridX": -60,
         "gridY": 610
       }
     },
@@ -545,7 +606,7 @@
       "basic": {
         "name": "host316",
         "locType": "grid",
-        "gridX": -740,
+        "gridX": -340,
         "gridY": 690
       }
     },
@@ -553,7 +614,7 @@
       "basic": {
         "name": "host317",
         "locType": "grid",
-        "gridX": -670,
+        "gridX": -270,
         "gridY": 690
       }
     },
@@ -561,7 +622,7 @@
       "basic": {
         "name": "host318",
         "locType": "grid",
-        "gridX": -600,
+        "gridX": -200,
         "gridY": 690
       }
     },
@@ -569,7 +630,7 @@
       "basic": {
         "name": "host319",
         "locType": "grid",
-        "gridX": -530,
+        "gridX": -130,
         "gridY": 690
       }
     },
@@ -577,7 +638,7 @@
       "basic": {
         "name": "host320",
         "locType": "grid",
-        "gridX": -460,
+        "gridX": -60,
         "gridY": 690
       }
     },
@@ -585,7 +646,7 @@
       "basic": {
         "name": "host41",
         "locType": "grid",
-        "gridX": -340,
+        "gridX": 60,
         "gridY": 450
       }
     },
@@ -593,7 +654,7 @@
       "basic": {
         "name": "host42",
         "locType": "grid",
-        "gridX": -270,
+        "gridX": 130,
         "gridY": 450
       }
     },
@@ -601,7 +662,7 @@
       "basic": {
         "name": "host43",
         "locType": "grid",
-        "gridX": -200,
+        "gridX": 200,
         "gridY": 450
       }
     },
@@ -609,7 +670,7 @@
       "basic": {
         "name": "host44",
         "locType": "grid",
-        "gridX": -130,
+        "gridX": 270,
         "gridY": 450
       }
     },
@@ -617,7 +678,7 @@
       "basic": {
         "name": "host45",
         "locType": "grid",
-        "gridX": -60,
+        "gridX": 340,
         "gridY": 450
       }
     },
@@ -625,7 +686,7 @@
       "basic": {
         "name": "host46",
         "locType": "grid",
-        "gridX": -340,
+        "gridX": 60,
         "gridY": 530
       }
     },
@@ -633,7 +694,7 @@
       "basic": {
         "name": "host47",
         "locType": "grid",
-        "gridX": -270,
+        "gridX": 130,
         "gridY": 530
       }
     },
@@ -641,7 +702,7 @@
       "basic": {
         "name": "host48",
         "locType": "grid",
-        "gridX": -200,
+        "gridX": 200,
         "gridY": 530
       }
     },
@@ -649,7 +710,7 @@
       "basic": {
         "name": "host49",
         "locType": "grid",
-        "gridX": -130,
+        "gridX": 270,
         "gridY": 530
       }
     },
@@ -657,7 +718,7 @@
       "basic": {
         "name": "host410",
         "locType": "grid",
-        "gridX": -60,
+        "gridX": 340,
         "gridY": 530
       }
     },
@@ -665,7 +726,7 @@
       "basic": {
         "name": "host411",
         "locType": "grid",
-        "gridX": -340,
+        "gridX": 60,
         "gridY": 610
       }
     },
@@ -673,7 +734,7 @@
       "basic": {
         "name": "host412",
         "locType": "grid",
-        "gridX": -270,
+        "gridX": 130,
         "gridY": 610
       }
     },
@@ -681,7 +742,7 @@
       "basic": {
         "name": "host413",
         "locType": "grid",
-        "gridX": -200,
+        "gridX": 200,
         "gridY": 610
       }
     },
@@ -689,7 +750,7 @@
       "basic": {
         "name": "host414",
         "locType": "grid",
-        "gridX": -130,
+        "gridX": 270,
         "gridY": 610
       }
     },
@@ -697,7 +758,7 @@
       "basic": {
         "name": "host415",
         "locType": "grid",
-        "gridX": -60,
+        "gridX": 340,
         "gridY": 610
       }
     },
@@ -705,7 +766,7 @@
       "basic": {
         "name": "host416",
         "locType": "grid",
-        "gridX": -340,
+        "gridX": 60,
         "gridY": 690
       }
     },
@@ -713,7 +774,7 @@
       "basic": {
         "name": "host417",
         "locType": "grid",
-        "gridX": -270,
+        "gridX": 130,
         "gridY": 690
       }
     },
@@ -721,7 +782,7 @@
       "basic": {
         "name": "host418",
         "locType": "grid",
-        "gridX": -200,
+        "gridX": 200,
         "gridY": 690
       }
     },
@@ -729,7 +790,7 @@
       "basic": {
         "name": "host419",
         "locType": "grid",
-        "gridX": -130,
+        "gridX": 270,
         "gridY": 690
       }
     },
@@ -737,329 +798,10 @@
       "basic": {
         "name": "host420",
         "locType": "grid",
-        "gridX": -60,
-        "gridY": 690
-      }
-    },
-    "00:CA:FE:05:01:01/None": {
-      "basic": {
-        "name": "host51",
-        "locType": "grid",
-        "gridX": 60,
-        "gridY": 450
-      }
-    },
-    "00:CA:FE:05:01:02/None": {
-      "basic": {
-        "name": "host52",
-        "locType": "grid",
-        "gridX": 130,
-        "gridY": 450
-      }
-    },
-    "00:CA:FE:05:01:03/None": {
-      "basic": {
-        "name": "host53",
-        "locType": "grid",
-        "gridX": 200,
-        "gridY": 450
-      }
-    },
-    "00:CA:FE:05:01:04/None": {
-      "basic": {
-        "name": "host54",
-        "locType": "grid",
-        "gridX": 270,
-        "gridY": 450
-      }
-    },
-    "00:CA:FE:05:01:05/None": {
-      "basic": {
-        "name": "host55",
-        "locType": "grid",
         "gridX": 340,
-        "gridY": 450
-      }
-    },
-    "00:CA:FE:05:01:06/None": {
-      "basic": {
-        "name": "host56",
-        "locType": "grid",
-        "gridX": 60,
-        "gridY": 530
-      }
-    },
-    "00:CA:FE:05:01:07/None": {
-      "basic": {
-        "name": "host57",
-        "locType": "grid",
-        "gridX": 130,
-        "gridY": 530
-      }
-    },
-    "00:CA:FE:05:01:08/None": {
-      "basic": {
-        "name": "host58",
-        "locType": "grid",
-        "gridX": 200,
-        "gridY": 530
-      }
-    },
-    "00:CA:FE:05:01:09/None": {
-      "basic": {
-        "name": "host59",
-        "locType": "grid",
-        "gridX": 270,
-        "gridY": 530
-      }
-    },
-    "00:CA:FE:05:01:10/None": {
-      "basic": {
-        "name": "host510",
-        "locType": "grid",
-        "gridX": 340,
-        "gridY": 530
-      }
-    },
-    "00:CA:FE:05:01:11/None": {
-      "basic": {
-        "name": "host511",
-        "locType": "grid",
-        "gridX": 60,
-        "gridY": 610
-      }
-    },
-    "00:CA:FE:05:01:12/None": {
-      "basic": {
-        "name": "host512",
-        "locType": "grid",
-        "gridX": 130,
-        "gridY": 610
-      }
-    },
-    "00:CA:FE:05:01:13/None": {
-      "basic": {
-        "name": "host513",
-        "locType": "grid",
-        "gridX": 200,
-        "gridY": 610
-      }
-    },
-    "00:CA:FE:05:01:14/None": {
-      "basic": {
-        "name": "host514",
-        "locType": "grid",
-        "gridX": 270,
-        "gridY": 610
-      }
-    },
-    "00:CA:FE:05:01:15/None": {
-      "basic": {
-        "name": "host515",
-        "locType": "grid",
-        "gridX": 340,
-        "gridY": 610
-      }
-    },
-    "00:CA:FE:05:01:16/None": {
-      "basic": {
-        "name": "host516",
-        "locType": "grid",
-        "gridX": 60,
-        "gridY": 690
-      }
-    },
-    "00:CA:FE:05:01:17/None": {
-      "basic": {
-        "name": "host517",
-        "locType": "grid",
-        "gridX": 130,
-        "gridY": 690
-      }
-    },
-    "00:CA:FE:05:01:18/None": {
-      "basic": {
-        "name": "host518",
-        "locType": "grid",
-        "gridX": 200,
-        "gridY": 690
-      }
-    },
-    "00:CA:FE:05:01:19/None": {
-      "basic": {
-        "name": "host519",
-        "locType": "grid",
-        "gridX": 270,
-        "gridY": 690
-      }
-    },
-    "00:CA:FE:05:01:20/None": {
-      "basic": {
-        "name": "host520",
-        "locType": "grid",
-        "gridX": 340,
-        "gridY": 690
-      }
-    },
-    "00:CA:FE:06:01:01/None": {
-      "basic": {
-        "name": "host61",
-        "locType": "grid",
-        "gridX": 460,
-        "gridY": 450
-      }
-    },
-    "00:CA:FE:06:01:02/None": {
-      "basic": {
-        "name": "host62",
-        "locType": "grid",
-        "gridX": 530,
-        "gridY": 450
-      }
-    },
-    "00:CA:FE:06:01:03/None": {
-      "basic": {
-        "name": "host63",
-        "locType": "grid",
-        "gridX": 600,
-        "gridY": 450
-      }
-    },
-    "00:CA:FE:06:01:04/None": {
-      "basic": {
-        "name": "host64",
-        "locType": "grid",
-        "gridX": 670,
-        "gridY": 450
-      }
-    },
-    "00:CA:FE:06:01:05/None": {
-      "basic": {
-        "name": "host65",
-        "locType": "grid",
-        "gridX": 740,
-        "gridY": 450
-      }
-    },
-    "00:CA:FE:06:01:06/None": {
-      "basic": {
-        "name": "host66",
-        "locType": "grid",
-        "gridX": 460,
-        "gridY": 530
-      }
-    },
-    "00:CA:FE:06:01:07/None": {
-      "basic": {
-        "name": "host67",
-        "locType": "grid",
-        "gridX": 530,
-        "gridY": 530
-      }
-    },
-    "00:CA:FE:06:01:08/None": {
-      "basic": {
-        "name": "host68",
-        "locType": "grid",
-        "gridX": 600,
-        "gridY": 530
-      }
-    },
-    "00:CA:FE:06:01:09/None": {
-      "basic": {
-        "name": "host69",
-        "locType": "grid",
-        "gridX": 670,
-        "gridY": 530
-      }
-    },
-    "00:CA:FE:06:01:10/None": {
-      "basic": {
-        "name": "host610",
-        "locType": "grid",
-        "gridX": 740,
-        "gridY": 530
-      }
-    },
-    "00:CA:FE:06:01:11/None": {
-      "basic": {
-        "name": "host611",
-        "locType": "grid",
-        "gridX": 460,
-        "gridY": 610
-      }
-    },
-    "00:CA:FE:06:01:12/None": {
-      "basic": {
-        "name": "host612",
-        "locType": "grid",
-        "gridX": 530,
-        "gridY": 610
-      }
-    },
-    "00:CA:FE:06:01:13/None": {
-      "basic": {
-        "name": "host613",
-        "locType": "grid",
-        "gridX": 600,
-        "gridY": 610
-      }
-    },
-    "00:CA:FE:06:01:14/None": {
-      "basic": {
-        "name": "host614",
-        "locType": "grid",
-        "gridX": 670,
-        "gridY": 610
-      }
-    },
-    "00:CA:FE:06:01:15/None": {
-      "basic": {
-        "name": "host615",
-        "locType": "grid",
-        "gridX": 740,
-        "gridY": 610
-      }
-    },
-    "00:CA:FE:06:01:16/None": {
-      "basic": {
-        "name": "host616",
-        "locType": "grid",
-        "gridX": 460,
-        "gridY": 690
-      }
-    },
-    "00:CA:FE:06:01:17/None": {
-      "basic": {
-        "name": "host617",
-        "locType": "grid",
-        "gridX": 530,
-        "gridY": 690
-      }
-    },
-    "00:CA:FE:06:01:18/None": {
-      "basic": {
-        "name": "host618",
-        "locType": "grid",
-        "gridX": 600,
-        "gridY": 690
-      }
-    },
-    "00:CA:FE:06:01:19/None": {
-      "basic": {
-        "name": "host619",
-        "locType": "grid",
-        "gridX": 670,
-        "gridY": 690
-      }
-    },
-    "00:CA:FE:06:01:20/None": {
-      "basic": {
-        "name": "host620",
-        "locType": "grid",
-        "gridX": 740,
         "gridY": 690
       }
     }
-  }
+  },
+  "ports": {}
 }

@@ -4,44 +4,112 @@
       "basic": {
         "name": "leaf11",
         "managementAddress": "grpc://fabric-sim:20002?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-10.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": -600,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 111,
+        "loopbacks": [
+          "192.168.1.11"
+        ],
+        "routerMac": "00:AA:00:00:00:11",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf12": {
       "basic": {
         "name": "leaf12",
         "managementAddress": "grpc://fabric-sim:20003?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-11.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": -200,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 112,
+        "loopbacks": [
+          "192.168.1.12"
+        ],
+        "routerMac": "00:AA:00:00:00:12",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf21": {
       "basic": {
         "name": "leaf21",
         "managementAddress": "grpc://fabric-sim:20004?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-20.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": 200,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 121,
+        "loopbacks": [
+          "192.168.1.21"
+        ],
+        "routerMac": "00:AA:00:00:00:21",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:leaf22": {
       "basic": {
         "name": "leaf22",
         "managementAddress": "grpc://fabric-sim:20005?device_id=0",
-        "driver": "stratum-tofino",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-switch-host-agent-21.sdfabric-switch-host-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": 600,
         "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 122,
+        "loopbacks": [
+          "192.168.1.22"
+        ],
+        "routerMac": "00:AA:00:00:00:22",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking"
+        ]
       }
     },
     "device:spine1": {
@@ -53,6 +121,19 @@
         "locType": "grid",
         "gridX": -200,
         "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 201,
+        "loopbacks": [
+          "192.168.2.1"
+        ],
+        "routerMac": "00:BB:00:00:00:01",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     },
     "device:spine2": {
@@ -64,6 +145,19 @@
         "locType": "grid",
         "gridX": 200,
         "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 202,
+        "loopbacks": [
+          "192.168.2.2"
+        ],
+        "routerMac": "00:BB:00:00:00:02",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
       }
     }
   },
@@ -708,5 +802,6 @@
         "gridY": 530
       }
     }
-  }
+  },
+  "ports": {}
 }

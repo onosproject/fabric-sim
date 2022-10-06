@@ -16,9 +16,9 @@ func TestLoadTopologyFile(t *testing.T) {
 	topo := &Topology{}
 	err := LoadTopologyFile("../../topologies/plain.yaml", topo)
 	assert.NoError(t, err)
-	assert.Len(t, topo.Devices, 3+6)
-	assert.Len(t, topo.Links, 3*3*6)
-	assert.Len(t, topo.Hosts, 6*20)
+	assert.Len(t, topo.Devices, 2+4)
+	assert.Len(t, topo.Links, 3*2*4)
+	assert.Len(t, topo.Hosts, 4*20)
 }
 
 func TestGeneratePlainFabric(t *testing.T) {

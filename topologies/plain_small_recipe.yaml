@@ -4,14 +4,14 @@
 
 # Recipe for creating super-spine fabric topology
 
-# Recipe for 2x4 plain fabric
+# Recipe for 2x2 plain fabric
 plain_fabric:
   spines: 2
   spine_port_count: 32
 
-  leaves: 4
+  leaves: 2
   leaf_port_count: 32
 
-  spine_trunk: 3
+  spine_trunk: 2
 
-  hosts_per_leaf: 20
+  hosts_per_leaf: 10

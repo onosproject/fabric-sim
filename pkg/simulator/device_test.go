@@ -10,6 +10,7 @@ import (
 	"github.com/onosproject/fabric-sim/pkg/topo"
 	"github.com/onosproject/fabric-sim/pkg/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
@@ -26,6 +27,10 @@ func TestNewDeviceSimulator(t *testing.T) {
 }
 
 type dummyStreamResponder struct {
+}
+
+func (d dummyStreamResponder) GetRoleConfig() *stratum.P4RoleConfig {
+	panic("implement me")
 }
 
 func (d dummyStreamResponder) LatchMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate) *p4api.MasterArbitrationUpdate {

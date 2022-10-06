@@ -28,7 +28,7 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	defer CleanUp(t)
 
 	// Let's create a codec for meta-data from the P4 info file
-	info, err := utils.LoadP4Info("pipelines/fabric-spgw-int.p4info.txt")
+	info, err := utils.LoadP4Info("pipelines/p4info.txt")
 	assert.NoError(t, err)
 	codec = utils.NewControllerMetadataCodec(info)
 
@@ -66,7 +66,7 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Install an entry to punt LLDP packets to CPU
-	err = InstallPuntRule(ctx, p4sw2a, r2.Device.ChassisID, &eID1, uint16(layers.EthernetTypeLinkLayerDiscovery))
+	err = InstallPuntRule(ctx, p4sw2a, r2.Device.ChassisID, "", &eID1, uint16(layers.EthernetTypeLinkLayerDiscovery))
 	assert.NoError(t, err)
 
 	egressPort := uint32(224)
@@ -107,20 +107,20 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 }
 
 // InstallPuntRule installs rule matching on the specified eth type with action to punt to CPU
-func InstallPuntRule(ctx context.Context, p4sw2a p4api.P4RuntimeClient, chassisID uint64, electionID *p4api.Uint128, ethType uint16) error {
+func InstallPuntRule(ctx context.Context, p4sw2a p4api.P4RuntimeClient, chassisID uint64, roleName string, electionID *p4api.Uint128, ethType uint16) error {
 	mask := []byte{0xff, 0xff}
 	ethTypeValue := []byte{0, 0}
 	binary.BigEndian.PutUint16(ethTypeValue, ethType)
 
 	_, err := p4sw2a.Write(ctx, &p4api.WriteRequest{
 		DeviceId:   chassisID,
-		Role:       "",
+		Role:       roleName,
 		ElectionId: electionID,
 		Updates: []*p4api.Update{{
 			Type: p4api.Update_INSERT,
 			Entity: &p4api.Entity{Entity: &p4api.Entity_TableEntry{
 				TableEntry: &p4api.TableEntry{
-					TableId: 44104738,
+					TableId: 39601850,
 					Match: []*p4api.FieldMatch{{
 						FieldId: 5,
 						FieldMatchType: &p4api.FieldMatch_Ternary_{
@@ -134,6 +134,7 @@ func InstallPuntRule(ctx context.Context, p4sw2a p4api.P4RuntimeClient, chassisI
 						Type: &p4api.TableAction_Action{
 							Action: &p4api.Action{
 								ActionId: 23579892,
+								Params:   []*p4api.Action_Param{{ParamId: 1, Value: []byte("\x01")}},
 							},
 						},
 					},
@@ -176,7 +177,7 @@ func StartStream(ctx context.Context, t *testing.T, client p4api.P4RuntimeClient
 	stream, err := client.StreamChannel(ctx)
 	assert.NoError(t, err)
 
-	err = stream.Send(utils.CreateMastershipArbitration(electionID))
+	err = stream.Send(utils.CreateMastershipArbitration(electionID, nil))
 	assert.NoError(t, err)
 
 	msg, err := stream.Recv()
