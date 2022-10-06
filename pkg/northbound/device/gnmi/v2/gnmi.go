@@ -12,7 +12,9 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/openconfig/gnmi/proto/gnmi"
+	"google.golang.org/grpc/peer"
 	"io"
+	"time"
 )
 
 var log = logging.GetLogger("northbound", "device", "gnmi")
@@ -92,11 +94,17 @@ type streamState struct {
 	stream          gnmi.GNMI_SubscribeServer
 	req             *gnmi.SubscribeRequest
 	streamResponses chan *gnmi.SubscribeResponse
+	connection      *simapi.Connection
 }
 
 // Send sends the specified response to the subscription stream
-func (s *streamState) Send(response *gnmi.SubscribeResponse) {
+func (state *streamState) Send(response *gnmi.SubscribeResponse) {
 	panic("implement me")
+}
+
+// GetConnection returns the peer connection info for the stream channel
+func (state *streamState) GetConnection() *simapi.Connection {
+	return state.connection
 }
 
 // Subscribe allows a client to request the target to send it values
@@ -111,6 +119,13 @@ func (s *Server) Subscribe(server gnmi.GNMI_SubscribeServer) error {
 	responder := &streamState{
 		stream:          server,
 		streamResponses: make(chan *gnmi.SubscribeResponse, 128),
+	}
+	if p, ok := peer.FromContext(server.Context()); ok {
+		responder.connection = &simapi.Connection{
+			FromAddress: p.Addr.String(),
+			Protocol:    "gnmi",
+			Time:        time.Now().Unix(),
+		}
 	}
 	s.deviceSim.AddSubscribeResponder(responder)
 

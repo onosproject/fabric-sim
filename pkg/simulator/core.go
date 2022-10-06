@@ -52,8 +52,16 @@ type DeviceAgent interface {
 	Stop(mode simapi.StopMode) error
 }
 
+// ConnectionTracker is an abstraction of an entity maintaining a peer connection
+type ConnectionTracker interface {
+	// GetConnection returns the peer connection information
+	GetConnection() *simapi.Connection
+}
+
 // StreamResponder is an abstraction for sending StreamResponse messages to controllers
 type StreamResponder interface {
+	ConnectionTracker
+
 	// LatchMastershipArbitration record the mastership arbitration role and election ID if the arbitration update is not nil
 	LatchMastershipArbitration(arbitration *p4api.MasterArbitrationUpdate) *p4api.MasterArbitrationUpdate
 
@@ -73,6 +81,8 @@ type StreamResponder interface {
 
 // SubscribeResponder is an abstraction for sending SubscribeResponse messages to controllers
 type SubscribeResponder interface {
+	ConnectionTracker
+
 	// Send queues up the specified response to asynchronously sends on the backing stream
 	Send(response *gnmi.SubscribeResponse)
 }
