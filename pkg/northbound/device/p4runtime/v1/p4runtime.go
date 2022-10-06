@@ -16,7 +16,9 @@ import (
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/genproto/googleapis/rpc/code"
 	"google.golang.org/genproto/googleapis/rpc/status"
+	"google.golang.org/grpc/peer"
 	"io"
+	"time"
 )
 
 var log = logging.GetLogger("northbound", "device", "p4runtime")
@@ -127,6 +129,7 @@ type streamState struct {
 	electionID      *p4api.Uint128
 	sentCode        *int32
 	streamResponses chan *p4api.StreamMessageResponse
+	connection      *simapi.Connection
 }
 
 // Send queues up the specified response to asynchronously send to the backing stream
@@ -165,7 +168,7 @@ func (state *streamState) LatchMastershipArbitration(arbitration *p4api.MasterAr
 		state.electionID = arbitration.ElectionId
 
 		if arbitration.Role != nil && arbitration.Role.Config != nil {
-			state.roleConfig = &stratum.P4RoleConfig{}
+			state.roleConfig = &stratum.P4RoleConfig{ReceivesPacketIns: true}
 			any := &gogo.Any{TypeUrl: state.role.Config.TypeUrl, Value: state.role.Config.Value}
 			_ = gogo.UnmarshalAny(any, state.roleConfig)
 		}
@@ -184,6 +187,11 @@ func (state *streamState) GetRoleConfig() *stratum.P4RoleConfig {
 	return state.roleConfig
 }
 
+// GetConnection returns the peer connection info for the stream channel
+func (state *streamState) GetConnection() *simapi.Connection {
+	return state.connection
+}
+
 // StreamChannel reads and handles incoming requests and emits any queued up outgoing responses
 func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error {
 	log.Infof("Device %s: Received stream channel request", s.deviceID)
@@ -191,6 +199,13 @@ func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error
 	// Create and register a new record to track the state of this stream
 	responder := &streamState{
 		streamResponses: make(chan *p4api.StreamMessageResponse, 128),
+	}
+	if p, ok := peer.FromContext(server.Context()); ok {
+		responder.connection = &simapi.Connection{
+			FromAddress: p.Addr.String(),
+			Protocol:    "p4rt",
+			Time:        time.Now().Unix(),
+		}
 	}
 	s.deviceSim.AddStreamResponder(responder)
 

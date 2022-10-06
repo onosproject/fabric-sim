@@ -29,6 +29,10 @@ func TestNewDeviceSimulator(t *testing.T) {
 type dummyStreamResponder struct {
 }
 
+func (d dummyStreamResponder) GetConnection() *simapi.Connection {
+	return &simapi.Connection{}
+}
+
 func (d dummyStreamResponder) GetRoleConfig() *stratum.P4RoleConfig {
 	panic("implement me")
 }
@@ -50,7 +54,7 @@ func (d dummyStreamResponder) IsMaster(role *p4api.Role, masterElectionID *p4api
 }
 
 func TestAddRemoveStreamResponder(t *testing.T) {
-	ds := &DeviceSimulator{}
+	ds := &DeviceSimulator{Device: &simapi.Device{}}
 	r1 := &dummyStreamResponder{}
 	r2 := &dummyStreamResponder{}
 	ds.AddStreamResponder(r1)
@@ -66,12 +70,16 @@ func TestAddRemoveStreamResponder(t *testing.T) {
 type dummySubscribeResponder struct {
 }
 
+func (d dummySubscribeResponder) GetConnection() *simapi.Connection {
+	return &simapi.Connection{}
+}
+
 func (d dummySubscribeResponder) Send(response *gnmi.SubscribeResponse) {
 	panic("implement me")
 }
 
 func TestAddRemoveSubscribeResponder(t *testing.T) {
-	ds := &DeviceSimulator{}
+	ds := &DeviceSimulator{Device: &simapi.Device{}}
 	r1 := &dummySubscribeResponder{}
 	r2 := &dummySubscribeResponder{}
 	ds.AddSubscribeResponder(r1)

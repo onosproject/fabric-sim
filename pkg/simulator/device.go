@@ -86,6 +86,7 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 	cfg := config.NewSwitchConfig(ports)
 
 	device.PipelineInfo = &simapi.PipelineInfo{}
+	device.Connections = make([]*simapi.Connection, 0)
 
 	// Construct and return simulator from the device and the port map
 	return &DeviceSimulator{
@@ -285,21 +286,31 @@ func (ds *DeviceSimulator) AddStreamResponder(responder StreamResponder) {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
 	ds.streamResponders = append(ds.streamResponders, responder)
+	ds.Device.Connections = append(ds.Device.Connections, responder.GetConnection())
+	ds.Device.TotalConnections++
 }
 
 // RemoveStreamResponder removes the specified stream responder from the specified device
 func (ds *DeviceSimulator) RemoveStreamResponder(responder StreamResponder) {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
-	i := 0
-	for _, r := range ds.streamResponders {
+	ds.removeConnection(responder.GetConnection())
+	for i, r := range ds.streamResponders {
 		if r == responder {
-			ds.streamResponders[i] = ds.streamResponders[len(ds.streamResponders)-1]
-			ds.streamResponders[len(ds.streamResponders)-1] = nil
-			ds.streamResponders = ds.streamResponders[:len(ds.streamResponders)-1] // Truncate
+			ds.streamResponders = append(ds.streamResponders[:i], ds.streamResponders[i+1:]...)
 			return
 		}
-		i++
+	}
+}
+
+func (ds *DeviceSimulator) removeConnection(connection *simapi.Connection) {
+	log.Infof("Device %s: Removing %s connection from %s...", ds.Device.ID, connection.Protocol, connection.FromAddress)
+	for i, c := range ds.Device.Connections {
+		if c.FromAddress == connection.FromAddress {
+			log.Infof("Device %s: Removed %s connection from %s", ds.Device.ID, connection.Protocol, connection.FromAddress)
+			ds.Device.Connections = append(ds.Device.Connections[:i], ds.Device.Connections[i+1:]...)
+			return
+		}
 	}
 }
 
@@ -317,21 +328,20 @@ func (ds *DeviceSimulator) AddSubscribeResponder(responder SubscribeResponder) {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
 	ds.subscribeResponders = append(ds.subscribeResponders, responder)
+	ds.Device.Connections = append(ds.Device.Connections, responder.GetConnection())
+	ds.Device.TotalConnections++
 }
 
 // RemoveSubscribeResponder removes the specified subscribe responder from the specified device
 func (ds *DeviceSimulator) RemoveSubscribeResponder(responder SubscribeResponder) {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
-	i := 0
-	for _, r := range ds.subscribeResponders {
+	ds.removeConnection(responder.GetConnection())
+	for i, r := range ds.subscribeResponders {
 		if r == responder {
-			ds.subscribeResponders[i] = ds.subscribeResponders[len(ds.subscribeResponders)-1]
-			ds.subscribeResponders[len(ds.subscribeResponders)-1] = nil
-			ds.subscribeResponders = ds.subscribeResponders[:len(ds.subscribeResponders)-1] // Truncate
+			ds.subscribeResponders = append(ds.subscribeResponders[:i], ds.subscribeResponders[i+1:]...)
 			return
 		}
-		i++
 	}
 }
 
