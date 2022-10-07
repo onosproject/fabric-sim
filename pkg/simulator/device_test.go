@@ -26,6 +26,49 @@ func TestNewDeviceSimulator(t *testing.T) {
 	assert.Equal(t, simapi.DeviceID(topology.Devices[0].ID), sim.Device.ID)
 }
 
+func TestRecordRoleElection(t *testing.T) {
+	ds := &DeviceSimulator{Device: &simapi.Device{}, roleConfigs: make(map[string]*roleConfig)}
+	wid := ds.RecordRoleElection(nil, &p4api.Uint128{Low: 2})
+	assert.Equal(t, uint64(2), wid.Low)
+	wid = ds.RecordRoleElection(nil, &p4api.Uint128{Low: 1})
+	assert.Equal(t, uint64(2), wid.Low)
+	wid = ds.RecordRoleElection(nil, &p4api.Uint128{Low: 3})
+	assert.Equal(t, uint64(3), wid.Low)
+
+	wid = ds.RecordRoleElection(&p4api.Role{Name: "foo"}, &p4api.Uint128{Low: 1})
+	assert.Equal(t, uint64(1), wid.Low)
+	wid = ds.RecordRoleElection(nil, &p4api.Uint128{Low: 3})
+	assert.Nil(t, wid)
+}
+
+func TestRunMastershipAbitration(t *testing.T) {
+	ds := &DeviceSimulator{Device: &simapi.Device{}, roleConfigs: make(map[string]*roleConfig)}
+	err := ds.RunMastershipArbitration(nil, &p4api.Uint128{Low: 2})
+	dumpRoles(t, ds)
+	assert.NoError(t, err)
+	err = ds.RunMastershipArbitration(nil, &p4api.Uint128{Low: 2})
+	dumpRoles(t, ds)
+	assert.NoError(t, err)
+	err = ds.RunMastershipArbitration(nil, &p4api.Uint128{Low: 1})
+	dumpRoles(t, ds)
+	assert.NoError(t, err)
+
+	err = ds.RunMastershipArbitration(nil, &p4api.Uint128{Low: 3})
+	dumpRoles(t, ds)
+	assert.NoError(t, err)
+
+	err = ds.RunMastershipArbitration(&p4api.Role{Name: "foo"}, &p4api.Uint128{Low: 2})
+	dumpRoles(t, ds)
+	assert.NoError(t, err)
+}
+
+func dumpRoles(t *testing.T, ds *DeviceSimulator) {
+	t.Log("---")
+	for k, v := range ds.roleConfigs {
+		t.Logf("%s=%d, ", k, v.electionID.Low)
+	}
+}
+
 type dummyStreamResponder struct {
 }
 

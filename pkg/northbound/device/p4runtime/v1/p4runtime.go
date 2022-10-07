@@ -138,6 +138,10 @@ func (state *streamState) Send(response *p4api.StreamMessageResponse) {
 }
 
 func (state *streamState) SendMastershipArbitration(role *p4api.Role, masterElectionID *p4api.Uint128, failCode code.Code) {
+	if role != state.role {
+		return
+	}
+
 	// Send failed election status code unless we are the master
 	electionStatus := &status.Status{Code: int32(failCode)}
 	if state.electionID == masterElectionID && state.role == role {
@@ -218,7 +222,10 @@ func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error
 	// Emit any queued-up messages in the background until we get an error or the context is closed
 	go func() {
 		for msg := range responder.streamResponses {
+			log.Infof("Device %s NB: Sending message to %s: %+v",
+				s.deviceID, responder.connection.FromAddress, msg)
 			if err := server.Send(msg); err != nil {
+				log.Warnf("Device %s NB: Unable to send message... closing connection", s.deviceID)
 				return
 			}
 			select {

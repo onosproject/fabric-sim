@@ -247,7 +247,7 @@ func (ds *DeviceSimulator) getRoleConfig(role *p4api.Role, electionID *p4api.Uin
 
 // RunMastershipArbitration processes the specified arbitration update
 func (ds *DeviceSimulator) RunMastershipArbitration(role *p4api.Role, electionID *p4api.Uint128) error {
-	log.Debugf("Device %s: running mastership arbitration for role %s and electionID %+v", ds.Device.ID, role, electionID)
+	log.Infof("Device %s: running mastership arbitration for role %s and electionID %+v", ds.Device.ID, role, electionID)
 
 	// Record the role and election ID, return the winning (highest) election ID for the role
 	maxElectionID := ds.RecordRoleElection(role, electionID)
