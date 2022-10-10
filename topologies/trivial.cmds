@@ -1,0 +1,2 @@
+create-logical-switch-port t1l1p225 1 device:switch1/225 0 false
+create-logical-switch-port t1l2p235 1 device:switch2/235 0 false

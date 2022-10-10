@@ -20,6 +20,7 @@ const (
 	outputFlag   = "output"
 	driverFlag   = "driver"
 	pipeconfFlag = "pipeconf"
+	tenants      = "tenants"
 )
 
 // The main entry point
@@ -132,6 +133,8 @@ func getGenerateNetcfgCommand() *cobra.Command {
 	cmd.Flags().String(driverFlag, "stratum-tofino", "ONOS driver")
 	cmd.Flags().String(pipeconfFlag, "org.stratumproject.fabric.montara_sde_9_7_0", "ONOS pipeconf")
 	cmd.Flags().String(outputFlag, "-", "netcfg JSON file; use - for stdout (default)")
+	cmd.Flags().IntSlice(tenants, []int{1, 1, 2, 3, 3, 4, 4, 2, 5, 3, 5, 6, 6, 2, 2, 7, 7},
+		"pattern list of tenants for assigning logical ports to")
 	return cmd
 }
 
@@ -140,7 +143,8 @@ func runGenerateNetcfgCommand(cmd *cobra.Command, args []string) error {
 	outputPath, _ := cmd.Flags().GetString(outputFlag)
 	driver, _ := cmd.Flags().GetString(driverFlag)
 	pipeconf, _ := cmd.Flags().GetString(pipeconfFlag)
-	return topo.GenerateNetcfg(topologyPath, outputPath, driver, pipeconf)
+	tenants, _ := cmd.Flags().GetIntSlice(tenants)
+	return topo.GenerateNetcfg(topologyPath, outputPath, driver, pipeconf, tenants)
 }
 
 func getGenerateRobotCommand() *cobra.Command {

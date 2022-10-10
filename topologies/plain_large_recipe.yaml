@@ -12,6 +12,6 @@ plain_fabric:
   leaves: 8
   leaf_port_count: 64
 
-  spine_trunk: 4
+  spine_trunk: 3
 
   hosts_per_leaf: 20

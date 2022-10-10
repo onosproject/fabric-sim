@@ -90,7 +90,7 @@ type NetcfgPortInterfaces struct {
 // TODO: add location/position information for GUI layout
 
 // GenerateNetcfg loads the specified topology YAML file and uses it to generate ONOS netcfg.json file
-func GenerateNetcfg(topologyPath string, netcfgPath string, driver string, pipeconf string) error {
+func GenerateNetcfg(topologyPath string, netcfgPath string, driver string, pipeconf string, tenants []int) error {
 	log.Infof("Loading topology from %s", topologyPath)
 	topology := &Topology{}
 
@@ -104,21 +104,43 @@ func GenerateNetcfg(topologyPath string, netcfgPath string, driver string, pipec
 		Hosts:   make(map[string]*NetcfgHost),
 	}
 
+	portMap := make(map[string]string)
+
 	for _, device := range topology.Devices {
 		ncfg.Devices[fmt.Sprintf("device:%s", device.ID)] = createNetcfgDevice(device, driver, pipeconf)
+		for _, port := range device.Ports {
+			portMap[fmt.Sprintf("%s/%d", device.ID, port.Number)] =
+				fmt.Sprintf("%s/%d", device.ID, port.SDNNumber)
+		}
 	}
 
+	onosCommands := make([]string, 0)
+	ti := 0
 	for _, host := range topology.Hosts {
 		for _, nic := range host.NICs {
 			if genPortConfig {
 				portID := fmt.Sprintf("device:%s", nic.Port)
 				ncfg.Ports[portID] = createNetcfgPort(portID, host, nic)
 			}
-			ncfg.Hosts[fmt.Sprintf("%s/None", strings.ToUpper(nic.Mac))] = createNetcfgHost(host, nic)
+			onosHostID := fmt.Sprintf("%s/None[%d]", strings.ToUpper(nic.Mac), tenants[ti])
+			ncfg.Hosts[onosHostID] = createNetcfgHost(host, nic)
+			onosCommands = append(onosCommands, createONOSCommand(nic, tenants[ti], portMap))
+			ti = (ti + 1) % len(tenants)
 		}
 	}
 
+	_ = saveONOSCommands(netcfgPath, onosCommands)
 	return saveNetcfgFile(ncfg, netcfgPath)
+}
+
+func createONOSCommand(nic NIC, tenant int, portMap map[string]string) string {
+	port := portMap[nic.Port]
+	f := indexPattern.FindAllString(port, 2)
+	deviceIndex, _ := strconv.ParseUint(f[0], 10, 32)
+	portIndex, _ := strconv.ParseUint(f[1], 10, 32)
+
+	return fmt.Sprintf("create-logical-switch-port t%dl%dp%d %d device:%s 0 false\n",
+		tenant, deviceIndex, portIndex, tenant, port)
 }
 
 func createNetcfgDevice(device Device, driver string, pipeconf string) *NetcfgDevice {
@@ -170,7 +192,7 @@ func isLeaf(id string) bool {
 	return strings.HasPrefix(id, "leaf")
 }
 
-var indexPattern, _ = regexp.Compile("([0-9]+)")
+var indexPattern = regexp.MustCompile("([0-9]+)")
 
 func getIndex(id string) int {
 	match := indexPattern.FindStringIndex(id)
@@ -253,6 +275,19 @@ func saveNetcfgFile(ncfg *Netcfg, path string) error {
 	// Then append the copy of the JSON content
 	if _, err = fmt.Fprint(output, string(buffer)); err != nil {
 		return err
+	}
+	return nil
+}
+
+func saveONOSCommands(path string, commands []string) error {
+	f, err := os.Create(strings.Replace(strings.Replace(path, ".json", ".cmds", 1), "_netcfg", "", 1))
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	for _, cmd := range commands {
+		_, _ = f.WriteString(cmd)
 	}
 	return nil
 }
