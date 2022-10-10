@@ -11,7 +11,7 @@ import (
 )
 
 func TestGenerateNetcfg(t *testing.T) {
-	err := GenerateNetcfg("../../topologies/plain.yaml", "/tmp/plain_netcfg.json", "stratum-driver", "stratum-pipeconf")
+	err := GenerateNetcfg("../../topologies/plain.yaml", "/tmp/plain_netcfg.json", "stratum-driver", "stratum-pipeconf", []int{1})
 	defer os.Remove("/tmp/plain_netcfg.json")
 	assert.NoError(t, err)
 }
