@@ -8,7 +8,7 @@
           "host-local-agent": "grpc://sdfabric-switch-host-agent-0.sdfabric-switch-host-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": -600,
         "gridY": 200
@@ -24,7 +24,8 @@
       "reconciliation": {
         "requiredApps": [
           "org.onosproject.underlay",
-          "org.onosproject.virtualnetworking"
+          "org.onosproject.virtualnetworking",
+          "org.onosproject.localagents"
         ]
       }
     },
@@ -36,7 +37,7 @@
           "host-local-agent": "grpc://sdfabric-switch-host-agent-1.sdfabric-switch-host-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
         "locType": "grid",
         "gridX": -200,
         "gridY": 200
@@ -52,7 +53,8 @@
       "reconciliation": {
         "requiredApps": [
           "org.onosproject.underlay",
-          "org.onosproject.virtualnetworking"
+          "org.onosproject.virtualnetworking",
+          "org.onosproject.localagents"
         ]
       }
     },

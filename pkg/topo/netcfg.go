@@ -155,17 +155,20 @@ func createNetcfgDevice(device Device, driver string, pipeconf string) *NetcfgDe
 
 	var ancillary *NetcfgManagementAddresses
 	useDriver := driver
+	usePipeconf := pipeconf
 	if isLeaf(device.ID) {
 		leafIndex := getIndex(device.ID)
 		ancillary = &NetcfgManagementAddresses{
 			HostLocalAgent: fmt.Sprintf("grpc://sdfabric-switch-host-agent-%d.sdfabric-switch-host-agent:11161", leafIndex-1),
 		}
 		useDriver = fmt.Sprintf("%s-la", driver)
+		usePipeconf = strings.Replace(usePipeconf, ".fabric.", ".fabric-vn.", 1)
 		underlay.NodeSid = 100 + index
 		underlay.Loopbacks = []string{fmt.Sprintf("192.168.1.%d", index)}
 		underlay.RouterMac = fmt.Sprintf("00:AA:00:00:00:%02d", index)
 		underlay.IsEdgeRouter = true
 		reconciliation.RequiredApps = append(reconciliation.RequiredApps, "org.onosproject.virtualnetworking")
+		reconciliation.RequiredApps = append(reconciliation.RequiredApps, "org.onosproject.localagents")
 	} else {
 		underlay.NodeSid = 200 + index
 		underlay.Loopbacks = []string{fmt.Sprintf("192.168.2.%d", index)}
@@ -178,7 +181,7 @@ func createNetcfgDevice(device Device, driver string, pipeconf string) *NetcfgDe
 			ManagementAddress:            fmt.Sprintf("grpc://fabric-sim:%d?device_id=0", device.AgentPort),
 			AncillaryManagementAddresses: ancillary,
 			Driver:                       useDriver,
-			Pipeconf:                     pipeconf,
+			Pipeconf:                     usePipeconf,
 			LocType:                      "grid",
 			GridX:                        loc.X,
 			GridY:                        loc.Y,
