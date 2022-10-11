@@ -135,12 +135,16 @@ func saveTopologyFile(topology *Topology, path string) error {
 type Builder struct {
 	agentPort int32
 	nextPort  map[string]int
+	minPort   map[string]int
+	maxPort   map[string]int
 }
 
 // NewBuilder creates a new topology builder context
 func NewBuilder() *Builder {
 	return &Builder{
 		nextPort: make(map[string]int),
+		minPort:  make(map[string]int),
+		maxPort:  make(map[string]int),
 	}
 }
 
@@ -159,6 +163,11 @@ func (b *Builder) NextDevicePortID(deviceID string) string {
 	}
 	portID := fmt.Sprintf("%s/%d", deviceID, portNumber)
 	b.nextPort[deviceID] = portNumber + 1
+
+	// Wrap around to the min port range
+	if b.nextPort[deviceID] > b.maxPort[deviceID] {
+		b.nextPort[deviceID] = b.minPort[deviceID]
+	}
 	return portID
 }
 
@@ -172,6 +181,8 @@ func createSwitch(deviceID string, portCount int, builder *Builder, topology *To
 		Ports:     createPorts(portCount),
 		Pos:       pos,
 	}
+	builder.minPort[deviceID] = 1
+	builder.maxPort[deviceID] = portCount
 	topology.Devices = append(topology.Devices, device)
 	return device
 }

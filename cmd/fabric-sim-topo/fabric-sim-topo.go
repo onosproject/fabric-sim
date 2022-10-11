@@ -133,8 +133,9 @@ func getGenerateNetcfgCommand() *cobra.Command {
 	cmd.Flags().String(driverFlag, "stratum-tofino", "ONOS driver")
 	cmd.Flags().String(pipeconfFlag, "org.stratumproject.fabric.montara_sde_9_7_0", "ONOS pipeconf")
 	cmd.Flags().String(outputFlag, "-", "netcfg JSON file; use - for stdout (default)")
-	cmd.Flags().IntSlice(tenants, []int{1, 1, 2, 3, 3, 4, 4, 2, 5, 3, 5, 6, 6, 2, 2, 7, 7},
-		"pattern list of tenants for assigning logical ports to")
+	cmd.Flags().IntSlice(tenants, []int{
+		21, 15, 17, 29, 13, 13, 21, 28, 26, 24, 25, 16, 12, 16, 31, 31, 32, 33, 18, 30, 23, 18, 35, 14, 22, 20, 34, 19, 27, 11, 12,
+	}, "pattern list of tenants for assigning logical ports to")
 	return cmd
 }
 

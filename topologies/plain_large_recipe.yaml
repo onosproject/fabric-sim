@@ -14,4 +14,4 @@ plain_fabric:
 
   spine_trunk: 3
 
-  hosts_per_leaf: 20
+  hosts_per_leaf: 50
