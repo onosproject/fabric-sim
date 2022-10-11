@@ -50,6 +50,10 @@ func GenerateAccessFabric(fabric *AccessFabric) *Topology {
 		// Pair the leaves
 		createLinkTrunk(leaf1, leaf2, fabric.PairTrunk, builder, topology)
 
+		// Latch the min ports for host attachment
+		builder.minPort[sw1.ID] = builder.nextPort[sw1.ID]
+		builder.minPort[sw2.ID] = builder.nextPort[sw2.ID]
+
 		// Finally, create the hosts and attach them to the leaf pairs
 		createRackHosts(pair, leaf1, leaf2, fabric.HostsPerPair, builder, topology,
 			coord(2*pair, 2*fabric.LeafPairs, leafGap, -leafGap/2), hostsPerRow)
