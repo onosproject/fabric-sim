@@ -43,6 +43,8 @@ type DeviceSimulator struct {
 	tables   *entries.Tables
 	counters *entries.Counters
 	meters   *entries.Meters
+	profiles *entries.ActionProfiles
+	pre      *entries.PacketReplication
 
 	config     *config.Node
 	codec      *utils.ControllerMetadataCodec
@@ -364,6 +366,8 @@ func (ds *DeviceSimulator) SetPipelineConfig(fpc *p4api.ForwardingPipelineConfig
 	ds.tables = entries.NewTables(info.Tables)
 	ds.counters = entries.NewCounters(info.Counters)
 	ds.meters = entries.NewMeters(info.Meters)
+	ds.profiles = entries.NewActionProfiles(info.ActionProfiles)
+	ds.pre = entries.NewPacketReplication()
 
 	ds.findPuntToCPUTables()
 
@@ -578,13 +582,27 @@ func (ds *DeviceSimulator) processModify(update *p4api.Update, isInsert bool) er
 	case entity.GetDirectMeterEntry() != nil:
 		err = ds.tables.ModifyDirectMeterEntry(entity.GetDirectMeterEntry(), isInsert)
 
-	case entity.GetRegisterEntry() != nil:
-	case entity.GetValueSetEntry() != nil:
 	case entity.GetActionProfileGroup() != nil:
+		err = ds.profiles.ModifyActionProfileGroup(entity.GetActionProfileGroup(), isInsert)
 	case entity.GetActionProfileMember() != nil:
-	case entity.GetDigestEntry() != nil:
+		err = ds.profiles.ModifyActionProfileMember(entity.GetActionProfileMember(), isInsert)
+
 	case entity.GetPacketReplicationEngineEntry() != nil:
+		switch {
+		case entity.GetPacketReplicationEngineEntry().GetMulticastGroupEntry() != nil:
+			err = ds.pre.ModifyMulticastGroupEntry(entity.GetPacketReplicationEngineEntry().GetMulticastGroupEntry(), isInsert)
+		case entity.GetPacketReplicationEngineEntry().GetCloneSessionEntry() != nil:
+			err = ds.pre.ModifyCloneSessionEntry(entity.GetPacketReplicationEngineEntry().GetCloneSessionEntry(), isInsert)
+		}
+
+	case entity.GetRegisterEntry() != nil:
+		log.Warnf("Device %s: RegisterEntry write is not supported yet: %+v", ds.Device.ID, entity.GetRegisterEntry())
+	case entity.GetValueSetEntry() != nil:
+		log.Warnf("Device %s: ValueSetEntry write is not supported yet: %+v", ds.Device.ID, entity.GetValueSetEntry())
+	case entity.GetDigestEntry() != nil:
+		log.Warnf("Device %s: DigestEntry write is not supported yet: %+v", ds.Device.ID, entity.GetDigestEntry())
 	case entity.GetExternEntry() != nil:
+		log.Warnf("Device %s: ExternEntry write is not supported yet: %+v", ds.Device.ID, entity.GetExternEntry())
 	default:
 	}
 	return err
@@ -608,12 +626,22 @@ func (ds *DeviceSimulator) processDelete(update *p4api.Update) error {
 	case entity.GetDirectMeterEntry() != nil:
 		err = errors.NewInvalid("direct meter entry cannot be deleted")
 
+	case entity.GetActionProfileGroup() != nil:
+		err = ds.profiles.DeleteActionProfileGroup(entity.GetActionProfileGroup())
+	case entity.GetActionProfileMember() != nil:
+		err = ds.profiles.DeleteActionProfileMember(entity.GetActionProfileMember())
+
+	case entity.GetPacketReplicationEngineEntry() != nil:
+		switch {
+		case entity.GetPacketReplicationEngineEntry().GetMulticastGroupEntry() != nil:
+			err = ds.pre.DeleteMulticastGroupEntry(entity.GetPacketReplicationEngineEntry().GetMulticastGroupEntry())
+		case entity.GetPacketReplicationEngineEntry().GetCloneSessionEntry() != nil:
+			err = ds.pre.DeleteCloneSessionEntry(entity.GetPacketReplicationEngineEntry().GetCloneSessionEntry())
+		}
+
 	case entity.GetRegisterEntry() != nil:
 	case entity.GetValueSetEntry() != nil:
-	case entity.GetActionProfileGroup() != nil:
-	case entity.GetActionProfileMember() != nil:
 	case entity.GetDigestEntry() != nil:
-	case entity.GetPacketReplicationEngineEntry() != nil:
 	case entity.GetExternEntry() != nil:
 	default:
 	}
@@ -646,12 +674,22 @@ func (ds *DeviceSimulator) processRead(request *p4api.Entity, sender entries.Bat
 	case request.GetDirectMeterEntry() != nil:
 		return ds.tables.ReadTableEntries(request.GetTableEntry(), entries.ReadDirectMeter, sender)
 
+	case request.GetActionProfileGroup() != nil:
+		return ds.profiles.ReadActionProfileGroups(request.GetActionProfileGroup(), sender)
+	case request.GetActionProfileMember() != nil:
+		return ds.profiles.ReadActionProfileMembers(request.GetActionProfileMember(), sender)
+
+	case request.GetPacketReplicationEngineEntry() != nil:
+		switch {
+		case request.GetPacketReplicationEngineEntry().GetMulticastGroupEntry() != nil:
+			return ds.pre.ReadMulticastGroupEntries(request.GetPacketReplicationEngineEntry().GetMulticastGroupEntry(), sender)
+		case request.GetPacketReplicationEngineEntry().GetCloneSessionEntry() != nil:
+			return ds.pre.ReadCloneSessionEntries(request.GetPacketReplicationEngineEntry().GetCloneSessionEntry(), sender)
+		}
+
 	case request.GetRegisterEntry() != nil:
 	case request.GetValueSetEntry() != nil:
-	case request.GetActionProfileGroup() != nil:
-	case request.GetActionProfileMember() != nil:
 	case request.GetDigestEntry() != nil:
-	case request.GetPacketReplicationEngineEntry() != nil:
 	case request.GetExternEntry() != nil:
 	default:
 	}
