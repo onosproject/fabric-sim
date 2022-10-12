@@ -139,8 +139,8 @@ func createONOSCommand(nic NIC, tenant int, portMap map[string]string) string {
 	deviceIndex, _ := strconv.ParseUint(f[0], 10, 32)
 	portIndex, _ := strconv.ParseUint(f[1], 10, 32)
 
-	return fmt.Sprintf("create-logical-switch-port t%dl%dp%d %d device:%s 0 false\n",
-		tenant, deviceIndex, portIndex, tenant, port)
+	return fmt.Sprintf("create-logical-switch-port t%dl%dp%d %d device:%s %d false\n",
+		tenant, deviceIndex, portIndex, tenant, port, tenant*10)
 }
 
 func createNetcfgDevice(device Device, driver string, pipeconf string) *NetcfgDevice {
