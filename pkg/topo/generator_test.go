@@ -14,7 +14,7 @@ import (
 
 func TestLoadTopologyFile(t *testing.T) {
 	topo := &Topology{}
-	err := LoadTopologyFile("../../topologies/plain.yaml", topo)
+	err := LoadTopologyFile("../../topologies/plain_mid.yaml", topo)
 	assert.NoError(t, err)
 	assert.Len(t, topo.Devices, 2+4)
 	assert.Len(t, topo.Links, 3*2*4)

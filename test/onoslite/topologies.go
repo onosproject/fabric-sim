@@ -14,7 +14,7 @@ import (
 
 // TestLiteONOSWithPlainFabric tests superspine fabric with ONOS lite
 func (s *TestSuite) TestLiteONOSWithPlainFabric(t *testing.T) {
-	RunLiteONOSWithTopology(t, "topologies/plain.yaml", 2+4, (3*2*4)*2, 4*20,
+	RunLiteONOSWithTopology(t, "topologies/plain_mid.yaml", 2+4, (3*2*4)*2, 4*20,
 		func(device *simapi.Device) int { return 32 }, func(host *simapi.Host) int { return 1 })
 }
 

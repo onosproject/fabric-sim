@@ -11,7 +11,7 @@ import (
 )
 
 func TestGenerateRobot(t *testing.T) {
-	err := GenerateRobotTopology("../../topologies/plain.yaml", "/tmp/robot.yaml")
+	err := GenerateRobotTopology("../../topologies/plain_mid.yaml", "/tmp/robot.yaml")
 	defer os.Remove("/tmp/robot.yaml")
 	assert.NoError(t, err)
 }
