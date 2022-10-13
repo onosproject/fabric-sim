@@ -98,3 +98,21 @@ func (pr *PacketReplication) DeleteCloneSessionEntry(entry *p4api.CloneSessionEn
 	delete(pr.cloneSessions, entry.SessionId)
 	return nil
 }
+
+// MulticastGroups returns list of multicast groups created in PRE
+func (pr *PacketReplication) MulticastGroups() []*p4api.MulticastGroupEntry {
+	groups := make([]*p4api.MulticastGroupEntry, 0, len(pr.multicasts))
+	for _, group := range pr.multicasts {
+		groups = append(groups, group)
+	}
+	return groups
+}
+
+// CloneSessions returns list of clone sessions created in PRE
+func (pr *PacketReplication) CloneSessions() []*p4api.CloneSessionEntry {
+	sessions := make([]*p4api.CloneSessionEntry, 0, len(pr.cloneSessions))
+	for _, session := range pr.cloneSessions {
+		sessions = append(sessions, session)
+	}
+	return sessions
+}

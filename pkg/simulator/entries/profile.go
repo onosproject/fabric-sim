@@ -18,6 +18,7 @@ type ActionProfileMember struct {
 // ActionProfileGroup represents a P4 action profile group
 type ActionProfileGroup struct {
 	entry *p4api.ActionProfileGroup
+	name  string
 }
 
 // ActionProfile represents a P4 action profile instance
@@ -50,6 +51,21 @@ func (aps *ActionProfiles) NewActionProfile(info *p4info.ActionProfile) *ActionP
 		members: make(map[uint32]*ActionProfileMember),
 		groups:  make(map[uint32]*ActionProfileGroup),
 	}
+}
+
+// ID returns the ID of the group
+func (g *ActionProfileGroup) ID() uint32 {
+	return g.entry.GroupId
+}
+
+// Size returns the size of the group
+func (g *ActionProfileGroup) Size() int {
+	return len(g.entry.Members)
+}
+
+// Name returns the name of the group
+func (g *ActionProfileGroup) Name() string {
+	return g.name
 }
 
 // ModifyActionProfileMember modifies the specified action profile member
@@ -104,6 +120,17 @@ func (aps *ActionProfiles) DeleteActionProfileGroup(entry *p4api.ActionProfileGr
 		return errors.NewNotFound("action profile not found")
 	}
 	return profile.DeleteActionProfileGroup(entry)
+}
+
+// Groups returns a list of all action profiles' groups.
+func (aps *ActionProfiles) Groups() []*ActionProfileGroup {
+	groups := make([]*ActionProfileGroup, 0)
+	for _, profile := range aps.profiles {
+		for _, group := range profile.groups {
+			groups = append(groups, group)
+		}
+	}
+	return groups
 }
 
 // ModifyActionProfileMember modifies the specified member entry
@@ -170,14 +197,13 @@ func (ap ActionProfile) ModifyActionProfileGroup(entry *p4api.ActionProfileGroup
 		if int64(len(ap.groups)) > ap.info.Size {
 			return errors.NewUnavailable("resource exhausted: %v", entry)
 		}
-		group = &ActionProfileGroup{}
+		group = &ActionProfileGroup{name: ap.info.Preamble.Name}
 		ap.groups[entry.GroupId] = group
 	}
 
 	// Otherwise, update the entry
 	group.entry = entry
 	return nil
-
 }
 
 // ReadActionProfileGroups sends all groups of the profile to the specified sender

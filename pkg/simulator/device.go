@@ -128,6 +128,9 @@ func (ds *DeviceSimulator) Meters() *entries.Meters {
 // SnapshotStats snapshots any dynamic device stats, e.g. pipeline info
 func (ds *DeviceSimulator) SnapshotStats() *DeviceSimulator {
 	ds.snapshotTables()
+	ds.snapshotGroups()
+	ds.snapshotMulticast()
+	ds.snapshotCloneSessions()
 	return ds
 }
 
@@ -375,6 +378,9 @@ func (ds *DeviceSimulator) SetPipelineConfig(fpc *p4api.ForwardingPipelineConfig
 	ds.snapshotTables()
 	ds.snapshotCounters()
 	ds.snapshotMeters()
+	ds.snapshotGroups()
+	ds.snapshotMulticast()
+	ds.snapshotCloneSessions()
 	return nil
 }
 
@@ -408,6 +414,39 @@ func (ds *DeviceSimulator) snapshotMeters() {
 			infos = append(infos, &simapi.EntitiesInfo{ID: meter.ID(), Size_: uint32(meter.Size())})
 		}
 		ds.Device.PipelineInfo.Meters = infos
+	}
+}
+
+func (ds *DeviceSimulator) snapshotGroups() {
+	if ds.profiles != nil {
+		groups := ds.profiles.Groups()
+		infos := make([]*simapi.EntitiesInfo, 0, len(groups))
+		for _, group := range groups {
+			infos = append(infos, &simapi.EntitiesInfo{ID: group.ID(), Size_: uint32(group.Size()), Name: group.Name()})
+		}
+		ds.Device.PipelineInfo.Groups = infos
+	}
+}
+
+func (ds *DeviceSimulator) snapshotMulticast() {
+	if ds.pre != nil {
+		groups := ds.pre.MulticastGroups()
+		infos := make([]*simapi.EntitiesInfo, 0, len(groups))
+		for _, group := range groups {
+			infos = append(infos, &simapi.EntitiesInfo{ID: group.MulticastGroupId, Size_: uint32(len(group.Replicas)), Name: "PRE.MulticastGroup"})
+		}
+		ds.Device.PipelineInfo.MulticastGroups = infos
+	}
+}
+
+func (ds *DeviceSimulator) snapshotCloneSessions() {
+	if ds.pre != nil {
+		sessions := ds.pre.CloneSessions()
+		infos := make([]*simapi.EntitiesInfo, 0, len(sessions))
+		for _, session := range sessions {
+			infos = append(infos, &simapi.EntitiesInfo{ID: session.SessionId, Size_: uint32(len(session.Replicas)), Name: "PRE.CloneSession"})
+		}
+		ds.Device.PipelineInfo.CloneSessions = infos
 	}
 }
 
