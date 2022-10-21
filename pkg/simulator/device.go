@@ -581,6 +581,9 @@ func matchesMetaData(roleConfig *stratum.P4RoleConfig, metadata []*p4api.PacketM
 func (ds *DeviceSimulator) ProcessWrite(atomicity p4api.WriteRequest_Atomicity, updates []*p4api.Update) error {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
+	if ds.forwardingPipelineConfig == nil {
+		return errors.NewUnavailable("Device %s: Pipeline configuration not set yet", ds.Device.ID)
+	}
 
 	for _, update := range updates {
 		switch {

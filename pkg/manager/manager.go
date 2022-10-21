@@ -19,6 +19,7 @@ type Config struct {
 	KeyPath  string
 	CertPath string
 	GRPCPort int
+	NoTLS    bool
 }
 
 // Manager single point of entry for the fabric-sim
@@ -60,13 +61,12 @@ func (m *Manager) Start() error {
 
 // startSouthboundServer starts the northbound gRPC server
 func (m *Manager) startNorthboundServer() error {
-	s := northbound.NewServer(northbound.NewServerCfg(
-		m.Config.CAPath,
-		m.Config.KeyPath,
-		m.Config.CertPath,
-		int16(m.Config.GRPCPort),
-		true,
-		northbound.SecurityConfig{}))
+	cfg := northbound.NewInsecureServerConfig(int16(m.Config.GRPCPort))
+	if !m.Config.NoTLS {
+		northbound.NewServerCfg(m.Config.CAPath, m.Config.KeyPath, m.Config.CertPath, int16(m.Config.GRPCPort),
+			true, northbound.SecurityConfig{})
+	}
+	s := northbound.NewServer(cfg)
 	s.AddService(logging.Service{})
 	s.AddService(simapi.NewService(m.Simulation))
 
