@@ -12,7 +12,6 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/certs"
 	"github.com/onosproject/onos-lib-go/pkg/grpc/retry"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
@@ -30,13 +29,14 @@ func GetClientCredentials() (*tls.Config, error) {
 
 // CreateConnection creates gRPC connection to the fabric simulator
 func CreateConnection() (*grpc.ClientConn, error) {
-	tlsConfig, err := GetClientCredentials()
-	if err != nil {
-		return nil, err
-	}
+	//tlsConfig, err := GetClientCredentials()
+	//if err != nil {
+	//	return nil, err
+	//}
 
 	opts := []grpc.DialOption{
-		grpc.WithTransportCredentials(credentials.NewTLS(tlsConfig)),
+		//grpc.WithTransportCredentials(credentials.NewTLS(tlsConfig)),
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithUnaryInterceptor(retry.RetryingUnaryClientInterceptor()),
 	}
 

@@ -32,6 +32,7 @@ func getRootCommand() *cobra.Command {
 	cmd.Flags().String("caPath", "", "path to CA certificate")
 	cmd.Flags().String("keyPath", "", "path to client private key")
 	cmd.Flags().String("certPath", "", "path to client certificate")
+	cmd.Flags().Bool("no-tls", true, "if set, do not use TLS")
 	return cmd
 }
 
@@ -39,6 +40,7 @@ func runRootCommand(cmd *cobra.Command, args []string) error {
 	caPath, _ := cmd.Flags().GetString("caPath")
 	keyPath, _ := cmd.Flags().GetString("keyPath")
 	certPath, _ := cmd.Flags().GetString("certPath")
+	noTLS, _ := cmd.Flags().GetBool("no-tls")
 
 	log.Infow("Starting fabric-sim",
 		"CAPath", caPath,
@@ -51,6 +53,7 @@ func runRootCommand(cmd *cobra.Command, args []string) error {
 		KeyPath:  keyPath,
 		CertPath: certPath,
 		GRPCPort: 5150,
+		NoTLS:    noTLS,
 	}
 
 	mgr := manager.NewManager(cfg)
