@@ -5,7 +5,7 @@
         "name": "leaf11",
         "managementAddress": "grpc://fabric-sim:20003?device_id=0",
         "ancillaryManagementAddresses": {
-          "host-local-agent": "grpc://sdfabric-switch-host-agent-10.sdfabric-switch-host-agent:11161"
+          "host-local-agent": "grpc://sdfabric-host-local-agent-10.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
@@ -34,7 +34,7 @@
         "name": "leaf12",
         "managementAddress": "grpc://fabric-sim:20004?device_id=0",
         "ancillaryManagementAddresses": {
-          "host-local-agent": "grpc://sdfabric-switch-host-agent-11.sdfabric-switch-host-agent:11161"
+          "host-local-agent": "grpc://sdfabric-host-local-agent-11.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
@@ -63,7 +63,7 @@
         "name": "leaf21",
         "managementAddress": "grpc://fabric-sim:20005?device_id=0",
         "ancillaryManagementAddresses": {
-          "host-local-agent": "grpc://sdfabric-switch-host-agent-20.sdfabric-switch-host-agent:11161"
+          "host-local-agent": "grpc://sdfabric-host-local-agent-20.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
@@ -92,7 +92,7 @@
         "name": "leaf22",
         "managementAddress": "grpc://fabric-sim:20006?device_id=0",
         "ancillaryManagementAddresses": {
-          "host-local-agent": "grpc://sdfabric-switch-host-agent-21.sdfabric-switch-host-agent:11161"
+          "host-local-agent": "grpc://sdfabric-host-local-agent-21.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
@@ -121,7 +121,7 @@
         "name": "leaf31",
         "managementAddress": "grpc://fabric-sim:20007?device_id=0",
         "ancillaryManagementAddresses": {
-          "host-local-agent": "grpc://sdfabric-switch-host-agent-30.sdfabric-switch-host-agent:11161"
+          "host-local-agent": "grpc://sdfabric-host-local-agent-30.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
@@ -150,7 +150,7 @@
         "name": "leaf32",
         "managementAddress": "grpc://fabric-sim:20008?device_id=0",
         "ancillaryManagementAddresses": {
-          "host-local-agent": "grpc://sdfabric-switch-host-agent-31.sdfabric-switch-host-agent:11161"
+          "host-local-agent": "grpc://sdfabric-host-local-agent-31.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
         "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
