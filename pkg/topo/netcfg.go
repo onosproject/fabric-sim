@@ -159,7 +159,7 @@ func createNetcfgDevice(device Device, driver string, pipeconf string) *NetcfgDe
 	if isLeaf(device.ID) {
 		leafIndex := getIndex(device.ID)
 		ancillary = &NetcfgManagementAddresses{
-			HostLocalAgent: fmt.Sprintf("grpc://sdfabric-switch-host-agent-%d.sdfabric-switch-host-agent:11161", leafIndex-1),
+			HostLocalAgent: fmt.Sprintf("grpc://sdfabric-host-local-agent-%d.sdfabric-host-local-agent:11161", leafIndex-1),
 		}
 		useDriver = fmt.Sprintf("%s-la", driver)
 		usePipeconf = strings.Replace(usePipeconf, ".fabric.", ".fabric-vn.", 1)
