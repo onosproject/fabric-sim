@@ -470,15 +470,23 @@ func (ds *DeviceSimulator) ProcessPacketOut(packetOut *p4api.PacketOut, responde
 	// Start by decoding the packet
 	packet := gopacket.NewPacket(packetOut.Payload, layers.LayerTypeEthernet, gopacket.Default)
 
-	log.Debugf("metadata: %+v; packet: %+v; lldp: %+v", pom, packet, packet.Layer(layers.LayerTypeLinkLayerDiscovery))
-
 	// See if this is an LLDP packet and process it if so
 	if lldpLayer := packet.Layer(layers.LayerTypeLinkLayerDiscovery); lldpLayer != nil {
 		ds.processLLDPPacket(packet, packetOut, pom)
 	}
 
 	// Process ARP packets
+	if arpLayer := packet.Layer(layers.LayerTypeARP); arpLayer != nil {
+		// TODO: Implement recording ARP response packets
+		log.Infof("Device %s: arpLayer=%+v", ds.Device.ID, arpLayer.(*layers.ARP))
+	}
+
 	// Process DHCP packets
+	if dhcpLayer := packet.Layer(layers.LayerTypeDHCPv4); dhcpLayer != nil {
+		// TODO: Implement recording DHCP response packets
+		log.Infof("Device %s: dhcpLayer=%+v", ds.Device.ID, dhcpLayer.(*layers.DHCPv4))
+	}
+
 	// ...
 	return nil
 }
