@@ -826,6 +826,8 @@ func (ds *DeviceSimulator) ProcessConfigSet(prefix *gnmi.Path,
 // HasPuntRuleForEthType returns true if the device has a table with punt-to-CPU action installed in one
 // of its tables
 func (ds *DeviceSimulator) HasPuntRuleForEthType(ethType layers.EthernetType) (uint32, bool) {
+	ds.lock.RLock()
+	defer ds.lock.RUnlock()
 	roleAgentID, ok := ds.puntToCPU[ethType]
 	return roleAgentID, ok
 }
