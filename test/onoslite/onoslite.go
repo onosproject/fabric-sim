@@ -16,10 +16,8 @@ import (
 	gnoiapi "github.com/openconfig/gnoi/system"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/grpc"
-	"math/rand"
 	"strings"
 	"sync"
-	"time"
 )
 
 var log = logging.GetLogger("onoslite")
@@ -127,8 +125,6 @@ func (o *LiteONOS) Start(pointers []*DevicePointer) error {
 
 	o.DevicePointers = pointers
 	for _, dp := range o.DevicePointers {
-		// Stagger the starts a bit for added adversity
-		time.Sleep(time.Duration(500+rand.Intn(1500)) * time.Millisecond)
 		device := newDevice(dp)
 		go device.startControl(o)
 	}

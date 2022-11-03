@@ -632,721 +632,721 @@ devices:
     x: 200
     "y": 200
 hosts:
-- id: host11
+- id: host0101
   nics:
   - mac: 00:ca:fe:01:01:01
-    ip: 10.10.11.1
+    ip: 10.1.1.1
     ipv6: ::ffff:10.10.11.1
     port: leaf1/7
   pos:
     x: -1140
     "y": 450
-- id: host12
+- id: host0102
   nics:
   - mac: 00:ca:fe:01:01:02
-    ip: 10.10.11.2
+    ip: 10.1.1.2
     ipv6: ::ffff:10.10.11.2
     port: leaf1/8
   pos:
     x: -1070
     "y": 450
-- id: host13
+- id: host0103
   nics:
   - mac: 00:ca:fe:01:01:03
-    ip: 10.10.11.3
+    ip: 10.1.1.3
     ipv6: ::ffff:10.10.11.3
     port: leaf1/9
   pos:
     x: -1000
     "y": 450
-- id: host14
+- id: host0104
   nics:
   - mac: 00:ca:fe:01:01:04
-    ip: 10.10.11.4
+    ip: 10.1.1.4
     ipv6: ::ffff:10.10.11.4
     port: leaf1/10
   pos:
     x: -930
     "y": 450
-- id: host15
+- id: host0105
   nics:
   - mac: 00:ca:fe:01:01:05
-    ip: 10.10.11.5
+    ip: 10.1.1.5
     ipv6: ::ffff:10.10.11.5
     port: leaf1/11
   pos:
     x: -860
     "y": 450
-- id: host16
+- id: host0106
   nics:
   - mac: 00:ca:fe:01:01:06
-    ip: 10.10.11.6
+    ip: 10.1.1.6
     ipv6: ::ffff:10.10.11.6
     port: leaf1/12
   pos:
     x: -1140
     "y": 530
-- id: host17
+- id: host0107
   nics:
   - mac: 00:ca:fe:01:01:07
-    ip: 10.10.11.7
+    ip: 10.1.1.7
     ipv6: ::ffff:10.10.11.7
     port: leaf1/13
   pos:
     x: -1070
     "y": 530
-- id: host18
+- id: host0108
   nics:
   - mac: 00:ca:fe:01:01:08
-    ip: 10.10.11.8
+    ip: 10.1.1.8
     ipv6: ::ffff:10.10.11.8
     port: leaf1/14
   pos:
     x: -1000
     "y": 530
-- id: host19
+- id: host0109
   nics:
   - mac: 00:ca:fe:01:01:09
-    ip: 10.10.11.9
+    ip: 10.1.1.9
     ipv6: ::ffff:10.10.11.9
     port: leaf1/15
   pos:
     x: -930
     "y": 530
-- id: host110
+- id: host0110
   nics:
   - mac: 00:ca:fe:01:01:10
-    ip: 10.10.11.10
+    ip: 10.1.1.10
     ipv6: ::ffff:10.10.11.10
     port: leaf1/16
   pos:
     x: -860
     "y": 530
-- id: host111
+- id: host0111
   nics:
   - mac: 00:ca:fe:01:01:11
-    ip: 10.10.11.11
+    ip: 10.1.1.11
     ipv6: ::ffff:10.10.11.11
     port: leaf1/17
   pos:
     x: -1140
     "y": 610
-- id: host112
+- id: host0112
   nics:
   - mac: 00:ca:fe:01:01:12
-    ip: 10.10.11.12
+    ip: 10.1.1.12
     ipv6: ::ffff:10.10.11.12
     port: leaf1/18
   pos:
     x: -1070
     "y": 610
-- id: host113
+- id: host0113
   nics:
   - mac: 00:ca:fe:01:01:13
-    ip: 10.10.11.13
+    ip: 10.1.1.13
     ipv6: ::ffff:10.10.11.13
     port: leaf1/19
   pos:
     x: -1000
     "y": 610
-- id: host114
+- id: host0114
   nics:
   - mac: 00:ca:fe:01:01:14
-    ip: 10.10.11.14
+    ip: 10.1.1.14
     ipv6: ::ffff:10.10.11.14
     port: leaf1/20
   pos:
     x: -930
     "y": 610
-- id: host115
+- id: host0115
   nics:
   - mac: 00:ca:fe:01:01:15
-    ip: 10.10.11.15
+    ip: 10.1.1.15
     ipv6: ::ffff:10.10.11.15
     port: leaf1/21
   pos:
     x: -860
     "y": 610
-- id: host116
+- id: host0116
   nics:
   - mac: 00:ca:fe:01:01:16
-    ip: 10.10.11.16
+    ip: 10.1.1.16
     ipv6: ::ffff:10.10.11.16
     port: leaf1/22
   pos:
     x: -1140
     "y": 690
-- id: host117
+- id: host0117
   nics:
   - mac: 00:ca:fe:01:01:17
-    ip: 10.10.11.17
+    ip: 10.1.1.17
     ipv6: ::ffff:10.10.11.17
     port: leaf1/23
   pos:
     x: -1070
     "y": 690
-- id: host118
+- id: host0118
   nics:
   - mac: 00:ca:fe:01:01:18
-    ip: 10.10.11.18
+    ip: 10.1.1.18
     ipv6: ::ffff:10.10.11.18
     port: leaf1/24
   pos:
     x: -1000
     "y": 690
-- id: host119
+- id: host0119
   nics:
   - mac: 00:ca:fe:01:01:19
-    ip: 10.10.11.19
+    ip: 10.1.1.19
     ipv6: ::ffff:10.10.11.19
     port: leaf1/25
   pos:
     x: -930
     "y": 690
-- id: host120
+- id: host0120
   nics:
   - mac: 00:ca:fe:01:01:20
-    ip: 10.10.11.20
+    ip: 10.1.1.20
     ipv6: ::ffff:10.10.11.20
     port: leaf1/26
   pos:
     x: -860
     "y": 690
-- id: host21
+- id: host0201
   nics:
   - mac: 00:ca:fe:02:01:01
-    ip: 10.10.21.1
+    ip: 10.2.1.1
     ipv6: ::ffff:10.10.21.1
     port: leaf2/7
   pos:
     x: -740
     "y": 450
-- id: host22
+- id: host0202
   nics:
   - mac: 00:ca:fe:02:01:02
-    ip: 10.10.21.2
+    ip: 10.2.1.2
     ipv6: ::ffff:10.10.21.2
     port: leaf2/8
   pos:
     x: -670
     "y": 450
-- id: host23
+- id: host0203
   nics:
   - mac: 00:ca:fe:02:01:03
-    ip: 10.10.21.3
+    ip: 10.2.1.3
     ipv6: ::ffff:10.10.21.3
     port: leaf2/9
   pos:
     x: -600
     "y": 450
-- id: host24
+- id: host0204
   nics:
   - mac: 00:ca:fe:02:01:04
-    ip: 10.10.21.4
+    ip: 10.2.1.4
     ipv6: ::ffff:10.10.21.4
     port: leaf2/10
   pos:
     x: -530
     "y": 450
-- id: host25
+- id: host0205
   nics:
   - mac: 00:ca:fe:02:01:05
-    ip: 10.10.21.5
+    ip: 10.2.1.5
     ipv6: ::ffff:10.10.21.5
     port: leaf2/11
   pos:
     x: -460
     "y": 450
-- id: host26
+- id: host0206
   nics:
   - mac: 00:ca:fe:02:01:06
-    ip: 10.10.21.6
+    ip: 10.2.1.6
     ipv6: ::ffff:10.10.21.6
     port: leaf2/12
   pos:
     x: -740
     "y": 530
-- id: host27
+- id: host0207
   nics:
   - mac: 00:ca:fe:02:01:07
-    ip: 10.10.21.7
+    ip: 10.2.1.7
     ipv6: ::ffff:10.10.21.7
     port: leaf2/13
   pos:
     x: -670
     "y": 530
-- id: host28
+- id: host0208
   nics:
   - mac: 00:ca:fe:02:01:08
-    ip: 10.10.21.8
+    ip: 10.2.1.8
     ipv6: ::ffff:10.10.21.8
     port: leaf2/14
   pos:
     x: -600
     "y": 530
-- id: host29
+- id: host0209
   nics:
   - mac: 00:ca:fe:02:01:09
-    ip: 10.10.21.9
+    ip: 10.2.1.9
     ipv6: ::ffff:10.10.21.9
     port: leaf2/15
   pos:
     x: -530
     "y": 530
-- id: host210
+- id: host0210
   nics:
   - mac: 00:ca:fe:02:01:10
-    ip: 10.10.21.10
+    ip: 10.2.1.10
     ipv6: ::ffff:10.10.21.10
     port: leaf2/16
   pos:
     x: -460
     "y": 530
-- id: host211
+- id: host0211
   nics:
   - mac: 00:ca:fe:02:01:11
-    ip: 10.10.21.11
+    ip: 10.2.1.11
     ipv6: ::ffff:10.10.21.11
     port: leaf2/17
   pos:
     x: -740
     "y": 610
-- id: host212
+- id: host0212
   nics:
   - mac: 00:ca:fe:02:01:12
-    ip: 10.10.21.12
+    ip: 10.2.1.12
     ipv6: ::ffff:10.10.21.12
     port: leaf2/18
   pos:
     x: -670
     "y": 610
-- id: host213
+- id: host0213
   nics:
   - mac: 00:ca:fe:02:01:13
-    ip: 10.10.21.13
+    ip: 10.2.1.13
     ipv6: ::ffff:10.10.21.13
     port: leaf2/19
   pos:
     x: -600
     "y": 610
-- id: host214
+- id: host0214
   nics:
   - mac: 00:ca:fe:02:01:14
-    ip: 10.10.21.14
+    ip: 10.2.1.14
     ipv6: ::ffff:10.10.21.14
     port: leaf2/20
   pos:
     x: -530
     "y": 610
-- id: host215
+- id: host0215
   nics:
   - mac: 00:ca:fe:02:01:15
-    ip: 10.10.21.15
+    ip: 10.2.1.15
     ipv6: ::ffff:10.10.21.15
     port: leaf2/21
   pos:
     x: -460
     "y": 610
-- id: host216
+- id: host0216
   nics:
   - mac: 00:ca:fe:02:01:16
-    ip: 10.10.21.16
+    ip: 10.2.1.16
     ipv6: ::ffff:10.10.21.16
     port: leaf2/22
   pos:
     x: -740
     "y": 690
-- id: host217
+- id: host0217
   nics:
   - mac: 00:ca:fe:02:01:17
-    ip: 10.10.21.17
+    ip: 10.2.1.17
     ipv6: ::ffff:10.10.21.17
     port: leaf2/23
   pos:
     x: -670
     "y": 690
-- id: host218
+- id: host0218
   nics:
   - mac: 00:ca:fe:02:01:18
-    ip: 10.10.21.18
+    ip: 10.2.1.18
     ipv6: ::ffff:10.10.21.18
     port: leaf2/24
   pos:
     x: -600
     "y": 690
-- id: host219
+- id: host0219
   nics:
   - mac: 00:ca:fe:02:01:19
-    ip: 10.10.21.19
+    ip: 10.2.1.19
     ipv6: ::ffff:10.10.21.19
     port: leaf2/25
   pos:
     x: -530
     "y": 690
-- id: host220
+- id: host0220
   nics:
   - mac: 00:ca:fe:02:01:20
-    ip: 10.10.21.20
+    ip: 10.2.1.20
     ipv6: ::ffff:10.10.21.20
     port: leaf2/26
   pos:
     x: -460
     "y": 690
-- id: host31
+- id: host0301
   nics:
   - mac: 00:ca:fe:03:01:01
-    ip: 10.10.31.1
+    ip: 10.3.1.1
     ipv6: ::ffff:10.10.31.1
     port: leaf3/7
   pos:
     x: -340
     "y": 450
-- id: host32
+- id: host0302
   nics:
   - mac: 00:ca:fe:03:01:02
-    ip: 10.10.31.2
+    ip: 10.3.1.2
     ipv6: ::ffff:10.10.31.2
     port: leaf3/8
   pos:
     x: -270
     "y": 450
-- id: host33
+- id: host0303
   nics:
   - mac: 00:ca:fe:03:01:03
-    ip: 10.10.31.3
+    ip: 10.3.1.3
     ipv6: ::ffff:10.10.31.3
     port: leaf3/9
   pos:
     x: -200
     "y": 450
-- id: host34
+- id: host0304
   nics:
   - mac: 00:ca:fe:03:01:04
-    ip: 10.10.31.4
+    ip: 10.3.1.4
     ipv6: ::ffff:10.10.31.4
     port: leaf3/10
   pos:
     x: -130
     "y": 450
-- id: host35
+- id: host0305
   nics:
   - mac: 00:ca:fe:03:01:05
-    ip: 10.10.31.5
+    ip: 10.3.1.5
     ipv6: ::ffff:10.10.31.5
     port: leaf3/11
   pos:
     x: -60
     "y": 450
-- id: host36
+- id: host0306
   nics:
   - mac: 00:ca:fe:03:01:06
-    ip: 10.10.31.6
+    ip: 10.3.1.6
     ipv6: ::ffff:10.10.31.6
     port: leaf3/12
   pos:
     x: -340
     "y": 530
-- id: host37
+- id: host0307
   nics:
   - mac: 00:ca:fe:03:01:07
-    ip: 10.10.31.7
+    ip: 10.3.1.7
     ipv6: ::ffff:10.10.31.7
     port: leaf3/13
   pos:
     x: -270
     "y": 530
-- id: host38
+- id: host0308
   nics:
   - mac: 00:ca:fe:03:01:08
-    ip: 10.10.31.8
+    ip: 10.3.1.8
     ipv6: ::ffff:10.10.31.8
     port: leaf3/14
   pos:
     x: -200
     "y": 530
-- id: host39
+- id: host0309
   nics:
   - mac: 00:ca:fe:03:01:09
-    ip: 10.10.31.9
+    ip: 10.3.1.9
     ipv6: ::ffff:10.10.31.9
     port: leaf3/15
   pos:
     x: -130
     "y": 530
-- id: host310
+- id: host0310
   nics:
   - mac: 00:ca:fe:03:01:10
-    ip: 10.10.31.10
+    ip: 10.3.1.10
     ipv6: ::ffff:10.10.31.10
     port: leaf3/16
   pos:
     x: -60
     "y": 530
-- id: host311
+- id: host0311
   nics:
   - mac: 00:ca:fe:03:01:11
-    ip: 10.10.31.11
+    ip: 10.3.1.11
     ipv6: ::ffff:10.10.31.11
     port: leaf3/17
   pos:
     x: -340
     "y": 610
-- id: host312
+- id: host0312
   nics:
   - mac: 00:ca:fe:03:01:12
-    ip: 10.10.31.12
+    ip: 10.3.1.12
     ipv6: ::ffff:10.10.31.12
     port: leaf3/18
   pos:
     x: -270
     "y": 610
-- id: host313
+- id: host0313
   nics:
   - mac: 00:ca:fe:03:01:13
-    ip: 10.10.31.13
+    ip: 10.3.1.13
     ipv6: ::ffff:10.10.31.13
     port: leaf3/19
   pos:
     x: -200
     "y": 610
-- id: host314
+- id: host0314
   nics:
   - mac: 00:ca:fe:03:01:14
-    ip: 10.10.31.14
+    ip: 10.3.1.14
     ipv6: ::ffff:10.10.31.14
     port: leaf3/20
   pos:
     x: -130
     "y": 610
-- id: host315
+- id: host0315
   nics:
   - mac: 00:ca:fe:03:01:15
-    ip: 10.10.31.15
+    ip: 10.3.1.15
     ipv6: ::ffff:10.10.31.15
     port: leaf3/21
   pos:
     x: -60
     "y": 610
-- id: host316
+- id: host0316
   nics:
   - mac: 00:ca:fe:03:01:16
-    ip: 10.10.31.16
+    ip: 10.3.1.16
     ipv6: ::ffff:10.10.31.16
     port: leaf3/22
   pos:
     x: -340
     "y": 690
-- id: host317
+- id: host0317
   nics:
   - mac: 00:ca:fe:03:01:17
-    ip: 10.10.31.17
+    ip: 10.3.1.17
     ipv6: ::ffff:10.10.31.17
     port: leaf3/23
   pos:
     x: -270
     "y": 690
-- id: host318
+- id: host0318
   nics:
   - mac: 00:ca:fe:03:01:18
-    ip: 10.10.31.18
+    ip: 10.3.1.18
     ipv6: ::ffff:10.10.31.18
     port: leaf3/24
   pos:
     x: -200
     "y": 690
-- id: host319
+- id: host0319
   nics:
   - mac: 00:ca:fe:03:01:19
-    ip: 10.10.31.19
+    ip: 10.3.1.19
     ipv6: ::ffff:10.10.31.19
     port: leaf3/25
   pos:
     x: -130
     "y": 690
-- id: host320
+- id: host0320
   nics:
   - mac: 00:ca:fe:03:01:20
-    ip: 10.10.31.20
+    ip: 10.3.1.20
     ipv6: ::ffff:10.10.31.20
     port: leaf3/26
   pos:
     x: -60
     "y": 690
-- id: host41
+- id: host0401
   nics:
   - mac: 00:ca:fe:04:01:01
-    ip: 10.10.41.1
+    ip: 10.4.1.1
     ipv6: ::ffff:10.10.41.1
     port: leaf4/7
   pos:
     x: 60
     "y": 450
-- id: host42
+- id: host0402
   nics:
   - mac: 00:ca:fe:04:01:02
-    ip: 10.10.41.2
+    ip: 10.4.1.2
     ipv6: ::ffff:10.10.41.2
     port: leaf4/8
   pos:
     x: 130
     "y": 450
-- id: host43
+- id: host0403
   nics:
   - mac: 00:ca:fe:04:01:03
-    ip: 10.10.41.3
+    ip: 10.4.1.3
     ipv6: ::ffff:10.10.41.3
     port: leaf4/9
   pos:
     x: 200
     "y": 450
-- id: host44
+- id: host0404
   nics:
   - mac: 00:ca:fe:04:01:04
-    ip: 10.10.41.4
+    ip: 10.4.1.4
     ipv6: ::ffff:10.10.41.4
     port: leaf4/10
   pos:
     x: 270
     "y": 450
-- id: host45
+- id: host0405
   nics:
   - mac: 00:ca:fe:04:01:05
-    ip: 10.10.41.5
+    ip: 10.4.1.5
     ipv6: ::ffff:10.10.41.5
     port: leaf4/11
   pos:
     x: 340
     "y": 450
-- id: host46
+- id: host0406
   nics:
   - mac: 00:ca:fe:04:01:06
-    ip: 10.10.41.6
+    ip: 10.4.1.6
     ipv6: ::ffff:10.10.41.6
     port: leaf4/12
   pos:
     x: 60
     "y": 530
-- id: host47
+- id: host0407
   nics:
   - mac: 00:ca:fe:04:01:07
-    ip: 10.10.41.7
+    ip: 10.4.1.7
     ipv6: ::ffff:10.10.41.7
     port: leaf4/13
   pos:
     x: 130
     "y": 530
-- id: host48
+- id: host0408
   nics:
   - mac: 00:ca:fe:04:01:08
-    ip: 10.10.41.8
+    ip: 10.4.1.8
     ipv6: ::ffff:10.10.41.8
     port: leaf4/14
   pos:
     x: 200
     "y": 530
-- id: host49
+- id: host0409
   nics:
   - mac: 00:ca:fe:04:01:09
-    ip: 10.10.41.9
+    ip: 10.4.1.9
     ipv6: ::ffff:10.10.41.9
     port: leaf4/15
   pos:
     x: 270
     "y": 530
-- id: host410
+- id: host0410
   nics:
   - mac: 00:ca:fe:04:01:10
-    ip: 10.10.41.10
+    ip: 10.4.1.10
     ipv6: ::ffff:10.10.41.10
     port: leaf4/16
   pos:
     x: 340
     "y": 530
-- id: host411
+- id: host0411
   nics:
   - mac: 00:ca:fe:04:01:11
-    ip: 10.10.41.11
+    ip: 10.4.1.11
     ipv6: ::ffff:10.10.41.11
     port: leaf4/17
   pos:
     x: 60
     "y": 610
-- id: host412
+- id: host0412
   nics:
   - mac: 00:ca:fe:04:01:12
-    ip: 10.10.41.12
+    ip: 10.4.1.12
     ipv6: ::ffff:10.10.41.12
     port: leaf4/18
   pos:
     x: 130
     "y": 610
-- id: host413
+- id: host0413
   nics:
   - mac: 00:ca:fe:04:01:13
-    ip: 10.10.41.13
+    ip: 10.4.1.13
     ipv6: ::ffff:10.10.41.13
     port: leaf4/19
   pos:
     x: 200
     "y": 610
-- id: host414
+- id: host0414
   nics:
   - mac: 00:ca:fe:04:01:14
-    ip: 10.10.41.14
+    ip: 10.4.1.14
     ipv6: ::ffff:10.10.41.14
     port: leaf4/20
   pos:
     x: 270
     "y": 610
-- id: host415
+- id: host0415
   nics:
   - mac: 00:ca:fe:04:01:15
-    ip: 10.10.41.15
+    ip: 10.4.1.15
     ipv6: ::ffff:10.10.41.15
     port: leaf4/21
   pos:
     x: 340
     "y": 610
-- id: host416
+- id: host0416
   nics:
   - mac: 00:ca:fe:04:01:16
-    ip: 10.10.41.16
+    ip: 10.4.1.16
     ipv6: ::ffff:10.10.41.16
     port: leaf4/22
   pos:
     x: 60
     "y": 690
-- id: host417
+- id: host0417
   nics:
   - mac: 00:ca:fe:04:01:17
-    ip: 10.10.41.17
+    ip: 10.4.1.17
     ipv6: ::ffff:10.10.41.17
     port: leaf4/23
   pos:
     x: 130
     "y": 690
-- id: host418
+- id: host0418
   nics:
   - mac: 00:ca:fe:04:01:18
-    ip: 10.10.41.18
+    ip: 10.4.1.18
     ipv6: ::ffff:10.10.41.18
     port: leaf4/24
   pos:
     x: 200
     "y": 690
-- id: host419
+- id: host0419
   nics:
   - mac: 00:ca:fe:04:01:19
-    ip: 10.10.41.19
+    ip: 10.4.1.19
     ipv6: ::ffff:10.10.41.19
     port: leaf4/25
   pos:
     x: 270
     "y": 690
-- id: host420
+- id: host0420
   nics:
   - mac: 00:ca:fe:04:01:20
-    ip: 10.10.41.20
+    ip: 10.4.1.20
     ipv6: ::ffff:10.10.41.20
     port: leaf4/26
   pos:

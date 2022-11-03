@@ -58,181 +58,181 @@ devices:
     srcport: '[4](204)'
     tgtport: '[4](204)'
 hosts:
-- id: host11
+- id: host0101
   mac: 00:CA:FE:01:01:01
-  ip: 10.10.11.1
-  gw: 10.10.11.1
+  ip: 10.1.1.1
+  gw: 10.1.1.1
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf1
     port: '[5](205)'
-- id: host12
+- id: host0102
   mac: 00:CA:FE:01:01:02
-  ip: 10.10.11.2
-  gw: 10.10.11.2
+  ip: 10.1.1.2
+  gw: 10.1.1.2
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf1
     port: '[6](206)'
-- id: host13
+- id: host0103
   mac: 00:CA:FE:01:01:03
-  ip: 10.10.11.3
-  gw: 10.10.11.3
+  ip: 10.1.1.3
+  gw: 10.1.1.3
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf1
     port: '[7](207)'
-- id: host14
+- id: host0104
   mac: 00:CA:FE:01:01:04
-  ip: 10.10.11.4
-  gw: 10.10.11.4
+  ip: 10.1.1.4
+  gw: 10.1.1.4
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf1
     port: '[8](208)'
-- id: host15
+- id: host0105
   mac: 00:CA:FE:01:01:05
-  ip: 10.10.11.5
-  gw: 10.10.11.5
+  ip: 10.1.1.5
+  gw: 10.1.1.5
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf1
     port: '[9](209)'
-- id: host16
+- id: host0106
   mac: 00:CA:FE:01:01:06
-  ip: 10.10.11.6
-  gw: 10.10.11.6
+  ip: 10.1.1.6
+  gw: 10.1.1.6
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf1
     port: '[10](210)'
-- id: host17
+- id: host0107
   mac: 00:CA:FE:01:01:07
-  ip: 10.10.11.7
-  gw: 10.10.11.7
+  ip: 10.1.1.7
+  gw: 10.1.1.7
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf1
     port: '[11](211)'
-- id: host18
+- id: host0108
   mac: 00:CA:FE:01:01:08
-  ip: 10.10.11.8
-  gw: 10.10.11.8
+  ip: 10.1.1.8
+  gw: 10.1.1.8
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf1
     port: '[12](212)'
-- id: host19
+- id: host0109
   mac: 00:CA:FE:01:01:09
-  ip: 10.10.11.9
-  gw: 10.10.11.9
+  ip: 10.1.1.9
+  gw: 10.1.1.9
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf1
     port: '[13](213)'
-- id: host110
+- id: host0110
   mac: 00:CA:FE:01:01:10
-  ip: 10.10.11.10
-  gw: 10.10.11.10
+  ip: 10.1.1.10
+  gw: 10.1.1.10
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf1
     port: '[14](214)'
-- id: host21
+- id: host0201
   mac: 00:CA:FE:02:01:01
-  ip: 10.10.21.1
-  gw: 10.10.21.1
+  ip: 10.2.1.1
+  gw: 10.2.1.1
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf2
     port: '[5](205)'
-- id: host22
+- id: host0202
   mac: 00:CA:FE:02:01:02
-  ip: 10.10.21.2
-  gw: 10.10.21.2
+  ip: 10.2.1.2
+  gw: 10.2.1.2
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf2
     port: '[6](206)'
-- id: host23
+- id: host0203
   mac: 00:CA:FE:02:01:03
-  ip: 10.10.21.3
-  gw: 10.10.21.3
+  ip: 10.2.1.3
+  gw: 10.2.1.3
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf2
     port: '[7](207)'
-- id: host24
+- id: host0204
   mac: 00:CA:FE:02:01:04
-  ip: 10.10.21.4
-  gw: 10.10.21.4
+  ip: 10.2.1.4
+  gw: 10.2.1.4
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf2
     port: '[8](208)'
-- id: host25
+- id: host0205
   mac: 00:CA:FE:02:01:05
-  ip: 10.10.21.5
-  gw: 10.10.21.5
+  ip: 10.2.1.5
+  gw: 10.2.1.5
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf2
     port: '[9](209)'
-- id: host26
+- id: host0206
   mac: 00:CA:FE:02:01:06
-  ip: 10.10.21.6
-  gw: 10.10.21.6
+  ip: 10.2.1.6
+  gw: 10.2.1.6
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf2
     port: '[10](210)'
-- id: host27
+- id: host0207
   mac: 00:CA:FE:02:01:07
-  ip: 10.10.21.7
-  gw: 10.10.21.7
+  ip: 10.2.1.7
+  gw: 10.2.1.7
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf2
     port: '[11](211)'
-- id: host28
+- id: host0208
   mac: 00:CA:FE:02:01:08
-  ip: 10.10.21.8
-  gw: 10.10.21.8
+  ip: 10.2.1.8
+  gw: 10.2.1.8
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf2
     port: '[12](212)'
-- id: host29
+- id: host0209
   mac: 00:CA:FE:02:01:09
-  ip: 10.10.21.9
-  gw: 10.10.21.9
+  ip: 10.2.1.9
+  gw: 10.2.1.9
   vlan: None
   tenantid: "0"
   links:
   - device: device:leaf2
     port: '[13](213)'
-- id: host210
+- id: host0210
   mac: 00:CA:FE:02:01:10
-  ip: 10.10.21.10
-  gw: 10.10.21.10
+  ip: 10.2.1.10
+  gw: 10.2.1.10
   vlan: None
   tenantid: "0"
   links:

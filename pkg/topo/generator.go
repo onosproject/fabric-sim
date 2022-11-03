@@ -251,7 +251,7 @@ func createRackHost(rackID int, hostID int, leaf1 string, leaf2 string, builder 
 		nics = append(nics, nic2)
 	}
 	host := Host{
-		ID:   fmt.Sprintf("host%d%d", rackID, hostID),
+		ID:   fmt.Sprintf("host%02d%02d", rackID, hostID),
 		NICs: nics,
 		Pos:  pos,
 	}
@@ -266,7 +266,7 @@ func mac(rackID int, hostID int, leafID int) string {
 
 // Generate an IPv4 address
 func ipv4(rackID int, hostID int, leafID int) string {
-	return fmt.Sprintf("10.10.%d%d.%d", rackID, leafID, hostID)
+	return fmt.Sprintf("10.%d.%d.%d", rackID, leafID, hostID)
 }
 
 // Generate an IPv6 address
