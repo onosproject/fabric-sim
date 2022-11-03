@@ -8,17 +8,30 @@ import (
 	"github.com/onosproject/fabric-sim/test/basic"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 	"time"
 )
 
-// TestLiteONOSWithPlainFabric tests superspine fabric with ONOS lite
-func (s *TestSuite) TestLiteONOSWithPlainFabric(t *testing.T) {
+// TestLiteONOSWithPlainMidFabric tests mid fabric with ONOS lite
+func (s *TestSuite) TestLiteONOSWithPlainMidFabric(t *testing.T) {
 	RunLiteONOSWithTopology(t, "topologies/plain_mid.yaml", 2+4, (3*2*4)*2, 4*20,
 		func(device *simapi.Device) int { return 32 }, func(host *simapi.Host) int { return 1 })
 }
 
-// TestLiteONOSWithAccessFabric tests superspine fabric with ONOS lite
+// TestLiteONOSWithPlainMaxFabric tests max fabric with ONOS lite
+func (s *TestSuite) TestLiteONOSWithPlainMaxFabric(t *testing.T) {
+	RunLiteONOSWithTopology(t, "topologies/plain_max.yaml", 4+60, (4*60)*2, 60*15,
+		func(device *simapi.Device) int {
+			if strings.Contains(string(device.ID), "leaf") {
+				return 32
+			}
+			return 64
+		},
+		func(host *simapi.Host) int { return 1 })
+}
+
+// TestLiteONOSWithAccessFabric tests access fabric with ONOS lite
 func (s *TestSuite) TestLiteONOSWithAccessFabric(t *testing.T) {
 	RunLiteONOSWithTopology(t, "topologies/access.yaml", 3+6, (3*3*6+3*2)*2, 3*20,
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 })
@@ -45,7 +58,7 @@ func RunLiteONOSWithTopology(t *testing.T, topologyPath string, deviceCount int,
 
 	defer func() { _ = onos.Stop() }()
 
-	time.Sleep(1 * time.Minute)
+	time.Sleep(90 * time.Second)
 
 	t.Logf("Validating discovered topology...")
 

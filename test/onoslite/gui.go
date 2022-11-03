@@ -94,11 +94,6 @@ func (s *guiServer) watchChanges(w http.ResponseWriter, r *http.Request) {
 	ticker := time.NewTicker(pingPeriod)
 	defer ticker.Stop()
 
-	ws.SetPongHandler(func(data string) error {
-		log.Infof("Client %d: pong received", wc.id)
-		return nil
-	})
-
 	s.sendExistingNodesAndEdges(wc)
 
 WriteLoop:
