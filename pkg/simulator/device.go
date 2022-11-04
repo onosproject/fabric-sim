@@ -53,6 +53,17 @@ type DeviceSimulator struct {
 	cpuTables  map[uint32]*cpuTable
 
 	cancel context.CancelFunc
+
+	ioStatsLock sync.RWMutex
+}
+
+// IOStats represents cumulative I/O stats
+type IOStats struct {
+	InBytes     uint32
+	InMessages  uint32
+	OutBytes    uint32
+	OutMessages uint32
+	SinceTime   time.Time
 }
 
 type roleConfig struct {
@@ -89,6 +100,7 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 
 	device.PipelineInfo = &simapi.PipelineInfo{}
 	device.Connections = make([]*simapi.Connection, 0)
+	device.IOStats = &simapi.IOStats{FirstUpdateTime: uint64(time.Now().UnixNano())}
 
 	// Construct and return simulator from the device and the port map
 	return &DeviceSimulator{
@@ -108,6 +120,21 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 		cpuActions:  make(map[uint32]*cpuAction),
 		cpuTables:   make(map[uint32]*cpuTable),
 	}
+}
+
+// UpdateIOStats updates the device I/O stats
+func (ds *DeviceSimulator) UpdateIOStats(byteCount int, input bool) {
+	ds.ioStatsLock.Lock()
+	defer ds.ioStatsLock.Unlock()
+	stats := ds.Device.IOStats
+	if input {
+		stats.InMessages++
+		stats.InBytes += uint32(byteCount)
+	} else {
+		stats.OutMessages++
+		stats.OutBytes += uint32(byteCount)
+	}
+	stats.LastUpdateTime = uint64(time.Now().UnixNano())
 }
 
 // Tables returns the device tables store
