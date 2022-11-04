@@ -6,6 +6,7 @@
 package device
 
 import (
+	"context"
 	gnmisim "github.com/onosproject/fabric-sim/pkg/northbound/device/gnmi/v2"
 	gnoisim "github.com/onosproject/fabric-sim/pkg/northbound/device/gnoi/v2"
 	"github.com/onosproject/fabric-sim/pkg/northbound/device/p4runtime/v1"
@@ -17,6 +18,7 @@ import (
 	gnoiapi "github.com/openconfig/gnoi/system"
 	p4rtapi "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/stats"
 )
 
 var log = logging.GetLogger("northbound", "device")
@@ -57,7 +59,11 @@ func (a *agent) Start(simulation *simulator.Simulation, deviceSim *simulator.Dev
 	doneCh := make(chan error)
 	go func() {
 		const maxMessageSize = 16 * 1024 * 1024
-		grpcOpts := []grpc.ServerOption{grpc.MaxRecvMsgSize(maxMessageSize), grpc.MaxSendMsgSize(maxMessageSize)}
+		grpcOpts := []grpc.ServerOption{
+			grpc.MaxRecvMsgSize(maxMessageSize),
+			grpc.MaxSendMsgSize(maxMessageSize),
+			grpc.StatsHandler(&statsHandler{deviceSim: deviceSim}),
+		}
 		err := a.server.Serve(func(started string) {
 			log.Infof("Device %s: Started simulated device NBI on %s", deviceSim.Device.ID, started)
 			close(doneCh)
@@ -78,4 +84,42 @@ func (a *agent) Stop(mode simapi.StopMode) error {
 		a.server.Stop()
 	}
 	return nil
+}
+
+// Internal handler of RPC server stats
+type statsHandler struct {
+	deviceSim *simulator.DeviceSimulator
+}
+
+// ConnCtxKey is a connection context key
+type ConnCtxKey struct{}
+
+// RPCCtxKey is an RPC context key
+type RPCCtxKey struct{}
+
+// TagConn tags the connection context
+func (h *statsHandler) TagConn(ctx context.Context, info *stats.ConnTagInfo) context.Context {
+	return context.WithValue(ctx, ConnCtxKey{}, info)
+}
+
+// TagRPC tags the RPC context
+func (h *statsHandler) TagRPC(ctx context.Context, info *stats.RPCTagInfo) context.Context {
+	return context.WithValue(ctx, RPCCtxKey{}, info)
+}
+
+// HandleConn handle the connection stats
+func (h *statsHandler) HandleConn(ctx context.Context, s stats.ConnStats) {
+}
+
+// HandleRPC handle RPC stats
+func (h *statsHandler) HandleRPC(ctx context.Context, s stats.RPCStats) {
+	if ih, ok := s.(*stats.InHeader); ok {
+		h.deviceSim.UpdateIOStats(ih.WireLength, true)
+	} else if ip, ok := s.(*stats.InPayload); ok {
+		h.deviceSim.UpdateIOStats(ip.WireLength, true)
+	} else if op, ok := s.(*stats.OutPayload); ok {
+		h.deviceSim.UpdateIOStats(op.WireLength, false)
+	} else if it, ok := s.(*stats.InTrailer); ok {
+		h.deviceSim.UpdateIOStats(it.WireLength, true)
+	}
 }
