@@ -137,6 +137,23 @@ func (ds *DeviceSimulator) UpdateIOStats(byteCount int, input bool) {
 	stats.LastUpdateTime = uint64(time.Now().UnixNano())
 }
 
+func (ds *DeviceSimulator) addAndResetStats(now uint64, total *simapi.IOStats) {
+	ds.ioStatsLock.Lock()
+	defer ds.ioStatsLock.Unlock()
+	stats := ds.Device.IOStats
+
+	total.InBytes += stats.InBytes
+	total.InMessages += stats.InMessages
+	total.OutBytes += stats.OutBytes
+	total.OutMessages += stats.OutMessages
+
+	stats.InBytes = 0
+	stats.InMessages = 0
+	stats.OutBytes = 0
+	stats.OutMessages = 0
+	stats.FirstUpdateTime = now
+}
+
 // Tables returns the device tables store
 func (ds *DeviceSimulator) Tables() *entries.Tables {
 	return ds.tables

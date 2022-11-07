@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020-present Intel Corporation
+// SPDX-FileCopyrightText: 2022-present Intel Corporation
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -26,6 +26,7 @@ type Simulation struct {
 	deviceSimulators map[simapi.DeviceID]*DeviceSimulator
 	linkSimulators   map[simapi.LinkID]*LinkSimulator
 	hostSimulators   map[simapi.HostID]*HostSimulator
+	Collector        *StatsCollector
 
 	// Auxiliary structures
 	usedEgressPorts  map[simapi.PortID]*linkOrNIC
@@ -34,13 +35,15 @@ type Simulation struct {
 
 // NewSimulation creates a new core simulation entity
 func NewSimulation() *Simulation {
-	return &Simulation{
+	simulation := &Simulation{
 		deviceSimulators: make(map[simapi.DeviceID]*DeviceSimulator),
 		linkSimulators:   make(map[simapi.LinkID]*LinkSimulator),
 		hostSimulators:   make(map[simapi.HostID]*HostSimulator),
 		usedEgressPorts:  make(map[simapi.PortID]*linkOrNIC),
 		usedIngressPorts: make(map[simapi.PortID]*linkOrNIC),
 	}
+	simulation.Collector = newStatsCollector(simulation)
+	return simulation
 }
 
 // DeviceAgent is an abstraction of P4Runtime and gNMI NB server
