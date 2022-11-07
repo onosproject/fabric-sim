@@ -31,6 +31,7 @@ func (s Service) Register(r *grpc.Server) {
 	server := &Server{
 		simulation: s.simulation,
 	}
+	simapi.RegisterFabricSimulatorServer(r, server)
 	simapi.RegisterDeviceServiceServer(r, server)
 	simapi.RegisterLinkServiceServer(r, server)
 	simapi.RegisterHostServiceServer(r, server)

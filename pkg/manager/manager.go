@@ -50,6 +50,7 @@ func (m *Manager) Run() {
 func (m *Manager) Start() error {
 	// Initialize the simulation core
 	m.Simulation = simulator.NewSimulation()
+	m.Simulation.Collector.Start()
 
 	// Starts NB server
 	err := m.startNorthboundServer()
