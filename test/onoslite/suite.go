@@ -21,12 +21,22 @@ type TestSuite struct {
 }
 
 const fabricSimComponentName = "fabric-sim"
+const cliComponentName = "onos-cli"
 
 // SetupTestSuite sets up the fabric simulator basic test suite
 func (s *TestSuite) SetupTestSuite(c *input.Context) error {
 	registry := c.GetArg("registry").String("")
 	err := helm.Chart(fabricSimComponentName, onostest.OnosChartRepo).
 		Release(fabricSimComponentName).
+		Set("image.tag", "latest").
+		Set("global.image.registry", registry).
+		Install(true)
+	if err != nil {
+		return err
+	}
+
+	err = helm.Chart(cliComponentName, onostest.OnosChartRepo).
+		Release(cliComponentName).
 		Set("image.tag", "latest").
 		Set("global.image.registry", registry).
 		Install(true)

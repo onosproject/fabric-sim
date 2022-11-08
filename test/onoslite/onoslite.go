@@ -14,6 +14,7 @@ import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	gnoiapi "github.com/openconfig/gnoi/system"
+	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"google.golang.org/grpc"
 	"strings"
@@ -73,6 +74,7 @@ type Device struct {
 	cookie         uint64
 	electionID     *p4api.Uint128
 	codec          *utils.ControllerMetadataCodec
+	info           *p4info.P4Info
 	stream         p4api.P4Runtime_StreamChannelClient
 	lastUpdateTime uint64
 	ctx            context.Context

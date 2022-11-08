@@ -192,12 +192,16 @@ SPDX-License-Identifier: Apache-2.0
     }
 
     const kindColor = {
-        "infra": "#877",
-        "edge": "#99a",
+        "infra": "#aaa",
+        "edge": "#999",
+        "spine": "#fa5",
+        "leaf": "#393",
+        "host": "#ccc",
     }
 
     function linkTypeColor(link) {
-        return kindColor[link.data.kind] || "#aaa";
+        console.log(link);
+        return kindColor[link.data.kind] || "#ccc";
     }
 
     const kindWidth = {
@@ -238,7 +242,8 @@ SPDX-License-Identifier: Apache-2.0
 
             node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
         } else {
-            ctx.fillStyle = overNode === node ? selectionColor : nodeShapeColor;
+            color = kindColor[node.data.kind] || nodeShapeColor;
+            ctx.fillStyle = overNode === node ? selectionColor : color;
             ctx.beginPath();
             ctx.arc(node.x, node.y, 3, 0, 2 * Math.PI, false);
             ctx.fill();
