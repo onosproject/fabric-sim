@@ -27,6 +27,7 @@ import (
 )
 
 const onosRoleName = "onos"
+const deviceFlowCount = 8192
 
 var role = newONOSRole()
 
@@ -192,12 +193,11 @@ func (d *Device) reconcilePipelineConfig() error {
 	}
 
 	// otherwise load pipeline config
-	info, err := utils.LoadP4Info("pipelines/p4info.txt")
-	if err != nil {
+	if d.info, err = utils.LoadP4Info("pipelines/p4info.txt"); err != nil {
 		return err
 	}
 
-	d.codec = utils.NewControllerMetadataCodec(info)
+	d.codec = utils.NewControllerMetadataCodec(d.info)
 
 	// and then apply it to the device
 	_, err = d.p4Client.SetForwardingPipelineConfig(d.ctx, &p4api.SetForwardingPipelineConfigRequest{
@@ -206,7 +206,7 @@ func (d *Device) reconcilePipelineConfig() error {
 		ElectionId: d.electionID,
 		Action:     p4api.SetForwardingPipelineConfigRequest_VERIFY_AND_COMMIT,
 		Config: &p4api.ForwardingPipelineConfig{
-			P4Info:         info,
+			P4Info:         d.info,
 			P4DeviceConfig: []byte{0, 1, 2, 3},
 			Cookie:         &p4api.ForwardingPipelineConfig_Cookie{Cookie: d.cookie},
 		},
@@ -221,7 +221,20 @@ func (d *Device) installFlowRules() error {
 	if err := basic.InstallPuntRule(d.ctx, d.p4Client, d.Pointer.ChassisID, onosRoleName, d.electionID, uint16(layers.EthernetTypeARP)); err != nil {
 		return err
 	}
+	if err := d.installScaleFlows(d.ctx, d.p4Client, d.Pointer.ChassisID, onosRoleName, d.electionID); err != nil {
+		return err
+	}
 	return nil
+}
+
+func (d *Device) installScaleFlows(ctx context.Context, client p4api.P4RuntimeClient, chassisID uint64, roleName string, electionID *p4api.Uint128) error {
+	writeRequest := &p4api.WriteRequest{
+		DeviceId:   chassisID,
+		Role:       roleName,
+		ElectionId: electionID,
+		Atomicity:  p4api.WriteRequest_CONTINUE_ON_ERROR,
+	}
+	return basic.GenerateAndWriteTableEntries(ctx, client, writeRequest, d.info, deviceFlowCount)
 }
 
 func (d *Device) discoverPortsAndLinks() error {

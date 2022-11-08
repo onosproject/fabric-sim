@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/websocket"
 	"html/template"
 	"net/http"
-	"sync"
+	"strings"
 	"time"
 )
 
@@ -35,7 +35,6 @@ type webClient struct {
 // HTTP/WS server for the web-based visualizer client
 type guiServer struct {
 	clients map[uint32]*webClient
-	lock    sync.RWMutex
 	onos    *LiteONOS
 }
 
@@ -80,7 +79,7 @@ func (s *guiServer) watchChanges(w http.ResponseWriter, r *http.Request) {
 	}
 	defer ws.Close()
 
-	s.lock.Lock()
+	s.onos.lock.Lock()
 	maxID++
 	wc := &webClient{
 		id:  maxID,
@@ -88,7 +87,7 @@ func (s *guiServer) watchChanges(w http.ResponseWriter, r *http.Request) {
 		ctx: context.Background(),
 	}
 	s.clients[wc.id] = wc
-	s.lock.Unlock()
+	s.onos.lock.Unlock()
 	log.Infof("Client %d: Connected", wc.id)
 
 	ticker := time.NewTicker(pingPeriod)
@@ -131,18 +130,31 @@ func (s *guiServer) home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *guiServer) sendExistingNodesAndEdges(wc *webClient) {
-	s.lock.RLock()
-	defer s.lock.RUnlock()
+	s.onos.lock.RLock()
+	defer s.onos.lock.RUnlock()
+	log.Infof("Client %d: Sending existing nodes and edges...", wc.id)
+	nc := 0
+
 	for _, d := range s.onos.Devices {
-		wc.send(nodeEvent("added", d.ID, "device"))
+		kind := "leaf"
+		if strings.Contains(d.ID, "spine") {
+			kind = "spine"
+		}
+		wc.send(nodeEvent("added", d.ID, kind))
+		nc++
 	}
+	lc := 0
 	for _, l := range s.onos.Links {
 		wc.send(edgeEvent("added", l.ID, stripPort(l.SrcPortID), stripPort(l.TgtPortID), "infra"))
+		lc++
 	}
 	for _, h := range s.onos.Hosts {
 		wc.send(nodeEvent("added", h.MAC, "host"))
+		nc++
 		wc.send(edgeEvent("added", h.MAC+h.Port, h.MAC, stripPort(h.Port), "edge"))
+		lc++
 	}
+	log.Infof("Client %d: Sent %d nodes and %d edges...", wc.id, nc, lc)
 }
 
 func nodeEvent(event string, id string, kind string) string {

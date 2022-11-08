@@ -58,7 +58,7 @@ func RunLiteONOSWithTopology(t *testing.T, topologyPath string, deviceCount int,
 
 	defer func() { _ = onos.Stop() }()
 
-	time.Sleep(90 * time.Second)
+	time.Sleep(300 * time.Second)
 
 	t.Logf("Validating discovered topology...")
 
