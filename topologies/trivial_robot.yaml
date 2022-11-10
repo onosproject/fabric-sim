@@ -2,11 +2,13 @@
 
 devices:
 - id: device:switch1
+  agent_port: 20011
   links:
   - tgt: device:switch2
     srcport: '[1](224)'
     tgtport: '[1](234)'
 - id: device:switch2
+  agent_port: 20012
   links:
   - tgt: device:switch1
     srcport: '[1](234)'

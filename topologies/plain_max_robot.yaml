@@ -2,6 +2,7 @@
 
 devices:
 - id: device:spine1
+  agent_port: 20000
   links:
   - tgt: device:leaf1
     srcport: '[1](201)'
@@ -184,6 +185,7 @@ devices:
     srcport: '[60](260)'
     tgtport: '[1](201)'
 - id: device:spine2
+  agent_port: 20001
   links:
   - tgt: device:leaf1
     srcport: '[1](201)'
@@ -366,6 +368,7 @@ devices:
     srcport: '[60](260)'
     tgtport: '[2](202)'
 - id: device:spine3
+  agent_port: 20002
   links:
   - tgt: device:leaf1
     srcport: '[1](201)'
@@ -548,6 +551,7 @@ devices:
     srcport: '[60](260)'
     tgtport: '[3](203)'
 - id: device:spine4
+  agent_port: 20003
   links:
   - tgt: device:leaf1
     srcport: '[1](201)'
@@ -730,6 +734,7 @@ devices:
     srcport: '[60](260)'
     tgtport: '[4](204)'
 - id: device:leaf1
+  agent_port: 20004
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -744,6 +749,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[1](201)'
 - id: device:leaf2
+  agent_port: 20005
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -758,6 +764,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[2](202)'
 - id: device:leaf3
+  agent_port: 20006
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -772,6 +779,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[3](203)'
 - id: device:leaf4
+  agent_port: 20007
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -786,6 +794,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[4](204)'
 - id: device:leaf5
+  agent_port: 20008
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -800,6 +809,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[5](205)'
 - id: device:leaf6
+  agent_port: 20009
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -814,6 +824,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[6](206)'
 - id: device:leaf7
+  agent_port: 20010
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -828,6 +839,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[7](207)'
 - id: device:leaf8
+  agent_port: 20011
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -842,6 +854,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[8](208)'
 - id: device:leaf9
+  agent_port: 20012
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -856,6 +869,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[9](209)'
 - id: device:leaf10
+  agent_port: 20013
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -870,6 +884,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[10](210)'
 - id: device:leaf11
+  agent_port: 20014
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -884,6 +899,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[11](211)'
 - id: device:leaf12
+  agent_port: 20015
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -898,6 +914,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[12](212)'
 - id: device:leaf13
+  agent_port: 20016
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -912,6 +929,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[13](213)'
 - id: device:leaf14
+  agent_port: 20017
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -926,6 +944,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[14](214)'
 - id: device:leaf15
+  agent_port: 20018
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -940,6 +959,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[15](215)'
 - id: device:leaf16
+  agent_port: 20019
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -954,6 +974,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[16](216)'
 - id: device:leaf17
+  agent_port: 20020
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -968,6 +989,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[17](217)'
 - id: device:leaf18
+  agent_port: 20021
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -982,6 +1004,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[18](218)'
 - id: device:leaf19
+  agent_port: 20022
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -996,6 +1019,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[19](219)'
 - id: device:leaf20
+  agent_port: 20023
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1010,6 +1034,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[20](220)'
 - id: device:leaf21
+  agent_port: 20024
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1024,6 +1049,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[21](221)'
 - id: device:leaf22
+  agent_port: 20025
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1038,6 +1064,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[22](222)'
 - id: device:leaf23
+  agent_port: 20026
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1052,6 +1079,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[23](223)'
 - id: device:leaf24
+  agent_port: 20027
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1066,6 +1094,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[24](224)'
 - id: device:leaf25
+  agent_port: 20028
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1080,6 +1109,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[25](225)'
 - id: device:leaf26
+  agent_port: 20029
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1094,6 +1124,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[26](226)'
 - id: device:leaf27
+  agent_port: 20030
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1108,6 +1139,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[27](227)'
 - id: device:leaf28
+  agent_port: 20031
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1122,6 +1154,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[28](228)'
 - id: device:leaf29
+  agent_port: 20032
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1136,6 +1169,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[29](229)'
 - id: device:leaf30
+  agent_port: 20033
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1150,6 +1184,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[30](230)'
 - id: device:leaf31
+  agent_port: 20034
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1164,6 +1199,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[31](231)'
 - id: device:leaf32
+  agent_port: 20035
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1178,6 +1214,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[32](232)'
 - id: device:leaf33
+  agent_port: 20036
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1192,6 +1229,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[33](233)'
 - id: device:leaf34
+  agent_port: 20037
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1206,6 +1244,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[34](234)'
 - id: device:leaf35
+  agent_port: 20038
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1220,6 +1259,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[35](235)'
 - id: device:leaf36
+  agent_port: 20039
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1234,6 +1274,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[36](236)'
 - id: device:leaf37
+  agent_port: 20040
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1248,6 +1289,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[37](237)'
 - id: device:leaf38
+  agent_port: 20041
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1262,6 +1304,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[38](238)'
 - id: device:leaf39
+  agent_port: 20042
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1276,6 +1319,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[39](239)'
 - id: device:leaf40
+  agent_port: 20043
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1290,6 +1334,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[40](240)'
 - id: device:leaf41
+  agent_port: 20044
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1304,6 +1349,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[41](241)'
 - id: device:leaf42
+  agent_port: 20045
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1318,6 +1364,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[42](242)'
 - id: device:leaf43
+  agent_port: 20046
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1332,6 +1379,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[43](243)'
 - id: device:leaf44
+  agent_port: 20047
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1346,6 +1394,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[44](244)'
 - id: device:leaf45
+  agent_port: 20048
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1360,6 +1409,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[45](245)'
 - id: device:leaf46
+  agent_port: 20049
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1374,6 +1424,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[46](246)'
 - id: device:leaf47
+  agent_port: 20050
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1388,6 +1439,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[47](247)'
 - id: device:leaf48
+  agent_port: 20051
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1402,6 +1454,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[48](248)'
 - id: device:leaf49
+  agent_port: 20052
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1416,6 +1469,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[49](249)'
 - id: device:leaf50
+  agent_port: 20053
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1430,6 +1484,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[50](250)'
 - id: device:leaf51
+  agent_port: 20054
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1444,6 +1499,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[51](251)'
 - id: device:leaf52
+  agent_port: 20055
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1458,6 +1514,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[52](252)'
 - id: device:leaf53
+  agent_port: 20056
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1472,6 +1529,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[53](253)'
 - id: device:leaf54
+  agent_port: 20057
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1486,6 +1544,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[54](254)'
 - id: device:leaf55
+  agent_port: 20058
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1500,6 +1559,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[55](255)'
 - id: device:leaf56
+  agent_port: 20059
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1514,6 +1574,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[56](256)'
 - id: device:leaf57
+  agent_port: 20060
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1528,6 +1589,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[57](257)'
 - id: device:leaf58
+  agent_port: 20061
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1542,6 +1604,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[58](258)'
 - id: device:leaf59
+  agent_port: 20062
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -1556,6 +1619,7 @@ devices:
     srcport: '[4](204)'
     tgtport: '[59](259)'
 - id: device:leaf60
+  agent_port: 20063
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
