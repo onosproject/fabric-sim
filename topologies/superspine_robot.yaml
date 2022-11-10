@@ -2,6 +2,7 @@
 
 devices:
 - id: device:sspine1
+  agent_port: 20000
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -100,6 +101,7 @@ devices:
     srcport: '[32](232)'
     tgtport: '[8](208)'
 - id: device:sspine2
+  agent_port: 20001
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -198,6 +200,7 @@ devices:
     srcport: '[32](232)'
     tgtport: '[16](216)'
 - id: device:spine1
+  agent_port: 20002
   links:
   - tgt: device:sspine1
     srcport: '[1](201)'
@@ -296,6 +299,7 @@ devices:
     srcport: '[32](232)'
     tgtport: '[4](204)'
 - id: device:spine2
+  agent_port: 20003
   links:
   - tgt: device:sspine1
     srcport: '[1](201)'
@@ -394,6 +398,7 @@ devices:
     srcport: '[32](232)'
     tgtport: '[8](208)'
 - id: device:leaf11
+  agent_port: 20004
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -426,6 +431,7 @@ devices:
     srcport: '[10](210)'
     tgtport: '[10](210)'
 - id: device:leaf12
+  agent_port: 20005
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -458,6 +464,7 @@ devices:
     srcport: '[10](210)'
     tgtport: '[10](210)'
 - id: device:leaf21
+  agent_port: 20006
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -490,6 +497,7 @@ devices:
     srcport: '[10](210)'
     tgtport: '[10](210)'
 - id: device:leaf22
+  agent_port: 20007
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -522,6 +530,7 @@ devices:
     srcport: '[10](210)'
     tgtport: '[10](210)'
 - id: device:spine3
+  agent_port: 20008
   links:
   - tgt: device:sspine1
     srcport: '[1](201)'
@@ -620,6 +629,7 @@ devices:
     srcport: '[32](232)'
     tgtport: '[4](204)'
 - id: device:spine4
+  agent_port: 20009
   links:
   - tgt: device:sspine1
     srcport: '[1](201)'
@@ -718,6 +728,7 @@ devices:
     srcport: '[32](232)'
     tgtport: '[8](208)'
 - id: device:leaf31
+  agent_port: 20010
   links:
   - tgt: device:spine3
     srcport: '[1](201)'
@@ -750,6 +761,7 @@ devices:
     srcport: '[10](210)'
     tgtport: '[10](210)'
 - id: device:leaf32
+  agent_port: 20011
   links:
   - tgt: device:spine3
     srcport: '[1](201)'
@@ -782,6 +794,7 @@ devices:
     srcport: '[10](210)'
     tgtport: '[10](210)'
 - id: device:leaf41
+  agent_port: 20012
   links:
   - tgt: device:spine3
     srcport: '[1](201)'
@@ -814,6 +827,7 @@ devices:
     srcport: '[10](210)'
     tgtport: '[10](210)'
 - id: device:leaf42
+  agent_port: 20013
   links:
   - tgt: device:spine3
     srcport: '[1](201)'

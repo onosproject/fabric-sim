@@ -27,8 +27,9 @@ type RobotNode struct {
 
 // RobotDevice is a description of an expected device
 type RobotDevice struct {
-	ID    string       `mapstructure:"id" yaml:"id"`
-	Links []*RobotLink `mapstructure:"links" yaml:"links"`
+	ID        string       `mapstructure:"id" yaml:"id"`
+	AgentPort int32        `mapstructure:"agent_port" yaml:"agent_port"`
+	Links     []*RobotLink `mapstructure:"links" yaml:"links"`
 }
 
 // RobotLink is a description of an expected link
@@ -120,7 +121,7 @@ func createRobotDevice(device Device, topology *Topology) *RobotDevice {
 			}
 		}
 	}
-	return &RobotDevice{ID: did(device.ID), Links: links}
+	return &RobotDevice{ID: did(device.ID), AgentPort: device.AgentPort, Links: links}
 }
 
 func createRobotHost(host Host, nic NIC, topology *Topology) *RobotHost {

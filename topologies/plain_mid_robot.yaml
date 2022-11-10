@@ -2,6 +2,7 @@
 
 devices:
 - id: device:spine1
+  agent_port: 20000
   links:
   - tgt: device:leaf1
     srcport: '[1](201)'
@@ -40,6 +41,7 @@ devices:
     srcport: '[12](212)'
     tgtport: '[3](203)'
 - id: device:spine2
+  agent_port: 20001
   links:
   - tgt: device:leaf1
     srcport: '[1](201)'
@@ -78,6 +80,7 @@ devices:
     srcport: '[12](212)'
     tgtport: '[6](206)'
 - id: device:leaf1
+  agent_port: 20002
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -98,6 +101,7 @@ devices:
     srcport: '[6](206)'
     tgtport: '[3](203)'
 - id: device:leaf2
+  agent_port: 20003
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -118,6 +122,7 @@ devices:
     srcport: '[6](206)'
     tgtport: '[6](206)'
 - id: device:leaf3
+  agent_port: 20004
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
@@ -138,6 +143,7 @@ devices:
     srcport: '[6](206)'
     tgtport: '[9](209)'
 - id: device:leaf4
+  agent_port: 20005
   links:
   - tgt: device:spine1
     srcport: '[1](201)'
