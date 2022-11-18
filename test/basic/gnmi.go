@@ -12,6 +12,8 @@ import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	"github.com/stretchr/testify/assert"
+	"io"
+	"os"
 	"testing"
 )
 
@@ -39,10 +41,39 @@ func (s *TestSuite) TestGNMI(t *testing.T) {
 	assert.Len(t, resp.Notification[0].Update, 32*18)
 
 	testSetGet(ctx, t, gnmiClient)
+	testChassisConfig(ctx, t, gnmiClient)
 
 	testSubscribe(ctx, t, gnmiClient, device, gnmi.SubscriptionList_ONCE, false)
 	testSubscribe(ctx, t, gnmiClient, device, gnmi.SubscriptionList_STREAM, false)
 	testSubscribe(ctx, t, gnmiClient, device, gnmi.SubscriptionList_STREAM, true)
+}
+
+func testChassisConfig(ctx context.Context, t *testing.T, gnmiClient gnmi.GNMIClient) {
+	chassisConfigFile, err := os.Open("test/basic/stratum.gnmi")
+	assert.NoError(t, err)
+	if err != nil {
+		return
+	}
+
+	chassisConfigText, err := io.ReadAll(chassisConfigFile)
+	assert.NoError(t, err)
+	if err != nil {
+		return
+	}
+
+	_, err = gnmiClient.Set(ctx, &gnmi.SetRequest{
+		Replace: []*gnmi.Update{{
+			Path: utils.ToPath(""),
+			Val:  &gnmi.TypedValue{Value: &gnmi.TypedValue_BytesVal{BytesVal: chassisConfigText}},
+		}},
+	})
+	assert.NoError(t, err)
+
+	resp, err := gnmiClient.Get(ctx, &gnmi.GetRequest{
+		Path: []*gnmi.Path{utils.ToPath("")},
+	})
+	assert.NoError(t, err)
+	assert.Equal(t, chassisConfigText, resp.Notification[0].Update[0].Val.GetBytesVal())
 }
 
 func testSetGet(ctx context.Context, t *testing.T, gnmiClient gnmi.GNMIClient) {
