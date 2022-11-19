@@ -97,7 +97,7 @@ func pid(name string, device Device) string {
 			internalPort = p.SDNNumber
 		}
 	}
-	return fmt.Sprintf("[%s](%d)", name, internalPort)
+	return fmt.Sprintf("%d", internalPort)
 }
 
 func createRobotDevice(device Device, topology *Topology) *RobotDevice {

@@ -5,614 +5,614 @@ devices:
   agent_port: 20000
   links:
   - tgt: device:leaf1
-    srcport: '[1](201)'
-    tgtport: '[1](201)'
+    srcport: "201"
+    tgtport: "201"
   - tgt: device:leaf1
-    srcport: '[2](202)'
-    tgtport: '[2](202)'
+    srcport: "202"
+    tgtport: "202"
   - tgt: device:leaf1
-    srcport: '[3](203)'
-    tgtport: '[3](203)'
+    srcport: "203"
+    tgtport: "203"
   - tgt: device:leaf2
-    srcport: '[4](204)'
-    tgtport: '[1](201)'
+    srcport: "204"
+    tgtport: "201"
   - tgt: device:leaf2
-    srcport: '[5](205)'
-    tgtport: '[2](202)'
+    srcport: "205"
+    tgtport: "202"
   - tgt: device:leaf2
-    srcport: '[6](206)'
-    tgtport: '[3](203)'
+    srcport: "206"
+    tgtport: "203"
   - tgt: device:leaf3
-    srcport: '[7](207)'
-    tgtport: '[1](201)'
+    srcport: "207"
+    tgtport: "201"
   - tgt: device:leaf3
-    srcport: '[8](208)'
-    tgtport: '[2](202)'
+    srcport: "208"
+    tgtport: "202"
   - tgt: device:leaf3
-    srcport: '[9](209)'
-    tgtport: '[3](203)'
+    srcport: "209"
+    tgtport: "203"
   - tgt: device:leaf4
-    srcport: '[10](210)'
-    tgtport: '[1](201)'
+    srcport: "210"
+    tgtport: "201"
   - tgt: device:leaf4
-    srcport: '[11](211)'
-    tgtport: '[2](202)'
+    srcport: "211"
+    tgtport: "202"
   - tgt: device:leaf4
-    srcport: '[12](212)'
-    tgtport: '[3](203)'
+    srcport: "212"
+    tgtport: "203"
   - tgt: device:leaf5
-    srcport: '[13](213)'
-    tgtport: '[1](201)'
+    srcport: "213"
+    tgtport: "201"
   - tgt: device:leaf5
-    srcport: '[14](214)'
-    tgtport: '[2](202)'
+    srcport: "214"
+    tgtport: "202"
   - tgt: device:leaf5
-    srcport: '[15](215)'
-    tgtport: '[3](203)'
+    srcport: "215"
+    tgtport: "203"
   - tgt: device:leaf6
-    srcport: '[16](216)'
-    tgtport: '[1](201)'
+    srcport: "216"
+    tgtport: "201"
   - tgt: device:leaf6
-    srcport: '[17](217)'
-    tgtport: '[2](202)'
+    srcport: "217"
+    tgtport: "202"
   - tgt: device:leaf6
-    srcport: '[18](218)'
-    tgtport: '[3](203)'
+    srcport: "218"
+    tgtport: "203"
   - tgt: device:leaf7
-    srcport: '[19](219)'
-    tgtport: '[1](201)'
+    srcport: "219"
+    tgtport: "201"
   - tgt: device:leaf7
-    srcport: '[20](220)'
-    tgtport: '[2](202)'
+    srcport: "220"
+    tgtport: "202"
   - tgt: device:leaf7
-    srcport: '[21](221)'
-    tgtport: '[3](203)'
+    srcport: "221"
+    tgtport: "203"
   - tgt: device:leaf8
-    srcport: '[22](222)'
-    tgtport: '[1](201)'
+    srcport: "222"
+    tgtport: "201"
   - tgt: device:leaf8
-    srcport: '[23](223)'
-    tgtport: '[2](202)'
+    srcport: "223"
+    tgtport: "202"
   - tgt: device:leaf8
-    srcport: '[24](224)'
-    tgtport: '[3](203)'
+    srcport: "224"
+    tgtport: "203"
 - id: device:spine2
   agent_port: 20001
   links:
   - tgt: device:leaf1
-    srcport: '[1](201)'
-    tgtport: '[4](204)'
+    srcport: "201"
+    tgtport: "204"
   - tgt: device:leaf1
-    srcport: '[2](202)'
-    tgtport: '[5](205)'
+    srcport: "202"
+    tgtport: "205"
   - tgt: device:leaf1
-    srcport: '[3](203)'
-    tgtport: '[6](206)'
+    srcport: "203"
+    tgtport: "206"
   - tgt: device:leaf2
-    srcport: '[4](204)'
-    tgtport: '[4](204)'
+    srcport: "204"
+    tgtport: "204"
   - tgt: device:leaf2
-    srcport: '[5](205)'
-    tgtport: '[5](205)'
+    srcport: "205"
+    tgtport: "205"
   - tgt: device:leaf2
-    srcport: '[6](206)'
-    tgtport: '[6](206)'
+    srcport: "206"
+    tgtport: "206"
   - tgt: device:leaf3
-    srcport: '[7](207)'
-    tgtport: '[4](204)'
+    srcport: "207"
+    tgtport: "204"
   - tgt: device:leaf3
-    srcport: '[8](208)'
-    tgtport: '[5](205)'
+    srcport: "208"
+    tgtport: "205"
   - tgt: device:leaf3
-    srcport: '[9](209)'
-    tgtport: '[6](206)'
+    srcport: "209"
+    tgtport: "206"
   - tgt: device:leaf4
-    srcport: '[10](210)'
-    tgtport: '[4](204)'
+    srcport: "210"
+    tgtport: "204"
   - tgt: device:leaf4
-    srcport: '[11](211)'
-    tgtport: '[5](205)'
+    srcport: "211"
+    tgtport: "205"
   - tgt: device:leaf4
-    srcport: '[12](212)'
-    tgtport: '[6](206)'
+    srcport: "212"
+    tgtport: "206"
   - tgt: device:leaf5
-    srcport: '[13](213)'
-    tgtport: '[4](204)'
+    srcport: "213"
+    tgtport: "204"
   - tgt: device:leaf5
-    srcport: '[14](214)'
-    tgtport: '[5](205)'
+    srcport: "214"
+    tgtport: "205"
   - tgt: device:leaf5
-    srcport: '[15](215)'
-    tgtport: '[6](206)'
+    srcport: "215"
+    tgtport: "206"
   - tgt: device:leaf6
-    srcport: '[16](216)'
-    tgtport: '[4](204)'
+    srcport: "216"
+    tgtport: "204"
   - tgt: device:leaf6
-    srcport: '[17](217)'
-    tgtport: '[5](205)'
+    srcport: "217"
+    tgtport: "205"
   - tgt: device:leaf6
-    srcport: '[18](218)'
-    tgtport: '[6](206)'
+    srcport: "218"
+    tgtport: "206"
   - tgt: device:leaf7
-    srcport: '[19](219)'
-    tgtport: '[4](204)'
+    srcport: "219"
+    tgtport: "204"
   - tgt: device:leaf7
-    srcport: '[20](220)'
-    tgtport: '[5](205)'
+    srcport: "220"
+    tgtport: "205"
   - tgt: device:leaf7
-    srcport: '[21](221)'
-    tgtport: '[6](206)'
+    srcport: "221"
+    tgtport: "206"
   - tgt: device:leaf8
-    srcport: '[22](222)'
-    tgtport: '[4](204)'
+    srcport: "222"
+    tgtport: "204"
   - tgt: device:leaf8
-    srcport: '[23](223)'
-    tgtport: '[5](205)'
+    srcport: "223"
+    tgtport: "205"
   - tgt: device:leaf8
-    srcport: '[24](224)'
-    tgtport: '[6](206)'
+    srcport: "224"
+    tgtport: "206"
 - id: device:spine3
   agent_port: 20002
   links:
   - tgt: device:leaf1
-    srcport: '[1](201)'
-    tgtport: '[7](207)'
+    srcport: "201"
+    tgtport: "207"
   - tgt: device:leaf1
-    srcport: '[2](202)'
-    tgtport: '[8](208)'
+    srcport: "202"
+    tgtport: "208"
   - tgt: device:leaf1
-    srcport: '[3](203)'
-    tgtport: '[9](209)'
+    srcport: "203"
+    tgtport: "209"
   - tgt: device:leaf2
-    srcport: '[4](204)'
-    tgtport: '[7](207)'
+    srcport: "204"
+    tgtport: "207"
   - tgt: device:leaf2
-    srcport: '[5](205)'
-    tgtport: '[8](208)'
+    srcport: "205"
+    tgtport: "208"
   - tgt: device:leaf2
-    srcport: '[6](206)'
-    tgtport: '[9](209)'
+    srcport: "206"
+    tgtport: "209"
   - tgt: device:leaf3
-    srcport: '[7](207)'
-    tgtport: '[7](207)'
+    srcport: "207"
+    tgtport: "207"
   - tgt: device:leaf3
-    srcport: '[8](208)'
-    tgtport: '[8](208)'
+    srcport: "208"
+    tgtport: "208"
   - tgt: device:leaf3
-    srcport: '[9](209)'
-    tgtport: '[9](209)'
+    srcport: "209"
+    tgtport: "209"
   - tgt: device:leaf4
-    srcport: '[10](210)'
-    tgtport: '[7](207)'
+    srcport: "210"
+    tgtport: "207"
   - tgt: device:leaf4
-    srcport: '[11](211)'
-    tgtport: '[8](208)'
+    srcport: "211"
+    tgtport: "208"
   - tgt: device:leaf4
-    srcport: '[12](212)'
-    tgtport: '[9](209)'
+    srcport: "212"
+    tgtport: "209"
   - tgt: device:leaf5
-    srcport: '[13](213)'
-    tgtport: '[7](207)'
+    srcport: "213"
+    tgtport: "207"
   - tgt: device:leaf5
-    srcport: '[14](214)'
-    tgtport: '[8](208)'
+    srcport: "214"
+    tgtport: "208"
   - tgt: device:leaf5
-    srcport: '[15](215)'
-    tgtport: '[9](209)'
+    srcport: "215"
+    tgtport: "209"
   - tgt: device:leaf6
-    srcport: '[16](216)'
-    tgtport: '[7](207)'
+    srcport: "216"
+    tgtport: "207"
   - tgt: device:leaf6
-    srcport: '[17](217)'
-    tgtport: '[8](208)'
+    srcport: "217"
+    tgtport: "208"
   - tgt: device:leaf6
-    srcport: '[18](218)'
-    tgtport: '[9](209)'
+    srcport: "218"
+    tgtport: "209"
   - tgt: device:leaf7
-    srcport: '[19](219)'
-    tgtport: '[7](207)'
+    srcport: "219"
+    tgtport: "207"
   - tgt: device:leaf7
-    srcport: '[20](220)'
-    tgtport: '[8](208)'
+    srcport: "220"
+    tgtport: "208"
   - tgt: device:leaf7
-    srcport: '[21](221)'
-    tgtport: '[9](209)'
+    srcport: "221"
+    tgtport: "209"
   - tgt: device:leaf8
-    srcport: '[22](222)'
-    tgtport: '[7](207)'
+    srcport: "222"
+    tgtport: "207"
   - tgt: device:leaf8
-    srcport: '[23](223)'
-    tgtport: '[8](208)'
+    srcport: "223"
+    tgtport: "208"
   - tgt: device:leaf8
-    srcport: '[24](224)'
-    tgtport: '[9](209)'
+    srcport: "224"
+    tgtport: "209"
 - id: device:spine4
   agent_port: 20003
   links:
   - tgt: device:leaf1
-    srcport: '[1](201)'
-    tgtport: '[10](210)'
+    srcport: "201"
+    tgtport: "210"
   - tgt: device:leaf1
-    srcport: '[2](202)'
-    tgtport: '[11](211)'
+    srcport: "202"
+    tgtport: "211"
   - tgt: device:leaf1
-    srcport: '[3](203)'
-    tgtport: '[12](212)'
+    srcport: "203"
+    tgtport: "212"
   - tgt: device:leaf2
-    srcport: '[4](204)'
-    tgtport: '[10](210)'
+    srcport: "204"
+    tgtport: "210"
   - tgt: device:leaf2
-    srcport: '[5](205)'
-    tgtport: '[11](211)'
+    srcport: "205"
+    tgtport: "211"
   - tgt: device:leaf2
-    srcport: '[6](206)'
-    tgtport: '[12](212)'
+    srcport: "206"
+    tgtport: "212"
   - tgt: device:leaf3
-    srcport: '[7](207)'
-    tgtport: '[10](210)'
+    srcport: "207"
+    tgtport: "210"
   - tgt: device:leaf3
-    srcport: '[8](208)'
-    tgtport: '[11](211)'
+    srcport: "208"
+    tgtport: "211"
   - tgt: device:leaf3
-    srcport: '[9](209)'
-    tgtport: '[12](212)'
+    srcport: "209"
+    tgtport: "212"
   - tgt: device:leaf4
-    srcport: '[10](210)'
-    tgtport: '[10](210)'
+    srcport: "210"
+    tgtport: "210"
   - tgt: device:leaf4
-    srcport: '[11](211)'
-    tgtport: '[11](211)'
+    srcport: "211"
+    tgtport: "211"
   - tgt: device:leaf4
-    srcport: '[12](212)'
-    tgtport: '[12](212)'
+    srcport: "212"
+    tgtport: "212"
   - tgt: device:leaf5
-    srcport: '[13](213)'
-    tgtport: '[10](210)'
+    srcport: "213"
+    tgtport: "210"
   - tgt: device:leaf5
-    srcport: '[14](214)'
-    tgtport: '[11](211)'
+    srcport: "214"
+    tgtport: "211"
   - tgt: device:leaf5
-    srcport: '[15](215)'
-    tgtport: '[12](212)'
+    srcport: "215"
+    tgtport: "212"
   - tgt: device:leaf6
-    srcport: '[16](216)'
-    tgtport: '[10](210)'
+    srcport: "216"
+    tgtport: "210"
   - tgt: device:leaf6
-    srcport: '[17](217)'
-    tgtport: '[11](211)'
+    srcport: "217"
+    tgtport: "211"
   - tgt: device:leaf6
-    srcport: '[18](218)'
-    tgtport: '[12](212)'
+    srcport: "218"
+    tgtport: "212"
   - tgt: device:leaf7
-    srcport: '[19](219)'
-    tgtport: '[10](210)'
+    srcport: "219"
+    tgtport: "210"
   - tgt: device:leaf7
-    srcport: '[20](220)'
-    tgtport: '[11](211)'
+    srcport: "220"
+    tgtport: "211"
   - tgt: device:leaf7
-    srcport: '[21](221)'
-    tgtport: '[12](212)'
+    srcport: "221"
+    tgtport: "212"
   - tgt: device:leaf8
-    srcport: '[22](222)'
-    tgtport: '[10](210)'
+    srcport: "222"
+    tgtport: "210"
   - tgt: device:leaf8
-    srcport: '[23](223)'
-    tgtport: '[11](211)'
+    srcport: "223"
+    tgtport: "211"
   - tgt: device:leaf8
-    srcport: '[24](224)'
-    tgtport: '[12](212)'
+    srcport: "224"
+    tgtport: "212"
 - id: device:leaf1
   agent_port: 20004
   links:
   - tgt: device:spine1
-    srcport: '[1](201)'
-    tgtport: '[1](201)'
+    srcport: "201"
+    tgtport: "201"
   - tgt: device:spine1
-    srcport: '[2](202)'
-    tgtport: '[2](202)'
+    srcport: "202"
+    tgtport: "202"
   - tgt: device:spine1
-    srcport: '[3](203)'
-    tgtport: '[3](203)'
+    srcport: "203"
+    tgtport: "203"
   - tgt: device:spine2
-    srcport: '[4](204)'
-    tgtport: '[1](201)'
+    srcport: "204"
+    tgtport: "201"
   - tgt: device:spine2
-    srcport: '[5](205)'
-    tgtport: '[2](202)'
+    srcport: "205"
+    tgtport: "202"
   - tgt: device:spine2
-    srcport: '[6](206)'
-    tgtport: '[3](203)'
+    srcport: "206"
+    tgtport: "203"
   - tgt: device:spine3
-    srcport: '[7](207)'
-    tgtport: '[1](201)'
+    srcport: "207"
+    tgtport: "201"
   - tgt: device:spine3
-    srcport: '[8](208)'
-    tgtport: '[2](202)'
+    srcport: "208"
+    tgtport: "202"
   - tgt: device:spine3
-    srcport: '[9](209)'
-    tgtport: '[3](203)'
+    srcport: "209"
+    tgtport: "203"
   - tgt: device:spine4
-    srcport: '[10](210)'
-    tgtport: '[1](201)'
+    srcport: "210"
+    tgtport: "201"
   - tgt: device:spine4
-    srcport: '[11](211)'
-    tgtport: '[2](202)'
+    srcport: "211"
+    tgtport: "202"
   - tgt: device:spine4
-    srcport: '[12](212)'
-    tgtport: '[3](203)'
+    srcport: "212"
+    tgtport: "203"
 - id: device:leaf2
   agent_port: 20005
   links:
   - tgt: device:spine1
-    srcport: '[1](201)'
-    tgtport: '[4](204)'
+    srcport: "201"
+    tgtport: "204"
   - tgt: device:spine1
-    srcport: '[2](202)'
-    tgtport: '[5](205)'
+    srcport: "202"
+    tgtport: "205"
   - tgt: device:spine1
-    srcport: '[3](203)'
-    tgtport: '[6](206)'
+    srcport: "203"
+    tgtport: "206"
   - tgt: device:spine2
-    srcport: '[4](204)'
-    tgtport: '[4](204)'
+    srcport: "204"
+    tgtport: "204"
   - tgt: device:spine2
-    srcport: '[5](205)'
-    tgtport: '[5](205)'
+    srcport: "205"
+    tgtport: "205"
   - tgt: device:spine2
-    srcport: '[6](206)'
-    tgtport: '[6](206)'
+    srcport: "206"
+    tgtport: "206"
   - tgt: device:spine3
-    srcport: '[7](207)'
-    tgtport: '[4](204)'
+    srcport: "207"
+    tgtport: "204"
   - tgt: device:spine3
-    srcport: '[8](208)'
-    tgtport: '[5](205)'
+    srcport: "208"
+    tgtport: "205"
   - tgt: device:spine3
-    srcport: '[9](209)'
-    tgtport: '[6](206)'
+    srcport: "209"
+    tgtport: "206"
   - tgt: device:spine4
-    srcport: '[10](210)'
-    tgtport: '[4](204)'
+    srcport: "210"
+    tgtport: "204"
   - tgt: device:spine4
-    srcport: '[11](211)'
-    tgtport: '[5](205)'
+    srcport: "211"
+    tgtport: "205"
   - tgt: device:spine4
-    srcport: '[12](212)'
-    tgtport: '[6](206)'
+    srcport: "212"
+    tgtport: "206"
 - id: device:leaf3
   agent_port: 20006
   links:
   - tgt: device:spine1
-    srcport: '[1](201)'
-    tgtport: '[7](207)'
+    srcport: "201"
+    tgtport: "207"
   - tgt: device:spine1
-    srcport: '[2](202)'
-    tgtport: '[8](208)'
+    srcport: "202"
+    tgtport: "208"
   - tgt: device:spine1
-    srcport: '[3](203)'
-    tgtport: '[9](209)'
+    srcport: "203"
+    tgtport: "209"
   - tgt: device:spine2
-    srcport: '[4](204)'
-    tgtport: '[7](207)'
+    srcport: "204"
+    tgtport: "207"
   - tgt: device:spine2
-    srcport: '[5](205)'
-    tgtport: '[8](208)'
+    srcport: "205"
+    tgtport: "208"
   - tgt: device:spine2
-    srcport: '[6](206)'
-    tgtport: '[9](209)'
+    srcport: "206"
+    tgtport: "209"
   - tgt: device:spine3
-    srcport: '[7](207)'
-    tgtport: '[7](207)'
+    srcport: "207"
+    tgtport: "207"
   - tgt: device:spine3
-    srcport: '[8](208)'
-    tgtport: '[8](208)'
+    srcport: "208"
+    tgtport: "208"
   - tgt: device:spine3
-    srcport: '[9](209)'
-    tgtport: '[9](209)'
+    srcport: "209"
+    tgtport: "209"
   - tgt: device:spine4
-    srcport: '[10](210)'
-    tgtport: '[7](207)'
+    srcport: "210"
+    tgtport: "207"
   - tgt: device:spine4
-    srcport: '[11](211)'
-    tgtport: '[8](208)'
+    srcport: "211"
+    tgtport: "208"
   - tgt: device:spine4
-    srcport: '[12](212)'
-    tgtport: '[9](209)'
+    srcport: "212"
+    tgtport: "209"
 - id: device:leaf4
   agent_port: 20007
   links:
   - tgt: device:spine1
-    srcport: '[1](201)'
-    tgtport: '[10](210)'
+    srcport: "201"
+    tgtport: "210"
   - tgt: device:spine1
-    srcport: '[2](202)'
-    tgtport: '[11](211)'
+    srcport: "202"
+    tgtport: "211"
   - tgt: device:spine1
-    srcport: '[3](203)'
-    tgtport: '[12](212)'
+    srcport: "203"
+    tgtport: "212"
   - tgt: device:spine2
-    srcport: '[4](204)'
-    tgtport: '[10](210)'
+    srcport: "204"
+    tgtport: "210"
   - tgt: device:spine2
-    srcport: '[5](205)'
-    tgtport: '[11](211)'
+    srcport: "205"
+    tgtport: "211"
   - tgt: device:spine2
-    srcport: '[6](206)'
-    tgtport: '[12](212)'
+    srcport: "206"
+    tgtport: "212"
   - tgt: device:spine3
-    srcport: '[7](207)'
-    tgtport: '[10](210)'
+    srcport: "207"
+    tgtport: "210"
   - tgt: device:spine3
-    srcport: '[8](208)'
-    tgtport: '[11](211)'
+    srcport: "208"
+    tgtport: "211"
   - tgt: device:spine3
-    srcport: '[9](209)'
-    tgtport: '[12](212)'
+    srcport: "209"
+    tgtport: "212"
   - tgt: device:spine4
-    srcport: '[10](210)'
-    tgtport: '[10](210)'
+    srcport: "210"
+    tgtport: "210"
   - tgt: device:spine4
-    srcport: '[11](211)'
-    tgtport: '[11](211)'
+    srcport: "211"
+    tgtport: "211"
   - tgt: device:spine4
-    srcport: '[12](212)'
-    tgtport: '[12](212)'
+    srcport: "212"
+    tgtport: "212"
 - id: device:leaf5
   agent_port: 20008
   links:
   - tgt: device:spine1
-    srcport: '[1](201)'
-    tgtport: '[13](213)'
+    srcport: "201"
+    tgtport: "213"
   - tgt: device:spine1
-    srcport: '[2](202)'
-    tgtport: '[14](214)'
+    srcport: "202"
+    tgtport: "214"
   - tgt: device:spine1
-    srcport: '[3](203)'
-    tgtport: '[15](215)'
+    srcport: "203"
+    tgtport: "215"
   - tgt: device:spine2
-    srcport: '[4](204)'
-    tgtport: '[13](213)'
+    srcport: "204"
+    tgtport: "213"
   - tgt: device:spine2
-    srcport: '[5](205)'
-    tgtport: '[14](214)'
+    srcport: "205"
+    tgtport: "214"
   - tgt: device:spine2
-    srcport: '[6](206)'
-    tgtport: '[15](215)'
+    srcport: "206"
+    tgtport: "215"
   - tgt: device:spine3
-    srcport: '[7](207)'
-    tgtport: '[13](213)'
+    srcport: "207"
+    tgtport: "213"
   - tgt: device:spine3
-    srcport: '[8](208)'
-    tgtport: '[14](214)'
+    srcport: "208"
+    tgtport: "214"
   - tgt: device:spine3
-    srcport: '[9](209)'
-    tgtport: '[15](215)'
+    srcport: "209"
+    tgtport: "215"
   - tgt: device:spine4
-    srcport: '[10](210)'
-    tgtport: '[13](213)'
+    srcport: "210"
+    tgtport: "213"
   - tgt: device:spine4
-    srcport: '[11](211)'
-    tgtport: '[14](214)'
+    srcport: "211"
+    tgtport: "214"
   - tgt: device:spine4
-    srcport: '[12](212)'
-    tgtport: '[15](215)'
+    srcport: "212"
+    tgtport: "215"
 - id: device:leaf6
   agent_port: 20009
   links:
   - tgt: device:spine1
-    srcport: '[1](201)'
-    tgtport: '[16](216)'
+    srcport: "201"
+    tgtport: "216"
   - tgt: device:spine1
-    srcport: '[2](202)'
-    tgtport: '[17](217)'
+    srcport: "202"
+    tgtport: "217"
   - tgt: device:spine1
-    srcport: '[3](203)'
-    tgtport: '[18](218)'
+    srcport: "203"
+    tgtport: "218"
   - tgt: device:spine2
-    srcport: '[4](204)'
-    tgtport: '[16](216)'
+    srcport: "204"
+    tgtport: "216"
   - tgt: device:spine2
-    srcport: '[5](205)'
-    tgtport: '[17](217)'
+    srcport: "205"
+    tgtport: "217"
   - tgt: device:spine2
-    srcport: '[6](206)'
-    tgtport: '[18](218)'
+    srcport: "206"
+    tgtport: "218"
   - tgt: device:spine3
-    srcport: '[7](207)'
-    tgtport: '[16](216)'
+    srcport: "207"
+    tgtport: "216"
   - tgt: device:spine3
-    srcport: '[8](208)'
-    tgtport: '[17](217)'
+    srcport: "208"
+    tgtport: "217"
   - tgt: device:spine3
-    srcport: '[9](209)'
-    tgtport: '[18](218)'
+    srcport: "209"
+    tgtport: "218"
   - tgt: device:spine4
-    srcport: '[10](210)'
-    tgtport: '[16](216)'
+    srcport: "210"
+    tgtport: "216"
   - tgt: device:spine4
-    srcport: '[11](211)'
-    tgtport: '[17](217)'
+    srcport: "211"
+    tgtport: "217"
   - tgt: device:spine4
-    srcport: '[12](212)'
-    tgtport: '[18](218)'
+    srcport: "212"
+    tgtport: "218"
 - id: device:leaf7
   agent_port: 20010
   links:
   - tgt: device:spine1
-    srcport: '[1](201)'
-    tgtport: '[19](219)'
+    srcport: "201"
+    tgtport: "219"
   - tgt: device:spine1
-    srcport: '[2](202)'
-    tgtport: '[20](220)'
+    srcport: "202"
+    tgtport: "220"
   - tgt: device:spine1
-    srcport: '[3](203)'
-    tgtport: '[21](221)'
+    srcport: "203"
+    tgtport: "221"
   - tgt: device:spine2
-    srcport: '[4](204)'
-    tgtport: '[19](219)'
+    srcport: "204"
+    tgtport: "219"
   - tgt: device:spine2
-    srcport: '[5](205)'
-    tgtport: '[20](220)'
+    srcport: "205"
+    tgtport: "220"
   - tgt: device:spine2
-    srcport: '[6](206)'
-    tgtport: '[21](221)'
+    srcport: "206"
+    tgtport: "221"
   - tgt: device:spine3
-    srcport: '[7](207)'
-    tgtport: '[19](219)'
+    srcport: "207"
+    tgtport: "219"
   - tgt: device:spine3
-    srcport: '[8](208)'
-    tgtport: '[20](220)'
+    srcport: "208"
+    tgtport: "220"
   - tgt: device:spine3
-    srcport: '[9](209)'
-    tgtport: '[21](221)'
+    srcport: "209"
+    tgtport: "221"
   - tgt: device:spine4
-    srcport: '[10](210)'
-    tgtport: '[19](219)'
+    srcport: "210"
+    tgtport: "219"
   - tgt: device:spine4
-    srcport: '[11](211)'
-    tgtport: '[20](220)'
+    srcport: "211"
+    tgtport: "220"
   - tgt: device:spine4
-    srcport: '[12](212)'
-    tgtport: '[21](221)'
+    srcport: "212"
+    tgtport: "221"
 - id: device:leaf8
   agent_port: 20011
   links:
   - tgt: device:spine1
-    srcport: '[1](201)'
-    tgtport: '[22](222)'
+    srcport: "201"
+    tgtport: "222"
   - tgt: device:spine1
-    srcport: '[2](202)'
-    tgtport: '[23](223)'
+    srcport: "202"
+    tgtport: "223"
   - tgt: device:spine1
-    srcport: '[3](203)'
-    tgtport: '[24](224)'
+    srcport: "203"
+    tgtport: "224"
   - tgt: device:spine2
-    srcport: '[4](204)'
-    tgtport: '[22](222)'
+    srcport: "204"
+    tgtport: "222"
   - tgt: device:spine2
-    srcport: '[5](205)'
-    tgtport: '[23](223)'
+    srcport: "205"
+    tgtport: "223"
   - tgt: device:spine2
-    srcport: '[6](206)'
-    tgtport: '[24](224)'
+    srcport: "206"
+    tgtport: "224"
   - tgt: device:spine3
-    srcport: '[7](207)'
-    tgtport: '[22](222)'
+    srcport: "207"
+    tgtport: "222"
   - tgt: device:spine3
-    srcport: '[8](208)'
-    tgtport: '[23](223)'
+    srcport: "208"
+    tgtport: "223"
   - tgt: device:spine3
-    srcport: '[9](209)'
-    tgtport: '[24](224)'
+    srcport: "209"
+    tgtport: "224"
   - tgt: device:spine4
-    srcport: '[10](210)'
-    tgtport: '[22](222)'
+    srcport: "210"
+    tgtport: "222"
   - tgt: device:spine4
-    srcport: '[11](211)'
-    tgtport: '[23](223)'
+    srcport: "211"
+    tgtport: "223"
   - tgt: device:spine4
-    srcport: '[12](212)'
-    tgtport: '[24](224)'
+    srcport: "212"
+    tgtport: "224"
 hosts:
 - id: host0101
   mac: 00:CA:FE:01:01:01
@@ -622,7 +622,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[13](213)'
+    port: "213"
 - id: host0102
   mac: 00:CA:FE:01:01:02
   ip: 10.1.1.2
@@ -631,7 +631,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[14](214)'
+    port: "214"
 - id: host0103
   mac: 00:CA:FE:01:01:03
   ip: 10.1.1.3
@@ -640,7 +640,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[15](215)'
+    port: "215"
 - id: host0104
   mac: 00:CA:FE:01:01:04
   ip: 10.1.1.4
@@ -649,7 +649,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[16](216)'
+    port: "216"
 - id: host0105
   mac: 00:CA:FE:01:01:05
   ip: 10.1.1.5
@@ -658,7 +658,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[17](217)'
+    port: "217"
 - id: host0106
   mac: 00:CA:FE:01:01:06
   ip: 10.1.1.6
@@ -667,7 +667,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[18](218)'
+    port: "218"
 - id: host0107
   mac: 00:CA:FE:01:01:07
   ip: 10.1.1.7
@@ -676,7 +676,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[19](219)'
+    port: "219"
 - id: host0108
   mac: 00:CA:FE:01:01:08
   ip: 10.1.1.8
@@ -685,7 +685,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[20](220)'
+    port: "220"
 - id: host0109
   mac: 00:CA:FE:01:01:09
   ip: 10.1.1.9
@@ -694,7 +694,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[21](221)'
+    port: "221"
 - id: host0110
   mac: 00:CA:FE:01:01:10
   ip: 10.1.1.10
@@ -703,7 +703,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[22](222)'
+    port: "222"
 - id: host0111
   mac: 00:CA:FE:01:01:11
   ip: 10.1.1.11
@@ -712,7 +712,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[23](223)'
+    port: "223"
 - id: host0112
   mac: 00:CA:FE:01:01:12
   ip: 10.1.1.12
@@ -721,7 +721,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[24](224)'
+    port: "224"
 - id: host0113
   mac: 00:CA:FE:01:01:13
   ip: 10.1.1.13
@@ -730,7 +730,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[25](225)'
+    port: "225"
 - id: host0114
   mac: 00:CA:FE:01:01:14
   ip: 10.1.1.14
@@ -739,7 +739,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[26](226)'
+    port: "226"
 - id: host0115
   mac: 00:CA:FE:01:01:15
   ip: 10.1.1.15
@@ -748,7 +748,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[27](227)'
+    port: "227"
 - id: host0116
   mac: 00:CA:FE:01:01:16
   ip: 10.1.1.16
@@ -757,7 +757,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[28](228)'
+    port: "228"
 - id: host0117
   mac: 00:CA:FE:01:01:17
   ip: 10.1.1.17
@@ -766,7 +766,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[29](229)'
+    port: "229"
 - id: host0118
   mac: 00:CA:FE:01:01:18
   ip: 10.1.1.18
@@ -775,7 +775,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[30](230)'
+    port: "230"
 - id: host0119
   mac: 00:CA:FE:01:01:19
   ip: 10.1.1.19
@@ -784,7 +784,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[31](231)'
+    port: "231"
 - id: host0120
   mac: 00:CA:FE:01:01:20
   ip: 10.1.1.20
@@ -793,7 +793,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[32](232)'
+    port: "232"
 - id: host0121
   mac: 00:CA:FE:01:01:21
   ip: 10.1.1.21
@@ -802,7 +802,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[33](233)'
+    port: "233"
 - id: host0122
   mac: 00:CA:FE:01:01:22
   ip: 10.1.1.22
@@ -811,7 +811,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[34](234)'
+    port: "234"
 - id: host0123
   mac: 00:CA:FE:01:01:23
   ip: 10.1.1.23
@@ -820,7 +820,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[35](235)'
+    port: "235"
 - id: host0124
   mac: 00:CA:FE:01:01:24
   ip: 10.1.1.24
@@ -829,7 +829,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[36](236)'
+    port: "236"
 - id: host0125
   mac: 00:CA:FE:01:01:25
   ip: 10.1.1.25
@@ -838,7 +838,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[37](237)'
+    port: "237"
 - id: host0126
   mac: 00:CA:FE:01:01:26
   ip: 10.1.1.26
@@ -847,7 +847,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[38](238)'
+    port: "238"
 - id: host0127
   mac: 00:CA:FE:01:01:27
   ip: 10.1.1.27
@@ -856,7 +856,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[39](239)'
+    port: "239"
 - id: host0128
   mac: 00:CA:FE:01:01:28
   ip: 10.1.1.28
@@ -865,7 +865,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[40](240)'
+    port: "240"
 - id: host0129
   mac: 00:CA:FE:01:01:29
   ip: 10.1.1.29
@@ -874,7 +874,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[41](241)'
+    port: "241"
 - id: host0130
   mac: 00:CA:FE:01:01:30
   ip: 10.1.1.30
@@ -883,7 +883,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[42](242)'
+    port: "242"
 - id: host0131
   mac: 00:CA:FE:01:01:31
   ip: 10.1.1.31
@@ -892,7 +892,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[43](243)'
+    port: "243"
 - id: host0132
   mac: 00:CA:FE:01:01:32
   ip: 10.1.1.32
@@ -901,7 +901,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[44](244)'
+    port: "244"
 - id: host0133
   mac: 00:CA:FE:01:01:33
   ip: 10.1.1.33
@@ -910,7 +910,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[45](245)'
+    port: "245"
 - id: host0134
   mac: 00:CA:FE:01:01:34
   ip: 10.1.1.34
@@ -919,7 +919,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[46](246)'
+    port: "246"
 - id: host0135
   mac: 00:CA:FE:01:01:35
   ip: 10.1.1.35
@@ -928,7 +928,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[47](247)'
+    port: "247"
 - id: host0136
   mac: 00:CA:FE:01:01:36
   ip: 10.1.1.36
@@ -937,7 +937,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[48](248)'
+    port: "248"
 - id: host0137
   mac: 00:CA:FE:01:01:37
   ip: 10.1.1.37
@@ -946,7 +946,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[49](249)'
+    port: "249"
 - id: host0138
   mac: 00:CA:FE:01:01:38
   ip: 10.1.1.38
@@ -955,7 +955,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[50](250)'
+    port: "250"
 - id: host0139
   mac: 00:CA:FE:01:01:39
   ip: 10.1.1.39
@@ -964,7 +964,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[51](251)'
+    port: "251"
 - id: host0140
   mac: 00:CA:FE:01:01:40
   ip: 10.1.1.40
@@ -973,7 +973,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[52](252)'
+    port: "252"
 - id: host0141
   mac: 00:CA:FE:01:01:41
   ip: 10.1.1.41
@@ -982,7 +982,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[53](253)'
+    port: "253"
 - id: host0142
   mac: 00:CA:FE:01:01:42
   ip: 10.1.1.42
@@ -991,7 +991,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[54](254)'
+    port: "254"
 - id: host0143
   mac: 00:CA:FE:01:01:43
   ip: 10.1.1.43
@@ -1000,7 +1000,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[55](255)'
+    port: "255"
 - id: host0144
   mac: 00:CA:FE:01:01:44
   ip: 10.1.1.44
@@ -1009,7 +1009,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[56](256)'
+    port: "256"
 - id: host0145
   mac: 00:CA:FE:01:01:45
   ip: 10.1.1.45
@@ -1018,7 +1018,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[57](257)'
+    port: "257"
 - id: host0146
   mac: 00:CA:FE:01:01:46
   ip: 10.1.1.46
@@ -1027,7 +1027,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[58](258)'
+    port: "258"
 - id: host0147
   mac: 00:CA:FE:01:01:47
   ip: 10.1.1.47
@@ -1036,7 +1036,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[59](259)'
+    port: "259"
 - id: host0148
   mac: 00:CA:FE:01:01:48
   ip: 10.1.1.48
@@ -1045,7 +1045,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[60](260)'
+    port: "260"
 - id: host0149
   mac: 00:CA:FE:01:01:49
   ip: 10.1.1.49
@@ -1054,7 +1054,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[61](261)'
+    port: "261"
 - id: host0150
   mac: 00:CA:FE:01:01:50
   ip: 10.1.1.50
@@ -1063,7 +1063,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf1
-    port: '[62](262)'
+    port: "262"
 - id: host0201
   mac: 00:CA:FE:02:01:01
   ip: 10.2.1.1
@@ -1072,7 +1072,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[13](213)'
+    port: "213"
 - id: host0202
   mac: 00:CA:FE:02:01:02
   ip: 10.2.1.2
@@ -1081,7 +1081,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[14](214)'
+    port: "214"
 - id: host0203
   mac: 00:CA:FE:02:01:03
   ip: 10.2.1.3
@@ -1090,7 +1090,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[15](215)'
+    port: "215"
 - id: host0204
   mac: 00:CA:FE:02:01:04
   ip: 10.2.1.4
@@ -1099,7 +1099,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[16](216)'
+    port: "216"
 - id: host0205
   mac: 00:CA:FE:02:01:05
   ip: 10.2.1.5
@@ -1108,7 +1108,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[17](217)'
+    port: "217"
 - id: host0206
   mac: 00:CA:FE:02:01:06
   ip: 10.2.1.6
@@ -1117,7 +1117,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[18](218)'
+    port: "218"
 - id: host0207
   mac: 00:CA:FE:02:01:07
   ip: 10.2.1.7
@@ -1126,7 +1126,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[19](219)'
+    port: "219"
 - id: host0208
   mac: 00:CA:FE:02:01:08
   ip: 10.2.1.8
@@ -1135,7 +1135,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[20](220)'
+    port: "220"
 - id: host0209
   mac: 00:CA:FE:02:01:09
   ip: 10.2.1.9
@@ -1144,7 +1144,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[21](221)'
+    port: "221"
 - id: host0210
   mac: 00:CA:FE:02:01:10
   ip: 10.2.1.10
@@ -1153,7 +1153,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[22](222)'
+    port: "222"
 - id: host0211
   mac: 00:CA:FE:02:01:11
   ip: 10.2.1.11
@@ -1162,7 +1162,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[23](223)'
+    port: "223"
 - id: host0212
   mac: 00:CA:FE:02:01:12
   ip: 10.2.1.12
@@ -1171,7 +1171,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[24](224)'
+    port: "224"
 - id: host0213
   mac: 00:CA:FE:02:01:13
   ip: 10.2.1.13
@@ -1180,7 +1180,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[25](225)'
+    port: "225"
 - id: host0214
   mac: 00:CA:FE:02:01:14
   ip: 10.2.1.14
@@ -1189,7 +1189,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[26](226)'
+    port: "226"
 - id: host0215
   mac: 00:CA:FE:02:01:15
   ip: 10.2.1.15
@@ -1198,7 +1198,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[27](227)'
+    port: "227"
 - id: host0216
   mac: 00:CA:FE:02:01:16
   ip: 10.2.1.16
@@ -1207,7 +1207,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[28](228)'
+    port: "228"
 - id: host0217
   mac: 00:CA:FE:02:01:17
   ip: 10.2.1.17
@@ -1216,7 +1216,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[29](229)'
+    port: "229"
 - id: host0218
   mac: 00:CA:FE:02:01:18
   ip: 10.2.1.18
@@ -1225,7 +1225,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[30](230)'
+    port: "230"
 - id: host0219
   mac: 00:CA:FE:02:01:19
   ip: 10.2.1.19
@@ -1234,7 +1234,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[31](231)'
+    port: "231"
 - id: host0220
   mac: 00:CA:FE:02:01:20
   ip: 10.2.1.20
@@ -1243,7 +1243,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[32](232)'
+    port: "232"
 - id: host0221
   mac: 00:CA:FE:02:01:21
   ip: 10.2.1.21
@@ -1252,7 +1252,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[33](233)'
+    port: "233"
 - id: host0222
   mac: 00:CA:FE:02:01:22
   ip: 10.2.1.22
@@ -1261,7 +1261,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[34](234)'
+    port: "234"
 - id: host0223
   mac: 00:CA:FE:02:01:23
   ip: 10.2.1.23
@@ -1270,7 +1270,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[35](235)'
+    port: "235"
 - id: host0224
   mac: 00:CA:FE:02:01:24
   ip: 10.2.1.24
@@ -1279,7 +1279,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[36](236)'
+    port: "236"
 - id: host0225
   mac: 00:CA:FE:02:01:25
   ip: 10.2.1.25
@@ -1288,7 +1288,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[37](237)'
+    port: "237"
 - id: host0226
   mac: 00:CA:FE:02:01:26
   ip: 10.2.1.26
@@ -1297,7 +1297,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[38](238)'
+    port: "238"
 - id: host0227
   mac: 00:CA:FE:02:01:27
   ip: 10.2.1.27
@@ -1306,7 +1306,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[39](239)'
+    port: "239"
 - id: host0228
   mac: 00:CA:FE:02:01:28
   ip: 10.2.1.28
@@ -1315,7 +1315,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[40](240)'
+    port: "240"
 - id: host0229
   mac: 00:CA:FE:02:01:29
   ip: 10.2.1.29
@@ -1324,7 +1324,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[41](241)'
+    port: "241"
 - id: host0230
   mac: 00:CA:FE:02:01:30
   ip: 10.2.1.30
@@ -1333,7 +1333,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[42](242)'
+    port: "242"
 - id: host0231
   mac: 00:CA:FE:02:01:31
   ip: 10.2.1.31
@@ -1342,7 +1342,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[43](243)'
+    port: "243"
 - id: host0232
   mac: 00:CA:FE:02:01:32
   ip: 10.2.1.32
@@ -1351,7 +1351,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[44](244)'
+    port: "244"
 - id: host0233
   mac: 00:CA:FE:02:01:33
   ip: 10.2.1.33
@@ -1360,7 +1360,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[45](245)'
+    port: "245"
 - id: host0234
   mac: 00:CA:FE:02:01:34
   ip: 10.2.1.34
@@ -1369,7 +1369,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[46](246)'
+    port: "246"
 - id: host0235
   mac: 00:CA:FE:02:01:35
   ip: 10.2.1.35
@@ -1378,7 +1378,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[47](247)'
+    port: "247"
 - id: host0236
   mac: 00:CA:FE:02:01:36
   ip: 10.2.1.36
@@ -1387,7 +1387,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[48](248)'
+    port: "248"
 - id: host0237
   mac: 00:CA:FE:02:01:37
   ip: 10.2.1.37
@@ -1396,7 +1396,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[49](249)'
+    port: "249"
 - id: host0238
   mac: 00:CA:FE:02:01:38
   ip: 10.2.1.38
@@ -1405,7 +1405,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[50](250)'
+    port: "250"
 - id: host0239
   mac: 00:CA:FE:02:01:39
   ip: 10.2.1.39
@@ -1414,7 +1414,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[51](251)'
+    port: "251"
 - id: host0240
   mac: 00:CA:FE:02:01:40
   ip: 10.2.1.40
@@ -1423,7 +1423,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[52](252)'
+    port: "252"
 - id: host0241
   mac: 00:CA:FE:02:01:41
   ip: 10.2.1.41
@@ -1432,7 +1432,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[53](253)'
+    port: "253"
 - id: host0242
   mac: 00:CA:FE:02:01:42
   ip: 10.2.1.42
@@ -1441,7 +1441,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[54](254)'
+    port: "254"
 - id: host0243
   mac: 00:CA:FE:02:01:43
   ip: 10.2.1.43
@@ -1450,7 +1450,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[55](255)'
+    port: "255"
 - id: host0244
   mac: 00:CA:FE:02:01:44
   ip: 10.2.1.44
@@ -1459,7 +1459,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[56](256)'
+    port: "256"
 - id: host0245
   mac: 00:CA:FE:02:01:45
   ip: 10.2.1.45
@@ -1468,7 +1468,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[57](257)'
+    port: "257"
 - id: host0246
   mac: 00:CA:FE:02:01:46
   ip: 10.2.1.46
@@ -1477,7 +1477,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[58](258)'
+    port: "258"
 - id: host0247
   mac: 00:CA:FE:02:01:47
   ip: 10.2.1.47
@@ -1486,7 +1486,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[59](259)'
+    port: "259"
 - id: host0248
   mac: 00:CA:FE:02:01:48
   ip: 10.2.1.48
@@ -1495,7 +1495,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[60](260)'
+    port: "260"
 - id: host0249
   mac: 00:CA:FE:02:01:49
   ip: 10.2.1.49
@@ -1504,7 +1504,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[61](261)'
+    port: "261"
 - id: host0250
   mac: 00:CA:FE:02:01:50
   ip: 10.2.1.50
@@ -1513,7 +1513,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf2
-    port: '[62](262)'
+    port: "262"
 - id: host0301
   mac: 00:CA:FE:03:01:01
   ip: 10.3.1.1
@@ -1522,7 +1522,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[13](213)'
+    port: "213"
 - id: host0302
   mac: 00:CA:FE:03:01:02
   ip: 10.3.1.2
@@ -1531,7 +1531,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[14](214)'
+    port: "214"
 - id: host0303
   mac: 00:CA:FE:03:01:03
   ip: 10.3.1.3
@@ -1540,7 +1540,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[15](215)'
+    port: "215"
 - id: host0304
   mac: 00:CA:FE:03:01:04
   ip: 10.3.1.4
@@ -1549,7 +1549,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[16](216)'
+    port: "216"
 - id: host0305
   mac: 00:CA:FE:03:01:05
   ip: 10.3.1.5
@@ -1558,7 +1558,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[17](217)'
+    port: "217"
 - id: host0306
   mac: 00:CA:FE:03:01:06
   ip: 10.3.1.6
@@ -1567,7 +1567,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[18](218)'
+    port: "218"
 - id: host0307
   mac: 00:CA:FE:03:01:07
   ip: 10.3.1.7
@@ -1576,7 +1576,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[19](219)'
+    port: "219"
 - id: host0308
   mac: 00:CA:FE:03:01:08
   ip: 10.3.1.8
@@ -1585,7 +1585,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[20](220)'
+    port: "220"
 - id: host0309
   mac: 00:CA:FE:03:01:09
   ip: 10.3.1.9
@@ -1594,7 +1594,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[21](221)'
+    port: "221"
 - id: host0310
   mac: 00:CA:FE:03:01:10
   ip: 10.3.1.10
@@ -1603,7 +1603,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[22](222)'
+    port: "222"
 - id: host0311
   mac: 00:CA:FE:03:01:11
   ip: 10.3.1.11
@@ -1612,7 +1612,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[23](223)'
+    port: "223"
 - id: host0312
   mac: 00:CA:FE:03:01:12
   ip: 10.3.1.12
@@ -1621,7 +1621,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[24](224)'
+    port: "224"
 - id: host0313
   mac: 00:CA:FE:03:01:13
   ip: 10.3.1.13
@@ -1630,7 +1630,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[25](225)'
+    port: "225"
 - id: host0314
   mac: 00:CA:FE:03:01:14
   ip: 10.3.1.14
@@ -1639,7 +1639,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[26](226)'
+    port: "226"
 - id: host0315
   mac: 00:CA:FE:03:01:15
   ip: 10.3.1.15
@@ -1648,7 +1648,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[27](227)'
+    port: "227"
 - id: host0316
   mac: 00:CA:FE:03:01:16
   ip: 10.3.1.16
@@ -1657,7 +1657,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[28](228)'
+    port: "228"
 - id: host0317
   mac: 00:CA:FE:03:01:17
   ip: 10.3.1.17
@@ -1666,7 +1666,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[29](229)'
+    port: "229"
 - id: host0318
   mac: 00:CA:FE:03:01:18
   ip: 10.3.1.18
@@ -1675,7 +1675,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[30](230)'
+    port: "230"
 - id: host0319
   mac: 00:CA:FE:03:01:19
   ip: 10.3.1.19
@@ -1684,7 +1684,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[31](231)'
+    port: "231"
 - id: host0320
   mac: 00:CA:FE:03:01:20
   ip: 10.3.1.20
@@ -1693,7 +1693,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[32](232)'
+    port: "232"
 - id: host0321
   mac: 00:CA:FE:03:01:21
   ip: 10.3.1.21
@@ -1702,7 +1702,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[33](233)'
+    port: "233"
 - id: host0322
   mac: 00:CA:FE:03:01:22
   ip: 10.3.1.22
@@ -1711,7 +1711,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[34](234)'
+    port: "234"
 - id: host0323
   mac: 00:CA:FE:03:01:23
   ip: 10.3.1.23
@@ -1720,7 +1720,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[35](235)'
+    port: "235"
 - id: host0324
   mac: 00:CA:FE:03:01:24
   ip: 10.3.1.24
@@ -1729,7 +1729,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[36](236)'
+    port: "236"
 - id: host0325
   mac: 00:CA:FE:03:01:25
   ip: 10.3.1.25
@@ -1738,7 +1738,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[37](237)'
+    port: "237"
 - id: host0326
   mac: 00:CA:FE:03:01:26
   ip: 10.3.1.26
@@ -1747,7 +1747,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[38](238)'
+    port: "238"
 - id: host0327
   mac: 00:CA:FE:03:01:27
   ip: 10.3.1.27
@@ -1756,7 +1756,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[39](239)'
+    port: "239"
 - id: host0328
   mac: 00:CA:FE:03:01:28
   ip: 10.3.1.28
@@ -1765,7 +1765,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[40](240)'
+    port: "240"
 - id: host0329
   mac: 00:CA:FE:03:01:29
   ip: 10.3.1.29
@@ -1774,7 +1774,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[41](241)'
+    port: "241"
 - id: host0330
   mac: 00:CA:FE:03:01:30
   ip: 10.3.1.30
@@ -1783,7 +1783,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[42](242)'
+    port: "242"
 - id: host0331
   mac: 00:CA:FE:03:01:31
   ip: 10.3.1.31
@@ -1792,7 +1792,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[43](243)'
+    port: "243"
 - id: host0332
   mac: 00:CA:FE:03:01:32
   ip: 10.3.1.32
@@ -1801,7 +1801,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[44](244)'
+    port: "244"
 - id: host0333
   mac: 00:CA:FE:03:01:33
   ip: 10.3.1.33
@@ -1810,7 +1810,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[45](245)'
+    port: "245"
 - id: host0334
   mac: 00:CA:FE:03:01:34
   ip: 10.3.1.34
@@ -1819,7 +1819,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[46](246)'
+    port: "246"
 - id: host0335
   mac: 00:CA:FE:03:01:35
   ip: 10.3.1.35
@@ -1828,7 +1828,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[47](247)'
+    port: "247"
 - id: host0336
   mac: 00:CA:FE:03:01:36
   ip: 10.3.1.36
@@ -1837,7 +1837,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[48](248)'
+    port: "248"
 - id: host0337
   mac: 00:CA:FE:03:01:37
   ip: 10.3.1.37
@@ -1846,7 +1846,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[49](249)'
+    port: "249"
 - id: host0338
   mac: 00:CA:FE:03:01:38
   ip: 10.3.1.38
@@ -1855,7 +1855,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[50](250)'
+    port: "250"
 - id: host0339
   mac: 00:CA:FE:03:01:39
   ip: 10.3.1.39
@@ -1864,7 +1864,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[51](251)'
+    port: "251"
 - id: host0340
   mac: 00:CA:FE:03:01:40
   ip: 10.3.1.40
@@ -1873,7 +1873,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[52](252)'
+    port: "252"
 - id: host0341
   mac: 00:CA:FE:03:01:41
   ip: 10.3.1.41
@@ -1882,7 +1882,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[53](253)'
+    port: "253"
 - id: host0342
   mac: 00:CA:FE:03:01:42
   ip: 10.3.1.42
@@ -1891,7 +1891,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[54](254)'
+    port: "254"
 - id: host0343
   mac: 00:CA:FE:03:01:43
   ip: 10.3.1.43
@@ -1900,7 +1900,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[55](255)'
+    port: "255"
 - id: host0344
   mac: 00:CA:FE:03:01:44
   ip: 10.3.1.44
@@ -1909,7 +1909,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[56](256)'
+    port: "256"
 - id: host0345
   mac: 00:CA:FE:03:01:45
   ip: 10.3.1.45
@@ -1918,7 +1918,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[57](257)'
+    port: "257"
 - id: host0346
   mac: 00:CA:FE:03:01:46
   ip: 10.3.1.46
@@ -1927,7 +1927,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[58](258)'
+    port: "258"
 - id: host0347
   mac: 00:CA:FE:03:01:47
   ip: 10.3.1.47
@@ -1936,7 +1936,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[59](259)'
+    port: "259"
 - id: host0348
   mac: 00:CA:FE:03:01:48
   ip: 10.3.1.48
@@ -1945,7 +1945,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[60](260)'
+    port: "260"
 - id: host0349
   mac: 00:CA:FE:03:01:49
   ip: 10.3.1.49
@@ -1954,7 +1954,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[61](261)'
+    port: "261"
 - id: host0350
   mac: 00:CA:FE:03:01:50
   ip: 10.3.1.50
@@ -1963,7 +1963,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf3
-    port: '[62](262)'
+    port: "262"
 - id: host0401
   mac: 00:CA:FE:04:01:01
   ip: 10.4.1.1
@@ -1972,7 +1972,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[13](213)'
+    port: "213"
 - id: host0402
   mac: 00:CA:FE:04:01:02
   ip: 10.4.1.2
@@ -1981,7 +1981,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[14](214)'
+    port: "214"
 - id: host0403
   mac: 00:CA:FE:04:01:03
   ip: 10.4.1.3
@@ -1990,7 +1990,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[15](215)'
+    port: "215"
 - id: host0404
   mac: 00:CA:FE:04:01:04
   ip: 10.4.1.4
@@ -1999,7 +1999,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[16](216)'
+    port: "216"
 - id: host0405
   mac: 00:CA:FE:04:01:05
   ip: 10.4.1.5
@@ -2008,7 +2008,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[17](217)'
+    port: "217"
 - id: host0406
   mac: 00:CA:FE:04:01:06
   ip: 10.4.1.6
@@ -2017,7 +2017,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[18](218)'
+    port: "218"
 - id: host0407
   mac: 00:CA:FE:04:01:07
   ip: 10.4.1.7
@@ -2026,7 +2026,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[19](219)'
+    port: "219"
 - id: host0408
   mac: 00:CA:FE:04:01:08
   ip: 10.4.1.8
@@ -2035,7 +2035,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[20](220)'
+    port: "220"
 - id: host0409
   mac: 00:CA:FE:04:01:09
   ip: 10.4.1.9
@@ -2044,7 +2044,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[21](221)'
+    port: "221"
 - id: host0410
   mac: 00:CA:FE:04:01:10
   ip: 10.4.1.10
@@ -2053,7 +2053,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[22](222)'
+    port: "222"
 - id: host0411
   mac: 00:CA:FE:04:01:11
   ip: 10.4.1.11
@@ -2062,7 +2062,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[23](223)'
+    port: "223"
 - id: host0412
   mac: 00:CA:FE:04:01:12
   ip: 10.4.1.12
@@ -2071,7 +2071,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[24](224)'
+    port: "224"
 - id: host0413
   mac: 00:CA:FE:04:01:13
   ip: 10.4.1.13
@@ -2080,7 +2080,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[25](225)'
+    port: "225"
 - id: host0414
   mac: 00:CA:FE:04:01:14
   ip: 10.4.1.14
@@ -2089,7 +2089,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[26](226)'
+    port: "226"
 - id: host0415
   mac: 00:CA:FE:04:01:15
   ip: 10.4.1.15
@@ -2098,7 +2098,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[27](227)'
+    port: "227"
 - id: host0416
   mac: 00:CA:FE:04:01:16
   ip: 10.4.1.16
@@ -2107,7 +2107,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[28](228)'
+    port: "228"
 - id: host0417
   mac: 00:CA:FE:04:01:17
   ip: 10.4.1.17
@@ -2116,7 +2116,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[29](229)'
+    port: "229"
 - id: host0418
   mac: 00:CA:FE:04:01:18
   ip: 10.4.1.18
@@ -2125,7 +2125,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[30](230)'
+    port: "230"
 - id: host0419
   mac: 00:CA:FE:04:01:19
   ip: 10.4.1.19
@@ -2134,7 +2134,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[31](231)'
+    port: "231"
 - id: host0420
   mac: 00:CA:FE:04:01:20
   ip: 10.4.1.20
@@ -2143,7 +2143,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[32](232)'
+    port: "232"
 - id: host0421
   mac: 00:CA:FE:04:01:21
   ip: 10.4.1.21
@@ -2152,7 +2152,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[33](233)'
+    port: "233"
 - id: host0422
   mac: 00:CA:FE:04:01:22
   ip: 10.4.1.22
@@ -2161,7 +2161,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[34](234)'
+    port: "234"
 - id: host0423
   mac: 00:CA:FE:04:01:23
   ip: 10.4.1.23
@@ -2170,7 +2170,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[35](235)'
+    port: "235"
 - id: host0424
   mac: 00:CA:FE:04:01:24
   ip: 10.4.1.24
@@ -2179,7 +2179,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[36](236)'
+    port: "236"
 - id: host0425
   mac: 00:CA:FE:04:01:25
   ip: 10.4.1.25
@@ -2188,7 +2188,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[37](237)'
+    port: "237"
 - id: host0426
   mac: 00:CA:FE:04:01:26
   ip: 10.4.1.26
@@ -2197,7 +2197,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[38](238)'
+    port: "238"
 - id: host0427
   mac: 00:CA:FE:04:01:27
   ip: 10.4.1.27
@@ -2206,7 +2206,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[39](239)'
+    port: "239"
 - id: host0428
   mac: 00:CA:FE:04:01:28
   ip: 10.4.1.28
@@ -2215,7 +2215,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[40](240)'
+    port: "240"
 - id: host0429
   mac: 00:CA:FE:04:01:29
   ip: 10.4.1.29
@@ -2224,7 +2224,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[41](241)'
+    port: "241"
 - id: host0430
   mac: 00:CA:FE:04:01:30
   ip: 10.4.1.30
@@ -2233,7 +2233,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[42](242)'
+    port: "242"
 - id: host0431
   mac: 00:CA:FE:04:01:31
   ip: 10.4.1.31
@@ -2242,7 +2242,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[43](243)'
+    port: "243"
 - id: host0432
   mac: 00:CA:FE:04:01:32
   ip: 10.4.1.32
@@ -2251,7 +2251,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[44](244)'
+    port: "244"
 - id: host0433
   mac: 00:CA:FE:04:01:33
   ip: 10.4.1.33
@@ -2260,7 +2260,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[45](245)'
+    port: "245"
 - id: host0434
   mac: 00:CA:FE:04:01:34
   ip: 10.4.1.34
@@ -2269,7 +2269,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[46](246)'
+    port: "246"
 - id: host0435
   mac: 00:CA:FE:04:01:35
   ip: 10.4.1.35
@@ -2278,7 +2278,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[47](247)'
+    port: "247"
 - id: host0436
   mac: 00:CA:FE:04:01:36
   ip: 10.4.1.36
@@ -2287,7 +2287,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[48](248)'
+    port: "248"
 - id: host0437
   mac: 00:CA:FE:04:01:37
   ip: 10.4.1.37
@@ -2296,7 +2296,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[49](249)'
+    port: "249"
 - id: host0438
   mac: 00:CA:FE:04:01:38
   ip: 10.4.1.38
@@ -2305,7 +2305,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[50](250)'
+    port: "250"
 - id: host0439
   mac: 00:CA:FE:04:01:39
   ip: 10.4.1.39
@@ -2314,7 +2314,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[51](251)'
+    port: "251"
 - id: host0440
   mac: 00:CA:FE:04:01:40
   ip: 10.4.1.40
@@ -2323,7 +2323,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[52](252)'
+    port: "252"
 - id: host0441
   mac: 00:CA:FE:04:01:41
   ip: 10.4.1.41
@@ -2332,7 +2332,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[53](253)'
+    port: "253"
 - id: host0442
   mac: 00:CA:FE:04:01:42
   ip: 10.4.1.42
@@ -2341,7 +2341,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[54](254)'
+    port: "254"
 - id: host0443
   mac: 00:CA:FE:04:01:43
   ip: 10.4.1.43
@@ -2350,7 +2350,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[55](255)'
+    port: "255"
 - id: host0444
   mac: 00:CA:FE:04:01:44
   ip: 10.4.1.44
@@ -2359,7 +2359,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[56](256)'
+    port: "256"
 - id: host0445
   mac: 00:CA:FE:04:01:45
   ip: 10.4.1.45
@@ -2368,7 +2368,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[57](257)'
+    port: "257"
 - id: host0446
   mac: 00:CA:FE:04:01:46
   ip: 10.4.1.46
@@ -2377,7 +2377,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[58](258)'
+    port: "258"
 - id: host0447
   mac: 00:CA:FE:04:01:47
   ip: 10.4.1.47
@@ -2386,7 +2386,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[59](259)'
+    port: "259"
 - id: host0448
   mac: 00:CA:FE:04:01:48
   ip: 10.4.1.48
@@ -2395,7 +2395,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[60](260)'
+    port: "260"
 - id: host0449
   mac: 00:CA:FE:04:01:49
   ip: 10.4.1.49
@@ -2404,7 +2404,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[61](261)'
+    port: "261"
 - id: host0450
   mac: 00:CA:FE:04:01:50
   ip: 10.4.1.50
@@ -2413,7 +2413,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf4
-    port: '[62](262)'
+    port: "262"
 - id: host0501
   mac: 00:CA:FE:05:01:01
   ip: 10.5.1.1
@@ -2422,7 +2422,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[13](213)'
+    port: "213"
 - id: host0502
   mac: 00:CA:FE:05:01:02
   ip: 10.5.1.2
@@ -2431,7 +2431,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[14](214)'
+    port: "214"
 - id: host0503
   mac: 00:CA:FE:05:01:03
   ip: 10.5.1.3
@@ -2440,7 +2440,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[15](215)'
+    port: "215"
 - id: host0504
   mac: 00:CA:FE:05:01:04
   ip: 10.5.1.4
@@ -2449,7 +2449,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[16](216)'
+    port: "216"
 - id: host0505
   mac: 00:CA:FE:05:01:05
   ip: 10.5.1.5
@@ -2458,7 +2458,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[17](217)'
+    port: "217"
 - id: host0506
   mac: 00:CA:FE:05:01:06
   ip: 10.5.1.6
@@ -2467,7 +2467,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[18](218)'
+    port: "218"
 - id: host0507
   mac: 00:CA:FE:05:01:07
   ip: 10.5.1.7
@@ -2476,7 +2476,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[19](219)'
+    port: "219"
 - id: host0508
   mac: 00:CA:FE:05:01:08
   ip: 10.5.1.8
@@ -2485,7 +2485,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[20](220)'
+    port: "220"
 - id: host0509
   mac: 00:CA:FE:05:01:09
   ip: 10.5.1.9
@@ -2494,7 +2494,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[21](221)'
+    port: "221"
 - id: host0510
   mac: 00:CA:FE:05:01:10
   ip: 10.5.1.10
@@ -2503,7 +2503,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[22](222)'
+    port: "222"
 - id: host0511
   mac: 00:CA:FE:05:01:11
   ip: 10.5.1.11
@@ -2512,7 +2512,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[23](223)'
+    port: "223"
 - id: host0512
   mac: 00:CA:FE:05:01:12
   ip: 10.5.1.12
@@ -2521,7 +2521,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[24](224)'
+    port: "224"
 - id: host0513
   mac: 00:CA:FE:05:01:13
   ip: 10.5.1.13
@@ -2530,7 +2530,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[25](225)'
+    port: "225"
 - id: host0514
   mac: 00:CA:FE:05:01:14
   ip: 10.5.1.14
@@ -2539,7 +2539,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[26](226)'
+    port: "226"
 - id: host0515
   mac: 00:CA:FE:05:01:15
   ip: 10.5.1.15
@@ -2548,7 +2548,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[27](227)'
+    port: "227"
 - id: host0516
   mac: 00:CA:FE:05:01:16
   ip: 10.5.1.16
@@ -2557,7 +2557,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[28](228)'
+    port: "228"
 - id: host0517
   mac: 00:CA:FE:05:01:17
   ip: 10.5.1.17
@@ -2566,7 +2566,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[29](229)'
+    port: "229"
 - id: host0518
   mac: 00:CA:FE:05:01:18
   ip: 10.5.1.18
@@ -2575,7 +2575,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[30](230)'
+    port: "230"
 - id: host0519
   mac: 00:CA:FE:05:01:19
   ip: 10.5.1.19
@@ -2584,7 +2584,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[31](231)'
+    port: "231"
 - id: host0520
   mac: 00:CA:FE:05:01:20
   ip: 10.5.1.20
@@ -2593,7 +2593,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[32](232)'
+    port: "232"
 - id: host0521
   mac: 00:CA:FE:05:01:21
   ip: 10.5.1.21
@@ -2602,7 +2602,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[33](233)'
+    port: "233"
 - id: host0522
   mac: 00:CA:FE:05:01:22
   ip: 10.5.1.22
@@ -2611,7 +2611,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[34](234)'
+    port: "234"
 - id: host0523
   mac: 00:CA:FE:05:01:23
   ip: 10.5.1.23
@@ -2620,7 +2620,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[35](235)'
+    port: "235"
 - id: host0524
   mac: 00:CA:FE:05:01:24
   ip: 10.5.1.24
@@ -2629,7 +2629,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[36](236)'
+    port: "236"
 - id: host0525
   mac: 00:CA:FE:05:01:25
   ip: 10.5.1.25
@@ -2638,7 +2638,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[37](237)'
+    port: "237"
 - id: host0526
   mac: 00:CA:FE:05:01:26
   ip: 10.5.1.26
@@ -2647,7 +2647,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[38](238)'
+    port: "238"
 - id: host0527
   mac: 00:CA:FE:05:01:27
   ip: 10.5.1.27
@@ -2656,7 +2656,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[39](239)'
+    port: "239"
 - id: host0528
   mac: 00:CA:FE:05:01:28
   ip: 10.5.1.28
@@ -2665,7 +2665,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[40](240)'
+    port: "240"
 - id: host0529
   mac: 00:CA:FE:05:01:29
   ip: 10.5.1.29
@@ -2674,7 +2674,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[41](241)'
+    port: "241"
 - id: host0530
   mac: 00:CA:FE:05:01:30
   ip: 10.5.1.30
@@ -2683,7 +2683,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[42](242)'
+    port: "242"
 - id: host0531
   mac: 00:CA:FE:05:01:31
   ip: 10.5.1.31
@@ -2692,7 +2692,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[43](243)'
+    port: "243"
 - id: host0532
   mac: 00:CA:FE:05:01:32
   ip: 10.5.1.32
@@ -2701,7 +2701,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[44](244)'
+    port: "244"
 - id: host0533
   mac: 00:CA:FE:05:01:33
   ip: 10.5.1.33
@@ -2710,7 +2710,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[45](245)'
+    port: "245"
 - id: host0534
   mac: 00:CA:FE:05:01:34
   ip: 10.5.1.34
@@ -2719,7 +2719,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[46](246)'
+    port: "246"
 - id: host0535
   mac: 00:CA:FE:05:01:35
   ip: 10.5.1.35
@@ -2728,7 +2728,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[47](247)'
+    port: "247"
 - id: host0536
   mac: 00:CA:FE:05:01:36
   ip: 10.5.1.36
@@ -2737,7 +2737,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[48](248)'
+    port: "248"
 - id: host0537
   mac: 00:CA:FE:05:01:37
   ip: 10.5.1.37
@@ -2746,7 +2746,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[49](249)'
+    port: "249"
 - id: host0538
   mac: 00:CA:FE:05:01:38
   ip: 10.5.1.38
@@ -2755,7 +2755,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[50](250)'
+    port: "250"
 - id: host0539
   mac: 00:CA:FE:05:01:39
   ip: 10.5.1.39
@@ -2764,7 +2764,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[51](251)'
+    port: "251"
 - id: host0540
   mac: 00:CA:FE:05:01:40
   ip: 10.5.1.40
@@ -2773,7 +2773,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[52](252)'
+    port: "252"
 - id: host0541
   mac: 00:CA:FE:05:01:41
   ip: 10.5.1.41
@@ -2782,7 +2782,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[53](253)'
+    port: "253"
 - id: host0542
   mac: 00:CA:FE:05:01:42
   ip: 10.5.1.42
@@ -2791,7 +2791,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[54](254)'
+    port: "254"
 - id: host0543
   mac: 00:CA:FE:05:01:43
   ip: 10.5.1.43
@@ -2800,7 +2800,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[55](255)'
+    port: "255"
 - id: host0544
   mac: 00:CA:FE:05:01:44
   ip: 10.5.1.44
@@ -2809,7 +2809,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[56](256)'
+    port: "256"
 - id: host0545
   mac: 00:CA:FE:05:01:45
   ip: 10.5.1.45
@@ -2818,7 +2818,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[57](257)'
+    port: "257"
 - id: host0546
   mac: 00:CA:FE:05:01:46
   ip: 10.5.1.46
@@ -2827,7 +2827,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[58](258)'
+    port: "258"
 - id: host0547
   mac: 00:CA:FE:05:01:47
   ip: 10.5.1.47
@@ -2836,7 +2836,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[59](259)'
+    port: "259"
 - id: host0548
   mac: 00:CA:FE:05:01:48
   ip: 10.5.1.48
@@ -2845,7 +2845,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[60](260)'
+    port: "260"
 - id: host0549
   mac: 00:CA:FE:05:01:49
   ip: 10.5.1.49
@@ -2854,7 +2854,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[61](261)'
+    port: "261"
 - id: host0550
   mac: 00:CA:FE:05:01:50
   ip: 10.5.1.50
@@ -2863,7 +2863,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf5
-    port: '[62](262)'
+    port: "262"
 - id: host0601
   mac: 00:CA:FE:06:01:01
   ip: 10.6.1.1
@@ -2872,7 +2872,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[13](213)'
+    port: "213"
 - id: host0602
   mac: 00:CA:FE:06:01:02
   ip: 10.6.1.2
@@ -2881,7 +2881,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[14](214)'
+    port: "214"
 - id: host0603
   mac: 00:CA:FE:06:01:03
   ip: 10.6.1.3
@@ -2890,7 +2890,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[15](215)'
+    port: "215"
 - id: host0604
   mac: 00:CA:FE:06:01:04
   ip: 10.6.1.4
@@ -2899,7 +2899,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[16](216)'
+    port: "216"
 - id: host0605
   mac: 00:CA:FE:06:01:05
   ip: 10.6.1.5
@@ -2908,7 +2908,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[17](217)'
+    port: "217"
 - id: host0606
   mac: 00:CA:FE:06:01:06
   ip: 10.6.1.6
@@ -2917,7 +2917,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[18](218)'
+    port: "218"
 - id: host0607
   mac: 00:CA:FE:06:01:07
   ip: 10.6.1.7
@@ -2926,7 +2926,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[19](219)'
+    port: "219"
 - id: host0608
   mac: 00:CA:FE:06:01:08
   ip: 10.6.1.8
@@ -2935,7 +2935,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[20](220)'
+    port: "220"
 - id: host0609
   mac: 00:CA:FE:06:01:09
   ip: 10.6.1.9
@@ -2944,7 +2944,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[21](221)'
+    port: "221"
 - id: host0610
   mac: 00:CA:FE:06:01:10
   ip: 10.6.1.10
@@ -2953,7 +2953,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[22](222)'
+    port: "222"
 - id: host0611
   mac: 00:CA:FE:06:01:11
   ip: 10.6.1.11
@@ -2962,7 +2962,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[23](223)'
+    port: "223"
 - id: host0612
   mac: 00:CA:FE:06:01:12
   ip: 10.6.1.12
@@ -2971,7 +2971,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[24](224)'
+    port: "224"
 - id: host0613
   mac: 00:CA:FE:06:01:13
   ip: 10.6.1.13
@@ -2980,7 +2980,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[25](225)'
+    port: "225"
 - id: host0614
   mac: 00:CA:FE:06:01:14
   ip: 10.6.1.14
@@ -2989,7 +2989,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[26](226)'
+    port: "226"
 - id: host0615
   mac: 00:CA:FE:06:01:15
   ip: 10.6.1.15
@@ -2998,7 +2998,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[27](227)'
+    port: "227"
 - id: host0616
   mac: 00:CA:FE:06:01:16
   ip: 10.6.1.16
@@ -3007,7 +3007,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[28](228)'
+    port: "228"
 - id: host0617
   mac: 00:CA:FE:06:01:17
   ip: 10.6.1.17
@@ -3016,7 +3016,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[29](229)'
+    port: "229"
 - id: host0618
   mac: 00:CA:FE:06:01:18
   ip: 10.6.1.18
@@ -3025,7 +3025,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[30](230)'
+    port: "230"
 - id: host0619
   mac: 00:CA:FE:06:01:19
   ip: 10.6.1.19
@@ -3034,7 +3034,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[31](231)'
+    port: "231"
 - id: host0620
   mac: 00:CA:FE:06:01:20
   ip: 10.6.1.20
@@ -3043,7 +3043,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[32](232)'
+    port: "232"
 - id: host0621
   mac: 00:CA:FE:06:01:21
   ip: 10.6.1.21
@@ -3052,7 +3052,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[33](233)'
+    port: "233"
 - id: host0622
   mac: 00:CA:FE:06:01:22
   ip: 10.6.1.22
@@ -3061,7 +3061,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[34](234)'
+    port: "234"
 - id: host0623
   mac: 00:CA:FE:06:01:23
   ip: 10.6.1.23
@@ -3070,7 +3070,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[35](235)'
+    port: "235"
 - id: host0624
   mac: 00:CA:FE:06:01:24
   ip: 10.6.1.24
@@ -3079,7 +3079,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[36](236)'
+    port: "236"
 - id: host0625
   mac: 00:CA:FE:06:01:25
   ip: 10.6.1.25
@@ -3088,7 +3088,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[37](237)'
+    port: "237"
 - id: host0626
   mac: 00:CA:FE:06:01:26
   ip: 10.6.1.26
@@ -3097,7 +3097,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[38](238)'
+    port: "238"
 - id: host0627
   mac: 00:CA:FE:06:01:27
   ip: 10.6.1.27
@@ -3106,7 +3106,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[39](239)'
+    port: "239"
 - id: host0628
   mac: 00:CA:FE:06:01:28
   ip: 10.6.1.28
@@ -3115,7 +3115,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[40](240)'
+    port: "240"
 - id: host0629
   mac: 00:CA:FE:06:01:29
   ip: 10.6.1.29
@@ -3124,7 +3124,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[41](241)'
+    port: "241"
 - id: host0630
   mac: 00:CA:FE:06:01:30
   ip: 10.6.1.30
@@ -3133,7 +3133,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[42](242)'
+    port: "242"
 - id: host0631
   mac: 00:CA:FE:06:01:31
   ip: 10.6.1.31
@@ -3142,7 +3142,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[43](243)'
+    port: "243"
 - id: host0632
   mac: 00:CA:FE:06:01:32
   ip: 10.6.1.32
@@ -3151,7 +3151,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[44](244)'
+    port: "244"
 - id: host0633
   mac: 00:CA:FE:06:01:33
   ip: 10.6.1.33
@@ -3160,7 +3160,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[45](245)'
+    port: "245"
 - id: host0634
   mac: 00:CA:FE:06:01:34
   ip: 10.6.1.34
@@ -3169,7 +3169,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[46](246)'
+    port: "246"
 - id: host0635
   mac: 00:CA:FE:06:01:35
   ip: 10.6.1.35
@@ -3178,7 +3178,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[47](247)'
+    port: "247"
 - id: host0636
   mac: 00:CA:FE:06:01:36
   ip: 10.6.1.36
@@ -3187,7 +3187,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[48](248)'
+    port: "248"
 - id: host0637
   mac: 00:CA:FE:06:01:37
   ip: 10.6.1.37
@@ -3196,7 +3196,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[49](249)'
+    port: "249"
 - id: host0638
   mac: 00:CA:FE:06:01:38
   ip: 10.6.1.38
@@ -3205,7 +3205,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[50](250)'
+    port: "250"
 - id: host0639
   mac: 00:CA:FE:06:01:39
   ip: 10.6.1.39
@@ -3214,7 +3214,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[51](251)'
+    port: "251"
 - id: host0640
   mac: 00:CA:FE:06:01:40
   ip: 10.6.1.40
@@ -3223,7 +3223,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[52](252)'
+    port: "252"
 - id: host0641
   mac: 00:CA:FE:06:01:41
   ip: 10.6.1.41
@@ -3232,7 +3232,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[53](253)'
+    port: "253"
 - id: host0642
   mac: 00:CA:FE:06:01:42
   ip: 10.6.1.42
@@ -3241,7 +3241,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[54](254)'
+    port: "254"
 - id: host0643
   mac: 00:CA:FE:06:01:43
   ip: 10.6.1.43
@@ -3250,7 +3250,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[55](255)'
+    port: "255"
 - id: host0644
   mac: 00:CA:FE:06:01:44
   ip: 10.6.1.44
@@ -3259,7 +3259,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[56](256)'
+    port: "256"
 - id: host0645
   mac: 00:CA:FE:06:01:45
   ip: 10.6.1.45
@@ -3268,7 +3268,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[57](257)'
+    port: "257"
 - id: host0646
   mac: 00:CA:FE:06:01:46
   ip: 10.6.1.46
@@ -3277,7 +3277,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[58](258)'
+    port: "258"
 - id: host0647
   mac: 00:CA:FE:06:01:47
   ip: 10.6.1.47
@@ -3286,7 +3286,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[59](259)'
+    port: "259"
 - id: host0648
   mac: 00:CA:FE:06:01:48
   ip: 10.6.1.48
@@ -3295,7 +3295,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[60](260)'
+    port: "260"
 - id: host0649
   mac: 00:CA:FE:06:01:49
   ip: 10.6.1.49
@@ -3304,7 +3304,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[61](261)'
+    port: "261"
 - id: host0650
   mac: 00:CA:FE:06:01:50
   ip: 10.6.1.50
@@ -3313,7 +3313,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf6
-    port: '[62](262)'
+    port: "262"
 - id: host0701
   mac: 00:CA:FE:07:01:01
   ip: 10.7.1.1
@@ -3322,7 +3322,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[13](213)'
+    port: "213"
 - id: host0702
   mac: 00:CA:FE:07:01:02
   ip: 10.7.1.2
@@ -3331,7 +3331,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[14](214)'
+    port: "214"
 - id: host0703
   mac: 00:CA:FE:07:01:03
   ip: 10.7.1.3
@@ -3340,7 +3340,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[15](215)'
+    port: "215"
 - id: host0704
   mac: 00:CA:FE:07:01:04
   ip: 10.7.1.4
@@ -3349,7 +3349,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[16](216)'
+    port: "216"
 - id: host0705
   mac: 00:CA:FE:07:01:05
   ip: 10.7.1.5
@@ -3358,7 +3358,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[17](217)'
+    port: "217"
 - id: host0706
   mac: 00:CA:FE:07:01:06
   ip: 10.7.1.6
@@ -3367,7 +3367,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[18](218)'
+    port: "218"
 - id: host0707
   mac: 00:CA:FE:07:01:07
   ip: 10.7.1.7
@@ -3376,7 +3376,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[19](219)'
+    port: "219"
 - id: host0708
   mac: 00:CA:FE:07:01:08
   ip: 10.7.1.8
@@ -3385,7 +3385,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[20](220)'
+    port: "220"
 - id: host0709
   mac: 00:CA:FE:07:01:09
   ip: 10.7.1.9
@@ -3394,7 +3394,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[21](221)'
+    port: "221"
 - id: host0710
   mac: 00:CA:FE:07:01:10
   ip: 10.7.1.10
@@ -3403,7 +3403,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[22](222)'
+    port: "222"
 - id: host0711
   mac: 00:CA:FE:07:01:11
   ip: 10.7.1.11
@@ -3412,7 +3412,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[23](223)'
+    port: "223"
 - id: host0712
   mac: 00:CA:FE:07:01:12
   ip: 10.7.1.12
@@ -3421,7 +3421,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[24](224)'
+    port: "224"
 - id: host0713
   mac: 00:CA:FE:07:01:13
   ip: 10.7.1.13
@@ -3430,7 +3430,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[25](225)'
+    port: "225"
 - id: host0714
   mac: 00:CA:FE:07:01:14
   ip: 10.7.1.14
@@ -3439,7 +3439,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[26](226)'
+    port: "226"
 - id: host0715
   mac: 00:CA:FE:07:01:15
   ip: 10.7.1.15
@@ -3448,7 +3448,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[27](227)'
+    port: "227"
 - id: host0716
   mac: 00:CA:FE:07:01:16
   ip: 10.7.1.16
@@ -3457,7 +3457,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[28](228)'
+    port: "228"
 - id: host0717
   mac: 00:CA:FE:07:01:17
   ip: 10.7.1.17
@@ -3466,7 +3466,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[29](229)'
+    port: "229"
 - id: host0718
   mac: 00:CA:FE:07:01:18
   ip: 10.7.1.18
@@ -3475,7 +3475,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[30](230)'
+    port: "230"
 - id: host0719
   mac: 00:CA:FE:07:01:19
   ip: 10.7.1.19
@@ -3484,7 +3484,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[31](231)'
+    port: "231"
 - id: host0720
   mac: 00:CA:FE:07:01:20
   ip: 10.7.1.20
@@ -3493,7 +3493,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[32](232)'
+    port: "232"
 - id: host0721
   mac: 00:CA:FE:07:01:21
   ip: 10.7.1.21
@@ -3502,7 +3502,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[33](233)'
+    port: "233"
 - id: host0722
   mac: 00:CA:FE:07:01:22
   ip: 10.7.1.22
@@ -3511,7 +3511,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[34](234)'
+    port: "234"
 - id: host0723
   mac: 00:CA:FE:07:01:23
   ip: 10.7.1.23
@@ -3520,7 +3520,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[35](235)'
+    port: "235"
 - id: host0724
   mac: 00:CA:FE:07:01:24
   ip: 10.7.1.24
@@ -3529,7 +3529,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[36](236)'
+    port: "236"
 - id: host0725
   mac: 00:CA:FE:07:01:25
   ip: 10.7.1.25
@@ -3538,7 +3538,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[37](237)'
+    port: "237"
 - id: host0726
   mac: 00:CA:FE:07:01:26
   ip: 10.7.1.26
@@ -3547,7 +3547,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[38](238)'
+    port: "238"
 - id: host0727
   mac: 00:CA:FE:07:01:27
   ip: 10.7.1.27
@@ -3556,7 +3556,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[39](239)'
+    port: "239"
 - id: host0728
   mac: 00:CA:FE:07:01:28
   ip: 10.7.1.28
@@ -3565,7 +3565,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[40](240)'
+    port: "240"
 - id: host0729
   mac: 00:CA:FE:07:01:29
   ip: 10.7.1.29
@@ -3574,7 +3574,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[41](241)'
+    port: "241"
 - id: host0730
   mac: 00:CA:FE:07:01:30
   ip: 10.7.1.30
@@ -3583,7 +3583,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[42](242)'
+    port: "242"
 - id: host0731
   mac: 00:CA:FE:07:01:31
   ip: 10.7.1.31
@@ -3592,7 +3592,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[43](243)'
+    port: "243"
 - id: host0732
   mac: 00:CA:FE:07:01:32
   ip: 10.7.1.32
@@ -3601,7 +3601,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[44](244)'
+    port: "244"
 - id: host0733
   mac: 00:CA:FE:07:01:33
   ip: 10.7.1.33
@@ -3610,7 +3610,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[45](245)'
+    port: "245"
 - id: host0734
   mac: 00:CA:FE:07:01:34
   ip: 10.7.1.34
@@ -3619,7 +3619,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[46](246)'
+    port: "246"
 - id: host0735
   mac: 00:CA:FE:07:01:35
   ip: 10.7.1.35
@@ -3628,7 +3628,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[47](247)'
+    port: "247"
 - id: host0736
   mac: 00:CA:FE:07:01:36
   ip: 10.7.1.36
@@ -3637,7 +3637,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[48](248)'
+    port: "248"
 - id: host0737
   mac: 00:CA:FE:07:01:37
   ip: 10.7.1.37
@@ -3646,7 +3646,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[49](249)'
+    port: "249"
 - id: host0738
   mac: 00:CA:FE:07:01:38
   ip: 10.7.1.38
@@ -3655,7 +3655,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[50](250)'
+    port: "250"
 - id: host0739
   mac: 00:CA:FE:07:01:39
   ip: 10.7.1.39
@@ -3664,7 +3664,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[51](251)'
+    port: "251"
 - id: host0740
   mac: 00:CA:FE:07:01:40
   ip: 10.7.1.40
@@ -3673,7 +3673,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[52](252)'
+    port: "252"
 - id: host0741
   mac: 00:CA:FE:07:01:41
   ip: 10.7.1.41
@@ -3682,7 +3682,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[53](253)'
+    port: "253"
 - id: host0742
   mac: 00:CA:FE:07:01:42
   ip: 10.7.1.42
@@ -3691,7 +3691,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[54](254)'
+    port: "254"
 - id: host0743
   mac: 00:CA:FE:07:01:43
   ip: 10.7.1.43
@@ -3700,7 +3700,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[55](255)'
+    port: "255"
 - id: host0744
   mac: 00:CA:FE:07:01:44
   ip: 10.7.1.44
@@ -3709,7 +3709,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[56](256)'
+    port: "256"
 - id: host0745
   mac: 00:CA:FE:07:01:45
   ip: 10.7.1.45
@@ -3718,7 +3718,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[57](257)'
+    port: "257"
 - id: host0746
   mac: 00:CA:FE:07:01:46
   ip: 10.7.1.46
@@ -3727,7 +3727,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[58](258)'
+    port: "258"
 - id: host0747
   mac: 00:CA:FE:07:01:47
   ip: 10.7.1.47
@@ -3736,7 +3736,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[59](259)'
+    port: "259"
 - id: host0748
   mac: 00:CA:FE:07:01:48
   ip: 10.7.1.48
@@ -3745,7 +3745,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[60](260)'
+    port: "260"
 - id: host0749
   mac: 00:CA:FE:07:01:49
   ip: 10.7.1.49
@@ -3754,7 +3754,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[61](261)'
+    port: "261"
 - id: host0750
   mac: 00:CA:FE:07:01:50
   ip: 10.7.1.50
@@ -3763,7 +3763,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf7
-    port: '[62](262)'
+    port: "262"
 - id: host0801
   mac: 00:CA:FE:08:01:01
   ip: 10.8.1.1
@@ -3772,7 +3772,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[13](213)'
+    port: "213"
 - id: host0802
   mac: 00:CA:FE:08:01:02
   ip: 10.8.1.2
@@ -3781,7 +3781,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[14](214)'
+    port: "214"
 - id: host0803
   mac: 00:CA:FE:08:01:03
   ip: 10.8.1.3
@@ -3790,7 +3790,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[15](215)'
+    port: "215"
 - id: host0804
   mac: 00:CA:FE:08:01:04
   ip: 10.8.1.4
@@ -3799,7 +3799,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[16](216)'
+    port: "216"
 - id: host0805
   mac: 00:CA:FE:08:01:05
   ip: 10.8.1.5
@@ -3808,7 +3808,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[17](217)'
+    port: "217"
 - id: host0806
   mac: 00:CA:FE:08:01:06
   ip: 10.8.1.6
@@ -3817,7 +3817,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[18](218)'
+    port: "218"
 - id: host0807
   mac: 00:CA:FE:08:01:07
   ip: 10.8.1.7
@@ -3826,7 +3826,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[19](219)'
+    port: "219"
 - id: host0808
   mac: 00:CA:FE:08:01:08
   ip: 10.8.1.8
@@ -3835,7 +3835,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[20](220)'
+    port: "220"
 - id: host0809
   mac: 00:CA:FE:08:01:09
   ip: 10.8.1.9
@@ -3844,7 +3844,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[21](221)'
+    port: "221"
 - id: host0810
   mac: 00:CA:FE:08:01:10
   ip: 10.8.1.10
@@ -3853,7 +3853,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[22](222)'
+    port: "222"
 - id: host0811
   mac: 00:CA:FE:08:01:11
   ip: 10.8.1.11
@@ -3862,7 +3862,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[23](223)'
+    port: "223"
 - id: host0812
   mac: 00:CA:FE:08:01:12
   ip: 10.8.1.12
@@ -3871,7 +3871,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[24](224)'
+    port: "224"
 - id: host0813
   mac: 00:CA:FE:08:01:13
   ip: 10.8.1.13
@@ -3880,7 +3880,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[25](225)'
+    port: "225"
 - id: host0814
   mac: 00:CA:FE:08:01:14
   ip: 10.8.1.14
@@ -3889,7 +3889,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[26](226)'
+    port: "226"
 - id: host0815
   mac: 00:CA:FE:08:01:15
   ip: 10.8.1.15
@@ -3898,7 +3898,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[27](227)'
+    port: "227"
 - id: host0816
   mac: 00:CA:FE:08:01:16
   ip: 10.8.1.16
@@ -3907,7 +3907,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[28](228)'
+    port: "228"
 - id: host0817
   mac: 00:CA:FE:08:01:17
   ip: 10.8.1.17
@@ -3916,7 +3916,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[29](229)'
+    port: "229"
 - id: host0818
   mac: 00:CA:FE:08:01:18
   ip: 10.8.1.18
@@ -3925,7 +3925,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[30](230)'
+    port: "230"
 - id: host0819
   mac: 00:CA:FE:08:01:19
   ip: 10.8.1.19
@@ -3934,7 +3934,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[31](231)'
+    port: "231"
 - id: host0820
   mac: 00:CA:FE:08:01:20
   ip: 10.8.1.20
@@ -3943,7 +3943,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[32](232)'
+    port: "232"
 - id: host0821
   mac: 00:CA:FE:08:01:21
   ip: 10.8.1.21
@@ -3952,7 +3952,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[33](233)'
+    port: "233"
 - id: host0822
   mac: 00:CA:FE:08:01:22
   ip: 10.8.1.22
@@ -3961,7 +3961,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[34](234)'
+    port: "234"
 - id: host0823
   mac: 00:CA:FE:08:01:23
   ip: 10.8.1.23
@@ -3970,7 +3970,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[35](235)'
+    port: "235"
 - id: host0824
   mac: 00:CA:FE:08:01:24
   ip: 10.8.1.24
@@ -3979,7 +3979,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[36](236)'
+    port: "236"
 - id: host0825
   mac: 00:CA:FE:08:01:25
   ip: 10.8.1.25
@@ -3988,7 +3988,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[37](237)'
+    port: "237"
 - id: host0826
   mac: 00:CA:FE:08:01:26
   ip: 10.8.1.26
@@ -3997,7 +3997,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[38](238)'
+    port: "238"
 - id: host0827
   mac: 00:CA:FE:08:01:27
   ip: 10.8.1.27
@@ -4006,7 +4006,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[39](239)'
+    port: "239"
 - id: host0828
   mac: 00:CA:FE:08:01:28
   ip: 10.8.1.28
@@ -4015,7 +4015,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[40](240)'
+    port: "240"
 - id: host0829
   mac: 00:CA:FE:08:01:29
   ip: 10.8.1.29
@@ -4024,7 +4024,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[41](241)'
+    port: "241"
 - id: host0830
   mac: 00:CA:FE:08:01:30
   ip: 10.8.1.30
@@ -4033,7 +4033,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[42](242)'
+    port: "242"
 - id: host0831
   mac: 00:CA:FE:08:01:31
   ip: 10.8.1.31
@@ -4042,7 +4042,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[43](243)'
+    port: "243"
 - id: host0832
   mac: 00:CA:FE:08:01:32
   ip: 10.8.1.32
@@ -4051,7 +4051,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[44](244)'
+    port: "244"
 - id: host0833
   mac: 00:CA:FE:08:01:33
   ip: 10.8.1.33
@@ -4060,7 +4060,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[45](245)'
+    port: "245"
 - id: host0834
   mac: 00:CA:FE:08:01:34
   ip: 10.8.1.34
@@ -4069,7 +4069,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[46](246)'
+    port: "246"
 - id: host0835
   mac: 00:CA:FE:08:01:35
   ip: 10.8.1.35
@@ -4078,7 +4078,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[47](247)'
+    port: "247"
 - id: host0836
   mac: 00:CA:FE:08:01:36
   ip: 10.8.1.36
@@ -4087,7 +4087,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[48](248)'
+    port: "248"
 - id: host0837
   mac: 00:CA:FE:08:01:37
   ip: 10.8.1.37
@@ -4096,7 +4096,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[49](249)'
+    port: "249"
 - id: host0838
   mac: 00:CA:FE:08:01:38
   ip: 10.8.1.38
@@ -4105,7 +4105,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[50](250)'
+    port: "250"
 - id: host0839
   mac: 00:CA:FE:08:01:39
   ip: 10.8.1.39
@@ -4114,7 +4114,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[51](251)'
+    port: "251"
 - id: host0840
   mac: 00:CA:FE:08:01:40
   ip: 10.8.1.40
@@ -4123,7 +4123,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[52](252)'
+    port: "252"
 - id: host0841
   mac: 00:CA:FE:08:01:41
   ip: 10.8.1.41
@@ -4132,7 +4132,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[53](253)'
+    port: "253"
 - id: host0842
   mac: 00:CA:FE:08:01:42
   ip: 10.8.1.42
@@ -4141,7 +4141,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[54](254)'
+    port: "254"
 - id: host0843
   mac: 00:CA:FE:08:01:43
   ip: 10.8.1.43
@@ -4150,7 +4150,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[55](255)'
+    port: "255"
 - id: host0844
   mac: 00:CA:FE:08:01:44
   ip: 10.8.1.44
@@ -4159,7 +4159,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[56](256)'
+    port: "256"
 - id: host0845
   mac: 00:CA:FE:08:01:45
   ip: 10.8.1.45
@@ -4168,7 +4168,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[57](257)'
+    port: "257"
 - id: host0846
   mac: 00:CA:FE:08:01:46
   ip: 10.8.1.46
@@ -4177,7 +4177,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[58](258)'
+    port: "258"
 - id: host0847
   mac: 00:CA:FE:08:01:47
   ip: 10.8.1.47
@@ -4186,7 +4186,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[59](259)'
+    port: "259"
 - id: host0848
   mac: 00:CA:FE:08:01:48
   ip: 10.8.1.48
@@ -4195,7 +4195,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[60](260)'
+    port: "260"
 - id: host0849
   mac: 00:CA:FE:08:01:49
   ip: 10.8.1.49
@@ -4204,7 +4204,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[61](261)'
+    port: "261"
 - id: host0850
   mac: 00:CA:FE:08:01:50
   ip: 10.8.1.50
@@ -4213,7 +4213,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:leaf8
-    port: '[62](262)'
+    port: "262"
 nodes:
 - ip: 127.0.0.1
 onos_rest_port: 8181
