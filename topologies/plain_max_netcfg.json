@@ -8,7 +8,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-0.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -12200,
         "gridY": 200
@@ -37,7 +37,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-9.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -8600,
         "gridY": 200
@@ -66,7 +66,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-10.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -8200,
         "gridY": 200
@@ -95,7 +95,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-11.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -7800,
         "gridY": 200
@@ -124,7 +124,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-12.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -7400,
         "gridY": 200
@@ -153,7 +153,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-13.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -7000,
         "gridY": 200
@@ -182,7 +182,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-14.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -6600,
         "gridY": 200
@@ -211,7 +211,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-15.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -6200,
         "gridY": 200
@@ -240,7 +240,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-16.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -5800,
         "gridY": 200
@@ -269,7 +269,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-17.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -5400,
         "gridY": 200
@@ -298,7 +298,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-18.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -5000,
         "gridY": 200
@@ -327,7 +327,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-1.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -11800,
         "gridY": 200
@@ -356,7 +356,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-19.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -4600,
         "gridY": 200
@@ -385,7 +385,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-20.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -4200,
         "gridY": 200
@@ -414,7 +414,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-21.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -3800,
         "gridY": 200
@@ -443,7 +443,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-22.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -3400,
         "gridY": 200
@@ -472,7 +472,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-23.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -3000,
         "gridY": 200
@@ -501,7 +501,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-24.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -2600,
         "gridY": 200
@@ -530,7 +530,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-25.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -2200,
         "gridY": 200
@@ -559,7 +559,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-26.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -1800,
         "gridY": 200
@@ -588,7 +588,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-27.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -1400,
         "gridY": 200
@@ -617,7 +617,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-28.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -1000,
         "gridY": 200
@@ -646,7 +646,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-2.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -11400,
         "gridY": 200
@@ -675,7 +675,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-29.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -600,
         "gridY": 200
@@ -704,7 +704,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-30.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -200,
         "gridY": 200
@@ -733,7 +733,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-31.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 200,
         "gridY": 200
@@ -762,7 +762,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-32.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 600,
         "gridY": 200
@@ -791,7 +791,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-33.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 1000,
         "gridY": 200
@@ -820,7 +820,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-34.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 1400,
         "gridY": 200
@@ -849,7 +849,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-35.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 1800,
         "gridY": 200
@@ -878,7 +878,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-36.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 2200,
         "gridY": 200
@@ -907,7 +907,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-37.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 2600,
         "gridY": 200
@@ -936,7 +936,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-38.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 3000,
         "gridY": 200
@@ -965,7 +965,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-3.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -11000,
         "gridY": 200
@@ -994,7 +994,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-39.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 3400,
         "gridY": 200
@@ -1023,7 +1023,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-40.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 3800,
         "gridY": 200
@@ -1052,7 +1052,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-41.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 4200,
         "gridY": 200
@@ -1081,7 +1081,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-42.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 4600,
         "gridY": 200
@@ -1110,7 +1110,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-43.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 5000,
         "gridY": 200
@@ -1139,7 +1139,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-44.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 5400,
         "gridY": 200
@@ -1168,7 +1168,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-45.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 5800,
         "gridY": 200
@@ -1197,7 +1197,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-46.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 6200,
         "gridY": 200
@@ -1226,7 +1226,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-47.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 6600,
         "gridY": 200
@@ -1255,7 +1255,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-48.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 7000,
         "gridY": 200
@@ -1284,7 +1284,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-4.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -10600,
         "gridY": 200
@@ -1313,7 +1313,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-49.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 7400,
         "gridY": 200
@@ -1342,7 +1342,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-50.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 7800,
         "gridY": 200
@@ -1371,7 +1371,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-51.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 8200,
         "gridY": 200
@@ -1400,7 +1400,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-52.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 8600,
         "gridY": 200
@@ -1429,7 +1429,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-53.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 9000,
         "gridY": 200
@@ -1458,7 +1458,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-54.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 9400,
         "gridY": 200
@@ -1487,7 +1487,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-55.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 9800,
         "gridY": 200
@@ -1516,7 +1516,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-56.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 10200,
         "gridY": 200
@@ -1545,7 +1545,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-57.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 10600,
         "gridY": 200
@@ -1574,7 +1574,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-58.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 11000,
         "gridY": 200
@@ -1603,7 +1603,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-5.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -10200,
         "gridY": 200
@@ -1632,7 +1632,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-59.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 11400,
         "gridY": 200
@@ -1661,7 +1661,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-6.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -9800,
         "gridY": 200
@@ -1690,7 +1690,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-7.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -9400,
         "gridY": 200
@@ -1719,7 +1719,7 @@
           "host-local-agent": "grpc://sdfabric-host-local-agent-8.sdfabric-host-local-agent:11161"
         },
         "driver": "stratum-tofino-la",
-        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -9000,
         "gridY": 200
@@ -1745,7 +1745,7 @@
         "name": "spine1",
         "managementAddress": "grpc://fabric-sim:20000?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -1000,
         "gridY": 0
@@ -1769,7 +1769,7 @@
         "name": "spine2",
         "managementAddress": "grpc://fabric-sim:20001?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -600,
         "gridY": 0
@@ -1793,7 +1793,7 @@
         "name": "spine3",
         "managementAddress": "grpc://fabric-sim:20002?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": -200,
         "gridY": 0
@@ -1817,7 +1817,7 @@
         "name": "spine4",
         "managementAddress": "grpc://fabric-sim:20003?device_id=0",
         "driver": "stratum-tofino",
-        "pipeconf": "org.stratumproject.fabric.montara_sde_9_7_0",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
         "locType": "grid",
         "gridX": 200,
         "gridY": 0
