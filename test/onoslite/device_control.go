@@ -12,10 +12,12 @@ import (
 	gogo "github.com/gogo/protobuf/types"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
-	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/onosproject/fabric-sim/test/basic"
 	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-net-lib/pkg/gnmiutils"
+	"github.com/onosproject/onos-net-lib/pkg/p4utils"
+	packets "github.com/onosproject/onos-net-lib/pkg/packet"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	gnoiapi "github.com/openconfig/gnoi/system"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
@@ -121,7 +123,7 @@ func (d *Device) establishDeviceConnection() error {
 	}
 
 	d.electionID = &p4api.Uint128{Low: 123, High: 0}
-	if err = d.stream.Send(utils.CreateMastershipArbitration(d.electionID, role)); err != nil {
+	if err = d.stream.Send(p4utils.CreateMastershipArbitration(d.electionID, role)); err != nil {
 		return err
 	}
 
@@ -170,7 +172,7 @@ func (d *Device) processPacket(packetIn *p4api.PacketIn, onos *LiteONOS) error {
 	arpLayer := packet.Layer(layers.LayerTypeARP)
 	if arpLayer != nil {
 		arp := arpLayer.(*layers.ARP)
-		onos.addHost(utils.MACString(arp.SourceHwAddress), utils.IPString(arp.SourceProtAddress),
+		onos.addHost(packets.MACString(arp.SourceHwAddress), packets.IPString(arp.SourceProtAddress),
 			fmt.Sprintf("%s/%d", d.ID, pim.IngressPort))
 	}
 	return nil
@@ -193,11 +195,11 @@ func (d *Device) reconcilePipelineConfig() error {
 	}
 
 	// otherwise load pipeline config
-	if d.info, err = utils.LoadP4Info("pipelines/p4info.txt"); err != nil {
+	if d.info, err = p4utils.LoadP4Info("pipelines/p4info.txt"); err != nil {
 		return err
 	}
 
-	d.codec = utils.NewControllerMetadataCodec(d.info)
+	d.codec = p4utils.NewControllerMetadataCodec(d.info)
 
 	// and then apply it to the device
 	_, err = d.p4Client.SetForwardingPipelineConfig(d.ctx, &p4api.SetForwardingPipelineConfigRequest{
@@ -247,7 +249,7 @@ func (d *Device) discoverPortsAndLinks() error {
 
 func (d *Device) discoverPorts() error {
 	resp, err := d.gnmiClient.Get(d.ctx, &gnmi.GetRequest{
-		Path: []*gnmi.Path{utils.ToPath("interfaces/interface[name=...]/state")},
+		Path: []*gnmi.Path{gnmiutils.ToPath("interfaces/interface[name=...]/state")},
 	})
 	if err != nil {
 		return err
@@ -280,7 +282,7 @@ func (d *Device) getPort(id string) *Port {
 
 func (d *Device) discoverLinks() error {
 	for _, port := range d.Ports {
-		lldpBytes, err := utils.ControllerLLDPPacket(d.ID, port.Number)
+		lldpBytes, err := packets.ControllerLLDPPacket(d.ID, port.Number)
 		if err != nil {
 			return err
 		}
@@ -289,7 +291,7 @@ func (d *Device) discoverLinks() error {
 			Update: &p4api.StreamMessageRequest_Packet{
 				Packet: &p4api.PacketOut{
 					Payload:  lldpBytes,
-					Metadata: d.codec.EncodePacketOutMetadata(&utils.PacketOutMetadata{EgressPort: port.Number}),
+					Metadata: d.codec.EncodePacketOutMetadata(&p4utils.PacketOutMetadata{EgressPort: port.Number}),
 				}},
 		})
 		if err != nil {

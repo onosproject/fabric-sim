@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"github.com/onosproject/fabric-sim/pkg/simulator/config"
 	"github.com/onosproject/fabric-sim/pkg/topo"
-	"github.com/onosproject/fabric-sim/pkg/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-api/go/onos/stratum"
+	"github.com/onosproject/onos-net-lib/pkg/gnmiutils"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
@@ -140,7 +140,7 @@ func TestDeviceProcessGet(t *testing.T) {
 	rootNode := CreateSwitchConfig(8)
 	ds := &DeviceSimulator{config: rootNode}
 
-	n, err := ds.ProcessConfigGet(nil, []*gnmi.Path{utils.ToPath("interfaces/interface[name=4]")})
+	n, err := ds.ProcessConfigGet(nil, []*gnmi.Path{gnmiutils.ToPath("interfaces/interface[name=4]")})
 	assert.NoError(t, err)
 	assert.Len(t, n, 1)
 	assert.Len(t, n[0].Update, 20)
@@ -151,20 +151,20 @@ func TestDeviceProcessSet(t *testing.T) {
 	rootNode := CreateSwitchConfig(8)
 	ds := &DeviceSimulator{config: rootNode}
 
-	n, err := ds.ProcessConfigGet(nil, []*gnmi.Path{utils.ToPath("interfaces/interface[name=4]/config/enabled")})
+	n, err := ds.ProcessConfigGet(nil, []*gnmi.Path{gnmiutils.ToPath("interfaces/interface[name=4]/config/enabled")})
 	assert.NoError(t, err)
 	assert.True(t, n[0].Update[0].Val.GetBoolVal())
 
 	_, err = ds.ProcessConfigSet(nil,
 		[]*gnmi.Update{
 			{
-				Path: utils.ToPath("interfaces/interface[name=4]/config/enabled"),
+				Path: gnmiutils.ToPath("interfaces/interface[name=4]/config/enabled"),
 				Val:  &gnmi.TypedValue{Value: &gnmi.TypedValue_BoolVal{BoolVal: false}},
 			},
 		}, []*gnmi.Update{}, []*gnmi.Path{})
 	assert.NoError(t, err)
 
-	n, err = ds.ProcessConfigGet(nil, []*gnmi.Path{utils.ToPath("interfaces/interface[name=4]/config/enabled")})
+	n, err = ds.ProcessConfigGet(nil, []*gnmi.Path{gnmiutils.ToPath("interfaces/interface[name=4]/config/enabled")})
 	assert.NoError(t, err)
 	assert.False(t, n[0].Update[0].Val.GetBoolVal())
 }

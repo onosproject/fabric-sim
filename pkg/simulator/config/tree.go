@@ -6,7 +6,7 @@
 package config
 
 import (
-	"github.com/onosproject/fabric-sim/pkg/utils"
+	utils "github.com/onosproject/onos-net-lib/pkg/gnmiutils"
 	"github.com/openconfig/gnmi/proto/gnmi"
 )
 

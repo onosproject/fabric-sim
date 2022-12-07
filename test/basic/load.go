@@ -7,9 +7,9 @@ package basic
 import (
 	"context"
 	"github.com/onosproject/fabric-sim/pkg/topo"
-	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/onosproject/fabric-sim/test/client"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-net-lib/pkg/p4utils"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
@@ -119,7 +119,7 @@ func ProbeAllDevices(t *testing.T, devices []*simapi.Device) {
 		stream, err := p4Client.StreamChannel(ctx)
 		assert.NoError(t, err)
 
-		err = stream.Send(utils.CreateMastershipArbitration(&p4api.Uint128{High: 0, Low: 1}, nil))
+		err = stream.Send(p4utils.CreateMastershipArbitration(&p4api.Uint128{High: 0, Low: 1}, nil))
 		assert.NoError(t, err)
 
 		msg, err := stream.Recv()

@@ -8,8 +8,8 @@ package config
 import (
 	"context"
 	"fmt"
-	"github.com/onosproject/fabric-sim/pkg/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-net-lib/pkg/gnmiutils"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	"math/rand"
 	"time"
@@ -169,9 +169,9 @@ func findCountersToSimulate(node *Node) map[string]*portData {
 }
 
 func getPortData(counters map[string]*portData, node *Node) *portData {
-	segments := utils.SplitPath(node.Path())
+	segments := gnmiutils.SplitPath(node.Path())
 	if len(segments) > 4 {
-		_, key, _ := utils.NameKey(segments[1])
+		_, key, _ := gnmiutils.NameKey(segments[1])
 		if portID, ok := key["name"]; ok {
 			data, ok := counters[portID]
 			if !ok {

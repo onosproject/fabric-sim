@@ -9,6 +9,7 @@ import (
 	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/onosproject/fabric-sim/test/client"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-net-lib/pkg/p4utils"
 	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
@@ -25,7 +26,7 @@ func (s *TestSuite) TestReadWrite(t *testing.T) {
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 })
 	defer CleanUp(t)
 
-	info, err := utils.LoadP4Info("pipelines/p4info.txt")
+	info, err := p4utils.LoadP4Info("pipelines/p4info.txt")
 	assert.NoError(t, err)
 
 	totalEntries := 100
@@ -86,7 +87,7 @@ func ApplyPipelineConfigAndWriteEntries(ctx context.Context, t *testing.T, wg *s
 	stream, err := p4Client.StreamChannel(ctx)
 	assert.NoError(t, err)
 
-	err = stream.Send(utils.CreateMastershipArbitration(&p4api.Uint128{High: 0, Low: 1}, nil))
+	err = stream.Send(p4utils.CreateMastershipArbitration(&p4api.Uint128{High: 0, Low: 1}, nil))
 	assert.NoError(t, err)
 
 	msg, err := stream.Recv()

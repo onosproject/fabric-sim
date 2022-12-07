@@ -6,8 +6,9 @@ package simulator
 
 import (
 	"github.com/google/gopacket/layers"
-	"github.com/onosproject/fabric-sim/pkg/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-net-lib/pkg/p4utils"
+	"github.com/onosproject/onos-net-lib/pkg/packet"
 	"math/rand"
 	"sync"
 	"time"
@@ -100,7 +101,7 @@ func (hs *HostSimulator) GetRandomNetworkInterface() *simapi.NetworkInterface {
 // EmitARPRequests triggers the specified host NIC to send ARP requests for a set of IP addresses
 func (hs *HostSimulator) EmitARPRequests(nic *simapi.NetworkInterface, dstIPs []string) error {
 	for _, ip := range dstIPs {
-		arp, err := utils.ARPRequestPacket(utils.IP(ip), utils.MAC(nic.MacAddress), utils.IP(nic.IpAddress))
+		arp, err := packet.ARPRequestPacket(packet.IP(ip), packet.MAC(nic.MacAddress), packet.IP(nic.IpAddress))
 		if err != nil {
 			log.Warnf("Host %s: Unable to serialize ARP request: %+v", hs.Host.ID, err)
 			continue
@@ -111,7 +112,7 @@ func (hs *HostSimulator) EmitARPRequests(nic *simapi.NetworkInterface, dstIPs []
 			continue
 		}
 		if roleAgentID, ok := deviceSim.HasPuntRuleForEthType(layers.EthernetTypeARP); ok {
-			deviceSim.SendPacketIn(arp, &utils.PacketInMetadata{
+			deviceSim.SendPacketIn(arp, &p4utils.PacketInMetadata{
 				IngressPort: deviceSim.Ports[nic.ID].InternalNumber,
 				RoleAgentID: roleAgentID,
 			})

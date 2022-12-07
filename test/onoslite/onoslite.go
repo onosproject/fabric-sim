@@ -9,9 +9,9 @@ package onoslite
 import (
 	"context"
 	"fmt"
-	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
+	"github.com/onosproject/onos-net-lib/pkg/p4utils"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	gnoiapi "github.com/openconfig/gnoi/system"
 	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
@@ -73,7 +73,7 @@ type Device struct {
 
 	cookie         uint64
 	electionID     *p4api.Uint128
-	codec          *utils.ControllerMetadataCodec
+	codec          *p4utils.ControllerMetadataCodec
 	info           *p4info.P4Info
 	stream         p4api.P4Runtime_StreamChannelClient
 	lastUpdateTime uint64

@@ -13,10 +13,11 @@ import (
 	"github.com/google/gopacket/layers"
 	"github.com/onosproject/fabric-sim/pkg/simulator/config"
 	"github.com/onosproject/fabric-sim/pkg/simulator/entries"
-	"github.com/onosproject/fabric-sim/pkg/utils"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
+	utils "github.com/onosproject/onos-net-lib/pkg/gnmiutils"
+	"github.com/onosproject/onos-net-lib/pkg/p4utils"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
@@ -47,7 +48,7 @@ type DeviceSimulator struct {
 	pre      *entries.PacketReplication
 
 	config     *config.Node
-	codec      *utils.ControllerMetadataCodec
+	codec      *p4utils.ControllerMetadataCodec
 	puntToCPU  map[layers.EthernetType]uint32
 	cpuActions map[uint32]*cpuAction
 	cpuTables  map[uint32]*cpuTable
@@ -403,10 +404,10 @@ func (ds *DeviceSimulator) SetPipelineConfig(fpc *p4api.ForwardingPipelineConfig
 	// Update the device pipeline info
 	ds.Device.PipelineInfo = &simapi.PipelineInfo{
 		Cookie: fpc.Cookie.Cookie,
-		P4Info: utils.P4InfoBytes(fpc.P4Info),
+		P4Info: p4utils.P4InfoBytes(fpc.P4Info),
 	}
 
-	ds.codec = utils.NewControllerMetadataCodec(fpc.P4Info)
+	ds.codec = p4utils.NewControllerMetadataCodec(fpc.P4Info)
 
 	// Create the required entities, e.g. tables, counters, meters, etc.
 	info := fpc.P4Info
@@ -544,7 +545,7 @@ func (ds *DeviceSimulator) ProcessDigestAck(ack *p4api.DigestListAck, responder 
 
 // Processes the LLDP packet-out by emitting it encapsulated as a packet-in on the simulated device which is
 // adjacent to this device on the link (if any) connected to the port given in the LLDP packet
-func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *p4api.PacketOut, pom *utils.PacketOutMetadata) {
+func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *p4api.PacketOut, pom *p4utils.PacketOutMetadata) {
 	log.Debugf("Device %s: processing LLDP packet: %+v", ds.Device.ID, packet)
 
 	// Find the port corresponding to the specified port ID, which is the internal (SDN) port number
@@ -581,7 +582,7 @@ func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *
 		}
 
 		if roleAgentID, ok := tgtDevice.HasPuntRuleForEthType(layers.EthernetTypeLinkLayerDiscovery); ok {
-			tgtDevice.SendPacketIn(packetOut.Payload, &utils.PacketInMetadata{
+			tgtDevice.SendPacketIn(packetOut.Payload, &p4utils.PacketInMetadata{
 				IngressPort: ingressPort.InternalNumber,
 				RoleAgentID: roleAgentID,
 			})
@@ -591,7 +592,7 @@ func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *
 
 // SendPacketIn emits packet in with the specified packet payload and ingress port metadata,
 // to all current responders (streams) associated with this device
-func (ds *DeviceSimulator) SendPacketIn(packet []byte, md *utils.PacketInMetadata) {
+func (ds *DeviceSimulator) SendPacketIn(packet []byte, md *p4utils.PacketInMetadata) {
 	if ds.codec == nil {
 		log.Debugf("Device %s: Unable to send packet-in, pipeline config not set yet", ds.Device.ID)
 		return
@@ -905,7 +906,7 @@ func (ds *DeviceSimulator) checkPuntToCPU() {
 func findRoleAgentID(action *p4api.Action, ca *cpuAction) uint32 {
 	for _, param := range action.Params {
 		if param.ParamId == ca.roleAgentIDParamID {
-			return utils.DecodeValueAsUint32(param.Value)
+			return p4utils.DecodeValueAsUint32(param.Value)
 		}
 	}
 	return 0
