@@ -2,48 +2,15 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-// Package utils contains various utilities for working with P4Info and P4RT entities
+// Package utils contains various utilities for testing fabric simulator
 package utils
 
 import (
 	"crypto/rand"
 	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
-	"google.golang.org/protobuf/encoding/prototext"
-	"io/ioutil"
 	"math"
 )
-
-// CreateMastershipArbitration returns stream message request with the specified election ID components
-func CreateMastershipArbitration(electionID *p4api.Uint128, role *p4api.Role) *p4api.StreamMessageRequest {
-	return &p4api.StreamMessageRequest{
-		Update: &p4api.StreamMessageRequest_Arbitration{
-			Arbitration: &p4api.MasterArbitrationUpdate{
-				ElectionId: electionID,
-				Role:       role,
-			}}}
-}
-
-// LoadP4Info loads the specified file containing protoJSON representation of a P4Info and returns its descriptor
-func LoadP4Info(path string) (*p4info.P4Info, error) {
-	data, err := ioutil.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-
-	info := &p4info.P4Info{}
-	err = prototext.Unmarshal(data, info)
-	if err != nil {
-		return nil, err
-	}
-	return info, nil
-}
-
-// P4InfoBytes serializes the given P4 info structure into prototext bytes
-func P4InfoBytes(info *p4info.P4Info) []byte {
-	bytes, _ := prototext.Marshal(info)
-	return bytes
-}
 
 // GenerateTableEntry generates a table entry compliant with the specified table schema
 func GenerateTableEntry(tableInfo *p4info.Table, priority int32, action *p4api.TableAction) *p4api.TableEntry {

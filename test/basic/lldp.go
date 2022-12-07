@@ -9,9 +9,10 @@ import (
 	"encoding/binary"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
-	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/onosproject/fabric-sim/test/client"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-net-lib/pkg/p4utils"
+	"github.com/onosproject/onos-net-lib/pkg/packet"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/genproto/googleapis/rpc/code"
@@ -19,7 +20,7 @@ import (
 	"time"
 )
 
-var codec *utils.ControllerMetadataCodec
+var codec *p4utils.ControllerMetadataCodec
 
 // TestLLDPPacket tests the LLDP packet-out handling
 func (s *TestSuite) TestLLDPPacket(t *testing.T) {
@@ -28,9 +29,9 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	defer CleanUp(t)
 
 	// Let's create a codec for meta-data from the P4 info file
-	info, err := utils.LoadP4Info("pipelines/p4info.txt")
+	info, err := p4utils.LoadP4Info("pipelines/p4info.txt")
 	assert.NoError(t, err)
-	codec = utils.NewControllerMetadataCodec(info)
+	codec = p4utils.NewControllerMetadataCodec(info)
 
 	conn, err := client.CreateConnection()
 	assert.NoError(t, err)
@@ -70,14 +71,14 @@ func (s *TestSuite) TestLLDPPacket(t *testing.T) {
 	assert.NoError(t, err)
 
 	egressPort := uint32(224)
-	lldpBytes, err := utils.ControllerLLDPPacket(string(r1.Device.ID), egressPort)
+	lldpBytes, err := packet.ControllerLLDPPacket(string(r1.Device.ID), egressPort)
 	assert.NoError(t, err)
 
 	err = stream1.Send(&p4api.StreamMessageRequest{
 		Update: &p4api.StreamMessageRequest_Packet{
 			Packet: &p4api.PacketOut{
 				Payload:  lldpBytes,
-				Metadata: codec.EncodePacketOutMetadata(&utils.PacketOutMetadata{EgressPort: egressPort}),
+				Metadata: codec.EncodePacketOutMetadata(&p4utils.PacketOutMetadata{EgressPort: egressPort}),
 			}},
 	})
 	assert.NoError(t, err)
@@ -177,7 +178,7 @@ func StartStream(ctx context.Context, t *testing.T, client p4api.P4RuntimeClient
 	stream, err := client.StreamChannel(ctx)
 	assert.NoError(t, err)
 
-	err = stream.Send(utils.CreateMastershipArbitration(electionID, nil))
+	err = stream.Send(p4utils.CreateMastershipArbitration(electionID, nil))
 	assert.NoError(t, err)
 
 	msg, err := stream.Recv()

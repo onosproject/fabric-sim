@@ -9,8 +9,9 @@ require (
 	github.com/onosproject/helmit v0.6.19
 	github.com/onosproject/onos-api/go v0.10.2
 	github.com/onosproject/onos-lib-go v0.9.3
+	github.com/onosproject/onos-net-lib v0.1.2
 	github.com/onosproject/onos-test v0.6.6
-	github.com/openconfig/gnmi v0.0.0-20210914185457-51254b657b7d
+	github.com/openconfig/gnmi v0.0.0-20220920173703-480bf53a74d2
 	github.com/openconfig/gnoi v0.0.0-20220809151450-6bddacd72ef8
 	github.com/p4lang/p4runtime v1.4.0-rc.5
 	github.com/spf13/cobra v1.5.0
