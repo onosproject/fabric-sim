@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-net-lib/pkg/configtree"
 	"github.com/onosproject/onos-net-lib/pkg/gnmiutils"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	"math/rand"
@@ -16,8 +17,8 @@ import (
 )
 
 // NewSwitchConfig creates a new switch skeleton configuration and returns its root node
-func NewSwitchConfig(ports map[simapi.PortID]*simapi.Port) *Node {
-	rootNode := NewRoot()
+func NewSwitchConfig(ports map[simapi.PortID]*simapi.Port) *configtree.Node {
+	rootNode := configtree.NewRoot()
 
 	interfacesNode := rootNode.Add("interfaces", nil, nil)
 	index := uint64(1)
@@ -73,7 +74,7 @@ var supportedCounters = []string{
 	"out-multicast-pkts",
 }
 
-func addCounters(node *Node) {
+func addCounters(node *configtree.Node) {
 	countersNode := node.AddPath("state/counters", nil)
 	for _, counter := range supportedCounters {
 		countersNode.Add(counter, nil, &gnmi.TypedValue{Value: &gnmi.TypedValue_IntVal{IntVal: 0}})
@@ -83,10 +84,10 @@ func addCounters(node *Node) {
 // Auxiliary structure to aid in simulating increasing traffic counters
 type portData struct {
 	lastUpdate time.Time
-	bytesIn    *Node
-	bytesOut   *Node
-	packetsIn  *Node
-	packetsOut *Node
+	bytesIn    *configtree.Node
+	bytesOut   *configtree.Node
+	packetsIn  *configtree.Node
+	packetsOut *configtree.Node
 }
 
 func (d *portData) simulateTrafficCounter() {
@@ -127,7 +128,7 @@ func bytesAmount(millis int64, value uint64, packets uint64) uint64 {
 
 // SimulateTrafficCounters simulates a select set of traffic-related counters for all ports under the given
 // root configuration
-func SimulateTrafficCounters(ctx context.Context, delay time.Duration, node *Node) {
+func SimulateTrafficCounters(ctx context.Context, delay time.Duration, node *configtree.Node) {
 	portCounters := findCountersToSimulate(node)
 	go func() {
 		for {
@@ -147,7 +148,7 @@ func simulateTrafficCounters(counters map[string]*portData) {
 	}
 }
 
-func findCountersToSimulate(node *Node) map[string]*portData {
+func findCountersToSimulate(node *configtree.Node) map[string]*portData {
 	portCounters := make(map[string]*portData)
 	for _, n := range node.FindAll("interfaces/interface[name=...]/state/counters") {
 		if isSimulated(n.Name()) {
@@ -168,7 +169,7 @@ func findCountersToSimulate(node *Node) map[string]*portData {
 	return portCounters
 }
 
-func getPortData(counters map[string]*portData, node *Node) *portData {
+func getPortData(counters map[string]*portData, node *configtree.Node) *portData {
 	segments := gnmiutils.SplitPath(node.Path())
 	if len(segments) > 4 {
 		_, key, _ := gnmiutils.NameKey(segments[1])

@@ -16,6 +16,7 @@ import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
+	"github.com/onosproject/onos-net-lib/pkg/configtree"
 	utils "github.com/onosproject/onos-net-lib/pkg/gnmiutils"
 	"github.com/onosproject/onos-net-lib/pkg/p4utils"
 	"github.com/openconfig/gnmi/proto/gnmi"
@@ -47,7 +48,7 @@ type DeviceSimulator struct {
 	profiles *entries.ActionProfiles
 	pre      *entries.PacketReplication
 
-	config     *config.Node
+	config     *configtree.Node
 	codec      *p4utils.ControllerMetadataCodec
 	puntToCPU  map[layers.EthernetType]uint32
 	cpuActions map[uint32]*cpuAction
@@ -814,7 +815,7 @@ func (ds *DeviceSimulator) ProcessConfigGet(prefix *gnmi.Path, paths []*gnmi.Pat
 }
 
 // Creates a notification message from the specified nodes
-func toNotification(prefix *gnmi.Path, nodes []*config.Node) *gnmi.Notification {
+func toNotification(prefix *gnmi.Path, nodes []*configtree.Node) *gnmi.Notification {
 	updates := make([]*gnmi.Update, 0, len(nodes))
 	for _, node := range nodes {
 		updates = append(updates, toUpdate(node))
@@ -827,7 +828,7 @@ func toNotification(prefix *gnmi.Path, nodes []*config.Node) *gnmi.Notification 
 }
 
 // Creates an update message from the specified node
-func toUpdate(node *config.Node) *gnmi.Update {
+func toUpdate(node *configtree.Node) *gnmi.Update {
 	return &gnmi.Update{
 		Path:       utils.ToPath(node.Path()),
 		Val:        node.Value(),
