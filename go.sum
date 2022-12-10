@@ -862,13 +862,13 @@ github.com/olekukonko/tablewriter v0.0.4/go.mod h1:zq6QwlOf5SlnkVbMSr5EoBv3636FW
 github.com/olekukonko/tablewriter v0.0.5/go.mod h1:hPp6KlRPjbx+hW8ykQs1w3UBbZlj6HuIJcUGPhkA7kY=
 github.com/onosproject/helmit v0.6.19 h1:2Il7qhJhUjYFdweDaOzgPanUArDNGRs8SaLV3tx0aGQ=
 github.com/onosproject/helmit v0.6.19/go.mod h1:4LUwMtLcV0njiCEcAoVdzoiRfit+04z4Yn7z8lXSuMk=
-github.com/onosproject/onos-api/go v0.10.2 h1:+LMRvwTPmoCdJUEaGDeQzeNvwM4qk70HFb6dEmd7Zj4=
-github.com/onosproject/onos-api/go v0.10.2/go.mod h1:R882+8UcxQBLpCopnnbBnemXtJ77UXnL2I1y5yHbq10=
+github.com/onosproject/onos-api/go v0.10.5 h1:zqcbXvkggxB7L+gQWPV2mP0imlp47IX58DKBaWz7I20=
+github.com/onosproject/onos-api/go v0.10.5/go.mod h1:R882+8UcxQBLpCopnnbBnemXtJ77UXnL2I1y5yHbq10=
 github.com/onosproject/onos-lib-go v0.8.1/go.mod h1:1klcUPfLoXPVu4fzM/sYi1V3Pggm2NRbY2fTzG2W1HY=
 github.com/onosproject/onos-lib-go v0.9.3 h1:yQ52O0xucOSH+TlZHFoget+1/n6ZjgMiEHn6f/i6KEQ=
 github.com/onosproject/onos-lib-go v0.9.3/go.mod h1:ZpuQW6Kpjn12igx6njGjqr1w4KDaEg824vR2zL33kj4=
-github.com/onosproject/onos-net-lib v0.1.2 h1:rL6Hjm2SA5gKIZ4Yad694hB5Qw8P+SQNFgU/MqQamvM=
-github.com/onosproject/onos-net-lib v0.1.2/go.mod h1:O117FUlXXKUBRXuUA5FrKOuJON5U0uiq2Ze9I8RiqlI=
+github.com/onosproject/onos-net-lib v0.1.7 h1:m03NGowxH1YJVAe0NLYQE4Vy/IdHNm3gT1reWBl2o/s=
+github.com/onosproject/onos-net-lib v0.1.7/go.mod h1:geyAfPuvwy/2+Xs5V9k5Vb5T1sw6/l/8KbpEnO/CDwk=
 github.com/onosproject/onos-test v0.6.6 h1:KguLCDkhN3+/8YE8VjkuTW5g6GTq5fTRb5rIjpgWNiE=
 github.com/onosproject/onos-test v0.6.6/go.mod h1:rC8K2TvTewH2EAh1rYZV38Qwwtpziw4p7wkLubPw7hI=
 github.com/onsi/ginkgo v0.0.0-20151202141238-7f8ab55aaf3b/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=

@@ -10,6 +10,7 @@ import (
 	"github.com/onosproject/fabric-sim/pkg/topo"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-api/go/onos/stratum"
+	"github.com/onosproject/onos-net-lib/pkg/configtree"
 	"github.com/onosproject/onos-net-lib/pkg/gnmiutils"
 	"github.com/openconfig/gnmi/proto/gnmi"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
@@ -170,7 +171,7 @@ func TestDeviceProcessSet(t *testing.T) {
 }
 
 // CreateSwitchConfig creates a test device configuration
-func CreateSwitchConfig(portCount uint32) *config.Node {
+func CreateSwitchConfig(portCount uint32) *configtree.Node {
 	ports := make(map[simapi.PortID]*simapi.Port)
 	for i := uint32(1); i <= portCount; i++ {
 		id := simapi.PortID(fmt.Sprintf("%d", i))
