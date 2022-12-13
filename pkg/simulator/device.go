@@ -496,9 +496,13 @@ func (ds *DeviceSimulator) snapshotCloneSessions() {
 	}
 }
 
-// GetPipelineConfig sets the forwarding pipeline configuration for the device
+// GetPipelineConfig returns a copy of the forwarding pipeline configuration for the device
 func (ds *DeviceSimulator) GetPipelineConfig() *p4api.ForwardingPipelineConfig {
-	return ds.forwardingPipelineConfig
+	return &p4api.ForwardingPipelineConfig{
+		P4Info:         ds.forwardingPipelineConfig.P4Info,
+		P4DeviceConfig: ds.forwardingPipelineConfig.P4DeviceConfig,
+		Cookie:         ds.forwardingPipelineConfig.Cookie,
+	}
 }
 
 // ProcessPacketOut handles the specified packet out message
