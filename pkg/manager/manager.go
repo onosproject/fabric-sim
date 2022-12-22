@@ -24,7 +24,7 @@ type Config struct {
 type Manager struct {
 	cli.Daemon
 	Config     Config
-	Simulation *simulator.Simulation
+	simulation *simulator.Simulation
 }
 
 // NewManager initializes the application manager
@@ -38,37 +38,17 @@ func (m *Manager) Start() error {
 	log.Info("Starting Manager")
 
 	// Initialize the simulation core
-	m.Simulation = simulator.NewSimulation()
-	m.Simulation.Collector.Start()
+	m.simulation = simulator.NewSimulation()
+	m.simulation.Collector.Start()
 
 	// Starts NB server
-	err := m.startNorthboundServer()
-	if err != nil {
-		return err
-	}
-	return nil
+	s := northbound.NewServer(cli.ServerConfigFromFlags(m.Config.ServiceFlags, northbound.SecurityConfig{}))
+	s.AddService(logging.Service{})
+	s.AddService(simapi.NewService(m.simulation))
+	return s.StartInBackground()
 }
 
 // Stop stops the manager
 func (m *Manager) Stop() {
 	log.Info("Stopping Manager")
-}
-
-// startSouthboundServer starts the northbound gRPC server
-func (m *Manager) startNorthboundServer() error {
-	s := northbound.NewServer(cli.ServerConfigFromFlags(m.Config.ServiceFlags, northbound.SecurityConfig{}))
-	s.AddService(logging.Service{})
-	s.AddService(simapi.NewService(m.Simulation))
-
-	doneCh := make(chan error)
-	go func() {
-		err := s.Serve(func(started string) {
-			log.Info("Started NBI on ", started)
-			close(doneCh)
-		})
-		if err != nil {
-			doneCh <- err
-		}
-	}()
-	return <-doneCh
 }
