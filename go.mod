@@ -8,7 +8,7 @@ require (
 	github.com/gorilla/websocket v1.4.2
 	github.com/onosproject/helmit v0.6.19
 	github.com/onosproject/onos-api/go v0.10.5
-	github.com/onosproject/onos-lib-go v0.10.3
+	github.com/onosproject/onos-lib-go v0.10.4
 	github.com/onosproject/onos-net-lib v0.1.7
 	github.com/onosproject/onos-test v0.6.6
 	github.com/openconfig/gnmi v0.0.0-20220920173703-480bf53a74d2
