@@ -7,7 +7,6 @@ package topo
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
-	"io/ioutil"
 	"os"
 	"testing"
 )
@@ -85,7 +84,7 @@ func testFromRecipe(t *testing.T, name string, recipe string) {
 	defer os.Remove(recipeFile)
 	defer os.Remove(topoFile)
 
-	err := ioutil.WriteFile(recipeFile, []byte(recipe), 0644)
+	err := os.WriteFile(recipeFile, []byte(recipe), 0644)
 	assert.NoError(t, err)
 	err = GenerateTopology(recipeFile, topoFile)
 	assert.NoError(t, err)
