@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
+// Package topo contains various topology and related artifact generation utilities
 package topo
 
 import (
 	"fmt"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/spf13/viper"
-	"io/ioutil"
 	"os"
 )
 
@@ -103,7 +103,7 @@ func saveTopologyFile(topology *Topology, path string) error {
 	}
 
 	// Now copy the file to the intended destination; stdout if -
-	buffer, err := ioutil.ReadFile(file.Name())
+	buffer, err := os.ReadFile(file.Name())
 	if err != nil {
 		return err
 	}

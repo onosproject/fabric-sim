@@ -7,7 +7,6 @@ package topo
 import (
 	"fmt"
 	"github.com/spf13/viper"
-	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
@@ -170,7 +169,7 @@ func saveRobotTopologyFile(topo *RobotTopology, path string) error {
 	}
 
 	// Now copy the file to the intended destination; stdout if -
-	buffer, err := ioutil.ReadFile(file.Name())
+	buffer, err := os.ReadFile(file.Name())
 	if err != nil {
 		return err
 	}
