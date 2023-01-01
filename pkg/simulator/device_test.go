@@ -9,6 +9,7 @@ import (
 	"github.com/onosproject/fabric-sim/pkg/simulator/config"
 	"github.com/onosproject/fabric-sim/pkg/topo"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-api/go/onos/misc"
 	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/onosproject/onos-net-lib/pkg/configtree"
 	"github.com/onosproject/onos-net-lib/pkg/gnmiutils"
@@ -73,8 +74,8 @@ func dumpRoles(t *testing.T, ds *DeviceSimulator) {
 type dummyStreamResponder struct {
 }
 
-func (d dummyStreamResponder) GetConnection() *simapi.Connection {
-	return &simapi.Connection{}
+func (d dummyStreamResponder) GetConnection() *misc.Connection {
+	return &misc.Connection{}
 }
 
 func (d dummyStreamResponder) GetRoleConfig() *stratum.P4RoleConfig {
@@ -114,8 +115,8 @@ func TestAddRemoveStreamResponder(t *testing.T) {
 type dummySubscribeResponder struct {
 }
 
-func (d dummySubscribeResponder) GetConnection() *simapi.Connection {
-	return &simapi.Connection{}
+func (d dummySubscribeResponder) GetConnection() *misc.Connection {
+	return &misc.Connection{}
 }
 
 func (d dummySubscribeResponder) Send(response *gnmi.SubscribeResponse) {

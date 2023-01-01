@@ -7,6 +7,7 @@ package simulator
 
 import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-api/go/onos/misc"
 	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
@@ -58,7 +59,7 @@ type DeviceAgent interface {
 // ConnectionTracker is an abstraction of an entity maintaining a peer connection
 type ConnectionTracker interface {
 	// GetConnection returns the peer connection information
-	GetConnection() *simapi.Connection
+	GetConnection() *misc.Connection
 }
 
 // StreamResponder is an abstraction for sending StreamResponse messages to controllers

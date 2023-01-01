@@ -14,6 +14,7 @@ import (
 	"github.com/onosproject/fabric-sim/pkg/simulator/config"
 	"github.com/onosproject/fabric-sim/pkg/simulator/entries"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-api/go/onos/misc"
 	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-net-lib/pkg/configtree"
@@ -30,6 +31,9 @@ import (
 
 // DeviceSimulator simulates a single device
 type DeviceSimulator struct {
+	configtree.Configurable
+	configtree.GNMIConfigurable
+
 	Device *simapi.Device
 	Ports  map[simapi.PortID]*simapi.Port
 	Agent  DeviceAgent
@@ -101,14 +105,15 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 	cfg := config.NewSwitchConfig(ports)
 
 	device.PipelineInfo = &simapi.PipelineInfo{}
-	device.Connections = make([]*simapi.Connection, 0)
-	device.IOStats = &simapi.IOStats{FirstUpdateTime: uint64(time.Now().UnixNano())}
+	device.Connections = make([]*misc.Connection, 0)
+	device.IOStats = &misc.IOStats{FirstUpdateTime: uint64(time.Now().UnixNano())}
 
 	// Construct and return simulator from the device and the port map
-	return &DeviceSimulator{
-		Device: device,
-		Ports:  ports,
-		Agent:  agent,
+	dsim := &DeviceSimulator{
+		GNMIConfigurable: *configtree.NewGNMIConfigurable(cfg),
+		Device:           device,
+		Ports:            ports,
+		Agent:            agent,
 		forwardingPipelineConfig: &p4api.ForwardingPipelineConfig{
 			P4Info:         &p4info.P4Info{},
 			P4DeviceConfig: []byte{},
@@ -122,6 +127,8 @@ func NewDeviceSimulator(device *simapi.Device, agent DeviceAgent, simulation *Si
 		cpuActions:  make(map[uint32]*cpuAction),
 		cpuTables:   make(map[uint32]*cpuTable),
 	}
+	dsim.GNMIConfigurable.Configurable = dsim
+	return dsim
 }
 
 // UpdateIOStats updates the device I/O stats
@@ -139,7 +146,7 @@ func (ds *DeviceSimulator) UpdateIOStats(byteCount int, input bool) {
 	stats.LastUpdateTime = uint64(time.Now().UnixNano())
 }
 
-func (ds *DeviceSimulator) addAndResetStats(now uint64, total *simapi.IOStats) {
+func (ds *DeviceSimulator) addAndResetStats(now uint64, total *misc.IOStats) {
 	ds.ioStatsLock.Lock()
 	defer ds.ioStatsLock.Unlock()
 	stats := ds.Device.IOStats
@@ -354,7 +361,7 @@ func (ds *DeviceSimulator) RemoveStreamResponder(responder StreamResponder) {
 	}
 }
 
-func (ds *DeviceSimulator) removeConnection(connection *simapi.Connection) {
+func (ds *DeviceSimulator) removeConnection(connection *misc.Connection) {
 	log.Infof("Device %s: Removing %s connection from %s...", ds.Device.ID, connection.Protocol, connection.FromAddress)
 	for i, c := range ds.Device.Connections {
 		if c.FromAddress == connection.FromAddress {
@@ -976,3 +983,14 @@ func (ds *DeviceSimulator) findEthTypeMatchField(table *p4info.Table) *p4info.Ma
 }
 
 // TODO: Additional simulation logic goes here
+
+// UpdateConfig should be called after the configuration tree has been updated to save the configuration and
+// to reflect it back to the controller's Config structure for easy access.
+func (ds *DeviceSimulator) UpdateConfig() {
+	// no-op here
+}
+
+// RefreshConfig refreshes the config tree state from any relevant external source state
+func (ds *DeviceSimulator) RefreshConfig() {
+	// no-op here
+}
