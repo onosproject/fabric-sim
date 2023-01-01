@@ -10,6 +10,7 @@ import (
 	gogo "github.com/gogo/protobuf/types"
 	"github.com/onosproject/fabric-sim/pkg/simulator"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-api/go/onos/misc"
 	"github.com/onosproject/onos-api/go/onos/stratum"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	"github.com/onosproject/onos-lib-go/pkg/logging"
@@ -129,7 +130,7 @@ type streamState struct {
 	electionID      *p4api.Uint128
 	sentCode        *int32
 	streamResponses chan *p4api.StreamMessageResponse
-	connection      *simapi.Connection
+	connection      *misc.Connection
 }
 
 // Send queues up the specified response to asynchronously send to the backing stream
@@ -192,7 +193,7 @@ func (state *streamState) GetRoleConfig() *stratum.P4RoleConfig {
 }
 
 // GetConnection returns the peer connection info for the stream channel
-func (state *streamState) GetConnection() *simapi.Connection {
+func (state *streamState) GetConnection() *misc.Connection {
 	return state.connection
 }
 
@@ -205,7 +206,7 @@ func (s *Server) StreamChannel(server p4api.P4Runtime_StreamChannelServer) error
 		streamResponses: make(chan *p4api.StreamMessageResponse, 128),
 	}
 	if p, ok := peer.FromContext(server.Context()); ok {
-		responder.connection = &simapi.Connection{
+		responder.connection = &misc.Connection{
 			FromAddress: p.Addr.String(),
 			Protocol:    "p4rt",
 			Time:        time.Now().Unix(),

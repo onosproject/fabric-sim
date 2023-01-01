@@ -6,7 +6,7 @@
 package simulator
 
 import (
-	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"github.com/onosproject/onos-api/go/onos/misc"
 	"sync"
 	"time"
 )
@@ -15,14 +15,14 @@ import (
 type StatsCollector struct {
 	simulation *Simulation
 	lock       sync.RWMutex
-	stats      []*simapi.IOStats
+	stats      []*misc.IOStats
 	lastTime   time.Time
 }
 
 func newStatsCollector(sim *Simulation) *StatsCollector {
 	return &StatsCollector{
 		simulation: sim,
-		stats:      make([]*simapi.IOStats, 0, 1000),
+		stats:      make([]*misc.IOStats, 0, 1000),
 		lastTime:   time.Now(),
 	}
 }
@@ -33,7 +33,7 @@ func (c *StatsCollector) Start() {
 }
 
 // GetIOStats returns the list of I/O stats.
-func (c *StatsCollector) GetIOStats() []*simapi.IOStats {
+func (c *StatsCollector) GetIOStats() []*misc.IOStats {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
 	stats := c.stats
@@ -51,7 +51,7 @@ func (c *StatsCollector) createSample() {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	now := time.Now()
-	stats := &simapi.IOStats{
+	stats := &misc.IOStats{
 		FirstUpdateTime: uint64(c.lastTime.UnixNano()),
 		LastUpdateTime:  uint64(now.UnixNano()),
 	}

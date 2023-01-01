@@ -21,7 +21,7 @@ import (
 func (s *TestSuite) TestGNMI(t *testing.T) {
 	devices, _, _ := LoadAndValidate(t, "topologies/access.yaml", 3+6, (3*3*6+3*2)*2, 3*20,
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 })
-	defer CleanUp(t)
+	//defer CleanUp(t)
 
 	device := devices[0]
 
