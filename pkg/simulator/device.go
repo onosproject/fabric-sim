@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/binary"
+	"fmt"
 	gogo "github.com/gogo/protobuf/types"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
@@ -41,7 +42,6 @@ type DeviceSimulator struct {
 	lock                     sync.RWMutex
 	forwardingPipelineConfig *p4api.ForwardingPipelineConfig
 	streamResponders         []StreamResponder
-	subscribeResponders      []SubscribeResponder
 	roleConfigs              map[string]*roleConfig
 	simulation               *Simulation
 	sdnPorts                 map[uint32]*simapi.Port
@@ -247,12 +247,29 @@ func (ds *DeviceSimulator) setPortStatus(id simapi.PortID, linkStatus simapi.Lin
 	default:
 		port.Enabled = false
 	}
+	ds.updatePortStatus(port.ID, port.Enabled)
 	if ln, ok := ds.simulation.usedEgressPorts[id]; ok {
 		if ln.link != nil {
 			ln.link.Status = linkStatus
 		}
 	}
 	return nil
+}
+
+func (ds *DeviceSimulator) updatePortStatus(portID simapi.PortID, enabled bool) {
+	interfaceNode := ds.config.Get(fmt.Sprintf("interfaces/interface[name=%s]", portID), nil)
+	config.SetPortStatus(interfaceNode, config.GetStatusString(enabled))
+	stateNode := interfaceNode.Get("state/port-state", nil)
+	lastChangeNode := interfaceNode.Get("state/last-change", nil)
+
+	ds.GNMIConfigurable.SendToAllResponders(&gnmi.SubscribeResponse{
+		Response: &gnmi.SubscribeResponse_Update{Update: &gnmi.Notification{
+			Update: []*gnmi.Update{
+				{Path: utils.ToPath(stateNode.Path()), Val: stateNode.Value()},
+				{Path: utils.ToPath(lastChangeNode.Path()), Val: lastChangeNode.Value()},
+			},
+		}},
+	})
 }
 
 // IsMaster returns an error if the given election ID is not the master for the specified device (chassis) and role.
@@ -378,28 +395,6 @@ func (ds *DeviceSimulator) SendToAllResponders(response *p4api.StreamMessageResp
 	defer ds.lock.RUnlock()
 	for _, r := range ds.streamResponders {
 		r.Send(response)
-	}
-}
-
-// AddSubscribeResponder adds the given subscribe responder to the specified device
-func (ds *DeviceSimulator) AddSubscribeResponder(responder SubscribeResponder) {
-	ds.lock.Lock()
-	defer ds.lock.Unlock()
-	ds.subscribeResponders = append(ds.subscribeResponders, responder)
-	ds.Device.Connections = append(ds.Device.Connections, responder.GetConnection())
-	ds.Device.TotalConnections++
-}
-
-// RemoveSubscribeResponder removes the specified subscribe responder from the specified device
-func (ds *DeviceSimulator) RemoveSubscribeResponder(responder SubscribeResponder) {
-	ds.lock.Lock()
-	defer ds.lock.Unlock()
-	ds.removeConnection(responder.GetConnection())
-	for i, r := range ds.subscribeResponders {
-		if r == responder {
-			ds.subscribeResponders = append(ds.subscribeResponders[:i], ds.subscribeResponders[i+1:]...)
-			return
-		}
 	}
 }
 

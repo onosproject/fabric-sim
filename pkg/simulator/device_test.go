@@ -112,31 +112,6 @@ func TestAddRemoveStreamResponder(t *testing.T) {
 	assert.Len(t, ds.streamResponders, 0)
 }
 
-type dummySubscribeResponder struct {
-}
-
-func (d dummySubscribeResponder) GetConnection() *misc.Connection {
-	return &misc.Connection{}
-}
-
-func (d dummySubscribeResponder) Send(response *gnmi.SubscribeResponse) {
-	panic("implement me")
-}
-
-func TestAddRemoveSubscribeResponder(t *testing.T) {
-	ds := &DeviceSimulator{Device: &simapi.Device{}}
-	r1 := &dummySubscribeResponder{}
-	r2 := &dummySubscribeResponder{}
-	ds.AddSubscribeResponder(r1)
-	assert.Len(t, ds.subscribeResponders, 1)
-	ds.AddSubscribeResponder(r2)
-	assert.Len(t, ds.subscribeResponders, 2)
-	ds.RemoveSubscribeResponder(r2)
-	assert.Len(t, ds.subscribeResponders, 1)
-	ds.RemoveSubscribeResponder(r1)
-	assert.Len(t, ds.subscribeResponders, 0)
-}
-
 // TestDeviceProcessGet tests operation of configuration retrieval
 func TestDeviceProcessGet(t *testing.T) {
 	rootNode := CreateSwitchConfig(8)
