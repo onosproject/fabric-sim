@@ -34,15 +34,7 @@ func NewSwitchConfig(ports map[simapi.PortID]*simapi.Port) *configtree.Node {
 		interfaceNode.AddPath("state/id",
 			&gnmi.TypedValue{Value: &gnmi.TypedValue_UintVal{UintVal: uint64(port.InternalNumber)}})
 
-		portStatus := "UP"
-		if !port.Enabled {
-			portStatus = "DOWN"
-		}
-		interfaceNode.AddPath("state/oper-status",
-			&gnmi.TypedValue{Value: &gnmi.TypedValue_StringVal{StringVal: portStatus}})
-
-		interfaceNode.AddPath("state/last-change",
-			&gnmi.TypedValue{Value: &gnmi.TypedValue_UintVal{UintVal: 0}})
+		SetPortStatus(interfaceNode, GetStatusString(port.Enabled))
 
 		interfaceNode.AddPath("config/enabled",
 			&gnmi.TypedValue{Value: &gnmi.TypedValue_BoolVal{BoolVal: port.Enabled}})
@@ -55,6 +47,22 @@ func NewSwitchConfig(ports map[simapi.PortID]*simapi.Port) *configtree.Node {
 	}
 
 	return rootNode
+}
+
+// GetStatusString returns port status string based on the enabled flag: UP or DOWN
+func GetStatusString(enabled bool) string {
+	if enabled {
+		return "UP"
+	}
+	return "DOWN"
+}
+
+// SetPortStatus applies port status to the given interface node
+func SetPortStatus(interfaceNode *configtree.Node, portStatus string) {
+	interfaceNode.AddPath("state/oper-status",
+		&gnmi.TypedValue{Value: &gnmi.TypedValue_StringVal{StringVal: portStatus}})
+	interfaceNode.AddPath("state/last-change",
+		&gnmi.TypedValue{Value: &gnmi.TypedValue_UintVal{UintVal: uint64(time.Now().UnixNano())}})
 }
 
 var supportedCounters = []string{
