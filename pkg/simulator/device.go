@@ -592,11 +592,13 @@ func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *
 			log.Warnf("Device %s: Unable to locate target port %s", tgtDeviceID, link.TgtID)
 		}
 
-		if roleAgentID, ok := tgtDevice.HasPuntRuleForEthType(layers.EthernetTypeLinkLayerDiscovery); ok {
-			tgtDevice.SendPacketIn(packetOut.Payload, &p4utils.PacketInMetadata{
-				IngressPort: ingressPort.InternalNumber,
-				RoleAgentID: roleAgentID,
-			})
+		if ingressPort.Enabled {
+			if roleAgentID, ok := tgtDevice.HasPuntRuleForEthType(layers.EthernetTypeLinkLayerDiscovery); ok {
+				tgtDevice.SendPacketIn(packetOut.Payload, &p4utils.PacketInMetadata{
+					IngressPort: ingressPort.InternalNumber,
+					RoleAgentID: roleAgentID,
+				})
+			}
 		}
 	}
 }

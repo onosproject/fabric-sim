@@ -111,11 +111,13 @@ func (hs *HostSimulator) EmitARPRequests(nic *simapi.NetworkInterface, dstIPs []
 			log.Warnf("Host %s: Unable to find device simulator: %+v", hs.Host.ID, err)
 			continue
 		}
-		if roleAgentID, ok := deviceSim.HasPuntRuleForEthType(layers.EthernetTypeARP); ok {
-			deviceSim.SendPacketIn(arp, &p4utils.PacketInMetadata{
-				IngressPort: deviceSim.Ports[nic.ID].InternalNumber,
-				RoleAgentID: roleAgentID,
-			})
+		if deviceSim.Ports[nic.ID].Enabled {
+			if roleAgentID, ok := deviceSim.HasPuntRuleForEthType(layers.EthernetTypeARP); ok {
+				deviceSim.SendPacketIn(arp, &p4utils.PacketInMetadata{
+					IngressPort: deviceSim.Ports[nic.ID].InternalNumber,
+					RoleAgentID: roleAgentID,
+				})
+			}
 		}
 	}
 	return nil
