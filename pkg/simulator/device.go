@@ -247,7 +247,7 @@ func (ds *DeviceSimulator) setPortStatus(id simapi.PortID, linkStatus simapi.Lin
 	default:
 		port.Enabled = false
 	}
-	ds.updatePortStatus(port.ID, port.Enabled)
+	ds.updatePortStatus(port.Name, port.Enabled)
 	if ln, ok := ds.simulation.usedEgressPorts[id]; ok {
 		if ln.link != nil {
 			ln.link.Status = linkStatus
@@ -256,16 +256,20 @@ func (ds *DeviceSimulator) setPortStatus(id simapi.PortID, linkStatus simapi.Lin
 	return nil
 }
 
-func (ds *DeviceSimulator) updatePortStatus(portID simapi.PortID, enabled bool) {
-	interfaceNode := ds.config.Get(fmt.Sprintf("interfaces/interface[name=%s]", portID), nil)
+func (ds *DeviceSimulator) updatePortStatus(portName string, enabled bool) {
+	interfaceNode := ds.config.GetPath(fmt.Sprintf("interfaces/interface[name=%s]", portName))
+	if interfaceNode == nil {
+		log.Warnf("Unable to locate config node for port %s", portName)
+		return
+	}
 	config.SetPortStatus(interfaceNode, config.GetStatusString(enabled))
-	stateNode := interfaceNode.Get("state/port-state", nil)
-	lastChangeNode := interfaceNode.Get("state/last-change", nil)
+	statusNode := interfaceNode.GetPath("state/oper-status")
+	lastChangeNode := interfaceNode.GetPath("state/last-change")
 
 	ds.GNMIConfigurable.SendToAllResponders(&gnmi.SubscribeResponse{
 		Response: &gnmi.SubscribeResponse_Update{Update: &gnmi.Notification{
 			Update: []*gnmi.Update{
-				{Path: utils.ToPath(stateNode.Path()), Val: stateNode.Value()},
+				{Path: utils.ToPath(statusNode.Path()), Val: statusNode.Value()},
 				{Path: utils.ToPath(lastChangeNode.Path()), Val: lastChangeNode.Value()},
 			},
 		}},
