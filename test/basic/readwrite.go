@@ -142,7 +142,7 @@ func ApplyPipelineConfig(ctx context.Context, client p4api.P4RuntimeClient, devi
 
 // GenerateAndWriteTableEntries generates specified number of entries spread randomly between all the device tables and inserts them
 func GenerateAndWriteTableEntries(ctx context.Context, client p4api.P4RuntimeClient, request *p4api.WriteRequest, info *p4info.P4Info, count int) error {
-	request.Updates = make([]*p4api.Update, count)
+	request.Updates = make([]*p4api.Update, 0, count)
 	tl := int32(len(info.Tables))
 	for i := 0; i < count; i++ {
 		tableInfo := info.Tables[rand.Int31n(tl)]
