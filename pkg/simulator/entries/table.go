@@ -374,8 +374,8 @@ func (t *Table) entryKey(entry *p4api.TableEntry) (string, error) {
 	hf := sha1.New()
 
 	// This assumes matches have already been put in canonical order
-	// TODO: implement field ID validation against the P4Info table schema
 	for i, m := range entry.Match {
+		// Validate field ID against the P4Info table schema
 		if err := t.validateMatch(i, m); err != nil {
 			return "", err
 		}

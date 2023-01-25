@@ -6,10 +6,10 @@ package basic
 
 import (
 	"context"
-	"github.com/onosproject/fabric-sim/pkg/utils"
 	"github.com/onosproject/fabric-sim/test/client"
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
 	"github.com/onosproject/onos-net-lib/pkg/p4utils"
+	utils "github.com/onosproject/onos-net-lib/pkg/test"
 	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
 	"github.com/stretchr/testify/assert"
