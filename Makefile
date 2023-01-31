@@ -38,11 +38,7 @@ jenkins-test: jenkins-tools mod-lint build linters license
 	TEST_PACKAGES=github.com/onosproject/fabric-sim/... ./build/build-tools/build/jenkins/make-unit
 
 integration-tests:  # @HELP run helmit integration tests locally
-	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests
-
-cit:  # @HELP run helmit integration test under current development
-	#(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests --suite onoslite --test TestLiteONOSWithPlainMaxFabric
-	(kubectl delete ns test || exit 0) && kubectl create ns test && helmit test -n test -c . ./cmd/fabric-sim-tests --suite basic --test TestGNMI
+	make namespace basic onoslite -C test
 
 topologies:	# @HELP generate all topologies related artifacts
 topologies: recipes netcfg robot
