@@ -122,7 +122,7 @@ func (d *Device) establishDeviceConnection() error {
 		return err
 	}
 
-	d.electionID = &p4api.Uint128{Low: 123, High: 0}
+	d.electionID = p4utils.TimeBasedElectionID()
 	if err = d.stream.Send(p4utils.CreateMastershipArbitration(d.electionID, role)); err != nil {
 		return err
 	}
@@ -223,9 +223,8 @@ func (d *Device) installFlowRules() error {
 	if err := basic.InstallPuntRule(d.ctx, d.p4Client, d.Pointer.ChassisID, onosRoleName, d.electionID, uint16(layers.EthernetTypeARP)); err != nil {
 		return err
 	}
-	if err := d.installScaleFlows(d.ctx, d.p4Client, d.Pointer.ChassisID, onosRoleName, d.electionID); err != nil {
-		return err
-	}
+	// Ignore errors as the random flow generation can sometime generate duplicate flows; this is fine for scale purposes
+	_ = d.installScaleFlows(d.ctx, d.p4Client, d.Pointer.ChassisID, onosRoleName, d.electionID)
 	return nil
 }
 

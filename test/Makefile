@@ -15,3 +15,5 @@ basic: # @HELP run helmit basic tests locally
 onoslite: # @HELP run helmit ONOS-lite tests locally
 	helmit test -n test ./fabric-sim-tests -c .. --suite onoslite --no-teardown --timeout 15m
 
+max: # @HELP run helmit ONOS-lite tests locally
+	helmit test -n test ./fabric-sim-tests -c .. --suite onoslite --test TestLiteONOSWithMaxTopo --no-teardown --timeout 15m

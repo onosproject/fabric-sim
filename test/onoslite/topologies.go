@@ -16,12 +16,11 @@ import (
 // TestLiteONOSWithPlainMidFabric tests mid fabric with ONOS lite
 func (s *TestSuite) TestLiteONOSWithPlainMidFabric(t *testing.T) {
 	RunLiteONOSWithTopology(t, "topologies/plain_mid.yaml", 2+4, (3*2*4)*2, 4*20,
-		func(device *simapi.Device) int { return 32 }, func(host *simapi.Host) int { return 1 })
+		func(device *simapi.Device) int { return 32 }, func(host *simapi.Host) int { return 1 }, 90*time.Second)
 }
 
 // TestLiteONOSWithPlainMaxFabric tests max fabric with ONOS lite
 func (s *TestSuite) TestLiteONOSWithPlainMaxFabric(t *testing.T) {
-	t.Skip("Requires longer discovery time...")
 	RunLiteONOSWithTopology(t, "topologies/plain_max.yaml", 4+60, (4*60)*2, 60*15,
 		func(device *simapi.Device) int {
 			if strings.Contains(string(device.ID), "leaf") {
@@ -29,25 +28,33 @@ func (s *TestSuite) TestLiteONOSWithPlainMaxFabric(t *testing.T) {
 			}
 			return 64
 		},
-		func(host *simapi.Host) int { return 1 })
+		func(host *simapi.Host) int { return 1 }, 200*time.Second)
+}
+
+// TestLiteONOSWithMaxTopo tests max topo with ONOS lite
+func (s *TestSuite) TestLiteONOSWithMaxTopo(t *testing.T) {
+	t.Skip("Requires longer discovery time...")
+	RunLiteONOSWithTopology(t, "topologies/max.yaml", 3+97, (3*97)*2, 105*97,
+		func(device *simapi.Device) int { return 128 },
+		func(host *simapi.Host) int { return 1 }, 480*time.Second)
 }
 
 // TestLiteONOSWithAccessFabric tests access fabric with ONOS lite
 func (s *TestSuite) TestLiteONOSWithAccessFabric(t *testing.T) {
 	RunLiteONOSWithTopology(t, "topologies/access.yaml", 3+6, (3*3*6+3*2)*2, 3*20,
-		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 })
+		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 }, 90*time.Second)
 }
 
 // TestLiteONOSWithSuperspineFabric tests superspine fabric with ONOS lite
 func (s *TestSuite) TestLiteONOSWithSuperspineFabric(t *testing.T) {
 	RunLiteONOSWithTopology(t, "topologies/superspine.yaml", 14, 2*136, 40,
-		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 })
+		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 }, 90*time.Second)
 }
 
 // RunLiteONOSWithTopology loads simulator with the specified topology, creates lite ONOS controller
 // and points it at the simulated topology validating that the network environment gets properly discovered.
 func RunLiteONOSWithTopology(t *testing.T, topologyPath string, deviceCount int, linkCount int, hostCount int,
-	portsPerDevice basic.DevicePortCount, nicsPerHost basic.HostNICCount) {
+	portsPerDevice basic.DevicePortCount, nicsPerHost basic.HostNICCount, delay time.Duration) {
 	devices, _, hosts := basic.LoadAndValidate(t, topologyPath, deviceCount, linkCount, hostCount, portsPerDevice, nicsPerHost)
 	defer basic.CleanUp(t)
 
@@ -59,12 +66,13 @@ func RunLiteONOSWithTopology(t *testing.T, topologyPath string, deviceCount int,
 
 	defer func() { _ = onos.Stop() }()
 
-	time.Sleep(90 * time.Second)
+	time.Sleep(delay)
 
 	t.Logf("Validating discovered topology...")
+	t.Logf("Devices: %d; Links: %d; Hosts: %d", len(onos.Devices), len(onos.Links), len(onos.Hosts))
 
 	// Did we discover all devices?
-	assert.Len(t, onos.Devices, deviceCount)
+	assert.Equal(t, len(onos.Devices), deviceCount)
 
 	// Do all devices have the right number of ports?
 	for _, device := range onos.Devices {
@@ -72,14 +80,14 @@ func RunLiteONOSWithTopology(t *testing.T, topologyPath string, deviceCount int,
 	}
 
 	// Did we discover all links?
-	assert.Len(t, onos.Links, linkCount)
+	assert.Equal(t, len(onos.Links), linkCount)
 
 	// Did we discover all hosts? Since these are NICs really, add up all the NICs per host.
 	nicCount := 0
 	for _, host := range hosts {
 		nicCount = nicCount + nicsPerHost(host)
 	}
-	assert.Len(t, onos.Hosts, nicCount)
+	assert.Equal(t, len(onos.Hosts), nicCount)
 }
 
 func extractDevicePointers(devices []*simapi.Device) []*DevicePointer {
