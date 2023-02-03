@@ -1,0 +1,4069 @@
+{
+  "devices": {
+    "device:ipu0101": {
+      "basic": {
+        "name": "ipu0101",
+        "managementAddress": "grpc://fabric-sim:20003?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 301,
+        "loopbacks": [
+          "192.168.2.101"
+        ],
+        "routerMac": "00:BB:00:00:00:101",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0102": {
+      "basic": {
+        "name": "ipu0102",
+        "managementAddress": "grpc://fabric-sim:20004?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 302,
+        "loopbacks": [
+          "192.168.2.102"
+        ],
+        "routerMac": "00:BB:00:00:00:102",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0103": {
+      "basic": {
+        "name": "ipu0103",
+        "managementAddress": "grpc://fabric-sim:20005?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 303,
+        "loopbacks": [
+          "192.168.2.103"
+        ],
+        "routerMac": "00:BB:00:00:00:103",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0104": {
+      "basic": {
+        "name": "ipu0104",
+        "managementAddress": "grpc://fabric-sim:20006?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 304,
+        "loopbacks": [
+          "192.168.2.104"
+        ],
+        "routerMac": "00:BB:00:00:00:104",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0105": {
+      "basic": {
+        "name": "ipu0105",
+        "managementAddress": "grpc://fabric-sim:20007?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 305,
+        "loopbacks": [
+          "192.168.2.105"
+        ],
+        "routerMac": "00:BB:00:00:00:105",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0106": {
+      "basic": {
+        "name": "ipu0106",
+        "managementAddress": "grpc://fabric-sim:20008?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 306,
+        "loopbacks": [
+          "192.168.2.106"
+        ],
+        "routerMac": "00:BB:00:00:00:106",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0107": {
+      "basic": {
+        "name": "ipu0107",
+        "managementAddress": "grpc://fabric-sim:20009?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 307,
+        "loopbacks": [
+          "192.168.2.107"
+        ],
+        "routerMac": "00:BB:00:00:00:107",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0108": {
+      "basic": {
+        "name": "ipu0108",
+        "managementAddress": "grpc://fabric-sim:20010?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 308,
+        "loopbacks": [
+          "192.168.2.108"
+        ],
+        "routerMac": "00:BB:00:00:00:108",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0109": {
+      "basic": {
+        "name": "ipu0109",
+        "managementAddress": "grpc://fabric-sim:20011?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 309,
+        "loopbacks": [
+          "192.168.2.109"
+        ],
+        "routerMac": "00:BB:00:00:00:109",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0110": {
+      "basic": {
+        "name": "ipu0110",
+        "managementAddress": "grpc://fabric-sim:20012?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 310,
+        "loopbacks": [
+          "192.168.2.110"
+        ],
+        "routerMac": "00:BB:00:00:00:110",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0111": {
+      "basic": {
+        "name": "ipu0111",
+        "managementAddress": "grpc://fabric-sim:20013?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 311,
+        "loopbacks": [
+          "192.168.2.111"
+        ],
+        "routerMac": "00:BB:00:00:00:111",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0112": {
+      "basic": {
+        "name": "ipu0112",
+        "managementAddress": "grpc://fabric-sim:20014?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 312,
+        "loopbacks": [
+          "192.168.2.112"
+        ],
+        "routerMac": "00:BB:00:00:00:112",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0113": {
+      "basic": {
+        "name": "ipu0113",
+        "managementAddress": "grpc://fabric-sim:20015?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 313,
+        "loopbacks": [
+          "192.168.2.113"
+        ],
+        "routerMac": "00:BB:00:00:00:113",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0114": {
+      "basic": {
+        "name": "ipu0114",
+        "managementAddress": "grpc://fabric-sim:20016?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 314,
+        "loopbacks": [
+          "192.168.2.114"
+        ],
+        "routerMac": "00:BB:00:00:00:114",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0115": {
+      "basic": {
+        "name": "ipu0115",
+        "managementAddress": "grpc://fabric-sim:20017?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 315,
+        "loopbacks": [
+          "192.168.2.115"
+        ],
+        "routerMac": "00:BB:00:00:00:115",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0116": {
+      "basic": {
+        "name": "ipu0116",
+        "managementAddress": "grpc://fabric-sim:20018?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 316,
+        "loopbacks": [
+          "192.168.2.116"
+        ],
+        "routerMac": "00:BB:00:00:00:116",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0117": {
+      "basic": {
+        "name": "ipu0117",
+        "managementAddress": "grpc://fabric-sim:20019?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 317,
+        "loopbacks": [
+          "192.168.2.117"
+        ],
+        "routerMac": "00:BB:00:00:00:117",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0118": {
+      "basic": {
+        "name": "ipu0118",
+        "managementAddress": "grpc://fabric-sim:20020?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 318,
+        "loopbacks": [
+          "192.168.2.118"
+        ],
+        "routerMac": "00:BB:00:00:00:118",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0119": {
+      "basic": {
+        "name": "ipu0119",
+        "managementAddress": "grpc://fabric-sim:20021?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 319,
+        "loopbacks": [
+          "192.168.2.119"
+        ],
+        "routerMac": "00:BB:00:00:00:119",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0120": {
+      "basic": {
+        "name": "ipu0120",
+        "managementAddress": "grpc://fabric-sim:20022?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 320,
+        "loopbacks": [
+          "192.168.2.120"
+        ],
+        "routerMac": "00:BB:00:00:00:120",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0201": {
+      "basic": {
+        "name": "ipu0201",
+        "managementAddress": "grpc://fabric-sim:20024?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 401,
+        "loopbacks": [
+          "192.168.2.201"
+        ],
+        "routerMac": "00:BB:00:00:00:201",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0202": {
+      "basic": {
+        "name": "ipu0202",
+        "managementAddress": "grpc://fabric-sim:20025?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 402,
+        "loopbacks": [
+          "192.168.2.202"
+        ],
+        "routerMac": "00:BB:00:00:00:202",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0203": {
+      "basic": {
+        "name": "ipu0203",
+        "managementAddress": "grpc://fabric-sim:20026?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 403,
+        "loopbacks": [
+          "192.168.2.203"
+        ],
+        "routerMac": "00:BB:00:00:00:203",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0204": {
+      "basic": {
+        "name": "ipu0204",
+        "managementAddress": "grpc://fabric-sim:20027?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 404,
+        "loopbacks": [
+          "192.168.2.204"
+        ],
+        "routerMac": "00:BB:00:00:00:204",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0205": {
+      "basic": {
+        "name": "ipu0205",
+        "managementAddress": "grpc://fabric-sim:20028?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 405,
+        "loopbacks": [
+          "192.168.2.205"
+        ],
+        "routerMac": "00:BB:00:00:00:205",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0206": {
+      "basic": {
+        "name": "ipu0206",
+        "managementAddress": "grpc://fabric-sim:20029?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 406,
+        "loopbacks": [
+          "192.168.2.206"
+        ],
+        "routerMac": "00:BB:00:00:00:206",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0207": {
+      "basic": {
+        "name": "ipu0207",
+        "managementAddress": "grpc://fabric-sim:20030?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 407,
+        "loopbacks": [
+          "192.168.2.207"
+        ],
+        "routerMac": "00:BB:00:00:00:207",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0208": {
+      "basic": {
+        "name": "ipu0208",
+        "managementAddress": "grpc://fabric-sim:20031?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 408,
+        "loopbacks": [
+          "192.168.2.208"
+        ],
+        "routerMac": "00:BB:00:00:00:208",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0209": {
+      "basic": {
+        "name": "ipu0209",
+        "managementAddress": "grpc://fabric-sim:20032?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 409,
+        "loopbacks": [
+          "192.168.2.209"
+        ],
+        "routerMac": "00:BB:00:00:00:209",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0210": {
+      "basic": {
+        "name": "ipu0210",
+        "managementAddress": "grpc://fabric-sim:20033?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 410,
+        "loopbacks": [
+          "192.168.2.210"
+        ],
+        "routerMac": "00:BB:00:00:00:210",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0211": {
+      "basic": {
+        "name": "ipu0211",
+        "managementAddress": "grpc://fabric-sim:20034?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 411,
+        "loopbacks": [
+          "192.168.2.211"
+        ],
+        "routerMac": "00:BB:00:00:00:211",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0212": {
+      "basic": {
+        "name": "ipu0212",
+        "managementAddress": "grpc://fabric-sim:20035?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 412,
+        "loopbacks": [
+          "192.168.2.212"
+        ],
+        "routerMac": "00:BB:00:00:00:212",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0213": {
+      "basic": {
+        "name": "ipu0213",
+        "managementAddress": "grpc://fabric-sim:20036?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 413,
+        "loopbacks": [
+          "192.168.2.213"
+        ],
+        "routerMac": "00:BB:00:00:00:213",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0214": {
+      "basic": {
+        "name": "ipu0214",
+        "managementAddress": "grpc://fabric-sim:20037?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 414,
+        "loopbacks": [
+          "192.168.2.214"
+        ],
+        "routerMac": "00:BB:00:00:00:214",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0215": {
+      "basic": {
+        "name": "ipu0215",
+        "managementAddress": "grpc://fabric-sim:20038?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 415,
+        "loopbacks": [
+          "192.168.2.215"
+        ],
+        "routerMac": "00:BB:00:00:00:215",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0216": {
+      "basic": {
+        "name": "ipu0216",
+        "managementAddress": "grpc://fabric-sim:20039?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 416,
+        "loopbacks": [
+          "192.168.2.216"
+        ],
+        "routerMac": "00:BB:00:00:00:216",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0217": {
+      "basic": {
+        "name": "ipu0217",
+        "managementAddress": "grpc://fabric-sim:20040?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 417,
+        "loopbacks": [
+          "192.168.2.217"
+        ],
+        "routerMac": "00:BB:00:00:00:217",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0218": {
+      "basic": {
+        "name": "ipu0218",
+        "managementAddress": "grpc://fabric-sim:20041?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 418,
+        "loopbacks": [
+          "192.168.2.218"
+        ],
+        "routerMac": "00:BB:00:00:00:218",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0219": {
+      "basic": {
+        "name": "ipu0219",
+        "managementAddress": "grpc://fabric-sim:20042?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 419,
+        "loopbacks": [
+          "192.168.2.219"
+        ],
+        "routerMac": "00:BB:00:00:00:219",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0220": {
+      "basic": {
+        "name": "ipu0220",
+        "managementAddress": "grpc://fabric-sim:20043?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 420,
+        "loopbacks": [
+          "192.168.2.220"
+        ],
+        "routerMac": "00:BB:00:00:00:220",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0301": {
+      "basic": {
+        "name": "ipu0301",
+        "managementAddress": "grpc://fabric-sim:20045?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 501,
+        "loopbacks": [
+          "192.168.2.301"
+        ],
+        "routerMac": "00:BB:00:00:00:301",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0302": {
+      "basic": {
+        "name": "ipu0302",
+        "managementAddress": "grpc://fabric-sim:20046?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 502,
+        "loopbacks": [
+          "192.168.2.302"
+        ],
+        "routerMac": "00:BB:00:00:00:302",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0303": {
+      "basic": {
+        "name": "ipu0303",
+        "managementAddress": "grpc://fabric-sim:20047?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 503,
+        "loopbacks": [
+          "192.168.2.303"
+        ],
+        "routerMac": "00:BB:00:00:00:303",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0304": {
+      "basic": {
+        "name": "ipu0304",
+        "managementAddress": "grpc://fabric-sim:20048?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 504,
+        "loopbacks": [
+          "192.168.2.304"
+        ],
+        "routerMac": "00:BB:00:00:00:304",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0305": {
+      "basic": {
+        "name": "ipu0305",
+        "managementAddress": "grpc://fabric-sim:20049?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 505,
+        "loopbacks": [
+          "192.168.2.305"
+        ],
+        "routerMac": "00:BB:00:00:00:305",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0306": {
+      "basic": {
+        "name": "ipu0306",
+        "managementAddress": "grpc://fabric-sim:20050?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 506,
+        "loopbacks": [
+          "192.168.2.306"
+        ],
+        "routerMac": "00:BB:00:00:00:306",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0307": {
+      "basic": {
+        "name": "ipu0307",
+        "managementAddress": "grpc://fabric-sim:20051?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 507,
+        "loopbacks": [
+          "192.168.2.307"
+        ],
+        "routerMac": "00:BB:00:00:00:307",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0308": {
+      "basic": {
+        "name": "ipu0308",
+        "managementAddress": "grpc://fabric-sim:20052?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 508,
+        "loopbacks": [
+          "192.168.2.308"
+        ],
+        "routerMac": "00:BB:00:00:00:308",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0309": {
+      "basic": {
+        "name": "ipu0309",
+        "managementAddress": "grpc://fabric-sim:20053?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 509,
+        "loopbacks": [
+          "192.168.2.309"
+        ],
+        "routerMac": "00:BB:00:00:00:309",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0310": {
+      "basic": {
+        "name": "ipu0310",
+        "managementAddress": "grpc://fabric-sim:20054?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 510,
+        "loopbacks": [
+          "192.168.2.310"
+        ],
+        "routerMac": "00:BB:00:00:00:310",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0311": {
+      "basic": {
+        "name": "ipu0311",
+        "managementAddress": "grpc://fabric-sim:20055?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 511,
+        "loopbacks": [
+          "192.168.2.311"
+        ],
+        "routerMac": "00:BB:00:00:00:311",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0312": {
+      "basic": {
+        "name": "ipu0312",
+        "managementAddress": "grpc://fabric-sim:20056?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 512,
+        "loopbacks": [
+          "192.168.2.312"
+        ],
+        "routerMac": "00:BB:00:00:00:312",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0313": {
+      "basic": {
+        "name": "ipu0313",
+        "managementAddress": "grpc://fabric-sim:20057?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 513,
+        "loopbacks": [
+          "192.168.2.313"
+        ],
+        "routerMac": "00:BB:00:00:00:313",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0314": {
+      "basic": {
+        "name": "ipu0314",
+        "managementAddress": "grpc://fabric-sim:20058?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 514,
+        "loopbacks": [
+          "192.168.2.314"
+        ],
+        "routerMac": "00:BB:00:00:00:314",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0315": {
+      "basic": {
+        "name": "ipu0315",
+        "managementAddress": "grpc://fabric-sim:20059?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 515,
+        "loopbacks": [
+          "192.168.2.315"
+        ],
+        "routerMac": "00:BB:00:00:00:315",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0316": {
+      "basic": {
+        "name": "ipu0316",
+        "managementAddress": "grpc://fabric-sim:20060?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 516,
+        "loopbacks": [
+          "192.168.2.316"
+        ],
+        "routerMac": "00:BB:00:00:00:316",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0317": {
+      "basic": {
+        "name": "ipu0317",
+        "managementAddress": "grpc://fabric-sim:20061?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 517,
+        "loopbacks": [
+          "192.168.2.317"
+        ],
+        "routerMac": "00:BB:00:00:00:317",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0318": {
+      "basic": {
+        "name": "ipu0318",
+        "managementAddress": "grpc://fabric-sim:20062?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 518,
+        "loopbacks": [
+          "192.168.2.318"
+        ],
+        "routerMac": "00:BB:00:00:00:318",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0319": {
+      "basic": {
+        "name": "ipu0319",
+        "managementAddress": "grpc://fabric-sim:20063?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 519,
+        "loopbacks": [
+          "192.168.2.319"
+        ],
+        "routerMac": "00:BB:00:00:00:319",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0320": {
+      "basic": {
+        "name": "ipu0320",
+        "managementAddress": "grpc://fabric-sim:20064?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 520,
+        "loopbacks": [
+          "192.168.2.320"
+        ],
+        "routerMac": "00:BB:00:00:00:320",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0401": {
+      "basic": {
+        "name": "ipu0401",
+        "managementAddress": "grpc://fabric-sim:20066?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 601,
+        "loopbacks": [
+          "192.168.2.401"
+        ],
+        "routerMac": "00:BB:00:00:00:401",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0402": {
+      "basic": {
+        "name": "ipu0402",
+        "managementAddress": "grpc://fabric-sim:20067?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 602,
+        "loopbacks": [
+          "192.168.2.402"
+        ],
+        "routerMac": "00:BB:00:00:00:402",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0403": {
+      "basic": {
+        "name": "ipu0403",
+        "managementAddress": "grpc://fabric-sim:20068?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 603,
+        "loopbacks": [
+          "192.168.2.403"
+        ],
+        "routerMac": "00:BB:00:00:00:403",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0404": {
+      "basic": {
+        "name": "ipu0404",
+        "managementAddress": "grpc://fabric-sim:20069?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 604,
+        "loopbacks": [
+          "192.168.2.404"
+        ],
+        "routerMac": "00:BB:00:00:00:404",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0405": {
+      "basic": {
+        "name": "ipu0405",
+        "managementAddress": "grpc://fabric-sim:20070?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 605,
+        "loopbacks": [
+          "192.168.2.405"
+        ],
+        "routerMac": "00:BB:00:00:00:405",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0406": {
+      "basic": {
+        "name": "ipu0406",
+        "managementAddress": "grpc://fabric-sim:20071?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 606,
+        "loopbacks": [
+          "192.168.2.406"
+        ],
+        "routerMac": "00:BB:00:00:00:406",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0407": {
+      "basic": {
+        "name": "ipu0407",
+        "managementAddress": "grpc://fabric-sim:20072?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 607,
+        "loopbacks": [
+          "192.168.2.407"
+        ],
+        "routerMac": "00:BB:00:00:00:407",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0408": {
+      "basic": {
+        "name": "ipu0408",
+        "managementAddress": "grpc://fabric-sim:20073?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 608,
+        "loopbacks": [
+          "192.168.2.408"
+        ],
+        "routerMac": "00:BB:00:00:00:408",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0409": {
+      "basic": {
+        "name": "ipu0409",
+        "managementAddress": "grpc://fabric-sim:20074?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 609,
+        "loopbacks": [
+          "192.168.2.409"
+        ],
+        "routerMac": "00:BB:00:00:00:409",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0410": {
+      "basic": {
+        "name": "ipu0410",
+        "managementAddress": "grpc://fabric-sim:20075?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 610,
+        "loopbacks": [
+          "192.168.2.410"
+        ],
+        "routerMac": "00:BB:00:00:00:410",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0411": {
+      "basic": {
+        "name": "ipu0411",
+        "managementAddress": "grpc://fabric-sim:20076?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 611,
+        "loopbacks": [
+          "192.168.2.411"
+        ],
+        "routerMac": "00:BB:00:00:00:411",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0412": {
+      "basic": {
+        "name": "ipu0412",
+        "managementAddress": "grpc://fabric-sim:20077?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 612,
+        "loopbacks": [
+          "192.168.2.412"
+        ],
+        "routerMac": "00:BB:00:00:00:412",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0413": {
+      "basic": {
+        "name": "ipu0413",
+        "managementAddress": "grpc://fabric-sim:20078?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 613,
+        "loopbacks": [
+          "192.168.2.413"
+        ],
+        "routerMac": "00:BB:00:00:00:413",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0414": {
+      "basic": {
+        "name": "ipu0414",
+        "managementAddress": "grpc://fabric-sim:20079?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 614,
+        "loopbacks": [
+          "192.168.2.414"
+        ],
+        "routerMac": "00:BB:00:00:00:414",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0415": {
+      "basic": {
+        "name": "ipu0415",
+        "managementAddress": "grpc://fabric-sim:20080?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 615,
+        "loopbacks": [
+          "192.168.2.415"
+        ],
+        "routerMac": "00:BB:00:00:00:415",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0416": {
+      "basic": {
+        "name": "ipu0416",
+        "managementAddress": "grpc://fabric-sim:20081?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 616,
+        "loopbacks": [
+          "192.168.2.416"
+        ],
+        "routerMac": "00:BB:00:00:00:416",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0417": {
+      "basic": {
+        "name": "ipu0417",
+        "managementAddress": "grpc://fabric-sim:20082?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 617,
+        "loopbacks": [
+          "192.168.2.417"
+        ],
+        "routerMac": "00:BB:00:00:00:417",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0418": {
+      "basic": {
+        "name": "ipu0418",
+        "managementAddress": "grpc://fabric-sim:20083?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 618,
+        "loopbacks": [
+          "192.168.2.418"
+        ],
+        "routerMac": "00:BB:00:00:00:418",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0419": {
+      "basic": {
+        "name": "ipu0419",
+        "managementAddress": "grpc://fabric-sim:20084?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 619,
+        "loopbacks": [
+          "192.168.2.419"
+        ],
+        "routerMac": "00:BB:00:00:00:419",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0420": {
+      "basic": {
+        "name": "ipu0420",
+        "managementAddress": "grpc://fabric-sim:20085?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 620,
+        "loopbacks": [
+          "192.168.2.420"
+        ],
+        "routerMac": "00:BB:00:00:00:420",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0501": {
+      "basic": {
+        "name": "ipu0501",
+        "managementAddress": "grpc://fabric-sim:20087?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 701,
+        "loopbacks": [
+          "192.168.2.501"
+        ],
+        "routerMac": "00:BB:00:00:00:501",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0502": {
+      "basic": {
+        "name": "ipu0502",
+        "managementAddress": "grpc://fabric-sim:20088?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 702,
+        "loopbacks": [
+          "192.168.2.502"
+        ],
+        "routerMac": "00:BB:00:00:00:502",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0503": {
+      "basic": {
+        "name": "ipu0503",
+        "managementAddress": "grpc://fabric-sim:20089?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 703,
+        "loopbacks": [
+          "192.168.2.503"
+        ],
+        "routerMac": "00:BB:00:00:00:503",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0504": {
+      "basic": {
+        "name": "ipu0504",
+        "managementAddress": "grpc://fabric-sim:20090?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 704,
+        "loopbacks": [
+          "192.168.2.504"
+        ],
+        "routerMac": "00:BB:00:00:00:504",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0505": {
+      "basic": {
+        "name": "ipu0505",
+        "managementAddress": "grpc://fabric-sim:20091?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 705,
+        "loopbacks": [
+          "192.168.2.505"
+        ],
+        "routerMac": "00:BB:00:00:00:505",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0506": {
+      "basic": {
+        "name": "ipu0506",
+        "managementAddress": "grpc://fabric-sim:20092?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 706,
+        "loopbacks": [
+          "192.168.2.506"
+        ],
+        "routerMac": "00:BB:00:00:00:506",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0507": {
+      "basic": {
+        "name": "ipu0507",
+        "managementAddress": "grpc://fabric-sim:20093?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 707,
+        "loopbacks": [
+          "192.168.2.507"
+        ],
+        "routerMac": "00:BB:00:00:00:507",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0508": {
+      "basic": {
+        "name": "ipu0508",
+        "managementAddress": "grpc://fabric-sim:20094?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 708,
+        "loopbacks": [
+          "192.168.2.508"
+        ],
+        "routerMac": "00:BB:00:00:00:508",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0509": {
+      "basic": {
+        "name": "ipu0509",
+        "managementAddress": "grpc://fabric-sim:20095?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 709,
+        "loopbacks": [
+          "192.168.2.509"
+        ],
+        "routerMac": "00:BB:00:00:00:509",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0510": {
+      "basic": {
+        "name": "ipu0510",
+        "managementAddress": "grpc://fabric-sim:20096?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 710,
+        "loopbacks": [
+          "192.168.2.510"
+        ],
+        "routerMac": "00:BB:00:00:00:510",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0511": {
+      "basic": {
+        "name": "ipu0511",
+        "managementAddress": "grpc://fabric-sim:20097?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 711,
+        "loopbacks": [
+          "192.168.2.511"
+        ],
+        "routerMac": "00:BB:00:00:00:511",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0512": {
+      "basic": {
+        "name": "ipu0512",
+        "managementAddress": "grpc://fabric-sim:20098?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 712,
+        "loopbacks": [
+          "192.168.2.512"
+        ],
+        "routerMac": "00:BB:00:00:00:512",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0513": {
+      "basic": {
+        "name": "ipu0513",
+        "managementAddress": "grpc://fabric-sim:20099?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 713,
+        "loopbacks": [
+          "192.168.2.513"
+        ],
+        "routerMac": "00:BB:00:00:00:513",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0514": {
+      "basic": {
+        "name": "ipu0514",
+        "managementAddress": "grpc://fabric-sim:20100?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 714,
+        "loopbacks": [
+          "192.168.2.514"
+        ],
+        "routerMac": "00:BB:00:00:00:514",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0515": {
+      "basic": {
+        "name": "ipu0515",
+        "managementAddress": "grpc://fabric-sim:20101?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 715,
+        "loopbacks": [
+          "192.168.2.515"
+        ],
+        "routerMac": "00:BB:00:00:00:515",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0516": {
+      "basic": {
+        "name": "ipu0516",
+        "managementAddress": "grpc://fabric-sim:20102?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 716,
+        "loopbacks": [
+          "192.168.2.516"
+        ],
+        "routerMac": "00:BB:00:00:00:516",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0517": {
+      "basic": {
+        "name": "ipu0517",
+        "managementAddress": "grpc://fabric-sim:20103?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 717,
+        "loopbacks": [
+          "192.168.2.517"
+        ],
+        "routerMac": "00:BB:00:00:00:517",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0518": {
+      "basic": {
+        "name": "ipu0518",
+        "managementAddress": "grpc://fabric-sim:20104?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 718,
+        "loopbacks": [
+          "192.168.2.518"
+        ],
+        "routerMac": "00:BB:00:00:00:518",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0519": {
+      "basic": {
+        "name": "ipu0519",
+        "managementAddress": "grpc://fabric-sim:20105?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 719,
+        "loopbacks": [
+          "192.168.2.519"
+        ],
+        "routerMac": "00:BB:00:00:00:519",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0520": {
+      "basic": {
+        "name": "ipu0520",
+        "managementAddress": "grpc://fabric-sim:20106?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 720,
+        "loopbacks": [
+          "192.168.2.520"
+        ],
+        "routerMac": "00:BB:00:00:00:520",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0601": {
+      "basic": {
+        "name": "ipu0601",
+        "managementAddress": "grpc://fabric-sim:20108?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 801,
+        "loopbacks": [
+          "192.168.2.601"
+        ],
+        "routerMac": "00:BB:00:00:00:601",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0602": {
+      "basic": {
+        "name": "ipu0602",
+        "managementAddress": "grpc://fabric-sim:20109?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 802,
+        "loopbacks": [
+          "192.168.2.602"
+        ],
+        "routerMac": "00:BB:00:00:00:602",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0603": {
+      "basic": {
+        "name": "ipu0603",
+        "managementAddress": "grpc://fabric-sim:20110?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 803,
+        "loopbacks": [
+          "192.168.2.603"
+        ],
+        "routerMac": "00:BB:00:00:00:603",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0604": {
+      "basic": {
+        "name": "ipu0604",
+        "managementAddress": "grpc://fabric-sim:20111?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 804,
+        "loopbacks": [
+          "192.168.2.604"
+        ],
+        "routerMac": "00:BB:00:00:00:604",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0605": {
+      "basic": {
+        "name": "ipu0605",
+        "managementAddress": "grpc://fabric-sim:20112?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 805,
+        "loopbacks": [
+          "192.168.2.605"
+        ],
+        "routerMac": "00:BB:00:00:00:605",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0606": {
+      "basic": {
+        "name": "ipu0606",
+        "managementAddress": "grpc://fabric-sim:20113?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 806,
+        "loopbacks": [
+          "192.168.2.606"
+        ],
+        "routerMac": "00:BB:00:00:00:606",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0607": {
+      "basic": {
+        "name": "ipu0607",
+        "managementAddress": "grpc://fabric-sim:20114?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 807,
+        "loopbacks": [
+          "192.168.2.607"
+        ],
+        "routerMac": "00:BB:00:00:00:607",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0608": {
+      "basic": {
+        "name": "ipu0608",
+        "managementAddress": "grpc://fabric-sim:20115?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 808,
+        "loopbacks": [
+          "192.168.2.608"
+        ],
+        "routerMac": "00:BB:00:00:00:608",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0609": {
+      "basic": {
+        "name": "ipu0609",
+        "managementAddress": "grpc://fabric-sim:20116?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 809,
+        "loopbacks": [
+          "192.168.2.609"
+        ],
+        "routerMac": "00:BB:00:00:00:609",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0610": {
+      "basic": {
+        "name": "ipu0610",
+        "managementAddress": "grpc://fabric-sim:20117?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 810,
+        "loopbacks": [
+          "192.168.2.610"
+        ],
+        "routerMac": "00:BB:00:00:00:610",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0611": {
+      "basic": {
+        "name": "ipu0611",
+        "managementAddress": "grpc://fabric-sim:20118?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 811,
+        "loopbacks": [
+          "192.168.2.611"
+        ],
+        "routerMac": "00:BB:00:00:00:611",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0612": {
+      "basic": {
+        "name": "ipu0612",
+        "managementAddress": "grpc://fabric-sim:20119?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 812,
+        "loopbacks": [
+          "192.168.2.612"
+        ],
+        "routerMac": "00:BB:00:00:00:612",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0613": {
+      "basic": {
+        "name": "ipu0613",
+        "managementAddress": "grpc://fabric-sim:20120?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 813,
+        "loopbacks": [
+          "192.168.2.613"
+        ],
+        "routerMac": "00:BB:00:00:00:613",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0614": {
+      "basic": {
+        "name": "ipu0614",
+        "managementAddress": "grpc://fabric-sim:20121?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 814,
+        "loopbacks": [
+          "192.168.2.614"
+        ],
+        "routerMac": "00:BB:00:00:00:614",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0615": {
+      "basic": {
+        "name": "ipu0615",
+        "managementAddress": "grpc://fabric-sim:20122?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 815,
+        "loopbacks": [
+          "192.168.2.615"
+        ],
+        "routerMac": "00:BB:00:00:00:615",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0616": {
+      "basic": {
+        "name": "ipu0616",
+        "managementAddress": "grpc://fabric-sim:20123?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 816,
+        "loopbacks": [
+          "192.168.2.616"
+        ],
+        "routerMac": "00:BB:00:00:00:616",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0617": {
+      "basic": {
+        "name": "ipu0617",
+        "managementAddress": "grpc://fabric-sim:20124?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 817,
+        "loopbacks": [
+          "192.168.2.617"
+        ],
+        "routerMac": "00:BB:00:00:00:617",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0618": {
+      "basic": {
+        "name": "ipu0618",
+        "managementAddress": "grpc://fabric-sim:20125?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 818,
+        "loopbacks": [
+          "192.168.2.618"
+        ],
+        "routerMac": "00:BB:00:00:00:618",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0619": {
+      "basic": {
+        "name": "ipu0619",
+        "managementAddress": "grpc://fabric-sim:20126?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 819,
+        "loopbacks": [
+          "192.168.2.619"
+        ],
+        "routerMac": "00:BB:00:00:00:619",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:ipu0620": {
+      "basic": {
+        "name": "ipu0620",
+        "managementAddress": "grpc://fabric-sim:20127?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 0,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 820,
+        "loopbacks": [
+          "192.168.2.620"
+        ],
+        "routerMac": "00:BB:00:00:00:620",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:leaf1": {
+      "basic": {
+        "name": "leaf1",
+        "managementAddress": "grpc://fabric-sim:20002?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-host-local-agent-0.sdfabric-host-local-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": -1400,
+        "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 101,
+        "loopbacks": [
+          "192.168.1.1"
+        ],
+        "routerMac": "00:AA:00:00:00:01",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking",
+          "org.onosproject.localagents"
+        ]
+      }
+    },
+    "device:leaf2": {
+      "basic": {
+        "name": "leaf2",
+        "managementAddress": "grpc://fabric-sim:20023?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-host-local-agent-1.sdfabric-host-local-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": -1000,
+        "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 102,
+        "loopbacks": [
+          "192.168.1.2"
+        ],
+        "routerMac": "00:AA:00:00:00:02",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking",
+          "org.onosproject.localagents"
+        ]
+      }
+    },
+    "device:leaf3": {
+      "basic": {
+        "name": "leaf3",
+        "managementAddress": "grpc://fabric-sim:20044?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-host-local-agent-2.sdfabric-host-local-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": -600,
+        "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 103,
+        "loopbacks": [
+          "192.168.1.3"
+        ],
+        "routerMac": "00:AA:00:00:00:03",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking",
+          "org.onosproject.localagents"
+        ]
+      }
+    },
+    "device:leaf4": {
+      "basic": {
+        "name": "leaf4",
+        "managementAddress": "grpc://fabric-sim:20065?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-host-local-agent-3.sdfabric-host-local-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": -200,
+        "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 104,
+        "loopbacks": [
+          "192.168.1.4"
+        ],
+        "routerMac": "00:AA:00:00:00:04",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking",
+          "org.onosproject.localagents"
+        ]
+      }
+    },
+    "device:leaf5": {
+      "basic": {
+        "name": "leaf5",
+        "managementAddress": "grpc://fabric-sim:20086?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-host-local-agent-4.sdfabric-host-local-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 200,
+        "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 105,
+        "loopbacks": [
+          "192.168.1.5"
+        ],
+        "routerMac": "00:AA:00:00:00:05",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking",
+          "org.onosproject.localagents"
+        ]
+      }
+    },
+    "device:leaf6": {
+      "basic": {
+        "name": "leaf6",
+        "managementAddress": "grpc://fabric-sim:20107?device_id=0",
+        "ancillaryManagementAddresses": {
+          "host-local-agent": "grpc://sdfabric-host-local-agent-5.sdfabric-host-local-agent:11161"
+        },
+        "driver": "stratum-tofino-la",
+        "pipeconf": "org.stratumproject.fabric-vn.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": 600,
+        "gridY": 200
+      },
+      "underlay": {
+        "nodeSid": 106,
+        "loopbacks": [
+          "192.168.1.6"
+        ],
+        "routerMac": "00:AA:00:00:00:06",
+        "isEdgeRouter": true
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay",
+          "org.onosproject.virtualnetworking",
+          "org.onosproject.localagents"
+        ]
+      }
+    },
+    "device:spine1": {
+      "basic": {
+        "name": "spine1",
+        "managementAddress": "grpc://fabric-sim:20000?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": -600,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 201,
+        "loopbacks": [
+          "192.168.2.1"
+        ],
+        "routerMac": "00:BB:00:00:00:01",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    },
+    "device:spine2": {
+      "basic": {
+        "name": "spine2",
+        "managementAddress": "grpc://fabric-sim:20001?device_id=0",
+        "driver": "stratum-tofino",
+        "pipeconf": "org.stratumproject.fabric.montara_sde_9_10_0",
+        "locType": "grid",
+        "gridX": -200,
+        "gridY": 0
+      },
+      "underlay": {
+        "nodeSid": 202,
+        "loopbacks": [
+          "192.168.2.2"
+        ],
+        "routerMac": "00:BB:00:00:00:02",
+        "isEdgeRouter": false
+      },
+      "reconciliation": {
+        "requiredApps": [
+          "org.onosproject.underlay"
+        ]
+      }
+    }
+  },
+  "hosts": {
+    "00:CA:FE:01:01:01/None[21]": {
+      "basic": {
+        "name": "host0101",
+        "locType": "grid",
+        "gridX": -1540,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:02/None[15]": {
+      "basic": {
+        "name": "host0102",
+        "locType": "grid",
+        "gridX": -1470,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:03/None[17]": {
+      "basic": {
+        "name": "host0103",
+        "locType": "grid",
+        "gridX": -1400,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:04/None[29]": {
+      "basic": {
+        "name": "host0104",
+        "locType": "grid",
+        "gridX": -1330,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:05/None[13]": {
+      "basic": {
+        "name": "host0105",
+        "locType": "grid",
+        "gridX": -1260,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:01:01:06/None[13]": {
+      "basic": {
+        "name": "host0106",
+        "locType": "grid",
+        "gridX": -1540,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:07/None[21]": {
+      "basic": {
+        "name": "host0107",
+        "locType": "grid",
+        "gridX": -1470,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:08/None[28]": {
+      "basic": {
+        "name": "host0108",
+        "locType": "grid",
+        "gridX": -1400,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:09/None[26]": {
+      "basic": {
+        "name": "host0109",
+        "locType": "grid",
+        "gridX": -1330,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:10/None[24]": {
+      "basic": {
+        "name": "host0110",
+        "locType": "grid",
+        "gridX": -1260,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:01:01:11/None[25]": {
+      "basic": {
+        "name": "host0111",
+        "locType": "grid",
+        "gridX": -1540,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:01:01:12/None[16]": {
+      "basic": {
+        "name": "host0112",
+        "locType": "grid",
+        "gridX": -1470,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:01:01:13/None[12]": {
+      "basic": {
+        "name": "host0113",
+        "locType": "grid",
+        "gridX": -1400,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:01:01:14/None[16]": {
+      "basic": {
+        "name": "host0114",
+        "locType": "grid",
+        "gridX": -1330,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:01:01:15/None[31]": {
+      "basic": {
+        "name": "host0115",
+        "locType": "grid",
+        "gridX": -1260,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:01:01:16/None[31]": {
+      "basic": {
+        "name": "host0116",
+        "locType": "grid",
+        "gridX": -1540,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:01:01:17/None[32]": {
+      "basic": {
+        "name": "host0117",
+        "locType": "grid",
+        "gridX": -1470,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:01:01:18/None[33]": {
+      "basic": {
+        "name": "host0118",
+        "locType": "grid",
+        "gridX": -1400,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:01:01:19/None[18]": {
+      "basic": {
+        "name": "host0119",
+        "locType": "grid",
+        "gridX": -1330,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:01:01:20/None[30]": {
+      "basic": {
+        "name": "host0120",
+        "locType": "grid",
+        "gridX": -1260,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:02:01:01/None[23]": {
+      "basic": {
+        "name": "host0201",
+        "locType": "grid",
+        "gridX": -1140,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:02/None[18]": {
+      "basic": {
+        "name": "host0202",
+        "locType": "grid",
+        "gridX": -1070,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:03/None[35]": {
+      "basic": {
+        "name": "host0203",
+        "locType": "grid",
+        "gridX": -1000,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:04/None[14]": {
+      "basic": {
+        "name": "host0204",
+        "locType": "grid",
+        "gridX": -930,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:05/None[22]": {
+      "basic": {
+        "name": "host0205",
+        "locType": "grid",
+        "gridX": -860,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:02:01:06/None[20]": {
+      "basic": {
+        "name": "host0206",
+        "locType": "grid",
+        "gridX": -1140,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:07/None[34]": {
+      "basic": {
+        "name": "host0207",
+        "locType": "grid",
+        "gridX": -1070,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:08/None[19]": {
+      "basic": {
+        "name": "host0208",
+        "locType": "grid",
+        "gridX": -1000,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:09/None[27]": {
+      "basic": {
+        "name": "host0209",
+        "locType": "grid",
+        "gridX": -930,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:10/None[11]": {
+      "basic": {
+        "name": "host0210",
+        "locType": "grid",
+        "gridX": -860,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:02:01:11/None[12]": {
+      "basic": {
+        "name": "host0211",
+        "locType": "grid",
+        "gridX": -1140,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:02:01:12/None[21]": {
+      "basic": {
+        "name": "host0212",
+        "locType": "grid",
+        "gridX": -1070,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:02:01:13/None[15]": {
+      "basic": {
+        "name": "host0213",
+        "locType": "grid",
+        "gridX": -1000,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:02:01:14/None[17]": {
+      "basic": {
+        "name": "host0214",
+        "locType": "grid",
+        "gridX": -930,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:02:01:15/None[29]": {
+      "basic": {
+        "name": "host0215",
+        "locType": "grid",
+        "gridX": -860,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:02:01:16/None[13]": {
+      "basic": {
+        "name": "host0216",
+        "locType": "grid",
+        "gridX": -1140,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:02:01:17/None[13]": {
+      "basic": {
+        "name": "host0217",
+        "locType": "grid",
+        "gridX": -1070,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:02:01:18/None[21]": {
+      "basic": {
+        "name": "host0218",
+        "locType": "grid",
+        "gridX": -1000,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:02:01:19/None[28]": {
+      "basic": {
+        "name": "host0219",
+        "locType": "grid",
+        "gridX": -930,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:02:01:20/None[26]": {
+      "basic": {
+        "name": "host0220",
+        "locType": "grid",
+        "gridX": -860,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:03:01:01/None[24]": {
+      "basic": {
+        "name": "host0301",
+        "locType": "grid",
+        "gridX": -740,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:02/None[25]": {
+      "basic": {
+        "name": "host0302",
+        "locType": "grid",
+        "gridX": -670,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:03/None[16]": {
+      "basic": {
+        "name": "host0303",
+        "locType": "grid",
+        "gridX": -600,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:04/None[12]": {
+      "basic": {
+        "name": "host0304",
+        "locType": "grid",
+        "gridX": -530,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:05/None[16]": {
+      "basic": {
+        "name": "host0305",
+        "locType": "grid",
+        "gridX": -460,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:03:01:06/None[31]": {
+      "basic": {
+        "name": "host0306",
+        "locType": "grid",
+        "gridX": -740,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:07/None[31]": {
+      "basic": {
+        "name": "host0307",
+        "locType": "grid",
+        "gridX": -670,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:08/None[32]": {
+      "basic": {
+        "name": "host0308",
+        "locType": "grid",
+        "gridX": -600,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:09/None[33]": {
+      "basic": {
+        "name": "host0309",
+        "locType": "grid",
+        "gridX": -530,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:10/None[18]": {
+      "basic": {
+        "name": "host0310",
+        "locType": "grid",
+        "gridX": -460,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:03:01:11/None[30]": {
+      "basic": {
+        "name": "host0311",
+        "locType": "grid",
+        "gridX": -740,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:03:01:12/None[23]": {
+      "basic": {
+        "name": "host0312",
+        "locType": "grid",
+        "gridX": -670,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:03:01:13/None[18]": {
+      "basic": {
+        "name": "host0313",
+        "locType": "grid",
+        "gridX": -600,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:03:01:14/None[35]": {
+      "basic": {
+        "name": "host0314",
+        "locType": "grid",
+        "gridX": -530,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:03:01:15/None[14]": {
+      "basic": {
+        "name": "host0315",
+        "locType": "grid",
+        "gridX": -460,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:03:01:16/None[22]": {
+      "basic": {
+        "name": "host0316",
+        "locType": "grid",
+        "gridX": -740,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:03:01:17/None[20]": {
+      "basic": {
+        "name": "host0317",
+        "locType": "grid",
+        "gridX": -670,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:03:01:18/None[34]": {
+      "basic": {
+        "name": "host0318",
+        "locType": "grid",
+        "gridX": -600,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:03:01:19/None[19]": {
+      "basic": {
+        "name": "host0319",
+        "locType": "grid",
+        "gridX": -530,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:03:01:20/None[27]": {
+      "basic": {
+        "name": "host0320",
+        "locType": "grid",
+        "gridX": -460,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:04:01:01/None[11]": {
+      "basic": {
+        "name": "host0401",
+        "locType": "grid",
+        "gridX": -340,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:04:01:02/None[12]": {
+      "basic": {
+        "name": "host0402",
+        "locType": "grid",
+        "gridX": -270,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:04:01:03/None[21]": {
+      "basic": {
+        "name": "host0403",
+        "locType": "grid",
+        "gridX": -200,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:04:01:04/None[15]": {
+      "basic": {
+        "name": "host0404",
+        "locType": "grid",
+        "gridX": -130,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:04:01:05/None[17]": {
+      "basic": {
+        "name": "host0405",
+        "locType": "grid",
+        "gridX": -60,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:04:01:06/None[29]": {
+      "basic": {
+        "name": "host0406",
+        "locType": "grid",
+        "gridX": -340,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:04:01:07/None[13]": {
+      "basic": {
+        "name": "host0407",
+        "locType": "grid",
+        "gridX": -270,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:04:01:08/None[13]": {
+      "basic": {
+        "name": "host0408",
+        "locType": "grid",
+        "gridX": -200,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:04:01:09/None[21]": {
+      "basic": {
+        "name": "host0409",
+        "locType": "grid",
+        "gridX": -130,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:04:01:10/None[28]": {
+      "basic": {
+        "name": "host0410",
+        "locType": "grid",
+        "gridX": -60,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:04:01:11/None[26]": {
+      "basic": {
+        "name": "host0411",
+        "locType": "grid",
+        "gridX": -340,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:04:01:12/None[24]": {
+      "basic": {
+        "name": "host0412",
+        "locType": "grid",
+        "gridX": -270,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:04:01:13/None[25]": {
+      "basic": {
+        "name": "host0413",
+        "locType": "grid",
+        "gridX": -200,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:04:01:14/None[16]": {
+      "basic": {
+        "name": "host0414",
+        "locType": "grid",
+        "gridX": -130,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:04:01:15/None[12]": {
+      "basic": {
+        "name": "host0415",
+        "locType": "grid",
+        "gridX": -60,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:04:01:16/None[16]": {
+      "basic": {
+        "name": "host0416",
+        "locType": "grid",
+        "gridX": -340,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:04:01:17/None[31]": {
+      "basic": {
+        "name": "host0417",
+        "locType": "grid",
+        "gridX": -270,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:04:01:18/None[31]": {
+      "basic": {
+        "name": "host0418",
+        "locType": "grid",
+        "gridX": -200,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:04:01:19/None[32]": {
+      "basic": {
+        "name": "host0419",
+        "locType": "grid",
+        "gridX": -130,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:04:01:20/None[33]": {
+      "basic": {
+        "name": "host0420",
+        "locType": "grid",
+        "gridX": -60,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:05:01:01/None[18]": {
+      "basic": {
+        "name": "host0501",
+        "locType": "grid",
+        "gridX": 60,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:05:01:02/None[30]": {
+      "basic": {
+        "name": "host0502",
+        "locType": "grid",
+        "gridX": 130,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:05:01:03/None[23]": {
+      "basic": {
+        "name": "host0503",
+        "locType": "grid",
+        "gridX": 200,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:05:01:04/None[18]": {
+      "basic": {
+        "name": "host0504",
+        "locType": "grid",
+        "gridX": 270,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:05:01:05/None[35]": {
+      "basic": {
+        "name": "host0505",
+        "locType": "grid",
+        "gridX": 340,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:05:01:06/None[14]": {
+      "basic": {
+        "name": "host0506",
+        "locType": "grid",
+        "gridX": 60,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:05:01:07/None[22]": {
+      "basic": {
+        "name": "host0507",
+        "locType": "grid",
+        "gridX": 130,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:05:01:08/None[20]": {
+      "basic": {
+        "name": "host0508",
+        "locType": "grid",
+        "gridX": 200,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:05:01:09/None[34]": {
+      "basic": {
+        "name": "host0509",
+        "locType": "grid",
+        "gridX": 270,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:05:01:10/None[19]": {
+      "basic": {
+        "name": "host0510",
+        "locType": "grid",
+        "gridX": 340,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:05:01:11/None[27]": {
+      "basic": {
+        "name": "host0511",
+        "locType": "grid",
+        "gridX": 60,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:05:01:12/None[11]": {
+      "basic": {
+        "name": "host0512",
+        "locType": "grid",
+        "gridX": 130,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:05:01:13/None[12]": {
+      "basic": {
+        "name": "host0513",
+        "locType": "grid",
+        "gridX": 200,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:05:01:14/None[21]": {
+      "basic": {
+        "name": "host0514",
+        "locType": "grid",
+        "gridX": 270,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:05:01:15/None[15]": {
+      "basic": {
+        "name": "host0515",
+        "locType": "grid",
+        "gridX": 340,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:05:01:16/None[17]": {
+      "basic": {
+        "name": "host0516",
+        "locType": "grid",
+        "gridX": 60,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:05:01:17/None[29]": {
+      "basic": {
+        "name": "host0517",
+        "locType": "grid",
+        "gridX": 130,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:05:01:18/None[13]": {
+      "basic": {
+        "name": "host0518",
+        "locType": "grid",
+        "gridX": 200,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:05:01:19/None[13]": {
+      "basic": {
+        "name": "host0519",
+        "locType": "grid",
+        "gridX": 270,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:05:01:20/None[21]": {
+      "basic": {
+        "name": "host0520",
+        "locType": "grid",
+        "gridX": 340,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:06:01:01/None[28]": {
+      "basic": {
+        "name": "host0601",
+        "locType": "grid",
+        "gridX": 460,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:06:01:02/None[26]": {
+      "basic": {
+        "name": "host0602",
+        "locType": "grid",
+        "gridX": 530,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:06:01:03/None[24]": {
+      "basic": {
+        "name": "host0603",
+        "locType": "grid",
+        "gridX": 600,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:06:01:04/None[25]": {
+      "basic": {
+        "name": "host0604",
+        "locType": "grid",
+        "gridX": 670,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:06:01:05/None[16]": {
+      "basic": {
+        "name": "host0605",
+        "locType": "grid",
+        "gridX": 740,
+        "gridY": 450
+      }
+    },
+    "00:CA:FE:06:01:06/None[12]": {
+      "basic": {
+        "name": "host0606",
+        "locType": "grid",
+        "gridX": 460,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:06:01:07/None[16]": {
+      "basic": {
+        "name": "host0607",
+        "locType": "grid",
+        "gridX": 530,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:06:01:08/None[31]": {
+      "basic": {
+        "name": "host0608",
+        "locType": "grid",
+        "gridX": 600,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:06:01:09/None[31]": {
+      "basic": {
+        "name": "host0609",
+        "locType": "grid",
+        "gridX": 670,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:06:01:10/None[32]": {
+      "basic": {
+        "name": "host0610",
+        "locType": "grid",
+        "gridX": 740,
+        "gridY": 530
+      }
+    },
+    "00:CA:FE:06:01:11/None[33]": {
+      "basic": {
+        "name": "host0611",
+        "locType": "grid",
+        "gridX": 460,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:06:01:12/None[18]": {
+      "basic": {
+        "name": "host0612",
+        "locType": "grid",
+        "gridX": 530,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:06:01:13/None[30]": {
+      "basic": {
+        "name": "host0613",
+        "locType": "grid",
+        "gridX": 600,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:06:01:14/None[23]": {
+      "basic": {
+        "name": "host0614",
+        "locType": "grid",
+        "gridX": 670,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:06:01:15/None[18]": {
+      "basic": {
+        "name": "host0615",
+        "locType": "grid",
+        "gridX": 740,
+        "gridY": 610
+      }
+    },
+    "00:CA:FE:06:01:16/None[35]": {
+      "basic": {
+        "name": "host0616",
+        "locType": "grid",
+        "gridX": 460,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:06:01:17/None[14]": {
+      "basic": {
+        "name": "host0617",
+        "locType": "grid",
+        "gridX": 530,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:06:01:18/None[22]": {
+      "basic": {
+        "name": "host0618",
+        "locType": "grid",
+        "gridX": 600,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:06:01:19/None[20]": {
+      "basic": {
+        "name": "host0619",
+        "locType": "grid",
+        "gridX": 670,
+        "gridY": 690
+      }
+    },
+    "00:CA:FE:06:01:20/None[34]": {
+      "basic": {
+        "name": "host0620",
+        "locType": "grid",
+        "gridX": 740,
+        "gridY": 690
+      }
+    }
+  },
+  "ports": {}
+}

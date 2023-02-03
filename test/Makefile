@@ -17,3 +17,6 @@ onoslite: # @HELP run helmit ONOS-lite tests locally
 
 max: # @HELP run helmit ONOS-lite tests locally
 	helmit test -n test ./fabric-sim-tests -c .. --suite onoslite --test TestLiteONOSWithMaxTopo --no-teardown --timeout 15m
+
+pod: # @HELP run helmit ONOS-lite tests locally
+	helmit test -n test ./fabric-sim-tests -c .. --suite onoslite --test TestLiteONOSWithPodFabric --no-teardown --timeout 15m
