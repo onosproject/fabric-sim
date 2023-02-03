@@ -76,8 +76,6 @@ func createRackPairFabric(rackID int, fabric *SuperSpineFabric, builder *Builder
 	builder.minPort[leaf22] = builder.nextPort[leaf22]
 
 	// Finally, create hosts with dual interfaces to the paired leaves
-	createRackHosts(rackID, leaf11, leaf12, 10, builder, topology,
-		coord(2*rackID-1, 4, leafGap, -3*leafGap/2), hostsPerRow)
-	createRackHosts(rackID+1, leaf21, leaf22, 10, builder, topology,
-		coord(2*rackID+0, 4, leafGap, -leafGap/2), hostsPerRow)
+	createRackHosts(rackID, leaf11, leaf12, 10, false, builder, topology, coord(2*rackID-1, 4, leafGap, -3*leafGap/2), hostsPerRow)
+	createRackHosts(rackID+1, leaf21, leaf22, 10, false, builder, topology, coord(2*rackID+0, 4, leafGap, -leafGap/2), hostsPerRow)
 }

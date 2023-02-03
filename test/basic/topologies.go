@@ -6,6 +6,7 @@ package basic
 
 import (
 	simapi "github.com/onosproject/onos-api/go/onos/fabricsim"
+	"strings"
 	"testing"
 )
 
@@ -13,6 +14,21 @@ import (
 func (s *TestSuite) TestPlainFabricLoad(t *testing.T) {
 	devices, _, _ := LoadAndValidate(t, "topologies/plain_mid.yaml", 2+4, (3*2*4)*2, 4*20,
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 1 })
+	defer CleanUp(t)
+	ProbeAllDevices(t, devices)
+}
+
+// TestPodFabricLoad loads simulator with the pod.yaml topology and validates proper startup
+func (s *TestSuite) TestPodFabricLoad(t *testing.T) {
+	devices, _, _ := LoadAndValidate(t, "topologies/pod.yaml", 2+6+6*20, (4*2*6+6*20)*2, 6*20,
+		func(d *simapi.Device) int {
+			if strings.HasPrefix(string(d.ID), "spine") {
+				return 64
+			} else if strings.HasPrefix(string(d.ID), "leaf") {
+				return 32
+			}
+			return 3 // IPU
+		}, func(*simapi.Host) int { return 1 })
 	defer CleanUp(t)
 	ProbeAllDevices(t, devices)
 }

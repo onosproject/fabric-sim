@@ -33,8 +33,8 @@ func GeneratePlainFabric(fabric *PlainFabric) *Topology {
 		// Latch the min ports for host attachment
 		builder.minPort[leaf] = builder.nextPort[leaf]
 
-		// Finally, create the hosts and attach them to the leaf pairs
-		createRackHosts(i, leaf, "", fabric.HostsPerLeaf, builder, topology,
+		// Finally, create the hosts and attach them to the leaf
+		createRackHosts(i, leaf, "", fabric.HostsPerLeaf, fabric.HostsHaveIPU, builder, topology,
 			coord(i-1, fabric.Leaves, leafGap, 0), hostsPerRow/2)
 	}
 

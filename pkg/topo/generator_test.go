@@ -33,13 +33,38 @@ func TestGeneratePlainFabric(t *testing.T) {
 	assert.Len(t, topo.Links, 3*2*4)
 	assert.Len(t, topo.Hosts, 4*20)
 
-	testFromRecipe(t, "access", `plain_fabric:
+	testFromRecipe(t, "fabric", `plain_fabric:
   spines: 2
   spine_port_count: 32
   leaves: 4
   leaf_port_count: 32
   spine_trunk: 3
   hosts_per_leaf: 10`)
+}
+
+func TestGeneratePlainFabricWithIPUs(t *testing.T) {
+	topo := GeneratePlainFabric(&PlainFabric{
+		Spines:              2,
+		SpinePortCount:      32,
+		ReservedUplinkCount: 2,
+		Leaves:              4,
+		LeafPortCount:       32,
+		SpineTrunk:          3,
+		HostsPerLeaf:        20,
+		HostsHaveIPU:        true,
+	})
+	assert.Len(t, topo.Devices, 2+4+4*20)
+	assert.Len(t, topo.Links, 3*2*4+4*20)
+	assert.Len(t, topo.Hosts, 4*20)
+
+	testFromRecipe(t, "fabric_with_ipus", `plain_fabric:
+  spines: 2
+  spine_port_count: 32
+  reserved_uplink_count: 2
+  leaves: 4
+  leaf_port_count: 32
+  spine_trunk: 3
+  hosts_per_leaf: 20`)
 }
 
 func TestGenerateAccessFabric(t *testing.T) {

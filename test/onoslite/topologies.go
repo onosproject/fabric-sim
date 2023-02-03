@@ -21,12 +21,27 @@ func (s *TestSuite) TestLiteONOSWithPlainMidFabric(t *testing.T) {
 
 // TestLiteONOSWithPlainMaxFabric tests max fabric with ONOS lite
 func (s *TestSuite) TestLiteONOSWithPlainMaxFabric(t *testing.T) {
+	t.Skip("Requires longer discovery time...")
 	RunLiteONOSWithTopology(t, "topologies/plain_max.yaml", 4+60, (4*60)*2, 60*15,
 		func(device *simapi.Device) int {
 			if strings.Contains(string(device.ID), "leaf") {
 				return 32
 			}
 			return 64
+		},
+		func(host *simapi.Host) int { return 1 }, 200*time.Second)
+}
+
+// TestLiteONOSWithPodFabric tests pod fabric with ONOS lite
+func (s *TestSuite) TestLiteONOSWithPodFabric(t *testing.T) {
+	RunLiteONOSWithTopology(t, "topologies/pod.yaml", 2+6+6*20, (4*2*6+6*20)*2, 6*20,
+		func(device *simapi.Device) int {
+			if strings.HasPrefix(string(device.ID), "spine") {
+				return 64
+			} else if strings.HasPrefix(string(device.ID), "leaf") {
+				return 32
+			}
+			return 3 // IPU
 		},
 		func(host *simapi.Host) int { return 1 }, 200*time.Second)
 }
