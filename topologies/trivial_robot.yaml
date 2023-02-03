@@ -5,14 +5,14 @@ devices:
   agent_port: 20011
   links:
   - tgt: device:switch2
-    srcport: "224"
-    tgtport: "234"
+    srcport: '[1](224)'
+    tgtport: '[1](234)'
 - id: device:switch2
   agent_port: 20012
   links:
   - tgt: device:switch1
-    srcport: "234"
-    tgtport: "224"
+    srcport: '[1](234)'
+    tgtport: '[1](224)'
 hosts:
 - id: h1
   mac: "00:00:00:00:11:01"
@@ -22,7 +22,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:switch1
-    port: "225"
+    port: '[2](225)'
 - id: h2
   mac: "00:00:00:00:11:02"
   ip: 10.10.11.2
@@ -31,7 +31,7 @@ hosts:
   tenantid: "0"
   links:
   - device: device:switch2
-    port: "235"
+    port: '[2](235)'
 nodes:
 - ip: 127.0.0.1
 onos_rest_port: 8181
