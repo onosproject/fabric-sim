@@ -32,13 +32,15 @@ type SuperSpineFabric struct {
 
 // AccessFabric is a recipe for creating simulated access fabric with spines and paired leaves
 type AccessFabric struct {
-	Spines         int `mapstructure:"spines" yaml:"spines"`
-	SpinePortCount int `mapstructure:"spine_port_count" yaml:"spine_port_count"`
-	LeafPairs      int `mapstructure:"leaf_pairs" yaml:"leaf_pairs"`
-	LeafPortCount  int `mapstructure:"leaf_port_count" yaml:"leaf_port_count"`
-	SpineTrunk     int `mapstructure:"spine_trunk" yaml:"spine_trunk"`
-	PairTrunk      int `mapstructure:"pair_trunk" yaml:"pair_trunk"`
-	HostsPerPair   int `mapstructure:"hosts_per_pair" yaml:"hosts_per_pair"`
+	Spines         int  `mapstructure:"spines" yaml:"spines"`
+	SpinePortCount int  `mapstructure:"spine_port_count" yaml:"spine_port_count"`
+	LeafPairs      int  `mapstructure:"leaf_pairs" yaml:"leaf_pairs"`
+	LeafPortCount  int  `mapstructure:"leaf_port_count" yaml:"leaf_port_count"`
+	SpineTrunk     int  `mapstructure:"spine_trunk" yaml:"spine_trunk"`
+	PairTrunk      int  `mapstructure:"pair_trunk" yaml:"pair_trunk"`
+	HostsPerPair   int  `mapstructure:"hosts_per_pair" yaml:"hosts_per_pair"`
+	HostsHaveIPU   bool `mapstructure:"hosts_have_ipu" yaml:"hosts_have_ipu_leaf"`
+	VMsPerIPU      int  `mapstructure:"vms_per_ipu" yaml:"vms_per_ipu"`
 }
 
 // PlainFabric is a recipe for creating simulated plain leaf-spine fabric with optional IPUs
@@ -50,7 +52,8 @@ type PlainFabric struct {
 	LeafPortCount       int  `mapstructure:"leaf_port_count" yaml:"leaf_port_count"`
 	SpineTrunk          int  `mapstructure:"spine_trunk" yaml:"spine_trunk"`
 	HostsPerLeaf        int  `mapstructure:"hosts_per_leaf" yaml:"hosts_per_leaf"`
-	HostsHaveIPU        bool `mapstructure:"hosts_have_ipu" yaml:"hosts_have_ipu"`
+	HostsHaveIPU        bool `mapstructure:"hosts_have_ipu" yaml:"hosts_have_ipu_leaf"`
+	VMsPerIPU           int  `mapstructure:"vms_per_ipu" yaml:"vms_per_ipu"`
 }
 
 // GenerateTopology loads the specified topology recipe YAML file and uses the recipe to
@@ -216,14 +219,14 @@ func createLinkTrunk(src string, tgt string, count int, builder *Builder, topolo
 }
 
 // Create the specified number of hosts, each with two NICs connected to the two switches
-func createRackHosts(rackID int, leaf1 string, leaf2 string, count int, hostsHaveIPU bool,
+func createRackHosts(rackID int, leaf1 string, leaf2 string, count int, hostsHaveIPU bool, vmsPerIPU int,
 	builder *Builder, topology *Topology, gridX int, perRow int) {
 	//yStep := hostRowGap / hostsPerRow  // Used for staggering the Y coordinate
 	x := gridX - (hostsGap*(perRow-1))/2
 	y := hostsY
 
 	for i := 1; i <= count; i++ {
-		createRackHost(rackID, i, leaf1, leaf2, hostsHaveIPU, builder, topology, pos(x, y))
+		createRackHost(rackID, i, leaf1, leaf2, hostsHaveIPU, vmsPerIPU, builder, topology, pos(x, y))
 		if i%perRow == 0 {
 			x = gridX - (hostsGap*(perRow-1))/2
 			y += hostRowGap
@@ -235,25 +238,12 @@ func createRackHosts(rackID int, leaf1 string, leaf2 string, count int, hostsHav
 }
 
 // Create a host with one or two NICs connected to the one or two specified switches
-func createRackHost(rackID int, hostID int, leaf1 string, leaf2 string, hostsHaveIPU bool,
+func createRackHost(rackID int, hostID int, leaf1 string, leaf2 string, hostsHaveIPU bool, vmsPerIPU int,
 	builder *Builder, topology *Topology, pos *GridPosition) *Host {
 	nics := make([]NIC, 0, 1)
 
 	if hostsHaveIPU {
-		ipuID := fmt.Sprintf("ipu%02d%02d", rackID, hostID)
-		createSwitch(ipuID, 2+1, builder, topology, nil)
-		createLinkTrunk(leaf1, ipuID, 1, builder, topology)
-		if len(leaf2) > 0 {
-			createLinkTrunk(leaf2, ipuID, 1, builder, topology)
-		}
-		nic1 := NIC{
-			Mac:  mac(rackID, hostID, 1),
-			IPv4: ipv4(rackID, hostID, 1),
-			IPV6: ipv6(rackID, hostID, 1),
-			Port: builder.NextDevicePortID(ipuID),
-		}
-		nics = append(nics, nic1)
-
+		nics = append(nics, createServerIPUAndVMs(rackID, hostID, leaf1, leaf2, vmsPerIPU, builder, topology, pos)...)
 	} else {
 		nic1 := NIC{
 			Mac:  mac(rackID, hostID, 1),
@@ -280,6 +270,44 @@ func createRackHost(rackID int, hostID int, leaf1 string, leaf2 string, hostsHav
 	}
 	topology.Hosts = append(topology.Hosts, host)
 	return &host
+}
+
+func createServerIPUAndVMs(rackID int, hostID int, leaf1 string, leaf2 string, vmsPerIPU int,
+	builder *Builder, topology *Topology, pos *GridPosition) []NIC {
+	ipuID := fmt.Sprintf("ipu%02d%02d", rackID, hostID)
+	// Create IPU with 2 uplink ports, one virtual port for bare metal server and a set number for VMs
+	createSwitch(ipuID, 2+1+vmsPerIPU, builder, topology, nil)
+	createLinkTrunk(leaf1, ipuID, 1, builder, topology)
+	if len(leaf2) > 0 {
+		createLinkTrunk(leaf2, ipuID, 1, builder, topology)
+	} else {
+		// if there is only one leaf, connect both IPU uplink ports to the leaf
+		createLinkTrunk(leaf1, ipuID, 1, builder, topology)
+	}
+
+	// NIC for the bare metal host; connect it to the first logical port
+	nics := make([]NIC, 0, 1)
+	nic := NIC{
+		Mac:  mac(rackID, hostID, 1),
+		IPv4: ipv4(rackID, hostID, 1),
+		IPV6: ipv6(rackID, hostID, 1),
+		Port: builder.NextDevicePortID(ipuID),
+	}
+	nics = append(nics, nic)
+
+	for i := 1; i <= vmsPerIPU; i++ {
+		host := Host{
+			ID: fmt.Sprintf("vm%02d%02d%02d", rackID, hostID, i),
+			NICs: []NIC{{
+				Mac:  mac(rackID, hostID, 10+i),
+				IPv4: ipv4(rackID, hostID, 10+i),
+				IPV6: ipv6(rackID, hostID, 10+i),
+				Port: builder.NextDevicePortID(ipuID),
+			}},
+		}
+		topology.Hosts = append(topology.Hosts, host)
+	}
+	return nics
 }
 
 // Generate a MAC address

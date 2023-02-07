@@ -55,7 +55,8 @@ func GenerateAccessFabric(fabric *AccessFabric) *Topology {
 		builder.minPort[sw2.ID] = builder.nextPort[sw2.ID]
 
 		// Finally, create the hosts and attach them to the leaf pairs
-		createRackHosts(pair, leaf1, leaf2, fabric.HostsPerPair, false, builder, topology, coord(2*pair, 2*fabric.LeafPairs, leafGap, -leafGap/2), hostsPerRow)
+		createRackHosts(pair, leaf1, leaf2, fabric.HostsPerPair, fabric.HostsHaveIPU, fabric.VMsPerIPU,
+			builder, topology, coord(2*pair, 2*fabric.LeafPairs, leafGap, -leafGap/2), hostsPerRow)
 	}
 
 	return topology
