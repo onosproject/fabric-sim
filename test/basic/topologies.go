@@ -20,14 +20,14 @@ func (s *TestSuite) TestPlainFabricLoad(t *testing.T) {
 
 // TestPodFabricLoad loads simulator with the pod.yaml topology and validates proper startup
 func (s *TestSuite) TestPodFabricLoad(t *testing.T) {
-	devices, _, _ := LoadAndValidate(t, "topologies/pod.yaml", 2+6+6*20, (4*2*6+6*20)*2, 6*20,
+	devices, _, _ := LoadAndValidate(t, "topologies/pod.yaml", 2+6+6*12, (4*2*6+6*2*12)*2, 6*12*(20+1),
 		func(d *simapi.Device) int {
 			if strings.HasPrefix(string(d.ID), "spine") {
 				return 64
 			} else if strings.HasPrefix(string(d.ID), "leaf") {
 				return 32
 			}
-			return 3 // IPU
+			return 20 + 1 + 2 // IPU
 		}, func(*simapi.Host) int { return 1 })
 	defer CleanUp(t)
 	ProbeAllDevices(t, devices)
