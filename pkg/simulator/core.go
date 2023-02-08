@@ -168,11 +168,13 @@ func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*LinkSimulator, error)
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
+	external := s.isExternal(link.TgtID)
+
 	// Validate that the source and target ports exist
 	if err := s.validatePort(link.SrcID); err != nil {
 		return nil, err
 	}
-	if err := s.validatePort(link.TgtID); err != nil {
+	if err := s.validatePort(link.TgtID); !external && err != nil {
 		return nil, err
 	}
 
@@ -181,7 +183,7 @@ func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*LinkSimulator, error)
 		log.Errorf("Port %s is already used for %s", link.SrcID, lon)
 		return nil, errors.NewInvalid("port %s is already used for %s", link.SrcID, lon)
 	}
-	if lon, ok := s.usedIngressPorts[link.TgtID]; ok {
+	if lon, ok := s.usedIngressPorts[link.TgtID]; !external && ok {
 		log.Errorf("Port %s is already used for %s", link.TgtID, lon)
 		return nil, errors.NewInvalid("port %s is already used for %s", link.TgtID, lon)
 	}
@@ -377,4 +379,8 @@ func (s *Simulation) EmitARPs(id simapi.HostID, mac string, ips []string) error 
 		return sim.EmitARPRequests(nic, ips)
 	}
 	return errors.NewNotFound("nic with MAC %s not found", mac)
+}
+
+func (s *Simulation) isExternal(id simapi.PortID) bool {
+	return strings.Contains(string(id), ":")
 }

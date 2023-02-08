@@ -70,6 +70,24 @@ func TestGeneratePlainFabricWithIPUs(t *testing.T) {
   vms_per_ipu: 20`)
 }
 
+func TestGenerateSuperspineTier(t *testing.T) {
+	topo, err := GenerateSuperSpineTier(&SuperSpineTier{
+		SuperSpines:         2,
+		SuperSpinePortCount: 32,
+		Pods:                4,
+		PodSpines:           2,
+	}, "/tmp/superspine.yaml")
+	assert.NoError(t, err)
+	assert.Len(t, topo.Devices, 2)
+	assert.Len(t, topo.Links, 2*4*2*2)
+
+	testFromRecipe(t, "superspine", `superspine_tier:
+  superspines: 2
+  superspine_port_count: 32
+  pods: 4
+  pod_spines: 2`)
+}
+
 func TestGenerateAccessFabric(t *testing.T) {
 	topo := GenerateAccessFabric(&AccessFabric{
 		Spines:         2,
