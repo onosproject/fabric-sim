@@ -43,14 +43,17 @@ integration-tests: integration-test-namespace # @HELP run helmit integration tes
 topologies:	# @HELP generate all topologies related artifacts
 topologies: recipes netcfg robot
 
+superspine:	# HELP generate topology files from the topology recipes
+	@for topo in "superspine"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen topo --recipe topologies/$${topo}_recipe.yaml --output topologies/$${topo}.yaml; done
+
 recipes:	# HELP generate topology files from the topology recipes
-	@for topo in "plain_small" "plain_mid" "plain_large" "plain_max" "pod" "access" "access2" "superspine" "max"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen topo --recipe topologies/$${topo}_recipe.yaml --output topologies/$${topo}.yaml; done
+	@for topo in "plain_mid" "plain_large" "plain_max" "pod" "superspine" "access" "access2" "fixed_fabric" "max"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen topo --recipe topologies/$${topo}_recipe.yaml --output topologies/$${topo}.yaml; done
 
 netcfg:	# HELP generate netcfg files from the topology files
-	@for topo in "trivial" "plain_small" "plain_mid" "plain_large" "plain_max" "pod" "access" "access2" "superspine" "max"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen netcfg --topology topologies/$${topo}.yaml --output topologies/$${topo}_netcfg.json; done
+	@for topo in "plain_mid" "plain_large"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen netcfg --topology topologies/$${topo}.yaml --output topologies/$${topo}_netcfg.json; done
 
 robot:	# HELP generate Robot test topology files from the topology files
-	@for topo in "trivial" "plain_small" "plain_mid" "plain_large" "plain_max" "pod" "access" "access2" "superspine" "max"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen robot --topology topologies/$${topo}.yaml --output topologies/$${topo}_robot.yaml; done
+	@for topo in "plain_mid" "plain_large"; do go run cmd/fabric-sim-topo/fabric-sim-topo.go gen robot --topology topologies/$${topo}.yaml --output topologies/$${topo}_robot.yaml; done
 
 fabric-sim-docker: mod-update local-deps # @HELP build fabric-sim base Docker image
 	docker build --platform linux/amd64 . -f build/fabric-sim/Dockerfile \

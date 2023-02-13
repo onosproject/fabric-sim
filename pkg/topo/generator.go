@@ -19,26 +19,11 @@ const (
 
 // Recipe is a container for holding one of the supported simulated topology recipes
 type Recipe struct {
-	SuperSpineFabric *SuperSpineFabric `mapstructure:"superspine_fabric" yaml:"superspine_fabric"`
-	SuperSpineTier   *SuperSpineTier   `mapstructure:"superspine_tier" yaml:"superspine_tier"`
-	AccessFabric     *AccessFabric     `mapstructure:"access_fabric" yaml:"access_fabric"`
-	PlainFabric      *PlainFabric      `mapstructure:"plain_fabric" yaml:"plain_fabric"`
+	AccessFabric   *AccessFabric   `mapstructure:"access_fabric" yaml:"access_fabric"`
+	PlainFabric    *PlainFabric    `mapstructure:"plain_fabric" yaml:"plain_fabric"`
+	SuperSpineTier *SuperSpineTier `mapstructure:"superspine_tier" yaml:"superspine_tier"`
+	FixedFabric    *FixedFabric    `mapstructure:"fixed_fabric" yaml:"fixed_fabric"`
 	// Add more recipes here
-}
-
-// SuperSpineFabric is a recipe for creating simulated 4 rack fabric with superspines
-type SuperSpineFabric struct {
-	// Add any parametrization here, if needed
-}
-
-// SuperSpineTier is a recipe for creating simulated superspine tier for linking access or plain fabric pods.
-// This generates superspine YAML file and also an addendum per pod fabric YAML with external links to superspines.
-// It is not intended to be used by itself.
-type SuperSpineTier struct {
-	SuperSpines         int `mapstructure:"superspines" yaml:"superspines"`
-	SuperSpinePortCount int `mapstructure:"superspine_port_count" yaml:"superspine_port_count"`
-	Pods                int `mapstructure:"pods" yaml:"pods"`
-	PodSpines           int `mapstructure:"pod_spines" yaml:"pod_spines"`
 }
 
 // AccessFabric is a recipe for creating simulated access fabric with spines and paired leaves
@@ -67,6 +52,23 @@ type PlainFabric struct {
 	VMsPerIPU           int  `mapstructure:"vms_per_ipu" yaml:"vms_per_ipu"`
 }
 
+// SuperSpineTier is a recipe for creating simulated superspine tier for linking access or plain fabric pods.
+// This generates superspine YAML file and also an addendum per pod fabric YAML with external links to superspines.
+// It is not intended to be used by itself.
+type SuperSpineTier struct {
+	SuperSpines         int    `mapstructure:"superspines" yaml:"superspines"`
+	SuperSpinesDomain   string `mapstructure:"superspines_domain" yaml:"superspines_domain"`
+	SuperSpinePortCount int    `mapstructure:"superspine_port_count" yaml:"superspine_port_count"`
+	Pods                int    `mapstructure:"pods" yaml:"pods"`
+	PodsDomain          string `mapstructure:"pods_domain" yaml:"pods_domain"`
+	PodSpines           int    `mapstructure:"pod_spines" yaml:"pod_spines"`
+}
+
+// FixedFabric is a recipe for creating simulated 4 rack fabric with superspines
+type FixedFabric struct {
+	// Add any parametrization here, if needed
+}
+
 // GenerateTopology loads the specified topology recipe YAML file and uses the recipe to
 // generate a fully elaborated topology YAML file that can be loaded via LoadTopology
 func GenerateTopology(recipePath string, topologyPath string) error {
@@ -79,8 +81,8 @@ func GenerateTopology(recipePath string, topologyPath string) error {
 
 	var topology *Topology
 	switch {
-	case recipe.SuperSpineFabric != nil:
-		topology = GenerateSuperSpineFabric(recipe.SuperSpineFabric)
+	case recipe.FixedFabric != nil:
+		topology = GenerateFixedFabric(recipe.FixedFabric)
 	case recipe.SuperSpineTier != nil:
 		topology, err = GenerateSuperSpineTier(recipe.SuperSpineTier, topologyPath)
 		if err != nil {

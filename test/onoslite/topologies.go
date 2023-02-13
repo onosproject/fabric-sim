@@ -19,19 +19,6 @@ func (s *TestSuite) TestLiteONOSWithPlainMidFabric(t *testing.T) {
 		func(device *simapi.Device) int { return 32 }, func(host *simapi.Host) int { return 1 }, 90*time.Second)
 }
 
-// TestLiteONOSWithPlainMaxFabric tests max fabric with ONOS lite
-func (s *TestSuite) TestLiteONOSWithPlainMaxFabric(t *testing.T) {
-	t.Skip("Requires longer discovery time...")
-	RunLiteONOSWithTopology(t, "topologies/plain_max.yaml", 4+60, (4*60)*2, 60*15,
-		func(device *simapi.Device) int {
-			if strings.Contains(string(device.ID), "leaf") {
-				return 32
-			}
-			return 64
-		},
-		func(host *simapi.Host) int { return 1 }, 200*time.Second)
-}
-
 // TestLiteONOSWithPodFabric tests pod fabric with ONOS lite
 func (s *TestSuite) TestLiteONOSWithPodFabric(t *testing.T) {
 	RunLiteONOSWithTopology(t, "topologies/pod.yaml", 2+6+6*12, (4*2*6+6*2*12)*2, 6*12*(20+1),
@@ -42,6 +29,19 @@ func (s *TestSuite) TestLiteONOSWithPodFabric(t *testing.T) {
 				return 32
 			}
 			return 20 + 1 + 2 // IPU
+		},
+		func(host *simapi.Host) int { return 1 }, 200*time.Second)
+}
+
+// TestLiteONOSWithPlainMaxFabric tests max fabric with ONOS lite
+func (s *TestSuite) TestLiteONOSWithPlainMaxFabric(t *testing.T) {
+	t.Skip("Requires longer discovery time...")
+	RunLiteONOSWithTopology(t, "topologies/plain_max.yaml", 4+60, (4*60)*2, 60*15,
+		func(device *simapi.Device) int {
+			if strings.Contains(string(device.ID), "leaf") {
+				return 32
+			}
+			return 64
 		},
 		func(host *simapi.Host) int { return 1 }, 200*time.Second)
 }
@@ -60,9 +60,9 @@ func (s *TestSuite) TestLiteONOSWithAccessFabric(t *testing.T) {
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 }, 90*time.Second)
 }
 
-// TestLiteONOSWithSuperspineFabric tests superspine fabric with ONOS lite
-func (s *TestSuite) TestLiteONOSWithSuperspineFabric(t *testing.T) {
-	RunLiteONOSWithTopology(t, "topologies/superspine.yaml", 14, 2*136, 40,
+// TestLiteONOSWithFixedFabric tests fixed fabric with ONOS lite
+func (s *TestSuite) TestLiteONOSWithFixedFabric(t *testing.T) {
+	RunLiteONOSWithTopology(t, "topologies/fixed_fabric.yaml", 14, 2*136, 40,
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 }, 90*time.Second)
 }
 

@@ -21,42 +21,25 @@ func GenerateSuperSpineTier(fabric *SuperSpineTier, path string) (*Topology, err
 		superspineID := fmt.Sprintf("superspine%d", superspine)
 		createSwitch(superspineID, fabric.SuperSpinePortCount, builder, topology,
 			pos(coord(1, 2, sspinesGap, 0), sspineY))
-
-		// Generate set of unidirectional egress links to pod spines
-		for pod := 1; pod <= fabric.Pods; pod++ {
-			podSimID := fmt.Sprintf("fabric-sim-pod%02d", pod)
-			for spine := 1; spine <= fabric.PodSpines; spine++ {
-				spineID := fmt.Sprintf("spine%d", spine)
-
-				// We're assuming that ports 1 and 2 of pod spines are reserved for superspine links
-				builder.minPort[spineID] = 1
-				builder.maxPort[spineID] = 2
-				createExternalLinkTrunk(superspineID, spineID, podSimID, 2, builder, topology)
-			}
-		}
 	}
 
-	// Lastly, generate and save pod fabric topologies addendums containing their
+	// Generate set of unidirectional egress links to pod spines a set of pod fabric topologies addendums
 	// unidirectional egress links to the superspines
 	for pod := 1; pod <= fabric.Pods; pod++ {
-		topology := &Topology{}
-		builder := NewBuilder()
-
-		for superspine := 1; superspine <= fabric.SuperSpines; superspine++ {
-			superspineID := fmt.Sprintf("superspine%d", superspine)
-
-			for spine := 1; spine <= fabric.PodSpines; spine++ {
-				spineID := fmt.Sprintf("spine%d", spine)
-
-				// We're assuming that ports 1 and 2 of pod spines are reserved for superspine links
-				builder.minPort[spineID] = 1
-				builder.maxPort[spineID] = 2
-				createExternalLinkTrunk(spineID, superspineID, "fabric-sim-superspines", 2, builder, topology)
+		podTopology := &Topology{}
+		podID := fmt.Sprintf("pod%02d", pod)
+		podDomain := fmt.Sprintf(fabric.PodsDomain, pod)
+		for spine := 1; spine <= fabric.PodSpines; spine++ {
+			spineID := fmt.Sprintf("spine%d", spine)
+			builder.maxPort[spineID] = fabric.SuperSpinePortCount
+			for superspine := 1; superspine <= fabric.SuperSpines; superspine++ {
+				superspineID := fmt.Sprintf("superspine%d", superspine)
+				createExternalLinkTrunk(superspineID, fabric.SuperSpinesDomain, spineID, podDomain, 2, builder, topology, podTopology)
 			}
 		}
 
-		podTopologyPath := strings.Replace(path, ".yaml", fmt.Sprintf("-pod%02d.yaml", pod), 1)
-		if err := saveTopologyFile(topology, podTopologyPath); err != nil {
+		podTopologyPath := strings.Replace(path, ".yaml", fmt.Sprintf("-%s.yaml", podID), 1)
+		if err := saveTopologyFile(podTopology, podTopologyPath); err != nil {
 			return nil, err
 		}
 	}
@@ -64,14 +47,24 @@ func GenerateSuperSpineTier(fabric *SuperSpineTier, path string) (*Topology, err
 	return topology, nil
 }
 
-// Create a trunk of specified number of unidirectional links from a device port to a remote device port
-func createExternalLinkTrunk(src string, tgt string, tgtPod string, count int, builder *Builder, topology *Topology) {
+// Create a trunk of specified number of unidirectional links between two devices in two different domains and topologies
+func createExternalLinkTrunk(d1 string, domain1 string, d2 string, domain2 string, count int, builder *Builder,
+	t1 *Topology, t2 *Topology) {
 	for i := 0; i < count; i++ {
+		p1 := builder.NextDevicePortID(d1)
+		p2 := builder.NextDevicePortID(d2)
 		link := Link{
-			SrcPortID:      builder.NextDevicePortID(src),
-			TgtPortID:      fmt.Sprintf("%s:%s", tgtPod, builder.NextDevicePortID(tgt)),
+			SrcPortID:      p1,
+			TgtPortID:      fmt.Sprintf("%s:%s", domain2, p2),
 			Unidirectional: true,
 		}
-		topology.Links = append(topology.Links, link)
+		t1.Links = append(t1.Links, link)
+
+		link = Link{
+			SrcPortID:      p2,
+			TgtPortID:      fmt.Sprintf("%s:%s", domain1, p1),
+			Unidirectional: true,
+		}
+		t2.Links = append(t2.Links, link)
 	}
 }

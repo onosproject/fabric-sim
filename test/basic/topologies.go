@@ -41,9 +41,9 @@ func (s *TestSuite) TestAccessFabricLoad(t *testing.T) {
 	ProbeAllDevices(t, devices)
 }
 
-// TestSuperSpineFabricLoad loads simulator with the superspine.yaml topology and validates proper startup
-func (s *TestSuite) TestSuperSpineFabricLoad(t *testing.T) {
-	devices, _, _ := LoadAndValidate(t, "topologies/superspine.yaml", 14, 2*136, 40,
+// TestFixedFabricLoad loads simulator with the fixed_fabric.yaml topology and validates proper startup
+func (s *TestSuite) TestFixedFabricLoad(t *testing.T) {
+	devices, _, _ := LoadAndValidate(t, "topologies/fixed_fabric.yaml", 14, 2*136, 40,
 		func(*simapi.Device) int { return 32 }, func(*simapi.Host) int { return 2 })
 	defer CleanUp(t)
 	ProbeAllDevices(t, devices)

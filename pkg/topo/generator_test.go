@@ -113,13 +113,13 @@ func TestGenerateAccessFabric(t *testing.T) {
 `)
 }
 
-func TestGenerateSuperspineFabric(t *testing.T) {
-	topo := GenerateSuperSpineFabric(&SuperSpineFabric{})
+func TestGenerateFixedFabric(t *testing.T) {
+	topo := GenerateFixedFabric(&FixedFabric{})
 	assert.Len(t, topo.Devices, 2+4+4*2)
 	assert.Len(t, topo.Links, 2*(2*2+8*4+4*8))
 	assert.Len(t, topo.Hosts, 2*2*10)
 
-	testFromRecipe(t, "superspine", `superspine_fabric:
+	testFromRecipe(t, "superspine", `fixed_fabric:
   none: false
 `)
 }
@@ -130,7 +130,7 @@ func testFromRecipe(t *testing.T, name string, recipe string) {
 	defer os.Remove(recipeFile)
 	defer os.Remove(topoFile)
 
-	err := os.WriteFile(recipeFile, []byte(recipe), 0644)
+	err := os.WriteFile(recipeFile, []byte(recipe), 0600)
 	assert.NoError(t, err)
 	err = GenerateTopology(recipeFile, topoFile)
 	assert.NoError(t, err)
