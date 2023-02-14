@@ -3,51 +3,51 @@
 devices: []
 hosts: []
 links:
-- src: spine1/24
+- src: spine1/1
   tgt: superspine-tier-sim::superspine1/45
   unidirectional: true
-- src: spine1/25
+- src: spine1/2
   tgt: superspine-tier-sim::superspine1/46
   unidirectional: true
-- src: spine1/26
+- src: spine1/3
   tgt: superspine-tier-sim::superspine2/45
   unidirectional: true
-- src: spine1/27
+- src: spine1/4
   tgt: superspine-tier-sim::superspine2/46
   unidirectional: true
-- src: spine1/28
+- src: spine1/5
   tgt: superspine-tier-sim::superspine3/45
   unidirectional: true
-- src: spine1/29
+- src: spine1/6
   tgt: superspine-tier-sim::superspine3/46
   unidirectional: true
-- src: spine1/30
+- src: spine1/7
   tgt: superspine-tier-sim::superspine4/45
   unidirectional: true
-- src: spine1/31
+- src: spine1/8
   tgt: superspine-tier-sim::superspine4/46
   unidirectional: true
-- src: spine2/24
+- src: spine2/1
   tgt: superspine-tier-sim::superspine1/47
   unidirectional: true
-- src: spine2/25
+- src: spine2/2
   tgt: superspine-tier-sim::superspine1/48
   unidirectional: true
-- src: spine2/26
+- src: spine2/3
   tgt: superspine-tier-sim::superspine2/47
   unidirectional: true
-- src: spine2/27
+- src: spine2/4
   tgt: superspine-tier-sim::superspine2/48
   unidirectional: true
-- src: spine2/28
+- src: spine2/5
   tgt: superspine-tier-sim::superspine3/47
   unidirectional: true
-- src: spine2/29
+- src: spine2/6
   tgt: superspine-tier-sim::superspine3/48
   unidirectional: true
-- src: spine2/30
+- src: spine2/7
   tgt: superspine-tier-sim::superspine4/47
   unidirectional: true
-- src: spine2/31
+- src: spine2/8
   tgt: superspine-tier-sim::superspine4/48
   unidirectional: true

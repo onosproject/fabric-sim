@@ -17235,28 +17235,28 @@ hosts:
     x: 530
     "y": 610
 links:
-- src: spine1/1
+- src: spine1/9
   tgt: leaf1/1
   unidirectional: false
-- src: spine1/2
+- src: spine1/10
   tgt: leaf1/2
   unidirectional: false
-- src: spine1/3
+- src: spine1/11
   tgt: leaf1/3
   unidirectional: false
-- src: spine1/4
+- src: spine1/12
   tgt: leaf1/4
   unidirectional: false
-- src: spine2/1
+- src: spine2/9
   tgt: leaf1/5
   unidirectional: false
-- src: spine2/2
+- src: spine2/10
   tgt: leaf1/6
   unidirectional: false
-- src: spine2/3
+- src: spine2/11
   tgt: leaf1/7
   unidirectional: false
-- src: spine2/4
+- src: spine2/12
   tgt: leaf1/8
   unidirectional: false
 - src: leaf1/9
@@ -17331,28 +17331,28 @@ links:
 - src: leaf1/32
   tgt: ipu0112/2
   unidirectional: false
-- src: spine1/5
+- src: spine1/13
   tgt: leaf2/1
   unidirectional: false
-- src: spine1/6
+- src: spine1/14
   tgt: leaf2/2
   unidirectional: false
-- src: spine1/7
+- src: spine1/15
   tgt: leaf2/3
   unidirectional: false
-- src: spine1/8
+- src: spine1/16
   tgt: leaf2/4
   unidirectional: false
-- src: spine2/5
+- src: spine2/13
   tgt: leaf2/5
   unidirectional: false
-- src: spine2/6
+- src: spine2/14
   tgt: leaf2/6
   unidirectional: false
-- src: spine2/7
+- src: spine2/15
   tgt: leaf2/7
   unidirectional: false
-- src: spine2/8
+- src: spine2/16
   tgt: leaf2/8
   unidirectional: false
 - src: leaf2/9
@@ -17427,28 +17427,28 @@ links:
 - src: leaf2/32
   tgt: ipu0212/2
   unidirectional: false
-- src: spine1/9
+- src: spine1/17
   tgt: leaf3/1
   unidirectional: false
-- src: spine1/10
+- src: spine1/18
   tgt: leaf3/2
   unidirectional: false
-- src: spine1/11
+- src: spine1/19
   tgt: leaf3/3
   unidirectional: false
-- src: spine1/12
+- src: spine1/20
   tgt: leaf3/4
   unidirectional: false
-- src: spine2/9
+- src: spine2/17
   tgt: leaf3/5
   unidirectional: false
-- src: spine2/10
+- src: spine2/18
   tgt: leaf3/6
   unidirectional: false
-- src: spine2/11
+- src: spine2/19
   tgt: leaf3/7
   unidirectional: false
-- src: spine2/12
+- src: spine2/20
   tgt: leaf3/8
   unidirectional: false
 - src: leaf3/9
@@ -17523,28 +17523,28 @@ links:
 - src: leaf3/32
   tgt: ipu0312/2
   unidirectional: false
-- src: spine1/13
+- src: spine1/21
   tgt: leaf4/1
   unidirectional: false
-- src: spine1/14
+- src: spine1/22
   tgt: leaf4/2
   unidirectional: false
-- src: spine1/15
+- src: spine1/23
   tgt: leaf4/3
   unidirectional: false
-- src: spine1/16
+- src: spine1/24
   tgt: leaf4/4
   unidirectional: false
-- src: spine2/13
+- src: spine2/21
   tgt: leaf4/5
   unidirectional: false
-- src: spine2/14
+- src: spine2/22
   tgt: leaf4/6
   unidirectional: false
-- src: spine2/15
+- src: spine2/23
   tgt: leaf4/7
   unidirectional: false
-- src: spine2/16
+- src: spine2/24
   tgt: leaf4/8
   unidirectional: false
 - src: leaf4/9
@@ -17619,28 +17619,28 @@ links:
 - src: leaf4/32
   tgt: ipu0412/2
   unidirectional: false
-- src: spine1/17
+- src: spine1/25
   tgt: leaf5/1
   unidirectional: false
-- src: spine1/18
+- src: spine1/26
   tgt: leaf5/2
   unidirectional: false
-- src: spine1/19
+- src: spine1/27
   tgt: leaf5/3
   unidirectional: false
-- src: spine1/20
+- src: spine1/28
   tgt: leaf5/4
   unidirectional: false
-- src: spine2/17
+- src: spine2/25
   tgt: leaf5/5
   unidirectional: false
-- src: spine2/18
+- src: spine2/26
   tgt: leaf5/6
   unidirectional: false
-- src: spine2/19
+- src: spine2/27
   tgt: leaf5/7
   unidirectional: false
-- src: spine2/20
+- src: spine2/28
   tgt: leaf5/8
   unidirectional: false
 - src: leaf5/9
@@ -17715,28 +17715,28 @@ links:
 - src: leaf5/32
   tgt: ipu0512/2
   unidirectional: false
-- src: spine1/21
+- src: spine1/29
   tgt: leaf6/1
   unidirectional: false
-- src: spine1/22
+- src: spine1/30
   tgt: leaf6/2
   unidirectional: false
-- src: spine1/23
+- src: spine1/31
   tgt: leaf6/3
   unidirectional: false
-- src: spine1/24
+- src: spine1/32
   tgt: leaf6/4
   unidirectional: false
-- src: spine2/21
+- src: spine2/29
   tgt: leaf6/5
   unidirectional: false
-- src: spine2/22
+- src: spine2/30
   tgt: leaf6/6
   unidirectional: false
-- src: spine2/23
+- src: spine2/31
   tgt: leaf6/7
   unidirectional: false
-- src: spine2/24
+- src: spine2/32
   tgt: leaf6/8
   unidirectional: false
 - src: leaf6/9

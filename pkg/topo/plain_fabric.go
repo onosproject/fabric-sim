@@ -15,7 +15,9 @@ func GeneratePlainFabric(fabric *PlainFabric) *Topology {
 
 	// First, create the spines
 	for spine := 1; spine <= fabric.Spines; spine++ {
-		createSwitch(fmt.Sprintf("spine%d", spine), fabric.SpinePortCount, builder, topology,
+		spineID := fmt.Sprintf("spine%d", spine)
+		builder.nextPort[spineID] = fabric.ReservedUplinkCount + 1
+		createSwitch(spineID, fabric.SpinePortCount, builder, topology,
 			pos(coord(spine-1, fabric.Spines, spinesGap, 0), spineY))
 	}
 

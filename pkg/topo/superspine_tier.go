@@ -33,6 +33,7 @@ func GenerateSuperSpineTier(fabric *SuperSpineTier, path string) (*Topology, err
 		podDomain := fmt.Sprintf(fabric.PodsDomain, pod)
 		for spine := 1; spine <= fabric.PodSpines; spine++ {
 			spineID := fmt.Sprintf("spine%d", spine)
+			builder.nextPort[spineID] = 1
 			builder.maxPort[spineID] = fabric.SuperSpinePortCount
 			for superspine := 1; superspine <= fabric.SuperSpines; superspine++ {
 				superspineID := fmt.Sprintf("superspine%d", superspine)

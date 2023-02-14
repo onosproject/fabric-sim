@@ -430,26 +430,26 @@ links:
   tgt: pod01-tier-sim::spine2/4
   unidirectional: true
 - src: superspine1/5
-  tgt: pod02-tier-sim::spine1/5
+  tgt: pod02-tier-sim::spine1/1
   unidirectional: true
 - src: superspine1/6
-  tgt: pod02-tier-sim::spine1/6
+  tgt: pod02-tier-sim::spine1/2
   unidirectional: true
 - src: superspine2/5
-  tgt: pod02-tier-sim::spine1/7
+  tgt: pod02-tier-sim::spine1/3
   unidirectional: true
 - src: superspine2/6
-  tgt: pod02-tier-sim::spine1/8
+  tgt: pod02-tier-sim::spine1/4
   unidirectional: true
 - src: superspine1/7
-  tgt: pod02-tier-sim::spine2/5
+  tgt: pod02-tier-sim::spine2/1
   unidirectional: true
 - src: superspine1/8
-  tgt: pod02-tier-sim::spine2/6
+  tgt: pod02-tier-sim::spine2/2
   unidirectional: true
 - src: superspine2/7
-  tgt: pod02-tier-sim::spine2/7
+  tgt: pod02-tier-sim::spine2/3
   unidirectional: true
 - src: superspine2/8
-  tgt: pod02-tier-sim::spine2/8
+  tgt: pod02-tier-sim::spine2/4
   unidirectional: true
