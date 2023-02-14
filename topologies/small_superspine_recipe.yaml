@@ -4,11 +4,11 @@
 
 # Recipe for creating pod fabric topology
 
-# Recipe for 4 superspine tier for 16 pods
+# Recipe for 2 superspine tier for 2 pods
 superspine_tier:
-  superspines: 4
+  superspines: 2
   superspines_domain: superspine-tier-sim
   superspine_port_count: 64
-  pods: 16
+  pods: 2
   pods_domain: pod%02d-tier-sim
   pod_spines: 2

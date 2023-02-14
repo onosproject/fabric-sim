@@ -19,6 +19,12 @@ func (s *TestSuite) TestLiteONOSWithPlainMidFabric(t *testing.T) {
 		func(device *simapi.Device) int { return 32 }, func(host *simapi.Host) int { return 1 }, 90*time.Second)
 }
 
+// TestLiteONOSWithPlainLargeFabric tests mid fabric with ONOS lite
+func (s *TestSuite) TestLiteONOSWithPlainLargeFabric(t *testing.T) {
+	RunLiteONOSWithTopology(t, "topologies/plain_large.yaml", 4+8, (3*4*8)*2, 8*50,
+		func(device *simapi.Device) int { return 64 }, func(host *simapi.Host) int { return 1 }, 90*time.Second)
+}
+
 // TestLiteONOSWithPodFabric tests pod fabric with ONOS lite
 func (s *TestSuite) TestLiteONOSWithPodFabric(t *testing.T) {
 	RunLiteONOSWithTopology(t, "topologies/pod.yaml", 2+6+6*12, (4*2*6+6*2*12)*2, 6*12*(20+1),

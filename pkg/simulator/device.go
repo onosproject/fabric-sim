@@ -30,6 +30,8 @@ import (
 	"time"
 )
 
+const linkDomainDelimiter = "::"
+
 // DeviceSimulator simulates a single device
 type DeviceSimulator struct {
 	configtree.Configurable
@@ -574,33 +576,59 @@ func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *
 
 	// Check if the given port has a link originating from it
 	if link := ds.simulation.GetLinkFromPort(egressPort.ID); link != nil {
-		// Now that we found the link, let's emit a packet out on all the responders associated with
-		// the destination device
-		tgtDeviceID, err := ExtractDeviceID(link.TgtID)
-		if err != nil {
-			log.Warnf("Device %s: %s", ds.Device.ID, err)
-			return
-		}
-
-		tgtDevice, ok := ds.simulation.deviceSimulators[tgtDeviceID]
-		if !ok {
-			log.Warnf("Device %s: Unable to locate link target device %s", ds.Device.ID, tgtDeviceID)
-		}
-
-		ingressPort, ok := tgtDevice.Ports[link.TgtID]
-		if !ok {
-			log.Warnf("Device %s: Unable to locate target port %s", tgtDeviceID, link.TgtID)
-		}
-
-		if ingressPort.Enabled {
-			if roleAgentID, ok := tgtDevice.HasPuntRuleForEthType(layers.EthernetTypeLinkLayerDiscovery); ok {
-				tgtDevice.SendPacketIn(packetOut.Payload, &p4utils.PacketInMetadata{
-					IngressPort: ingressPort.InternalNumber,
-					RoleAgentID: roleAgentID,
-				})
-			}
+		// Now that we found the link, let's determine whether the link is an external one.
+		if isExternalLink(link) {
+			ds.emitLLDPPacketViaPeer(packetOut.Payload, link.TgtID)
+		} else {
+			ds.EmitLLDPPacket(packetOut.Payload, link.TgtID)
 		}
 	}
+}
+
+// Determines if the link is an external one
+func isExternalLink(link *simapi.Link) bool {
+	return strings.Contains(string(link.TgtID), linkDomainDelimiter)
+}
+
+// EmitLLDPPacket emits the specified LLDP packet on the given port with appropriately furnished metadata
+func (ds *DeviceSimulator) EmitLLDPPacket(packetData []byte, portID simapi.PortID) {
+	// If the link is local, let's emit a packet out on all the responders associated with
+	// the destination device
+	tgtDeviceID, err := ExtractDeviceID(portID)
+	if err != nil {
+		log.Warnf("Device %s: %s", ds.Device.ID, err)
+		return
+	}
+
+	tgtDevice, ok := ds.simulation.deviceSimulators[tgtDeviceID]
+	if !ok {
+		log.Warnf("Device %s: Unable to locate link target device %s", ds.Device.ID, tgtDeviceID)
+	}
+
+	ingressPort, ok := tgtDevice.Ports[portID]
+	if !ok {
+		log.Warnf("Device %s: Unable to locate target port %s", tgtDeviceID, portID)
+	}
+
+	if ingressPort.Enabled {
+		if roleAgentID, ok := tgtDevice.HasPuntRuleForEthType(layers.EthernetTypeLinkLayerDiscovery); ok {
+			tgtDevice.SendPacketIn(packetData, &p4utils.PacketInMetadata{
+				IngressPort: ingressPort.InternalNumber,
+				RoleAgentID: roleAgentID,
+			})
+		}
+	}
+}
+
+// Emits the specified LLDP packet using a remote fabric-sim peer instance
+func (ds *DeviceSimulator) emitLLDPPacketViaPeer(payload []byte, remotePortID simapi.PortID) {
+	// Extract peer service name and get/create a connection & client
+	fields := strings.Split(string(remotePortID), linkDomainDelimiter)
+	peerDomain := fields[0]
+	portID := fields[1]
+
+	// Use the connection to emit the packet remotely
+	log.Warnf("NOT IMPLEMENTED YET: Emitting LLDP packet remotely via %s port %s...", peerDomain, portID)
 }
 
 // SendPacketIn emits packet in with the specified packet payload and ingress port metadata,

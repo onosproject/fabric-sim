@@ -9,9 +9,11 @@ import (
 	"strings"
 )
 
+const linkDomainDelimiter = "::"
+
 // GenerateSuperSpineTier generates topology YAML from the specified super-spine fabric recipe
 func GenerateSuperSpineTier(fabric *SuperSpineTier, path string) (*Topology, error) {
-	log.Infof("Generating Super-Spine Fabric")
+	log.Infof("Generating Super-Spine Fabric for %d superspines and %d pods", fabric.SuperSpines, fabric.Pods)
 
 	topology := &Topology{}
 	builder := NewBuilder()
@@ -55,14 +57,14 @@ func createExternalLinkTrunk(d1 string, domain1 string, d2 string, domain2 strin
 		p2 := builder.NextDevicePortID(d2)
 		link := Link{
 			SrcPortID:      p1,
-			TgtPortID:      fmt.Sprintf("%s:%s", domain2, p2),
+			TgtPortID:      fmt.Sprintf("%s%s%s", domain2, linkDomainDelimiter, p2),
 			Unidirectional: true,
 		}
 		t1.Links = append(t1.Links, link)
 
 		link = Link{
 			SrcPortID:      p2,
-			TgtPortID:      fmt.Sprintf("%s:%s", domain1, p1),
+			TgtPortID:      fmt.Sprintf("%s%s%s", domain1, linkDomainDelimiter, p1),
 			Unidirectional: true,
 		}
 		t2.Links = append(t2.Links, link)
