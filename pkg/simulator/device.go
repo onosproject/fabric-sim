@@ -30,8 +30,6 @@ import (
 	"time"
 )
 
-const linkDomainDelimiter = "::"
-
 // DeviceSimulator simulates a single device
 type DeviceSimulator struct {
 	configtree.Configurable
@@ -583,11 +581,6 @@ func (ds *DeviceSimulator) processLLDPPacket(packet gopacket.Packet, packetOut *
 			ds.EmitLLDPPacket(packetOut.Payload, link.TgtID)
 		}
 	}
-}
-
-// Determines if the link is an external one
-func isExternalLink(link *simapi.Link) bool {
-	return strings.Contains(string(link.TgtID), linkDomainDelimiter)
 }
 
 // EmitLLDPPacket emits the specified LLDP packet on the given port with appropriately furnished metadata

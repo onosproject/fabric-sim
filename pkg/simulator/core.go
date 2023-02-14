@@ -19,6 +19,8 @@ import (
 	"sync"
 )
 
+const linkDomainDelimiter = "::"
+
 var log = logging.GetLogger("simulator")
 
 // Simulation tracks all entities and activities related to device, host and link simulation
@@ -168,7 +170,7 @@ func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*LinkSimulator, error)
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	external := s.isExternal(link.TgtID)
+	external := isExternalLink(link)
 
 	// Validate that the source and target ports exist
 	if err := s.validatePort(link.SrcID); err != nil {
@@ -381,6 +383,7 @@ func (s *Simulation) EmitARPs(id simapi.HostID, mac string, ips []string) error 
 	return errors.NewNotFound("nic with MAC %s not found", mac)
 }
 
-func (s *Simulation) isExternal(id simapi.PortID) bool {
-	return strings.Contains(string(id), ":")
+// Determines if the link is an external one
+func isExternalLink(link *simapi.Link) bool {
+	return strings.Contains(string(link.TgtID), linkDomainDelimiter)
 }
