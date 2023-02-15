@@ -19,6 +19,8 @@ import (
 	"sync"
 )
 
+const linkDomainDelimiter = "::"
+
 var log = logging.GetLogger("simulator")
 
 // Simulation tracks all entities and activities related to device, host and link simulation
@@ -168,12 +170,16 @@ func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*LinkSimulator, error)
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
+	external := isExternalLink(link)
+
 	// Validate that the source and target ports exist
 	if err := s.validatePort(link.SrcID); err != nil {
 		return nil, err
 	}
-	if err := s.validatePort(link.TgtID); err != nil {
-		return nil, err
+	if !external {
+		if err := s.validatePort(link.TgtID); err != nil {
+			return nil, err
+		}
 	}
 
 	// Validate that the port is in fact available
@@ -181,16 +187,20 @@ func (s *Simulation) AddLinkSimulator(link *simapi.Link) (*LinkSimulator, error)
 		log.Errorf("Port %s is already used for %s", link.SrcID, lon)
 		return nil, errors.NewInvalid("port %s is already used for %s", link.SrcID, lon)
 	}
-	if lon, ok := s.usedIngressPorts[link.TgtID]; ok {
-		log.Errorf("Port %s is already used for %s", link.TgtID, lon)
-		return nil, errors.NewInvalid("port %s is already used for %s", link.TgtID, lon)
+	if !external {
+		if lon, ok := s.usedIngressPorts[link.TgtID]; ok {
+			log.Errorf("Port %s is already used for %s", link.TgtID, lon)
+			return nil, errors.NewInvalid("port %s is already used for %s", link.TgtID, lon)
+		}
 	}
 
 	sim := NewLinkSimulator(link)
 	if _, ok := s.linkSimulators[link.ID]; !ok {
 		s.linkSimulators[link.ID] = sim
 		s.usedEgressPorts[link.SrcID] = &linkOrNIC{link: link}
-		s.usedIngressPorts[link.TgtID] = &linkOrNIC{link: link}
+		if !external {
+			s.usedIngressPorts[link.TgtID] = &linkOrNIC{link: link}
+		}
 		return sim, nil
 	}
 	return nil, errors.NewInvalid("link %s already created", link.ID)
@@ -377,4 +387,9 @@ func (s *Simulation) EmitARPs(id simapi.HostID, mac string, ips []string) error 
 		return sim.EmitARPRequests(nic, ips)
 	}
 	return errors.NewNotFound("nic with MAC %s not found", mac)
+}
+
+// Determines if the link is an external one
+func isExternalLink(link *simapi.Link) bool {
+	return strings.Contains(string(link.TgtID), linkDomainDelimiter)
 }

@@ -100,3 +100,17 @@ func (s *Server) DisablePort(ctx context.Context, request *simapi.DisablePortReq
 	}
 	return &simapi.DisablePortResponse{}, nil
 }
+
+// EmitLLDPPacket emits the specified LLDP packet on a given device port.
+func (s *Server) EmitLLDPPacket(ctx context.Context, request *simapi.EmitLLDPPacketRequest) (*simapi.EmitLLDPPacketResponse, error) {
+	deviceID, err := simulator.ExtractDeviceID(request.PortID)
+	if err != nil {
+		return nil, errors.Status(err).Err()
+	}
+	sim, err := s.simulation.GetDeviceSimulator(deviceID)
+	if err != nil {
+		return nil, errors.Status(err).Err()
+	}
+	sim.EmitLLDPPacket(request.Packet, request.PortID)
+	return &simapi.EmitLLDPPacketResponse{}, nil
+}

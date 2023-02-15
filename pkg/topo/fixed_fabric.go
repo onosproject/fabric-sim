@@ -11,9 +11,9 @@ const (
 	sspinesGap = 800
 )
 
-// GenerateSuperSpineFabric generates topology YAML from the specified super-spine fabric recipe
-func GenerateSuperSpineFabric(fabric *SuperSpineFabric) *Topology {
-	log.Infof("Generating Super-Spine Fabric")
+// GenerateFixedFabric generates topology YAML from the specified super-spine fabric recipe
+func GenerateFixedFabric(fabric *FixedFabric) *Topology {
+	log.Infof("Generating Fixed Fabric")
 
 	topology := &Topology{}
 	builder := NewBuilder()
@@ -30,7 +30,7 @@ func GenerateSuperSpineFabric(fabric *SuperSpineFabric) *Topology {
 	return topology
 }
 
-func createRackPairFabric(rackID int, fabric *SuperSpineFabric, builder *Builder, topology *Topology) {
+func createRackPairFabric(rackID int, fabric *FixedFabric, builder *Builder, topology *Topology) {
 	// TODO: implement grid layout positioning
 
 	// First, create 2 spines
