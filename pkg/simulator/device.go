@@ -618,10 +618,19 @@ func (ds *DeviceSimulator) emitLLDPPacketViaPeer(payload []byte, remotePortID si
 	// Extract peer service name and get/create a connection & client
 	fields := strings.Split(string(remotePortID), linkDomainDelimiter)
 	peerDomain := fields[0]
-	portID := fields[1]
+	portID := simapi.PortID(fields[1])
+
+	peer, err := ds.simulation.getPeer(peerDomain)
+	if err != nil {
+		log.Warnf("Unable to connect to peer domain %s: %+v", peerDomain, err)
+		return
+	}
 
 	// Use the connection to emit the packet remotely
-	log.Warnf("NOT IMPLEMENTED YET: Emitting LLDP packet remotely via %s port %s...", peerDomain, portID)
+	_, err = peer.client.EmitLLDPPacket(context.Background(), &simapi.EmitLLDPPacketRequest{Packet: payload, PortID: portID})
+	if err != nil {
+		log.Warnf("Unable to emit LDDP packet to peer domain %s: %+v", peerDomain, err)
+	}
 }
 
 // SendPacketIn emits packet in with the specified packet payload and ingress port metadata,

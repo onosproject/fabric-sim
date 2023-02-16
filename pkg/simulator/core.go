@@ -34,6 +34,8 @@ type Simulation struct {
 	// Auxiliary structures
 	usedEgressPorts  map[simapi.PortID]*linkOrNIC
 	usedIngressPorts map[simapi.PortID]*linkOrNIC
+
+	peers map[string]*peerSimulator
 }
 
 // NewSimulation creates a new core simulation entity
@@ -44,6 +46,7 @@ func NewSimulation() *Simulation {
 		hostSimulators:   make(map[simapi.HostID]*HostSimulator),
 		usedEgressPorts:  make(map[simapi.PortID]*linkOrNIC),
 		usedIngressPorts: make(map[simapi.PortID]*linkOrNIC),
+		peers:            make(map[string]*peerSimulator),
 	}
 	simulation.Collector = newStatsCollector(simulation)
 	return simulation
