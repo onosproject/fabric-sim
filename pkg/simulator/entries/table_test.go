@@ -153,3 +153,106 @@ func TestTableErrors(t *testing.T) {
 	assert.Error(t, err)
 
 }
+
+func TestTableOverlapping(t *testing.T) {
+	tables := NewTables([]*p4info.Table{{
+		Preamble:    &p4info.Preamble{Id: 1},
+		MatchFields: []*p4info.MatchField{{Id: 1024}, {Id: 1025}, {Id: 1026}},
+	}})
+	assert.Len(t, tables.tables, 1)
+
+	table := tables.tables[1]
+	assert.Len(t, table.rows, 0)
+
+	table = tables.Table(1)
+	assert.Equal(t, uint32(1), table.info.Preamble.Id)
+
+	exact1 := &p4api.FieldMatch{
+		FieldId: 1024,
+		FieldMatchType: &p4api.FieldMatch_Exact_{
+			Exact: &p4api.FieldMatch_Exact{
+				Value: []byte{1, 2, 3, 4},
+			},
+		},
+	}
+
+	exact2 := &p4api.FieldMatch{
+		FieldId: 1025,
+		FieldMatchType: &p4api.FieldMatch_Exact_{
+			Exact: &p4api.FieldMatch_Exact{
+				Value: []byte{1, 2, 3, 4, 5},
+			},
+		},
+	}
+
+	ternary1 := &p4api.FieldMatch{
+		FieldId: 1027,
+		FieldMatchType: &p4api.FieldMatch_Ternary_{
+			Ternary: &p4api.FieldMatch_Ternary{
+				Value: []byte{0, 0, 0},
+				Mask:  []byte{0xff, 0xff, 0xff},
+			},
+		},
+	}
+
+	e1 := &p4api.TableEntry{
+		TableId:  1,
+		Match:    []*p4api.FieldMatch{exact1, exact2, ternary1},
+		Action:   nil,
+		Priority: int32(100),
+	}
+	// Same entry but different priority
+	e2 := &p4api.TableEntry{
+		TableId:  1,
+		Match:    []*p4api.FieldMatch{exact1, exact2, ternary1},
+		Action:   nil,
+		Priority: int32(100),
+	}
+
+	// Insert new entry
+	err := tables.ModifyTableEntry(e1, true)
+	assert.NoError(t, err)
+	assert.Len(t, table.rows, 1)
+
+	// Insert of the same entry should fail
+	err = tables.ModifyTableEntry(e2, true)
+	assert.Error(t, err)
+	assert.Len(t, table.rows, 1)
+
+	// Insert same entry but different priority
+	e2.Priority = int32(200)
+	err = tables.ModifyTableEntry(e2, true)
+	assert.NoError(t, err)
+	assert.Len(t, table.rows, 2)
+
+	count := 0
+	expectedEntities := []*p4api.TableEntry{e1, e2}
+	var actualEntities []*p4api.TableEntry
+
+	// Read entries
+	err = tables.ReadTableEntries(&p4api.TableEntry{}, ReadTableEntry, func(entities []*p4api.Entity) error {
+		count = count + len(entities)
+		actualEntities = append(actualEntities, entities[0].GetTableEntry())
+		actualEntities = append(actualEntities, entities[1].GetTableEntry())
+		return nil
+	})
+	assert.NoError(t, err)
+	assert.Equal(t, 2, count)
+	assert.Equal(t, expectedEntities, actualEntities)
+
+	err = tables.RemoveTableEntry(e1)
+	assert.NoError(t, err)
+
+	count = 0
+	var entry *p4api.TableEntry
+
+	// Read the remaining one
+	err = tables.ReadTableEntries(&p4api.TableEntry{}, ReadTableEntry, func(entities []*p4api.Entity) error {
+		count = count + len(entities)
+		entry = entities[0].GetTableEntry()
+		return nil
+	})
+	assert.NoError(t, err)
+	assert.Equal(t, 1, count)
+	assert.Equal(t, e2, entry)
+}
