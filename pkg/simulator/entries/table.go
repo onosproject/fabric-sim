@@ -7,6 +7,7 @@ package entries
 
 import (
 	"crypto/sha1"
+	"encoding/binary"
 	"github.com/onosproject/onos-lib-go/pkg/errors"
 	p4info "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4api "github.com/p4lang/p4runtime/go/p4/v1"
@@ -400,6 +401,12 @@ func (t *Table) entryKey(entry *p4api.TableEntry) (string, error) {
 			_, _ = hf.Write(m.GetOptional().Value)
 		}
 	}
+
+	// Add the priority to allow overlapping rules
+	bp := make([]byte, 4)
+	binary.BigEndian.PutUint32(bp, uint32(entry.Priority))
+	hf.Write(bp)
+
 	return string(hf.Sum(nil)), nil
 }
 
